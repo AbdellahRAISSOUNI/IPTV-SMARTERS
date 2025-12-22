@@ -16,68 +16,22 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
-  const title = "Premium IPTV Streaming Service | Free Test Available";
-  const description = "Experience premium IPTV streaming with 20,000+ channels, 4K quality, and 99.9% uptime. Free test available. Works on all devices. Start streaming today!";
   
+  // Root metadata - will be overridden by locale-specific metadata
   return {
-    title,
-    description,
-    keywords: [
-      "IPTV",
-      "streaming service",
-      "premium IPTV",
-      "IPTV subscription",
-      "live TV streaming",
-      "4K IPTV",
-      "IPTV free test",
-      "streaming TV",
-      "IPTV service",
-    ],
-    authors: [{ name: "StreamPro" }],
-    creator: "StreamPro",
-    publisher: "StreamPro",
-    formatDetection: {
-      email: false,
-      address: false,
-      telephone: false,
-    },
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: baseUrl,
-    },
-    openGraph: {
-      type: "website",
-      locale: "en_US",
-      url: baseUrl,
-      siteName: "StreamPro - Premium IPTV Service",
-      title,
-      description,
-      images: [
-        {
-          url: `${baseUrl}/og-image.jpg`,
-          width: 1200,
-          height: 630,
-          alt: "StreamPro Premium IPTV Streaming Service",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [`${baseUrl}/og-image.jpg`],
-      creator: "@streampro",
+      languages: {
+        en: `${baseUrl}/en`,
+        es: `${baseUrl}/es`,
+        fr: `${baseUrl}/fr`,
+        "x-default": `${baseUrl}/en`,
+      },
     },
     robots: {
       index: true,
       follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
     },
   };
 }
@@ -180,18 +134,46 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Hreflang tags for SEO - will be updated by locale layout */}
+        <link
+          rel="alternate"
+          hrefLang="en"
+          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/en`}
+        />
+        <link
+          rel="alternate"
+          hrefLang="es"
+          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/es`}
+        />
+        <link
+          rel="alternate"
+          hrefLang="fr"
+          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/fr`}
+        />
+        <link
+          rel="alternate"
+          hrefLang="x-default"
+          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/en`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const path = window.location.pathname;
+                const localeMatch = path.match(/^\/(en|es|fr)/);
+                if (localeMatch) {
+                  document.documentElement.lang = localeMatch[1];
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}
       >
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-        />
         <div id="root">
           <main>{children}</main>
         </div>

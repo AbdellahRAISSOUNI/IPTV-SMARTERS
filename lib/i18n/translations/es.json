@@ -1,0 +1,153 @@
+{
+  "common": {
+    "home": "Inicio",
+    "pricing": "Precios",
+    "features": "Características",
+    "faq": "Preguntas Frecuentes",
+    "contact": "Contacto",
+    "buyNow": "COMPRAR AHORA",
+    "channelsWorldwide": "Canales de todo el mundo.",
+    "joinCustomers": "Únete a más de 5,000 clientes satisfechos.",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfService": "Términos de Servicio",
+    "refundPolicy": "Política de Reembolso",
+    "viewOffers": "Ver Ofertas"
+  },
+  "hero": {
+    "title": "Mejor Proveedor de IPTV Smarters pro",
+    "subtitlePart1": "Suscripción",
+    "subtitlePart2": "en España",
+    "description": "Disfruta de la Mejor Suscripción IPTV, confiable y estable, con más de",
+    "channelsLink": "10,000 canales de TV",
+    "description2": ", películas, series y eventos deportivos en HD y 4K. Compatible con",
+    "compatibleDevices": "IPTV Smarters Pro, ibo players",
+    "description3": ", etc. (Smart TV, Android, iOS, PC y Mac), nuestro servicio IPTV premium funciona mediante",
+    "m3uLink": "lista de reproducción M3U o Códigos Xtream",
+    "description4": ".",
+    "freeTest": "Prueba IPTV gratuita disponible",
+    "description5": "para descubrir la calidad antes de comprar. Elige una suscripción IPTV segura, sin interrupciones, con soporte rápido."
+  },
+  "features": {
+    "premiumChannels": {
+      "title": "Canales Premium",
+      "description": "Ofrecemos más de 50,000 canales de TV, y el número de canales en línea crece cada día. Nada supera la calidad de transmisión de nuestros canales. Suscripción IPTV SMARTERS PRO."
+    },
+    "vodMovies": {
+      "title": "Películas VOD",
+      "description": "Ofrecemos casi 70,000 películas, incluyendo todos los últimos estrenos. Proporcionamos casi todas las películas populares, incluyendo las mejor calificadas en IMDB: Comprar IPTV."
+    },
+    "vodSeries": {
+      "title": "Series de TV en VOD",
+      "description": "También ofrecemos una amplia selección de series de televisión (más de 70,000) en nuestra sección VOD. Mira todos los últimos episodios ahora en tu dispositivo: IPTV de pago."
+    },
+    "antiFreezing": {
+      "title": "Tecnología Anti-Congelación",
+      "description": "Nuestros servicios integran tecnología avanzada H.264, que garantiza compresión eficiente y calidad de imagen óptima. Gracias a esta innovación, ofrecemos una experiencia de streaming fluida con Tecnología Anti-Congelación."
+    },
+    "availability": {
+      "title": "99.99% Disponibilidad",
+      "description": "Siempre nos esforzamos por ofrecer un servicio de suscripción IPTV de la mejor calidad a nuestros usuarios. Mantener una gran cantidad de canales de TV y contenido VOD no es una tarea fácil. Aun así, garantizamos 99.99% de disponibilidad en nuestro servidor de streaming. IPTV sin interrupciones."
+    },
+    "support": {
+      "title": "Soporte en Vivo 24/7",
+      "description": "Nuestro equipo de soporte dedicado siempre está listo para ayudar a nuestros valiosos clientes las 24 horas del día, los 7 días de la semana. Nuestro equipo proporciona asistencia exclusivamente para preguntas de facturación y problemas técnicos."
+    }
+  },
+  "pricing": {
+    "title": "Nuestros Precios de Suscripción IPTV",
+    "oneConnection": "1 Conexión",
+    "twoConnectionsPremium": "2 Conexiones + Premium",
+    "instantActivation": "¡Activación instantánea!",
+    "freeUpdates": "Actualizaciones gratuitas (TV y VOD)",
+    "liveChannels": "+50,000 canales en vivo y deportes",
+    "moviesSeries": "+70,000 películas y series de todo el mundo",
+    "antiFreezing": "Sistema anti-congelación",
+    "quality": "Canales en 4K, FHD, HD y Premium",
+    "fastStable": "Rápido y estable",
+    "formats": "Formatos M3U, MAG y Enigma",
+    "compatible": "Compatible con Smart TV, smartphone y PC",
+    "serverAvailable": "Servidor siempre disponible",
+    "support": "Soporte 24/7",
+    "adultContent": "Contenido para adultos (con contraseña)",
+    "freeMonth": "+1 Mes Gratis",
+    "freeMonths": "+2 Meses Gratis"
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes: Suscripción IPTV",
+    "paymentMethods": {
+      "question": "¿Qué métodos de pago están disponibles para nuestra suscripción IPTV?",
+      "answer": "Aceptamos PayPal y tarjetas de débito/crédito a través de una pasarela de pago segura con conversión automática de moneda y sin tarifas ocultas."
+    },
+    "twoDevices": {
+      "question": "¿Puedo usar dos dispositivos al mismo tiempo con una sola suscripción IPTV?",
+      "answer": "Sí, puedes ver en dos pantallas simultáneamente con la oferta de 2 conexiones a través de IPTV Smarters Pro o Smarters Lite Player."
+    },
+    "bandwidth": {
+      "question": "¿Cuánto ancho de banda consume el streaming IPTV?",
+      "answer": "Nuestros streams IPTV utilizan la última tecnología H.264, que ofrece la mejor compresión y calidad de imagen. El tamaño promedio de un stream IPTV es de alrededor de 8 Mbps. Sin embargo, al cambiar de canal, el protocolo H.264 puede tener un pico momentáneo para comenzar a mostrar la imagen. Por esta razón, se requiere una velocidad mínima de internet de 16 Mbps, y se recomiendan 30 Mbps para canales HD."
+    },
+    "devicesSupported": {
+      "question": "¿Qué tipos de dispositivos son compatibles?",
+      "answer": "Una suscripción IPTV Smarters Pro es compatible con varios dispositivos como MAG, smartphones Android, cajas Android, Enigma, DreamBox, Vu+ (...), PC, VLC, Kodi/XBMC (...), Smart TV."
+    },
+    "satellite": {
+      "question": "¿Necesito satélite para usar IPTV?",
+      "answer": "No se necesita equipo de satélite ni antena parabólica. La conexión a los servidores Smarters Pro se realiza a través de internet."
+    },
+    "advantages": {
+      "question": "¿Cuáles son las ventajas de IPTV?",
+      "answer": "IPTV (Televisión por Protocolo de Internet) ofrece varias ventajas. Representa un mercado prometedor y altamente rentable que es valorado por numerosos proveedores de telecomunicaciones. Además, IPTV permite la creación de nuevos servicios positivos y rentables que pueden generar ingresos adicionales."
+    },
+    "fundamentals": {
+      "question": "¿Cuáles son los fundamentos del sistema IPTV?",
+      "answer": "Dos sistemas IPTV básicos: contenido transmitido a múltiples usuarios simultáneamente (transmisión en vivo) o utilizado para Video Bajo Demanda (VOD), donde el contenido se entrega individualmente al suscriptor que lo solicitó. El sistema depende de un decodificador (set-top box) y otros componentes esenciales."
+    },
+    "whatIsIptv": {
+      "question": "¿Qué es IPTV?",
+      "answer": "IPTV es Televisión por Protocolo de Internet, destacando su impacto, su origen del uso del Protocolo de Internet, y su probable uso en sincronización con telecomunicaciones donde las conexiones de banda ancha están muy extendidas. Cualquier servicio que proporcione datos en paquetes puede ser utilizado."
+    },
+    "supportResponse": {
+      "question": "¿Tiempo de respuesta para tickets de soporte técnico?",
+      "answer": "Al enviar un ticket para activación de cuenta o soporte técnico, recibirás una respuesta dentro de 30 minutos a 1 hora, con el objetivo de responder dentro de la primera hora. Durante las horas pico, el tiempo de respuesta puede extenderse hasta 2 horas."
+    },
+    "smartTvChannels": {
+      "question": "Descargué la lista de canales, pero los canales no funcionan en mi Smart TV",
+      "answer": "Por favor, asegúrate de que tu lista de canales funcione probándola con IPTV Smarters Pro u otra aplicación IPTV en una PC. Si aún no funciona, no dudes en contactarnos vía WhatsApp."
+    },
+    "vlcSiptrv": {
+      "question": "¿Los canales funcionan en el reproductor VLC, pero no funcionan en la aplicación SiPTV?",
+      "answer": "Si tienes TVs con webOS o Tizen y tus transmisiones son multicast, debes habilitar la función UDP a HTTP en la configuración de la aplicación y configurarla en tu router. Suscripción IPTV SMARTERS PRO"
+    },
+    "androidTvBox": {
+      "question": "¿Puede un dispositivo Android TV Box convertir mi TV en una Smart TV?",
+      "answer": "La respuesta es sí. De hecho, tendrás acceso a todo tipo de aplicaciones de Google Play Store para Android. Esto convierte tu TV en un dispositivo interactivo. Puedes usar aplicaciones como Gmail, Firefox, Skype y muchas otras directamente desde tu TV. Suscripción IPTV SMARTERS PRO"
+    },
+    "wifiEthernet": {
+      "question": "¿Wi-Fi o Ethernet?",
+      "answer": "Siempre recomendamos conectar el dispositivo por cable (Ethernet)."
+    },
+    "androidTvBoxInstall": {
+      "question": "¿Qué es un Android TV Box y cómo usarlo para instalar IPTV Smarters Pro?",
+      "answer": "Un Android TV Box es un dispositivo del sistema Android que convierte tu TV en una Smart TV, permitiéndote instalar aplicaciones como IPTV Smarters Pro o Smarters Player Lite o ibo player. Instalación de IPTV Smarters Pro: 1. Conecta la caja a tu TV y asegúrate de que esté conectada a internet. 2. Instala IPTV Smarters Pro desde Google Play Store. 3. Abre la aplicación, agrega un usuario e ingresa tus credenciales IPTV. 4. ¡Disfruta del streaming de tus canales IPTV! Instala IPTV Smarters Pro o Smarters Player Lite (vía Google Play Store) ahora mismo y comienza a disfrutar."
+    },
+    "freeTrial": {
+      "question": "¿Ofrecen una prueba gratuita?",
+      "answer": "Sí, ofrecemos una prueba gratuita de 24 horas que te da acceso completo a todos los canales, películas y series disponibles en tu suscripción IPTV."
+    }
+  },
+  "cta": {
+    "title": "¿Listo para Comenzar",
+    "title2": "a Transmitir",
+    "title3": "Ahora?",
+    "description": "Ponte en contacto con nosotros para comenzar tu viaje IPTV. Prueba gratuita disponible.",
+    "whatsapp": "Contáctanos por WhatsApp",
+    "email": "Enviar Correo"
+  },
+  "footer": {
+    "description": "Servicio de streaming IPTV premium que ofrece miles de canales, películas y series. Experimenta lo mejor en entretenimiento con soporte confiable 24/7.",
+    "quickLinks": "Enlaces Rápidos",
+    "legal": "Legal",
+    "paymentMethods": "Métodos de Pago",
+    "copyright": "© {year} Mejor Suscripción IPTV. Todos los derechos reservados."
+  }
+}

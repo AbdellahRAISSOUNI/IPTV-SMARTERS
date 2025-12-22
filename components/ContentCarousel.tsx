@@ -64,17 +64,27 @@ export default function ContentCarousel() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const scrollSpeed = useRef(0.6); // pixels per frame - medium speed for shows
+  // Optimize scroll speed based on device
+  const scrollSpeed = useRef(
+    typeof window !== 'undefined' && window.innerWidth < 768 ? 0.4 : 0.6
+  ); // Slower on mobile for better performance
 
+  // Optimize: Use all images but limit initial render
   // Duplicate images for seamless infinite scroll
   const duplicatedImages = [...carouselImages, ...carouselImages];
 
-  // Infinite scroll animation
+  // Infinite scroll animation - Optimized for mobile performance
   useEffect(() => {
     if (!scrollContainerRef.current || isPaused || isDragging) return;
 
+    // Reduce animation frequency on mobile for better performance
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const frameSkip = isMobile ? 2 : 1; // Skip frames on mobile
+    let frameCount = 0;
+
     const animate = () => {
-      if (scrollContainerRef.current && !isPaused && !isDragging) {
+      frameCount++;
+      if (frameCount % frameSkip === 0 && scrollContainerRef.current && !isPaused && !isDragging) {
         scrollContainerRef.current.scrollLeft += scrollSpeed.current;
         
         // Reset scroll position for seamless loop
@@ -189,7 +199,8 @@ export default function ContentCarousel() {
                       fill
                       sizes="(max-width: 640px) 160px, (max-width: 768px) 180px, (max-width: 1024px) 200px, (max-width: 1280px) 240px, 280px"
                       className="object-cover"
-                      quality={90}
+                      quality={75}
+                      loading="lazy"
                     />
                   </div>
                 </div>

@@ -3,123 +3,110 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface FAQItem {
   id: string;
-  question: string;
-  answer: string;
+  questionKey: string;
+  answerKey: string;
 }
 
-const faqData: FAQItem[] = [
+export default function FAQSection() {
+  const { t } = useLanguage();
+  
+  const faqData: FAQItem[] = [
   {
     id: "payment-methods",
-    question: "What payment methods are available for our IPTV subscription?",
-    answer:
-      "We accept PayPal and debit/credit cards through a secure payment gateway with automatic currency conversion and no hidden fees.",
+    questionKey: "faq.paymentMethods.question",
+    answerKey: "faq.paymentMethods.answer",
   },
   {
     id: "two-devices",
-    question: "Can I use two devices at the same time with a single IPTV subscription?",
-    answer:
-      "Yes, you can watch on two screens simultaneously with the offer of 2 connections through IPTV Smarters Pro or Smarters Lite Player.",
+    questionKey: "faq.twoDevices.question",
+    answerKey: "faq.twoDevices.answer",
   },
   {
     id: "bandwidth",
-    question: "How much bandwidth does IPTV streaming consume?",
-    answer:
-      "Our IPTV streams use the latest H.264 technology, which offers the best compression and image quality. The average size of an IPTV stream is around 8 Mbps. However, when changing channels, the H.264 protocol can have a momentary peak to start displaying the image. For this reason, a minimum internet speed of 16 Mbps is required, and 30 Mbps is recommended for HD channels.",
+    questionKey: "faq.bandwidth.question",
+    answerKey: "faq.bandwidth.answer",
   },
   {
     id: "devices-supported",
-    question: "What types of devices are supported?",
-    answer:
-      "An IPTV Smarters Pro subscription supports various devices such as MAG, Android smartphones, Android boxes, Enigma, DreamBox, Vu+ (...), PC, VLC, Kodi/XBMC (...), Smart TV.",
+    questionKey: "faq.devicesSupported.question",
+    answerKey: "faq.devicesSupported.answer",
   },
   {
     id: "satellite",
-    question: "Do I need satellite to use IPTV?",
-    answer:
-      "No satellite equipment or parabolic antenna is needed. The connection to Smarters Pro servers is made through the internet.",
+    questionKey: "faq.satellite.question",
+    answerKey: "faq.satellite.answer",
   },
   {
     id: "advantages",
-    question: "What are the advantages of IPTV?",
-    answer:
-      "IPTV (Internet Protocol Television) offers several advantages. It represents a promising and highly profitable market that is valued by numerous telecommunications providers. Additionally, IPTV allows for the creation of new positive and profitable services that can generate additional income.",
+    questionKey: "faq.advantages.question",
+    answerKey: "faq.advantages.answer",
   },
   {
     id: "fundamentals",
-    question: "What are the fundamentals of the IPTV system?",
-    answer:
-      "Two basic IPTV systems: content transmitted to multiple users simultaneously (live transmission) or used for Video On Demand (VOD), where content is delivered individually to the subscriber who requested it. The system depends on a decoder (set-top box) and other essential components.",
+    questionKey: "faq.fundamentals.question",
+    answerKey: "faq.fundamentals.answer",
   },
   {
     id: "what-is-iptv",
-    question: "What is IPTV?",
-    answer:
-      "IPTV is Internet Protocol Television, highlighting its impact, its origin from the use of the Internet Protocol, and its probable use in sync with telecommunications where broadband connections are widespread. Any service providing data in packets can be utilized.",
+    questionKey: "faq.whatIsIptv.question",
+    answerKey: "faq.whatIsIptv.answer",
   },
   {
     id: "support-response",
-    question: "Response time for technical support tickets?",
-    answer:
-      "Upon sending a ticket for account activation or technical support, a response will be received within 30 minutes to 1 hour, with the objective to respond within the first hour. During peak hours, the response time may extend up to 2 hours.",
+    questionKey: "faq.supportResponse.question",
+    answerKey: "faq.supportResponse.answer",
   },
   {
     id: "smart-tv-channels",
-    question: "I downloaded the channel list, but the channels don't work on my Smart TV",
-    answer:
-      "Please make sure your channel list works by testing it with IPTV Smarters Pro or another IPTV application on a PC. If it still doesn't work, don't hesitate to contact us via WhatsApp.",
+    questionKey: "faq.smartTvChannels.question",
+    answerKey: "faq.smartTvChannels.answer",
   },
   {
     id: "vlc-siptrv",
-    question: "Channels work in VLC player, but don't work in the SiPTV app?",
-    answer:
-      "If you have TVs with webOS or Tizen and your transmissions are multicast, you must enable the UDP to HTTP function in the application settings and configure it on your router. IPTV SMARTERS PRO Subscription",
+    questionKey: "faq.vlcSiptrv.question",
+    answerKey: "faq.vlcSiptrv.answer",
   },
   {
     id: "android-tv-box",
-    question: "Can an Android TV Box device convert my TV into a Smart TV?",
-    answer:
-      "The answer is yes. In fact, you will have access to all kinds of applications from Google Play Store for Android. This turns your TV into an interactive device. You can use applications like Gmail, Firefox, Skype and many others directly from your TV. IPTV SMARTERS PRO Subscription",
+    questionKey: "faq.androidTvBox.question",
+    answerKey: "faq.androidTvBox.answer",
   },
   {
     id: "wifi-ethernet",
-    question: "Wi-Fi or Ethernet?",
-    answer:
-      "We always recommend connecting the device via cable (Ethernet).",
+    questionKey: "faq.wifiEthernet.question",
+    answerKey: "faq.wifiEthernet.answer",
   },
   {
     id: "android-tv-box-install",
-    question: "What is an Android TV Box and how to use it to install IPTV Smarters Pro?",
-    answer:
-      "An Android TV Box is an Android system device that converts your TV into a Smart TV, allowing you to install applications like IPTV Smarters Pro or Smarters Player Lite or ibo player. Installation of IPTV Smarters Pro: 1. Connect the box to your TV and make sure it's connected to the internet. 2. Install IPTV Smarters Pro from the Google Play Store. 3. Open the app, add a user and enter your IPTV credentials. 4. Enjoy the streaming of your IPTV channels! Install IPTV Smarters Pro or Smarters Player Lite (via Google Play Store) right now and start enjoying.",
+    questionKey: "faq.androidTvBoxInstall.question",
+    answerKey: "faq.androidTvBoxInstall.answer",
   },
   {
     id: "free-trial",
-    question: "Do you offer a free trial?",
-    answer:
-      "Yes, we offer a 24-hour free trial that gives you full access to all channels, movies, and series available in your IPTV subscription.",
+    questionKey: "faq.freeTrial.question",
+    answerKey: "faq.freeTrial.answer",
   },
 ];
 
 // Generate Schema.org JSON-LD for FAQ
-const generateFAQSchema = (faqs: FAQItem[]) => {
+const generateFAQSchema = (faqs: FAQItem[], t: (key: string) => string) => {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: faqs.map((faq) => ({
       "@type": "Question",
-      name: faq.question,
+      name: t(faq.questionKey),
       acceptedAnswer: {
         "@type": "Answer",
-        text: faq.answer,
+        text: t(faq.answerKey),
       },
     })),
   };
 };
-
-export default function FAQSection() {
   const [openIndices, setOpenIndices] = useState<Set<number>>(new Set());
 
   const toggleItem = (index: number) => {
@@ -134,7 +121,7 @@ export default function FAQSection() {
     });
   };
 
-  const faqSchema = generateFAQSchema(faqData);
+  const faqSchema = generateFAQSchema(faqData, t);
 
   return (
     <section id="faq" className="pt-0 pb-0 xl:pt-4 2xl:pt-6 bg-white">
@@ -153,7 +140,7 @@ export default function FAQSection() {
           transition={{ duration: 0.6 }}
           className="text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-center mb-12 xl:mb-16 2xl:mb-20 text-[#1a1a1a] font-heading"
         >
-          Frequently Asked Questions : IPTV Subscription
+          {t("faq.title")}
         </motion.h2>
 
         {/* FAQ Accordion */}
@@ -182,7 +169,7 @@ export default function FAQSection() {
                   <h3 className={`text-sm sm:text-base xl:text-lg 2xl:text-xl font-semibold font-heading pr-4 flex-1 ${
                     isOpen ? "text-white" : "text-[#1a1a1a]"
                   }`}>
-                    {faq.question}
+                    {t(faq.questionKey)}
                   </h3>
                   <motion.div
                     animate={{ rotate: isOpen ? 180 : 0 }}
@@ -208,7 +195,7 @@ export default function FAQSection() {
                     >
                       <div className="px-6 xl:px-8 2xl:px-10 py-5 xl:py-6 2xl:py-8 border-l-4 border-[#2563eb] bg-white/50">
                         <p className="text-[#1a1a1a]/80 leading-relaxed text-sm sm:text-base xl:text-lg 2xl:text-xl">
-                          {faq.answer}
+                          {t(faq.answerKey)}
                         </p>
                       </div>
                     </motion.div>

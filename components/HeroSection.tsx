@@ -3,8 +3,10 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function HeroSection() {
+  const { t } = useLanguage();
 
   return (
     <section
@@ -25,13 +27,14 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.05 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] xl:leading-[1.05] 2xl:leading-[1.05] text-[#1a1a1a] font-heading tracking-tight"
+              className="text-[1.575rem] sm:text-[1.96875rem] md:text-[2.3625rem] lg:text-[2.3625rem] xl:text-[3.15rem] 2xl:text-[3.9375rem] font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] xl:leading-[1.05] 2xl:leading-[1.05] text-[#1a1a1a] font-heading tracking-tight"
             >
               <span className="block underline decoration-[#2563eb] decoration-2 sm:decoration-2 md:decoration-3 lg:decoration-4 xl:decoration-[5px] underline-offset-2 sm:underline-offset-3 md:underline-offset-4 lg:underline-offset-4 xl:underline-offset-5 mb-1 sm:mb-1.5 md:mb-2">
-                Best IPTV Provider
+                {t("hero.title")}
               </span>
               <span className="block mt-2 sm:mt-2.5 md:mt-3 lg:mt-3 xl:mt-4">
-                Subscription <span className="text-[#2563eb]">Premium Service</span>
+                {t("hero.subtitlePart1")}{" "}
+                <span className="text-[#2563eb]">{t("hero.subtitlePart2")}</span>
               </span>
             </motion.h1>
 
@@ -42,23 +45,23 @@ export default function HeroSection() {
               transition={{ duration: 0.35, delay: 0.1 }}
               className="text-sm sm:text-base md:text-sm lg:text-lg xl:text-xl 2xl:text-2xl text-[#1a1a1a]/80 leading-relaxed max-w-xl lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto md:mx-0"
             >
-              Enjoy the Best IPTV Subscription, reliable and stable, with over{" "}
+              {t("hero.description")}{" "}
               <a href="#pricing" className="text-[#2563eb] hover:underline font-semibold">
-                10,000 TV channels
+                {t("hero.channelsLink")}
               </a>
-              , movies, series, and sports events in HD & 4K. Compatible with{" "}
+              {t("hero.description2")}{" "}
               <span className="font-semibold text-[#1a1a1a]">
-                IPTV Smarters Pro, ibo players
+                {t("hero.compatibleDevices")}
               </span>
-              , etc. (Smart TV, Android, iOS, PC and Mac), our premium IPTV service works via{" "}
+              {t("hero.description3")}{" "}
               <a href="#features" className="text-[#2563eb] hover:underline font-semibold">
-                M3U playlist or Xtream Codes
+                {t("hero.m3uLink")}
               </a>
-              .{" "}
+              {t("hero.description4")}{" "}
               <span className="font-semibold text-[#1a1a1a]">
-                Free IPTV test available
+                {t("hero.freeTest")}
               </span>{" "}
-              to discover the quality before purchase. Choose a secure IPTV subscription, without interruptions, with fast support.
+              {t("hero.description5")}
             </motion.p>
 
             {/* CTA Button */}
@@ -87,7 +90,7 @@ export default function HeroSection() {
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <span className="whitespace-nowrap">View Offers</span>
+                <span className="whitespace-nowrap">{t("common.viewOffers")}</span>
                 <ArrowRight className="w-4 h-4 sm:w-4 md:w-4 lg:w-5 sm:h-4 md:h-4 lg:h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" />
               </motion.a>
             </motion.div>
@@ -109,7 +112,8 @@ export default function HeroSection() {
                   className="object-contain"
                   priority
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 70vw"
-                  quality={95}
+                  quality={85}
+                  loading="eager"
                 />
               </div>
             </div>

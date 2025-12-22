@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Mail, MessageCircle, ArrowRight } from "lucide-react";
+import { Mail, MessageCircle, ArrowRight, Globe } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { locales, type Locale } from "@/lib/i18n";
 
 const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
   e.preventDefault();
@@ -20,9 +22,16 @@ const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) =>
 };
 
 export default function Footer() {
+  const { t, locale, setLocale } = useLanguage();
   const currentYear = new Date().getFullYear();
   const whatsappUrl = getWhatsAppUrl("Hello! I have a question about your IPTV service.");
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@iptvsubscriptionpro.es";
+
+  const languageNames: Record<Locale, string> = {
+    en: "English",
+    es: "Español",
+    fr: "Français",
+  };
 
   return (
     <footer className="relative bg-[#0f172a] text-white overflow-hidden border-t border-white/5">
@@ -55,13 +64,13 @@ export default function Footer() {
                   width={200}
                   height={80}
                   className="h-full w-auto object-contain brightness-0 invert"
-                  quality={85}
+                  quality={75}
                   loading="lazy"
                 />
               </div>
             </div>
             <p className="text-white/70 leading-relaxed text-sm sm:text-base max-w-md mb-2.5">
-              Premium IPTV streaming service offering thousands of channels, movies, and series. Experience the best in entertainment with reliable 24/7 support.
+              {t("footer.description")}
             </p>
             
             {/* Contact Buttons */}
@@ -93,15 +102,15 @@ export default function Footer() {
             transition={{ duration: 0.3, delay: 0.05 }}
           >
             <h4 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
-              Quick Links
+              {t("footer.quickLinks")}
             </h4>
             <nav className="flex flex-col space-y-1.5" aria-label="Footer navigation">
               {[
-                { href: "#home", label: "Home", onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#home") },
-                { href: "#pricing", label: "Pricing", onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#pricing") },
-                { href: "#features", label: "Features", onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#features") },
-                { href: "#faq", label: "FAQ", onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#faq") },
-                { href: "#contact", label: "Contact", onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                { href: "#home", label: t("common.home"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#home") },
+                { href: "#pricing", label: t("common.pricing"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#pricing") },
+                { href: "#features", label: t("common.features"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#features") },
+                { href: "#faq", label: t("common.faq"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#faq") },
+                { href: "#contact", label: t("common.contact"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
                   e.preventDefault();
                   const contactSection = document.querySelector("#contact") || document.querySelector("#faq");
                   if (contactSection) {
@@ -136,13 +145,13 @@ export default function Footer() {
             transition={{ duration: 0.3, delay: 0.1 }}
           >
             <h4 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
-              Legal
+              {t("footer.legal")}
             </h4>
             <nav className="flex flex-col space-y-1.5 mb-4" aria-label="Legal links">
               {[
-                { href: "/privacy-policy", label: "Privacy Policy" },
-                { href: "/terms-and-conditions", label: "Terms of Service" },
-                { href: "/refund-policy", label: "Refund Policy" },
+                { href: "/privacy-policy", label: t("common.privacyPolicy") },
+                { href: "/terms-and-conditions", label: t("common.termsOfService") },
+                { href: "/refund-policy", label: t("common.refundPolicy") },
               ].map((link, index) => (
                 <a
                   key={index}
@@ -158,7 +167,7 @@ export default function Footer() {
             {/* Payment Methods - Under Legal */}
             <div>
               <h4 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
-                Payment Methods
+                {t("footer.paymentMethods")}
               </h4>
               <div className="relative w-full max-w-[160px] h-auto opacity-80 hover:opacity-100 transition-opacity duration-200 bg-white/5 p-1.5 rounded-lg backdrop-blur-sm border border-white/10">
                 <Image
@@ -167,7 +176,7 @@ export default function Footer() {
                   width={400}
                   height={60}
                   className="w-full h-auto object-contain"
-                  quality={85}
+                  quality={75}
                   loading="lazy"
                 />
               </div>
@@ -175,12 +184,34 @@ export default function Footer() {
           </motion.div>
         </div>
 
-        {/* Bottom Section - Copyright */}
+        {/* Bottom Section - Copyright and Language Picker */}
         <div className="border-t border-white/10 pt-1.5 mt-2">
-          <div className="text-center">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <p className="text-sm text-white/50">
-              © {currentYear} Best IPTV Subscription. All rights reserved.
+              {t("footer.copyright").replace("{year}", currentYear.toString())}
             </p>
+            
+            {/* Language Picker */}
+            <div className="flex items-center gap-2">
+              <Globe className="w-3.5 h-3.5 text-white/50" />
+              <div className="flex items-center gap-1.5 bg-white/5 rounded-lg p-0.5 border border-white/10">
+                {locales.map((loc) => (
+                  <button
+                    key={loc}
+                    onClick={() => setLocale(loc)}
+                    className={`px-2.5 py-1 text-xs font-medium rounded transition-all duration-200 ${
+                      locale === loc
+                        ? "bg-[#2563eb] text-white shadow-sm"
+                        : "text-white/60 hover:text-white hover:bg-white/10"
+                    }`}
+                    aria-label={`Switch to ${languageNames[loc]}`}
+                    title={languageNames[loc]}
+                  >
+                    {loc.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

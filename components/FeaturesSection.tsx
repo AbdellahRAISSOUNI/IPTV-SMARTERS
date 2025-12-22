@@ -10,54 +10,56 @@ import {
   Server,
   Headphones,
 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Feature {
   id: string;
   icon: React.ReactNode;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
 }
 
-const features: Feature[] = [
-  {
-    id: "premium-channels",
-    icon: <Tv className="w-12 h-12 sm:w-14 sm:h-14" strokeWidth={1.5} />,
-    title: "Premium Channels",
-    description: "We offer more than 50,000 TV channels, and the number of online channels grows every day. Nothing surpasses the transmission quality of our channels. IPTV SMARTERS PRO subscription.",
-  },
-  {
-    id: "vod-movies",
-    icon: <Video className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
-    title: "VOD Movies",
-    description: "We offer almost 70,000 movies, including all the latest releases. We provide almost all popular movies, including the best rated on IMDB: Buy IPTV.",
-  },
-  {
-    id: "vod-series",
-    icon: <Film className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
-    title: "TV Series on VOD",
-    description: "We also offer a wide selection of television series (more than 70,000) in our VOD section. Watch all the latest episodes now on your device: paid IPTV.",
-  },
-  {
-    id: "anti-freezing",
-    icon: <Zap className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
-    title: "Anti-Freezing Technology",
-    description: "Our services integrate advanced H.264 technology, which guarantees efficient compression and optimal image quality. Thanks to this innovation, we offer a fluid streaming experience with Anti-Freezing Technology.",
-  },
-  {
-    id: "availability",
-    icon: <Server className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
-    title: "99.99% Availability",
-    description: "We always strive to offer an IPTV subscription service of the best quality to our users. Maintaining a large number of TV channels and VOD content is not an easy task. Even so, we guarantee 99.99% availability on our streaming server. Uninterrupted IPTV.",
-  },
-  {
-    id: "support",
-    icon: <Headphones className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
-    title: "24/7 Live Support",
-    description: "Our dedicated support team is always ready to help our valuable clients 24 hours a day, 7 days a week. Our team provides assistance exclusively for billing questions and technical problems.",
-  },
-];
-
 export default function FeaturesSection() {
+  const { t } = useLanguage();
+  
+  const features: Feature[] = [
+    {
+      id: "premium-channels",
+      icon: <Tv className="w-12 h-12 sm:w-14 sm:h-14" strokeWidth={1.5} />,
+      titleKey: "features.premiumChannels.title",
+      descriptionKey: "features.premiumChannels.description",
+    },
+    {
+      id: "vod-movies",
+      icon: <Video className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
+      titleKey: "features.vodMovies.title",
+      descriptionKey: "features.vodMovies.description",
+    },
+    {
+      id: "vod-series",
+      icon: <Film className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
+      titleKey: "features.vodSeries.title",
+      descriptionKey: "features.vodSeries.description",
+    },
+    {
+      id: "anti-freezing",
+      icon: <Zap className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
+      titleKey: "features.antiFreezing.title",
+      descriptionKey: "features.antiFreezing.description",
+    },
+    {
+      id: "availability",
+      icon: <Server className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
+      titleKey: "features.availability.title",
+      descriptionKey: "features.availability.description",
+    },
+    {
+      id: "support",
+      icon: <Headphones className="w-14 h-14 sm:w-16 sm:h-16" strokeWidth={1.5} />,
+      titleKey: "features.support.title",
+      descriptionKey: "features.support.description",
+    },
+  ];
   return (
     <section id="features" className="pt-12 pb-6 sm:pt-16 sm:pb-8 lg:pt-20 lg:pb-10 xl:pt-24 xl:pb-12 2xl:pt-28 2xl:pb-16 bg-white">
       <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
@@ -83,12 +85,12 @@ export default function FeaturesSection() {
 
               {/* Title */}
               <h3 className="font-bold mb-5 xl:mb-6 2xl:mb-8 text-[#1a1a1a] text-xl sm:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl tracking-tight">
-                {feature.title}
+                {t(feature.titleKey)}
               </h3>
 
               {/* Description */}
               <p className="text-[#1a1a1a]/75 leading-relaxed text-base sm:text-lg lg:text-lg xl:text-xl 2xl:text-2xl max-w-lg xl:max-w-xl 2xl:max-w-2xl mx-auto font-bold">
-                {feature.description}
+                {t(feature.descriptionKey)}
               </p>
             </motion.div>
           ))}
@@ -109,7 +111,7 @@ export default function FeaturesSection() {
               width={1536}
               height={61}
               className="w-full h-auto object-contain"
-              quality={85}
+              quality={75}
               loading="lazy"
             />
           </div>

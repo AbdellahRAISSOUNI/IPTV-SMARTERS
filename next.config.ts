@@ -28,6 +28,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
+  // Optimize bundle size
+  experimental: {
+    optimizePackageImports: ['framer-motion', 'lucide-react'],
+  },
 };
 
 export default nextConfig;

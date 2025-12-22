@@ -168,7 +168,8 @@ export default function LogoCarousel({ images, size = "default", direction = "le
                         ? "(max-width: 640px) 180px, (max-width: 768px) 200px, (max-width: 1024px) 220px, (max-width: 1280px) 250px, (max-width: 1536px) 280px, 300px"
                         : "(max-width: 640px) 140px, (max-width: 768px) 160px, (max-width: 1024px) 180px, (max-width: 1280px) 200px, (max-width: 1536px) 220px, 240px"}
                       className="object-contain"
-                      quality={90}
+                      quality={75}
+                      loading="lazy"
                     />
                   </div>
                 </div>

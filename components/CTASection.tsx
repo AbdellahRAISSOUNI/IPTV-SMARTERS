@@ -4,8 +4,10 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, Mail } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function CTASection() {
+  const { t } = useLanguage();
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "support@streampro.com";
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -51,10 +53,10 @@ export default function CTASection() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.1 }}
             >
-              <span className="block">Ready to Start</span>
+              <span className="block">{t("cta.title")}</span>
               <span className="block mt-1.5">
-                <span className="underline decoration-[#2563eb] decoration-3 underline-offset-4">Streaming</span>{" "}
-                <span className="text-[#2563eb]">Now?</span>
+                <span className="underline decoration-[#2563eb] decoration-3 underline-offset-4">{t("cta.title2")}</span>{" "}
+                <span className="text-[#2563eb]">{t("cta.title3")}</span>
               </span>
             </motion.h2>
             
@@ -65,7 +67,7 @@ export default function CTASection() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.15 }}
             >
-              Get in touch with us to start your IPTV journey. Free test available.
+              {t("cta.description")}
             </motion.p>
 
             {/* Buttons */}
@@ -87,7 +89,7 @@ export default function CTASection() {
                 whileTap={{ scale: 0.98 }}
               >
                 <MessageCircle className="w-5 h-5" />
-                <span>Contact Us on WhatsApp</span>
+                <span>{t("cta.whatsapp")}</span>
               </motion.a>
 
               {/* Email Button */}
@@ -105,7 +107,7 @@ export default function CTASection() {
                 whileTap={{ scale: 0.98 }}
               >
                 <Mail className="w-5 h-5" />
-                <span>Send Email</span>
+                <span>{t("cta.email")}</span>
               </motion.a>
             </div>
           </div>
