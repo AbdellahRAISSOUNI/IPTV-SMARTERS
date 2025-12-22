@@ -85,7 +85,7 @@ export default function HeroSection() {
                   priority
                   fetchPriority="high"
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 70vw"
-                  quality={50}
+                  quality={45}
                   loading="eager"
                   decoding="async"
                 />

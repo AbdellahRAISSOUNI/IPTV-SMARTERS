@@ -64,7 +64,7 @@ export default function Footer() {
                   width={200}
                   height={80}
                   className="h-full w-auto object-contain brightness-0 invert"
-                  quality={55}
+                  quality={40}
                   loading="lazy"
                 />
               </div>
@@ -176,7 +176,7 @@ export default function Footer() {
                   width={400}
                   height={60}
                   className="w-full h-auto object-contain"
-                  quality={55}
+                  quality={40}
                   loading="lazy"
                 />
               </div>

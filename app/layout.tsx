@@ -5,19 +5,23 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  display: "optional", // Don't block render, use system font if not loaded
-  preload: false, // Don't preload on mobile to reduce blocking
+  display: "swap", // Swap to custom font when loaded, but don't block
+  preload: false, // Don't preload to reduce blocking
   adjustFontFallback: true, // Use fallback font immediately
   fallback: ["system-ui", "-apple-system", "sans-serif"],
+  // Only load specific weights to reduce font file size
+  weight: ["400", "600"],
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
-  display: "optional", // Don't block render
+  display: "swap", // Swap to custom font when loaded
   preload: false,
   adjustFontFallback: true,
   fallback: ["system-ui", "-apple-system", "sans-serif"],
+  // Only load specific weights
+  weight: ["400", "600", "700"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -142,6 +146,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Preconnect to own domain for faster resource loading */}
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_BASE_URL || "https://iptv-smarters.vercel.app"} />
         {/* Preconnect to Google Fonts for faster font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -178,45 +184,60 @@ export default function RootLayout({
                 if (localeMatch) {
                   document.documentElement.lang = localeMatch[1];
                 }
-                // Defer non-critical CSS to improve FCP
-                const link = document.createElement('link');
-                link.rel = 'preload';
-                link.as = 'style';
-                link.href = document.querySelector('link[rel="stylesheet"]')?.href || '';
-                document.head.appendChild(link);
+                // Defer CSS loading to improve FCP - load CSS asynchronously
+                const isMobile = window.innerWidth < 768;
+                if (isMobile) {
+                  // On mobile, defer CSS loading slightly
+                  const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+                  stylesheets.forEach(link => {
+                    link.media = 'print';
+                    link.onload = function() { this.media = 'all'; };
+                    // Fallback for browsers that don't support onload
+                    setTimeout(function() {
+                      link.media = 'all';
+                    }, 50);
+                  });
+                }
               })();
             `,
           }}
         />
-        {/* Optimize font loading and defer non-critical resources */}
+        {/* Optimize font loading - completely defer on mobile */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Defer font loading to not block render on mobile
+              // Defer font loading to not block render
               (function() {
                 const isMobile = window.innerWidth < 768;
+                // Always defer font loading to prevent blocking
+                const loadFonts = function() {
+                  if ('fonts' in document) {
+                    // Load fonts asynchronously without blocking
+                    Promise.all([
+                      document.fonts.load('400 1em Inter'),
+                      document.fonts.load('600 1em Inter'),
+                      document.fonts.load('400 1em "Plus Jakarta Sans"'),
+                      document.fonts.load('600 1em "Plus Jakarta Sans"'),
+                      document.fonts.load('700 1em "Plus Jakarta Sans"'),
+                    ]).catch(() => {});
+                  }
+                };
+                
                 if (isMobile) {
-                  // On mobile, load fonts after initial render
-                  if ('requestIdleCallback' in window) {
-                    requestIdleCallback(function() {
-                      if ('fonts' in document) {
-                        document.fonts.load('400 1em Inter').catch(() => {});
-                        document.fonts.load('600 1em Plus Jakarta Sans').catch(() => {});
-                      }
-                    }, { timeout: 2000 });
+                  // On mobile, wait for page to be interactive
+                  if (document.readyState === 'complete') {
+                    setTimeout(loadFonts, 1000);
                   } else {
-                    setTimeout(function() {
-                      if ('fonts' in document) {
-                        document.fonts.load('400 1em Inter').catch(() => {});
-                        document.fonts.load('600 1em Plus Jakarta Sans').catch(() => {});
-                      }
-                    }, 100);
+                    window.addEventListener('load', function() {
+                      setTimeout(loadFonts, 1000);
+                    });
                   }
                 } else {
-                  // On desktop, load fonts normally
-                  if ('fonts' in document) {
-                    document.fonts.load('400 1em Inter').catch(() => {});
-                    document.fonts.load('600 1em Plus Jakarta Sans').catch(() => {});
+                  // On desktop, load after a short delay
+                  if ('requestIdleCallback' in window) {
+                    requestIdleCallback(loadFonts, { timeout: 500 });
+                  } else {
+                    setTimeout(loadFonts, 200);
                   }
                 }
               })();
