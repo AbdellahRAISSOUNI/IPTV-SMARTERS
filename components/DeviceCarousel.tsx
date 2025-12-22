@@ -27,7 +27,6 @@ export default function DeviceCarousel() {
                 sizes="(max-width: 768px) 75vw, 40vw"
                 quality={75}
                 loading="lazy"
-                loading="lazy"
               />
             </div>
           </motion.div>
