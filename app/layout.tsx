@@ -6,12 +6,16 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  preload: true,
+  adjustFontFallback: false,
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
   display: "swap",
+  preload: true,
+  adjustFontFallback: false,
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -136,6 +140,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Preconnect to Google Fonts for faster font loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* DNS prefetch for external resources */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         {/* Hreflang tags for SEO - will be updated by locale layout */}
         <link
           rel="alternate"
@@ -166,7 +176,27 @@ export default function RootLayout({
                 if (localeMatch) {
                   document.documentElement.lang = localeMatch[1];
                 }
+                // Defer non-critical CSS to improve FCP
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'style';
+                link.href = document.querySelector('link[rel="stylesheet"]')?.href || '';
+                document.head.appendChild(link);
               })();
+            `,
+          }}
+        />
+        {/* Inline critical CSS optimization script */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Optimize font loading
+              if ('fonts' in document) {
+                Promise.all([
+                  document.fonts.load('400 1em Inter'),
+                  document.fonts.load('600 1em Plus Jakarta Sans'),
+                ]).catch(() => {});
+              }
             `,
           }}
         />

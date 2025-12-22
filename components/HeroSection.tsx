@@ -16,19 +16,19 @@ export default function HeroSection() {
       <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-8 xl:px-12 2xl:px-16">
         <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-6 sm:gap-8 md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 items-center">
           {/* Left Column - Text Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 text-center md:text-left md:pr-4 lg:pr-4 xl:pr-8"
-          >
-            {/* Main Heading */}
-            <motion.h1
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.05 }}
-              className="text-[1.575rem] sm:text-[1.96875rem] md:text-[2.3625rem] lg:text-[2.3625rem] xl:text-[3.15rem] 2xl:text-[3.9375rem] font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] xl:leading-[1.05] 2xl:leading-[1.05] text-[#1a1a1a] font-heading tracking-tight"
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 text-center md:text-left md:pr-4 lg:pr-4 xl:pr-8"
             >
+              {/* Main Heading */}
+              <motion.h1
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="text-[1.575rem] sm:text-[1.96875rem] md:text-[2.3625rem] lg:text-[2.3625rem] xl:text-[3.15rem] 2xl:text-[3.9375rem] font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] xl:leading-[1.05] 2xl:leading-[1.05] text-[#1a1a1a] font-heading tracking-tight"
+              >
               <span className="block underline decoration-[#2563eb] decoration-2 sm:decoration-2 md:decoration-3 lg:decoration-4 xl:decoration-[5px] underline-offset-2 sm:underline-offset-3 md:underline-offset-4 lg:underline-offset-4 xl:underline-offset-5 mb-1 sm:mb-1.5 md:mb-2">
                 {t("hero.title")}
               </span>
@@ -40,9 +40,9 @@ export default function HeroSection() {
 
             {/* Descriptive Paragraph */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.1 }}
+              transition={{ duration: 0.2, delay: 0.05 }}
               className="text-sm sm:text-base md:text-sm lg:text-lg xl:text-xl 2xl:text-2xl text-[#1a1a1a]/80 leading-relaxed max-w-xl lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto md:mx-0"
             >
               {t("hero.description")}{" "}
@@ -66,9 +66,9 @@ export default function HeroSection() {
 
             {/* CTA Button */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.15 }}
+              transition={{ duration: 0.2, delay: 0.1 }}
               className="pt-1 sm:pt-2 flex justify-center md:justify-start"
             >
               <motion.a
@@ -98,9 +98,9 @@ export default function HeroSection() {
 
           {/* Right Column - Image */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.35, delay: 0.1, ease: "easeOut" }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className="relative w-full flex items-center justify-center md:justify-end mt-1 sm:mt-2 md:mt-0"
           >
             <div className="relative w-full max-w-full aspect-[4/3] sm:aspect-[4/3] md:aspect-[5/4] lg:aspect-[6/5] xl:aspect-[5/4] flex items-center justify-center overflow-visible lg:overflow-hidden">
@@ -111,8 +111,9 @@ export default function HeroSection() {
                   fill
                   className="object-contain"
                   priority
+                  fetchPriority="high"
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 70vw"
-                  quality={85}
+                  quality={70}
                   loading="eager"
                 />
               </div>

@@ -111,7 +111,7 @@ export default function FeaturesSection() {
               width={1536}
               height={61}
               className="w-full h-auto object-contain"
-              quality={75}
+              quality={65}
               loading="lazy"
             />
           </div>

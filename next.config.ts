@@ -36,6 +36,14 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
+  // Modern JavaScript - target modern browsers to reduce polyfills
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production" ? {
+      exclude: ["error", "warn"],
+    } : false,
+  },
+  // Optimize for modern browsers
+  transpilePackages: [],
 };
 
 export default nextConfig;
