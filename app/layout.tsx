@@ -5,17 +5,19 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  display: "swap",
-  preload: true,
-  adjustFontFallback: false,
+  display: "optional", // Don't block render, use system font if not loaded
+  preload: false, // Don't preload on mobile to reduce blocking
+  adjustFontFallback: true, // Use fallback font immediately
+  fallback: ["system-ui", "-apple-system", "sans-serif"],
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
-  display: "swap",
-  preload: true,
-  adjustFontFallback: false,
+  display: "optional", // Don't block render
+  preload: false,
+  adjustFontFallback: true,
+  fallback: ["system-ui", "-apple-system", "sans-serif"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -190,31 +192,39 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Optimize font loading
-              if ('fonts' in document) {
-                Promise.all([
-                  document.fonts.load('400 1em Inter'),
-                  document.fonts.load('600 1em Plus Jakarta Sans'),
-                ]).catch(() => {});
-              }
-              // Defer non-critical JavaScript
-              if ('requestIdleCallback' in window) {
-                requestIdleCallback(function() {
-                  // Load non-critical resources after initial render
-                  const scripts = document.querySelectorAll('script[data-defer]');
-                  scripts.forEach(script => {
-                    const newScript = document.createElement('script');
-                    newScript.src = script.getAttribute('data-src') || '';
-                    newScript.async = true;
-                    document.body.appendChild(newScript);
-                  });
-                });
-              }
+              // Defer font loading to not block render on mobile
+              (function() {
+                const isMobile = window.innerWidth < 768;
+                if (isMobile) {
+                  // On mobile, load fonts after initial render
+                  if ('requestIdleCallback' in window) {
+                    requestIdleCallback(function() {
+                      if ('fonts' in document) {
+                        document.fonts.load('400 1em Inter').catch(() => {});
+                        document.fonts.load('600 1em Plus Jakarta Sans').catch(() => {});
+                      }
+                    }, { timeout: 2000 });
+                  } else {
+                    setTimeout(function() {
+                      if ('fonts' in document) {
+                        document.fonts.load('400 1em Inter').catch(() => {});
+                        document.fonts.load('600 1em Plus Jakarta Sans').catch(() => {});
+                      }
+                    }, 100);
+                  }
+                } else {
+                  // On desktop, load fonts normally
+                  if ('fonts' in document) {
+                    document.fonts.load('400 1em Inter').catch(() => {});
+                    document.fonts.load('600 1em Plus Jakarta Sans').catch(() => {});
+                  }
+                }
+              })();
             `,
           }}
         />
-        {/* Preload hero image */}
-        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" />
+        {/* Preload hero image - only on desktop to avoid blocking mobile */}
+        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" media="(min-width: 768px)" />
       </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}

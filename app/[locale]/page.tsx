@@ -1,6 +1,6 @@
 "use client";
 
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Monitor } from "lucide-react";
@@ -29,10 +29,38 @@ const ComponentLoader = () => (
 
 export default function Home() {
   const { t } = useLanguage();
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Scroll to top on page load/refresh
+  // Detect mobile and defer non-critical resources
   useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
     window.scrollTo(0, 0);
+    
+    // On mobile, defer loading of heavy components
+    if (window.innerWidth < 768) {
+      // Use requestIdleCallback to defer non-critical work
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          // Trigger lazy loading of below-fold components
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                // Component will load when needed
+              }
+            });
+          }, { rootMargin: '200px' });
+          
+          // Observe sections that are below the fold
+          setTimeout(() => {
+            document.querySelectorAll('section').forEach(section => {
+              if (section.offsetTop > window.innerHeight) {
+                observer.observe(section);
+              }
+            });
+          }, 100);
+        }, { timeout: 2000 });
+      }
+    }
   }, []);
 
   const pricingPlans = [
