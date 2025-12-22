@@ -92,18 +92,30 @@ export default function Header() {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
+    
+    // Calculate scroll position first (before closing menu)
     const element = document.querySelector(href);
     if (element) {
       const headerHeight = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
+      
+      // Close mobile menu and scroll immediately
+      setIsMobileMenuOpen(false);
+      
+      // Use requestAnimationFrame for smoother scroll (minimal delay)
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
+        });
       });
+    } else {
+      // If element not found, just close menu
+      setIsMobileMenuOpen(false);
     }
-    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -243,8 +255,8 @@ export default function Header() {
 
             {/* Contact (Blue color) */}
             <motion.a
-              href="#contact"
-              onClick={(e) => handleNavClick(e, "#contact")}
+              href="#cta"
+              onClick={(e) => handleNavClick(e, "#cta")}
               className="relative font-medium text-[#2563eb] hover:text-[#1d4ed8] transition-colors duration-200 group"
             >
               Contact Us
@@ -461,8 +473,8 @@ export default function Header() {
 
                 {/* Contact (Blue color) */}
                 <motion.a
-                  href="#contact"
-                  onClick={(e) => handleNavClick(e, "#contact")}
+                  href="#cta"
+                  onClick={(e) => handleNavClick(e, "#cta")}
                   className="text-base font-medium text-[#2563eb] hover:text-[#1d4ed8] py-3 px-4 rounded-lg hover:bg-[#f5f5f5] transition-all duration-200"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -474,16 +486,25 @@ export default function Header() {
                 {/* Mobile CTA Button */}
                 <motion.button
                   onClick={() => {
-                    setIsMobileMenuOpen(false);
                     const element = document.querySelector("#pricing");
                     if (element) {
                       const headerHeight = 80;
                       const elementPosition = element.getBoundingClientRect().top;
                       const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-                      window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth",
+                      
+                      setIsMobileMenuOpen(false);
+                      
+                      // Use requestAnimationFrame for smoother scroll (minimal delay)
+                      requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth",
+                          });
+                        });
                       });
+                    } else {
+                      setIsMobileMenuOpen(false);
                     }
                   }}
                   className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] px-6 py-3 text-sm font-semibold tracking-wide text-white shadow-md hover:shadow-lg hover:from-[#1d4ed8] hover:to-[#1e40af] transition-all duration-150 cursor-pointer"

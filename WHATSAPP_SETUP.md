@@ -34,3 +34,4 @@ All "Buy Now" buttons and WhatsApp links use the centralized utility:
 - All components import and use these functions
 - Easy to update in one place
 
+

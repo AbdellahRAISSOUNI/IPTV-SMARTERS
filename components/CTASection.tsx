@@ -20,7 +20,7 @@ export default function CTASection() {
   };
 
   return (
-    <section className="pt-2 pb-12 lg:pb-16 xl:pb-20 2xl:pb-24 bg-white relative">
+    <section id="cta" className="pt-2 pb-12 lg:pb-16 xl:pb-20 2xl:pb-24 bg-white relative">
       <div className="max-w-3xl xl:max-w-4xl 2xl:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <motion.div
           ref={containerRef}
