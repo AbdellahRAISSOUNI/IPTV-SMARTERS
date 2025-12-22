@@ -66,12 +66,12 @@ export default function FeaturesSection() {
           {features.map((feature, index) => (
             <motion.div
               key={feature.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, margin: "-100px" }}
               transition={{
-                duration: 0.6,
-                delay: index * 0.1,
+                duration: 0.3,
+                delay: index * 0.05,
                 ease: "easeOut",
               }}
               className="bg-white flex flex-col items-center text-center px-4"
@@ -98,8 +98,8 @@ export default function FeaturesSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.7 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.3, delay: 0.2 }}
           className="mt-8 lg:mt-10 flex justify-center"
         >
           <div className="relative w-full max-w-3xl h-auto">
@@ -109,7 +109,8 @@ export default function FeaturesSection() {
               width={1536}
               height={61}
               className="w-full h-auto object-contain"
-              quality={90}
+              quality={85}
+              loading="lazy"
             />
           </div>
         </motion.div>

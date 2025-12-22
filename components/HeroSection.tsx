@@ -17,14 +17,14 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
             className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 md:pr-4 lg:pr-4 xl:pr-8"
           >
             {/* Main Heading */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
+              transition={{ duration: 0.35, delay: 0.05 }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] xl:leading-[1.05] text-[#1a1a1a] font-heading tracking-tight"
             >
               <span className="block underline decoration-[#2563eb] decoration-2 sm:decoration-2 md:decoration-3 lg:decoration-4 xl:decoration-[5px] underline-offset-2 sm:underline-offset-3 md:underline-offset-4 lg:underline-offset-4 xl:underline-offset-5 mb-1 sm:mb-1.5 md:mb-2">
@@ -39,7 +39,7 @@ export default function HeroSection() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
+              transition={{ duration: 0.35, delay: 0.1 }}
               className="text-sm sm:text-base md:text-sm lg:text-lg xl:text-xl text-[#1a1a1a]/80 leading-relaxed max-w-xl lg:max-w-lg"
             >
               Enjoy the Best IPTV Subscription, reliable and stable, with over{" "}
@@ -65,7 +65,7 @@ export default function HeroSection() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
+              transition={{ duration: 0.35, delay: 0.15 }}
               className="pt-1 sm:pt-2"
             >
               <motion.a
@@ -97,7 +97,7 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.35, delay: 0.1, ease: "easeOut" }}
             className="relative w-full flex items-center justify-center md:justify-end mt-1 sm:mt-2 md:mt-0"
           >
             <div className="relative w-full max-w-full aspect-[4/3] sm:aspect-[4/3] md:aspect-[5/4] lg:aspect-[6/5] xl:aspect-[5/4] flex items-center justify-center overflow-visible lg:overflow-hidden">

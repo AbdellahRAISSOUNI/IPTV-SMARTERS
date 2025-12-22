@@ -21,8 +21,8 @@ export default function TestimonialCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.3, delay }}
       className="bg-white p-6 rounded-xl border border-[#e5e7eb] shadow-sm"
     >
       <div className="flex items-center gap-1 mb-4">

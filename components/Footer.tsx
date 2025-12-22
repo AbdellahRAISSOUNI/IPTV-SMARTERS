@@ -43,8 +43,8 @@ export default function Footer() {
             className="lg:col-span-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.3 }}
           >
             {/* Logo */}
             <div className="flex items-center mb-1.5">
@@ -55,7 +55,8 @@ export default function Footer() {
                   width={200}
                   height={80}
                   className="h-full w-auto object-contain brightness-0 invert"
-                  quality={90}
+                  quality={85}
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -88,8 +89,8 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.3, delay: 0.05 }}
           >
             <h4 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
               Quick Links
@@ -131,8 +132,8 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.3, delay: 0.1 }}
           >
             <h4 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
               Legal
@@ -166,7 +167,8 @@ export default function Footer() {
                   width={400}
                   height={60}
                   className="w-full h-auto object-contain"
-                  quality={90}
+                  quality={85}
+                  loading="lazy"
                 />
               </div>
             </div>

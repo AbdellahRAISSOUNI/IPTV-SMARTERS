@@ -154,15 +154,15 @@ export default function TestimonialsSection() {
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <motion.h2 
             className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-[#1a1a1a]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1], delay: 0.05 }}
           >
             What Our <span className="text-[#2563eb]">Customers</span> Say
           </motion.h2>
@@ -170,8 +170,8 @@ export default function TestimonialsSection() {
             className="text-[#1a1a1a]/70 text-lg max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
           >
             From crystal clear quality to incredible channel selection, discover how our IPTV service has transformed the viewing experience for customers worldwide.
           </motion.p>
@@ -181,8 +181,8 @@ export default function TestimonialsSection() {
           className="relative"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1], delay: 0.15 }}
         >
           <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent_0%,black_20%,black_80%,transparent_100%)] max-h-[600px] overflow-hidden">
             <TestimonialsColumn testimonials={firstColumn} duration={20} />

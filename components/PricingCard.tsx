@@ -25,11 +25,11 @@ export default function PricingCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: "-100px" }}
       transition={{ 
-        opacity: { duration: 0.4, delay },
+        opacity: { duration: 0.25, delay },
         y: { 
-          duration: 0.4, 
+          duration: 0.25, 
           delay,
           type: "tween",
           ease: "easeOut"
@@ -85,8 +85,8 @@ export default function PricingCard({
             key={index}
             initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: delay + index * 0.03 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.2, delay: delay + index * 0.02 }}
             className="flex items-start gap-2"
           >
             <svg

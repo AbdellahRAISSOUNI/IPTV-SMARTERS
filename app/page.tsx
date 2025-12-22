@@ -15,6 +15,7 @@ import Footer from "@/components/Footer";
 import PricingCard from "@/components/PricingCard";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
+import CTASection from "@/components/CTASection";
 import { openWhatsApp } from "@/lib/whatsapp";
 
 export default function Home() {
@@ -219,8 +220,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.3 }}
             className="text-center mb-12"
           >
             {/* Red line */}
@@ -235,8 +236,8 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.3 }}
               className="flex justify-center mb-8"
             >
               <div className="relative px-6 py-2.5 rounded-lg border-[3px] border-gray-300 bg-gray-100">
@@ -255,7 +256,7 @@ export default function Home() {
                   period={plan.period}
                   features={plan.features}
                   popular={plan.popular}
-                  delay={index * 0.1}
+                  delay={index * 0.05}
                 />
               ))}
             </div>
@@ -266,8 +267,8 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.3 }}
               className="flex justify-center mb-8"
             >
               <div className="relative px-6 py-2.5 rounded-lg border-[3px] border-gray-300 bg-gray-100">
@@ -286,7 +287,7 @@ export default function Home() {
                   period={plan.period}
                   features={plan.features}
                   popular={plan.popular}
-                  delay={index * 0.1}
+                  delay={index * 0.05}
                 />
               ))}
             </div>
@@ -300,8 +301,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.3 }}
             className="flex justify-center"
           >
             <div className="relative w-full max-w-[304px] h-auto">
@@ -311,7 +312,8 @@ export default function Home() {
                 width={1536}
                 height={61}
                 className="w-full h-auto object-contain"
-                quality={90}
+                quality={85}
+                loading="lazy"
               />
             </div>
           </motion.div>
@@ -327,8 +329,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.3 }}
             className="text-center space-y-8"
           >
             {/* Heading */}
@@ -345,7 +347,8 @@ export default function Home() {
                   width={1200}
                   height={600}
                   className="w-full h-auto object-contain"
-                  quality={90}
+                  quality={85}
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -377,7 +380,7 @@ export default function Home() {
       </section>
 
       <FAQSection />
-      <ContactSection />
+      <CTASection />
       <Footer />
       <FloatingWhatsAppButton />
     </div>
