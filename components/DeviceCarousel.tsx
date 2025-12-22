@@ -25,7 +25,7 @@ export default function DeviceCarousel() {
                 fill
                 className="object-contain opacity-95"
                 sizes="(max-width: 768px) 75vw, 40vw"
-                quality={65}
+                quality={55}
                 loading="lazy"
               />
             </div>

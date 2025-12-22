@@ -199,7 +199,7 @@ export default function ContentCarousel() {
                       fill
                       sizes="(max-width: 640px) 160px, (max-width: 768px) 180px, (max-width: 1024px) 200px, (max-width: 1280px) 240px, 280px"
                       className="object-cover"
-                      quality={65}
+                      quality={55}
                       loading="lazy"
                     />
                   </div>

@@ -186,7 +186,7 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Inline critical CSS optimization script */}
+        {/* Optimize font loading and defer non-critical resources */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -197,9 +197,24 @@ export default function RootLayout({
                   document.fonts.load('600 1em Plus Jakarta Sans'),
                 ]).catch(() => {});
               }
+              // Defer non-critical JavaScript
+              if ('requestIdleCallback' in window) {
+                requestIdleCallback(function() {
+                  // Load non-critical resources after initial render
+                  const scripts = document.querySelectorAll('script[data-defer]');
+                  scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    newScript.src = script.getAttribute('data-src') || '';
+                    newScript.async = true;
+                    document.body.appendChild(newScript);
+                  });
+                });
+              }
             `,
           }}
         />
+        {/* Preload hero image */}
+        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" />
       </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}
