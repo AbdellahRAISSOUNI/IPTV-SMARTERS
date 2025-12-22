@@ -137,7 +137,7 @@ export default function FAQSection() {
   const faqSchema = generateFAQSchema(faqData);
 
   return (
-    <section id="faq" className="pt-4 pb-20 sm:pt-6 sm:pb-20 lg:pt-8 lg:pb-20 bg-white">
+    <section id="faq" className="pt-0 pb-0 bg-white">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Schema.org JSON-LD */}
         <script

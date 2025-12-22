@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { MessageCircle, Mail, Play, Zap } from "lucide-react";
+import { MessageCircle, Mail } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 
 export default function CTASection() {
@@ -20,8 +20,8 @@ export default function CTASection() {
   };
 
   return (
-    <section className="pt-2 pb-10 lg:pt-4 lg:pb-12 bg-white relative">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="pt-2 pb-12 lg:pb-16 bg-white relative">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={containerRef}
           onMouseMove={handleMouseMove}
@@ -31,128 +31,83 @@ export default function CTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.3 }}
-          className="relative rounded-xl bg-gradient-to-br from-[#2563eb]/3 via-white to-[#2563eb]/3 border border-[#2563eb]/10 p-8 sm:p-10 lg:p-11 overflow-hidden"
+          className="relative rounded-2xl bg-white border border-[#1a1a1a]/10 p-7 sm:p-8 lg:p-10 overflow-hidden shadow-sm"
         >
-          {/* Mouse tracking gradient */}
+          {/* Mouse tracking gradient - kept as requested */}
           <motion.div
-            className="absolute inset-0 rounded-xl pointer-events-none transition-opacity duration-500"
+            className="absolute inset-0 rounded-2xl pointer-events-none transition-opacity duration-500"
             style={{
               opacity: isHovering ? 1 : 0,
-              background: `radial-gradient(500px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(37, 99, 235, 0.08), transparent 50%)`,
+              background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(37, 99, 235, 0.06), transparent 60%)`,
             }}
           />
 
-          <div className="relative z-10">
-            {/* Small badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2563eb]/10 border border-[#2563eb]/20 mb-4"
-            >
-              <Zap className="w-3 h-3 text-[#2563eb]" />
-              <span className="text-xs font-medium text-[#2563eb]">Instant Activation</span>
-            </motion.div>
-
+          <div className="relative z-10 text-center">
             {/* Heading */}
             <motion.h2 
-              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-2.5 leading-tight font-heading tracking-tight"
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-3 leading-tight font-heading tracking-tight"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.15 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
             >
               <span className="block">Ready to Start</span>
-              <span className="block mt-1">
-                <span className="underline decoration-[#2563eb] decoration-2 sm:decoration-3 underline-offset-3">Streaming</span>{" "}
+              <span className="block mt-1.5">
+                <span className="underline decoration-[#2563eb] decoration-3 underline-offset-4">Streaming</span>{" "}
                 <span className="text-[#2563eb]">Now?</span>
               </span>
             </motion.h2>
             
             <motion.p 
-              className="text-[#1a1a1a]/65 text-sm sm:text-base mb-8 max-w-xl leading-relaxed"
+              className="text-[#1a1a1a]/70 text-sm sm:text-base mb-7 max-w-xl mx-auto"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.15 }}
             >
-              Free test available. No credit card required. Experience 50,000+ channels and 70,000+ movies in HD & 4K quality.
+              Get in touch with us to start your IPTV journey. Free test available.
             </motion.p>
 
             {/* Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-3.5">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               {/* WhatsApp Button */}
               <motion.a
-                href={getWhatsAppUrl("Hello! I'd like to start a free test of your IPTV service.")}
+                href={getWhatsAppUrl("Hello! I'd like to get more information about your IPTV service.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#25D366] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:shadow-[#25D366]/25 transition-all duration-300 cursor-pointer overflow-hidden"
+                className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#25D366] text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-[#25D366]/30 transition-all duration-300 cursor-pointer"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.25 }}
-                whileHover={{ 
-                  scale: 1.03,
-                  y: -1,
+                transition={{ duration: 0.4, delay: 0.2 }}
+                whileHover={{
+                  scale: 1.05,
+                  y: -2,
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {/* Hover shine */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.5 }}
-                />
-                <MessageCircle className="w-4.5 h-4.5 relative z-10" />
-                <span className="relative z-10 text-sm sm:text-base">Start Free Test</span>
+                <MessageCircle className="w-5 h-5" />
+                <span>Contact Us on WhatsApp</span>
               </motion.a>
 
               {/* Email Button */}
               <motion.a
                 href={`mailto:${email}`}
-                className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-[#1a1a1a]/20 hover:border-[#2563eb] text-[#1a1a1a] hover:text-[#2563eb] font-semibold rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+                className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 bg-white border-2 border-[#1a1a1a]/15 hover:border-[#2563eb] text-[#1a1a1a] hover:text-[#2563eb] font-semibold rounded-xl shadow-md hover:shadow-lg hover:shadow-[#2563eb]/20 transition-all duration-300"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.3 }}
-                whileHover={{ 
-                  scale: 1.03,
-                  y: -1,
+                transition={{ duration: 0.4, delay: 0.25 }}
+                whileHover={{
+                  scale: 1.05,
+                  y: -2,
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {/* Background on hover */}
-                <motion.div
-                  className="absolute inset-0 bg-[#2563eb]/5"
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.2 }}
-                />
-                <Mail className="w-4.5 h-4.5 relative z-10" />
-                <span className="relative z-10 text-sm sm:text-base">Contact Us</span>
+                <Mail className="w-5 h-5" />
+                <span>Send Email</span>
               </motion.a>
             </div>
-
-            {/* Small trust indicators */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.35 }}
-              className="flex items-center justify-center gap-4 mt-6 text-xs text-[#1a1a1a]/50"
-            >
-              <div className="flex items-center gap-1.5">
-                <Play className="w-3.5 h-3.5" />
-                <span>50,000+ Channels</span>
-              </div>
-              <span>•</span>
-              <div className="flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5" />
-                <span>99.9% Uptime</span>
-              </div>
-            </motion.div>
           </div>
         </motion.div>
       </div>
