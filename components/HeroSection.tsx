@@ -103,7 +103,7 @@ export default function HeroSection() {
             <div className="relative w-full max-w-full aspect-[4/3] sm:aspect-[4/3] md:aspect-[5/4] lg:aspect-[6/5] xl:aspect-[5/4] flex items-center justify-center overflow-visible lg:overflow-hidden">
               <div className="relative w-full h-full sm:w-[100%] sm:h-[100%] md:w-[100%] md:h-[100%] lg:w-[140%] lg:h-[140%] xl:w-[150%] xl:h-[150%] 2xl:w-[160%] 2xl:h-[160%] flex items-center justify-center">
                 <Image
-                  src="/images/carousel/hero.png"
+                  src="/images/hero.png"
                   alt="Premium IPTV Streaming Service - Watch on all devices"
                   fill
                   className="object-contain"
