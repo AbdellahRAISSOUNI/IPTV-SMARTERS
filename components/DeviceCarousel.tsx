@@ -57,7 +57,7 @@ export default function DeviceCarousel() {
               transition={{ duration: 0.7, delay: 0.4 }}
               className="text-sm sm:text-base lg:text-lg text-[#1a1a1a]/75 leading-relaxed break-words"
             >
-              Whether you're at home or on the go, access your IPTV service from any device you have. Start watching on your TV, continue on your phone, or pick up where you left off on your laptop.
+              Whether you&apos;re at home or on the go, access your IPTV service from any device you have. Start watching on your TV, continue on your phone, or pick up where you left off on your laptop.
             </motion.p>
 
             {/* Device List */}

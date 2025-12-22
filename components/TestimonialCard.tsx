@@ -40,7 +40,7 @@ export default function TestimonialCard({
         ))}
       </div>
       <p className="text-[#1a1a1a]/80 mb-4 leading-relaxed italic">
-        "{text}"
+        &ldquo;{text}&rdquo;
       </p>
       <div>
         <p className="font-semibold text-[#1a1a1a]">{name}</p>

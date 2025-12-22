@@ -94,7 +94,7 @@ const TestimonialsColumn = ({ className, testimonials, duration = 10 }: Testimon
       >
       {[...new Array(2)].fill(0).map((_, index) => (
         <React.Fragment key={index}>
-          {testimonials.map(({ text, name, username, location }, testimonialIndex) => (
+          {testimonials.map(({ text, name, location }, testimonialIndex) => (
             <motion.div 
               key={testimonialIndex} 
               className="p-5 rounded-2xl border border-[#e5e7eb] bg-white/80 backdrop-blur-sm hover:border-[#2563eb]/30 transition-all duration-500 group shadow-sm"

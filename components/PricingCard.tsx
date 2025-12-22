@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Monitor } from "lucide-react";
-import WhatsAppButton from "./WhatsAppButton";
 import { openWhatsApp } from "@/lib/whatsapp";
 
 interface PricingCardProps {

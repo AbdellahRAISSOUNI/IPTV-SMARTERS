@@ -12,7 +12,6 @@ import DeviceCarousel from "@/components/DeviceCarousel";
 import ContactSection from "@/components/ContactSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import PricingCard from "@/components/PricingCard";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";

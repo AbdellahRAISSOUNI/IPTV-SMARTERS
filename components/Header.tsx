@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
-import WhatsAppButton from "./WhatsAppButton";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -406,7 +405,7 @@ export default function Header() {
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden pl-4"
                       >
-                        {installationLinks.map((link, index) => (
+                        {installationLinks.map((link) => (
                           <a
                             key={link.href}
                             href={link.href}

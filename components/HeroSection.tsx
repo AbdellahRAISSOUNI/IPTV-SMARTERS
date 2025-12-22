@@ -1,15 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 export default function HeroSection() {
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "";
-  const cleanNumber = whatsappNumber.replace(/[^0-9]/g, "");
-  const whatsappUrl = cleanNumber
-    ? `https://wa.me/${cleanNumber}?text=${encodeURIComponent("Hello! I'd like to start a free test of your IPTV service.")}`
-    : "#";
 
   return (
     <section
