@@ -184,85 +184,43 @@ export default function RootLayout({
                 if (localeMatch) {
                   document.documentElement.lang = localeMatch[1];
                 }
-                // Defer CSS loading to improve FCP - load CSS asynchronously on all devices
-                const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
-                stylesheets.forEach(link => {
-                  const originalHref = link.href;
-                  // Create a new link element for async loading
-                  const asyncLink = document.createElement('link');
-                  asyncLink.rel = 'stylesheet';
-                  asyncLink.href = originalHref;
-                  asyncLink.media = 'print';
-                  asyncLink.onload = function() { 
-                    this.media = 'all';
-                    // Remove the blocking stylesheet
-                    link.remove();
-                  };
-                  // Fallback
-                  setTimeout(function() {
-                    asyncLink.media = 'all';
-                    link.remove();
-                  }, 100);
-                  // Insert async stylesheet
-                  document.head.insertBefore(asyncLink, link.nextSibling);
-                });
               })();
             `,
           }}
         />
-        {/* Optimize font loading - completely defer on mobile */}
+        {/* Optimize font loading - defer to not block render */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               // Defer font loading to not block render
               (function() {
-                const isMobile = window.innerWidth < 768;
-                // Always defer font loading to prevent blocking
-                const loadFonts = function() {
-                  if ('fonts' in document) {
-                    // Load fonts asynchronously without blocking
-                    Promise.all([
-                      document.fonts.load('400 1em Inter'),
-                      document.fonts.load('600 1em Inter'),
-                      document.fonts.load('400 1em "Plus Jakarta Sans"'),
-                      document.fonts.load('600 1em "Plus Jakarta Sans"'),
-                      document.fonts.load('700 1em "Plus Jakarta Sans"'),
-                    ]).catch(() => {});
-                  }
-                };
-                
-                if (isMobile) {
-                  // On mobile, wait for page to be interactive
-                  if (document.readyState === 'complete') {
-                    setTimeout(loadFonts, 1000);
-                  } else {
-                    window.addEventListener('load', function() {
-                      setTimeout(loadFonts, 1000);
-                    });
-                  }
+                if ('requestIdleCallback' in window) {
+                  requestIdleCallback(function() {
+                    if ('fonts' in document) {
+                      document.fonts.load('400 1em Inter').catch(() => {});
+                      document.fonts.load('600 1em Inter').catch(() => {});
+                      document.fonts.load('400 1em "Plus Jakarta Sans"').catch(() => {});
+                      document.fonts.load('600 1em "Plus Jakarta Sans"').catch(() => {});
+                      document.fonts.load('700 1em "Plus Jakarta Sans"').catch(() => {});
+                    }
+                  }, { timeout: 1000 });
                 } else {
-                  // On desktop, load after a short delay
-                  if ('requestIdleCallback' in window) {
-                    requestIdleCallback(loadFonts, { timeout: 500 });
-                  } else {
-                    setTimeout(loadFonts, 200);
-                  }
+                  setTimeout(function() {
+                    if ('fonts' in document) {
+                      document.fonts.load('400 1em Inter').catch(() => {});
+                      document.fonts.load('600 1em Inter').catch(() => {});
+                      document.fonts.load('400 1em "Plus Jakarta Sans"').catch(() => {});
+                      document.fonts.load('600 1em "Plus Jakarta Sans"').catch(() => {});
+                      document.fonts.load('700 1em "Plus Jakarta Sans"').catch(() => {});
+                    }
+                  }, 500);
                 }
               })();
             `,
           }}
         />
-        {/* Preload hero image - only on desktop to avoid blocking mobile */}
-        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" media="(min-width: 768px)" />
-        {/* Critical CSS inline for faster FCP */}
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            body{font-family:system-ui,-apple-system,sans-serif;color:#1a1a1a;background:#fff}
-            h1,h2,h3,h4,h5,h6{font-family:system-ui,-apple-system,sans-serif;font-weight:700}
-            #home{position:relative;overflow:hidden;background:#fff;padding-top:6rem}
-            .max-w-7xl{max-width:80rem;margin:0 auto;padding:0 1rem}
-          `
-        }} />
+        {/* Preload hero image */}
+        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" />
       </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}

@@ -1,38 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function HeroSection() {
   const { t } = useLanguage();
-  const [isMobile, setIsMobile] = useState(true); // Default to mobile for faster initial render
-  const [shouldLoadImage, setShouldLoadImage] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      // On mobile, delay image loading to let text be LCP
-      if (mobile) {
-        // Use requestIdleCallback or setTimeout to defer image load
-        if ('requestIdleCallback' in window) {
-          requestIdleCallback(() => {
-            setShouldLoadImage(true);
-          }, { timeout: 500 });
-        } else {
-          setTimeout(() => setShouldLoadImage(true), 300);
-        }
-      } else {
-        setShouldLoadImage(true);
-      }
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   return (
     <section
@@ -100,24 +73,22 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column - Image - Deferred on mobile to improve LCP */}
+          {/* Right Column - Image */}
           <div className="relative w-full flex items-center justify-center md:justify-end mt-1 sm:mt-2 md:mt-0">
             <div className="relative w-full max-w-full aspect-[4/3] sm:aspect-[4/3] md:aspect-[5/4] lg:aspect-[6/5] xl:aspect-[5/4] flex items-center justify-center overflow-visible lg:overflow-hidden">
               <div className="relative w-full h-full sm:w-[100%] sm:h-[100%] md:w-[100%] md:h-[100%] lg:w-[140%] lg:h-[140%] xl:w-[150%] xl:h-[150%] 2xl:w-[160%] 2xl:h-[160%] flex items-center justify-center">
-                {shouldLoadImage && (
-                  <Image
-                    src="/images/hero.png"
-                    alt="Premium IPTV Streaming Service - Watch on all devices"
-                    fill
-                    className="object-contain"
-                    priority={!isMobile}
-                    fetchPriority={isMobile ? "low" : "high"}
-                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 70vw"
-                    quality={isMobile ? 40 : 45}
-                    loading={isMobile ? "lazy" : "eager"}
-                    decoding="async"
-                  />
-                )}
+                <Image
+                  src="/images/hero.png"
+                  alt="Premium IPTV Streaming Service - Watch on all devices"
+                  fill
+                  className="object-contain"
+                  priority
+                  fetchPriority="high"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 70vw"
+                  quality={40}
+                  loading="eager"
+                  decoding="async"
+                />
               </div>
             </div>
           </div>
