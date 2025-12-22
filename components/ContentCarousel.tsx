@@ -148,8 +148,8 @@ export default function ContentCarousel() {
   }, []);
 
   return (
-    <section className="pt-12 pb-4 sm:pt-16 sm:pb-6 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="pt-12 pb-4 sm:pt-16 sm:pb-6 xl:pt-20 xl:pb-8 2xl:pt-24 2xl:pb-10 bg-white">
+      <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         {/* Carousel Container */}
         <div className="relative">
           {/* Fade Edges */}
@@ -180,7 +180,7 @@ export default function ContentCarousel() {
               {duplicatedImages.map((image, index) => (
                 <div
                   key={`${image}-${index}`}
-                  className="shrink-0 w-[160px] sm:w-[180px] md:w-[200px] lg:w-[240px] xl:w-[280px]"
+                  className="shrink-0 w-[160px] sm:w-[180px] md:w-[200px] lg:w-[240px] xl:w-[280px] 2xl:w-[320px]"
                 >
                   <div className="relative w-full aspect-2/3 overflow-hidden bg-gray-100">
                     <Image

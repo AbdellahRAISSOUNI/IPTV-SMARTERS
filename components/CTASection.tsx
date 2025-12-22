@@ -20,8 +20,8 @@ export default function CTASection() {
   };
 
   return (
-    <section className="pt-2 pb-12 lg:pb-16 bg-white relative">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="pt-2 pb-12 lg:pb-16 xl:pb-20 2xl:pb-24 bg-white relative">
+      <div className="max-w-3xl xl:max-w-4xl 2xl:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <motion.div
           ref={containerRef}
           onMouseMove={handleMouseMove}
@@ -45,7 +45,7 @@ export default function CTASection() {
           <div className="relative z-10 text-center">
             {/* Heading */}
             <motion.h2 
-              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-3 leading-tight font-heading tracking-tight"
+              className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-[#1a1a1a] mb-3 xl:mb-4 2xl:mb-5 leading-tight font-heading tracking-tight"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -59,7 +59,7 @@ export default function CTASection() {
             </motion.h2>
             
             <motion.p 
-              className="text-[#1a1a1a]/70 text-sm sm:text-base mb-7 max-w-xl mx-auto"
+              className="text-[#1a1a1a]/70 text-sm sm:text-base xl:text-lg 2xl:text-xl mb-7 xl:mb-8 2xl:mb-10 max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -75,7 +75,7 @@ export default function CTASection() {
                 href={getWhatsAppUrl("Hello! I'd like to get more information about your IPTV service.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#25D366] text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-[#25D366]/30 transition-all duration-300 cursor-pointer"
+                className="group relative inline-flex items-center gap-2.5 xl:gap-3 2xl:gap-4 px-7 xl:px-8 2xl:px-10 py-3.5 xl:py-4 2xl:py-5 bg-[#25D366] text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-[#25D366]/30 transition-all duration-300 cursor-pointer text-sm sm:text-base xl:text-lg 2xl:text-xl"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -93,7 +93,7 @@ export default function CTASection() {
               {/* Email Button */}
               <motion.a
                 href={`mailto:${email}`}
-                className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 bg-white border-2 border-[#1a1a1a]/15 hover:border-[#2563eb] text-[#1a1a1a] hover:text-[#2563eb] font-semibold rounded-xl shadow-md hover:shadow-lg hover:shadow-[#2563eb]/20 transition-all duration-300"
+                className="group relative inline-flex items-center gap-2.5 xl:gap-3 2xl:gap-4 px-7 xl:px-8 2xl:px-10 py-3.5 xl:py-4 2xl:py-5 bg-white border-2 border-[#1a1a1a]/15 hover:border-[#2563eb] text-[#1a1a1a] hover:text-[#2563eb] font-semibold rounded-xl shadow-md hover:shadow-lg hover:shadow-[#2563eb]/20 transition-all duration-300 text-sm sm:text-base xl:text-lg 2xl:text-xl"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

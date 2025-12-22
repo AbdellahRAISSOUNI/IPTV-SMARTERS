@@ -78,3 +78,30 @@ h1, h2, h3, h4, h5, h6 {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Large screen optimizations */
+@media (min-width: 1280px) {
+  /* Better line height for large screens */
+  body {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1536px) {
+  /* Ultra-wide screen optimizations */
+  body {
+    font-size: 18px;
+  }
+  
+  /* Ensure content doesn't stretch too wide on very large screens */
+  .container-max-width {
+    max-width: 1600px;
+  }
+}
+
+/* Improve readability on large screens */
+@media (min-width: 1920px) {
+  html {
+    font-size: 18px;
+  }
+}

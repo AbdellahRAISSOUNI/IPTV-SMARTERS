@@ -148,8 +148,8 @@ const TestimonialsColumn = ({ className, testimonials, duration = 10 }: Testimon
 
 export default function TestimonialsSection() {
   return (
-    <section id="testimonials" className="py-12 lg:py-20 relative overflow-hidden bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <section id="testimonials" className="py-12 lg:py-20 xl:py-24 2xl:py-28 relative overflow-hidden bg-white">
+      <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 relative">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -158,7 +158,7 @@ export default function TestimonialsSection() {
           transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <motion.h2 
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-[#1a1a1a]"
+            className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold mb-4 xl:mb-6 2xl:mb-8 text-[#1a1a1a]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -167,7 +167,7 @@ export default function TestimonialsSection() {
             What Our <span className="text-[#2563eb]">Customers</span> Say
           </motion.h2>
           <motion.p 
-            className="text-[#1a1a1a]/70 text-lg max-w-3xl mx-auto leading-relaxed"
+            className="text-[#1a1a1a]/70 text-lg xl:text-xl 2xl:text-2xl max-w-3xl xl:max-w-4xl 2xl:max-w-5xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -184,7 +184,7 @@ export default function TestimonialsSection() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1], delay: 0.15 }}
         >
-          <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent_0%,black_20%,black_80%,transparent_100%)] max-h-[600px] overflow-hidden">
+          <div className="flex justify-center gap-6 xl:gap-8 2xl:gap-10 [mask-image:linear-gradient(to_bottom,transparent_0%,black_20%,black_80%,transparent_100%)] max-h-[600px] xl:max-h-[700px] 2xl:max-h-[800px] overflow-hidden">
             <TestimonialsColumn testimonials={firstColumn} duration={20} />
             <TestimonialsColumn
               testimonials={secondColumn}

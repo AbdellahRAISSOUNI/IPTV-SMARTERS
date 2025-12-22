@@ -215,8 +215,8 @@ export default function Home() {
       <DeviceCarousel />
 
       {/* Pricing Section */}
-      <section id="pricing" className="pt-8 pb-0 sm:pt-12 sm:pb-0 lg:pt-16 lg:pb-0 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="pricing" className="pt-8 pb-0 sm:pt-12 sm:pb-0 lg:pt-16 lg:pb-0 xl:pt-20 xl:pb-0 bg-white">
+        <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -226,7 +226,7 @@ export default function Home() {
           >
             {/* Red line */}
             <div className="w-16 h-0.5 bg-red-600 mx-auto mb-6"></div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 text-[#1a1a1a]">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold mb-8 xl:mb-12 2xl:mb-16 text-[#1a1a1a]">
               Our IPTV Subscription Prices
             </h2>
           </motion.div>
@@ -247,7 +247,7 @@ export default function Home() {
                 </span>
               </div>
             </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-6 xl:gap-8 2xl:gap-10">
               {pricingPlans.map((plan, index) => (
                 <PricingCard
                   key={index}
@@ -278,7 +278,7 @@ export default function Home() {
                 </span>
               </div>
             </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-6 xl:gap-8 2xl:gap-10">
               {premiumPlans.map((plan, index) => (
                 <PricingCard
                   key={index}
@@ -297,7 +297,7 @@ export default function Home() {
 
       {/* Payment Methods Section */}
       <section className="pt-2 pb-0 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -324,8 +324,8 @@ export default function Home() {
       <TestimonialsSection />
 
       {/* Channels Section */}
-      <section className="pt-2 pb-12 lg:pt-4 lg:pb-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-2 pb-12 lg:pt-4 lg:pb-16 xl:pt-6 xl:pb-20 2xl:pt-8 2xl:pb-24 bg-white">
+        <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -334,13 +334,13 @@ export default function Home() {
             className="text-center space-y-8"
           >
             {/* Heading */}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a1a1a]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-[#1a1a1a]">
               Channels from all over the world.
             </h2>
 
             {/* Image */}
-            <div className="flex justify-center py-4">
-              <div className="relative w-full max-w-2xl h-auto">
+            <div className="flex justify-center py-4 xl:py-6 2xl:py-8">
+              <div className="relative w-full max-w-2xl xl:max-w-4xl 2xl:max-w-5xl h-auto">
                 <Image
                   src="/asset-6.png"
                   alt="Worldwide channels coverage"
@@ -354,7 +354,7 @@ export default function Home() {
             </div>
 
             {/* Text */}
-            <p className="text-lg sm:text-xl text-[#1a1a1a]/70 max-w-2xl mx-auto font-bold">
+            <p className="text-lg sm:text-xl xl:text-2xl 2xl:text-3xl text-[#1a1a1a]/70 max-w-2xl xl:max-w-3xl 2xl:max-w-4xl mx-auto font-bold">
               Join more than 5,000 satisfied customers.
             </p>
 
@@ -369,7 +369,7 @@ export default function Home() {
                   y: -2
                 }}
                 whileTap={{ scale: 0.97 }}
-                className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] shadow-lg hover:shadow-xl hover:ring-2 hover:ring-[#2563eb]/30 py-3 px-8 rounded-lg font-semibold text-base sm:text-lg transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group mx-auto"
+                className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] shadow-lg hover:shadow-xl hover:ring-2 hover:ring-[#2563eb]/30 py-3 xl:py-4 2xl:py-5 px-8 xl:px-10 2xl:px-12 rounded-lg font-semibold text-base sm:text-lg xl:text-xl 2xl:text-2xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group mx-auto"
               >
                 <span>BUY NOW</span>
                 <Monitor className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:translate-x-1.5" />

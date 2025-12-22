@@ -137,8 +137,8 @@ export default function FAQSection() {
   const faqSchema = generateFAQSchema(faqData);
 
   return (
-    <section id="faq" className="pt-0 pb-0 bg-white">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="pt-0 pb-0 xl:pt-4 2xl:pt-6 bg-white">
+      <div className="max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         {/* Schema.org JSON-LD */}
         <script
           type="application/ld+json"
@@ -151,7 +151,7 @@ export default function FAQSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-3xl sm:text-4xl font-bold text-center mb-12 text-[#1a1a1a] font-heading"
+          className="text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-center mb-12 xl:mb-16 2xl:mb-20 text-[#1a1a1a] font-heading"
         >
           Frequently Asked Questions : IPTV Subscription
         </motion.h2>
@@ -171,7 +171,7 @@ export default function FAQSection() {
                 {/* Question Button */}
                 <button
                   onClick={() => toggleItem(index)}
-                  className={`w-full py-4 px-6 text-left flex items-center justify-between gap-4 transition-all duration-300 cursor-pointer ${
+                  className={`w-full py-4 xl:py-5 2xl:py-6 px-6 xl:px-8 2xl:px-10 text-left flex items-center justify-between gap-4 xl:gap-6 2xl:gap-8 transition-all duration-300 cursor-pointer ${
                     isOpen 
                       ? "bg-[#2563eb] text-white hover:bg-[#1d4ed8]" 
                       : "bg-white hover:bg-[#2563eb]/10"
@@ -179,7 +179,7 @@ export default function FAQSection() {
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${faq.id}`}
                 >
-                  <h3 className={`text-sm sm:text-base font-semibold font-heading pr-4 flex-1 ${
+                  <h3 className={`text-sm sm:text-base xl:text-lg 2xl:text-xl font-semibold font-heading pr-4 flex-1 ${
                     isOpen ? "text-white" : "text-[#1a1a1a]"
                   }`}>
                     {faq.question}
@@ -206,8 +206,8 @@ export default function FAQSection() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden bg-gradient-to-b from-white to-[#f8fafc]"
                     >
-                      <div className="px-6 py-5 border-l-4 border-[#2563eb] bg-white/50">
-                        <p className="text-[#1a1a1a]/80 leading-relaxed text-sm sm:text-base">
+                      <div className="px-6 xl:px-8 2xl:px-10 py-5 xl:py-6 2xl:py-8 border-l-4 border-[#2563eb] bg-white/50">
+                        <p className="text-[#1a1a1a]/80 leading-relaxed text-sm sm:text-base xl:text-lg 2xl:text-xl">
                           {faq.answer}
                         </p>
                       </div>

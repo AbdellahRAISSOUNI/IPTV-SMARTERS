@@ -118,16 +118,16 @@ export default function LogoCarousel({ images, size = "default", direction = "le
   }, []);
 
   const heightClass = size === "large" 
-    ? "h-[90px] sm:h-[110px] md:h-[130px] lg:h-[150px]" 
-    : "h-[60px] sm:h-[70px] md:h-[80px] lg:h-[90px]";
+    ? "h-[90px] sm:h-[110px] md:h-[130px] lg:h-[150px] xl:h-[170px] 2xl:h-[190px]" 
+    : "h-[60px] sm:h-[70px] md:h-[80px] lg:h-[90px] xl:h-[100px] 2xl:h-[110px]";
   
   const widthClass = size === "large"
-    ? "w-[180px] sm:w-[200px] md:w-[220px] lg:w-[250px]"
-    : "w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px]";
+    ? "w-[180px] sm:w-[200px] md:w-[220px] lg:w-[250px] xl:w-[280px] 2xl:w-[300px]"
+    : "w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px] xl:w-[220px] 2xl:w-[240px]";
 
   return (
-    <section className="py-0 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-0 xl:py-2 2xl:py-4 bg-white">
+      <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="relative">
           {/* Fade Edges */}
           <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
@@ -165,8 +165,8 @@ export default function LogoCarousel({ images, size = "default", direction = "le
                       alt={`Logo ${index + 1}`}
                       fill
                       sizes={size === "large" 
-                        ? "(max-width: 640px) 180px, (max-width: 768px) 200px, (max-width: 1024px) 220px, 250px"
-                        : "(max-width: 640px) 140px, (max-width: 768px) 160px, (max-width: 1024px) 180px, 200px"}
+                        ? "(max-width: 640px) 180px, (max-width: 768px) 200px, (max-width: 1024px) 220px, (max-width: 1280px) 250px, (max-width: 1536px) 280px, 300px"
+                        : "(max-width: 640px) 140px, (max-width: 768px) 160px, (max-width: 1024px) 180px, (max-width: 1280px) 200px, (max-width: 1536px) 220px, 240px"}
                       className="object-contain"
                       quality={90}
                     />

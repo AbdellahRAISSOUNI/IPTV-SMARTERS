@@ -35,7 +35,7 @@ export default function Footer() {
         backgroundSize: '50px 50px'
       }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 lg:py-4">
+      <div className="relative max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-3 lg:py-4 xl:py-6 2xl:py-8">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-2">
           {/* Brand Column */}

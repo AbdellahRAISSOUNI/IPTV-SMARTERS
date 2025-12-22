@@ -11,21 +11,21 @@ export default function HeroSection() {
       id="home"
       className="relative overflow-hidden bg-white pt-24 pb-0 sm:pt-24 sm:pb-0 md:pt-20 md:pb-0 lg:pt-20 lg:pb-0"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-6 sm:gap-8 md:gap-8 lg:gap-12 xl:gap-16 items-center">
+      <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-8 xl:px-12 2xl:px-16">
+        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-6 sm:gap-8 md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 items-center">
           {/* Left Column - Text Content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 md:pr-4 lg:pr-4 xl:pr-8"
+            className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 text-center md:text-left md:pr-4 lg:pr-4 xl:pr-8"
           >
             {/* Main Heading */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.05 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] xl:leading-[1.05] text-[#1a1a1a] font-heading tracking-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] xl:leading-[1.05] 2xl:leading-[1.05] text-[#1a1a1a] font-heading tracking-tight"
             >
               <span className="block underline decoration-[#2563eb] decoration-2 sm:decoration-2 md:decoration-3 lg:decoration-4 xl:decoration-[5px] underline-offset-2 sm:underline-offset-3 md:underline-offset-4 lg:underline-offset-4 xl:underline-offset-5 mb-1 sm:mb-1.5 md:mb-2">
                 Best IPTV Provider
@@ -40,7 +40,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.1 }}
-              className="text-sm sm:text-base md:text-sm lg:text-lg xl:text-xl text-[#1a1a1a]/80 leading-relaxed max-w-xl lg:max-w-lg"
+              className="text-sm sm:text-base md:text-sm lg:text-lg xl:text-xl 2xl:text-2xl text-[#1a1a1a]/80 leading-relaxed max-w-xl lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto md:mx-0"
             >
               Enjoy the Best IPTV Subscription, reliable and stable, with over{" "}
               <a href="#pricing" className="text-[#2563eb] hover:underline font-semibold">
@@ -66,7 +66,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.15 }}
-              className="pt-1 sm:pt-2"
+              className="pt-1 sm:pt-2 flex justify-center md:justify-start"
             >
               <motion.a
                 href="#pricing"
@@ -83,7 +83,7 @@ export default function HeroSection() {
                     });
                   }
                 }}
-                className="inline-flex items-center justify-center gap-2 sm:gap-3 px-5 py-2.5 sm:px-6 sm:py-3 md:px-6 md:py-3 lg:px-8 lg:py-4 bg-[#2563eb] text-white font-semibold rounded-lg shadow-lg hover:bg-[#1d4ed8] transition-all duration-200 text-sm sm:text-base md:text-sm lg:text-lg group w-full sm:w-auto cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 sm:gap-3 px-5 py-2.5 sm:px-6 sm:py-3 md:px-6 md:py-3 lg:px-8 lg:py-4 xl:px-10 xl:py-5 2xl:px-12 2xl:py-6 bg-[#2563eb] text-white font-semibold rounded-lg shadow-lg hover:bg-[#1d4ed8] transition-all duration-200 text-sm sm:text-base md:text-sm lg:text-lg xl:text-xl 2xl:text-2xl group w-full sm:w-auto cursor-pointer"
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >

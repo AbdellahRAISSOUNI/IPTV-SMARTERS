@@ -113,7 +113,7 @@ export default function Header() {
       } ${isVisible ? "translate-y-0" : "lg:-translate-y-full"}`}
     >
       <nav
-        className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8"
+        className="max-w-[1280px] xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16"
         aria-label="Main navigation"
       >
         <div className="flex items-center justify-between h-20">
@@ -352,7 +352,7 @@ export default function Header() {
             }}
             className="overflow-hidden bg-white md:hidden shadow-lg border-b border-[#e5e7eb]"
           >
-            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="max-w-[1280px] xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-6">
               <nav className="flex flex-col gap-2" aria-label="Mobile navigation">
                 {/* Home */}
                 <motion.a

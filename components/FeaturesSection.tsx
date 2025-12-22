@@ -59,10 +59,10 @@ const features: Feature[] = [
 
 export default function FeaturesSection() {
   return (
-    <section id="features" className="pt-12 pb-6 sm:pt-16 sm:pb-8 lg:pt-20 lg:pb-10 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="features" className="pt-12 pb-6 sm:pt-16 sm:pb-8 lg:pt-20 lg:pb-10 xl:pt-24 xl:pb-12 2xl:pt-28 2xl:pb-16 bg-white">
+      <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-18 xl:gap-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-12 lg:gap-18 xl:gap-20 2xl:gap-24">
           {features.map((feature, index) => (
             <motion.div
               key={feature.id}
@@ -82,12 +82,12 @@ export default function FeaturesSection() {
               </div>
 
               {/* Title */}
-              <h3 className="font-bold mb-5 text-[#1a1a1a] text-xl sm:text-xl lg:text-2xl tracking-tight">
+              <h3 className="font-bold mb-5 xl:mb-6 2xl:mb-8 text-[#1a1a1a] text-xl sm:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl tracking-tight">
                 {feature.title}
               </h3>
 
               {/* Description */}
-              <p className="text-[#1a1a1a]/75 leading-relaxed text-base sm:text-lg lg:text-lg max-w-lg mx-auto font-bold">
+              <p className="text-[#1a1a1a]/75 leading-relaxed text-base sm:text-lg lg:text-lg xl:text-xl 2xl:text-2xl max-w-lg xl:max-w-xl 2xl:max-w-2xl mx-auto font-bold">
                 {feature.description}
               </p>
             </motion.div>
@@ -102,7 +102,7 @@ export default function FeaturesSection() {
           transition={{ duration: 0.3, delay: 0.2 }}
           className="mt-8 lg:mt-10 flex justify-center"
         >
-          <div className="relative w-full max-w-3xl h-auto">
+          <div className="relative w-full max-w-3xl xl:max-w-4xl 2xl:max-w-5xl h-auto">
             <Image
               src="/images/trust.png-1536x61.webp"
               alt="Trust badges and certifications"
