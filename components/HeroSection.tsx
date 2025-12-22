@@ -1,11 +1,38 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function HeroSection() {
   const { t } = useLanguage();
+  const [isMobile, setIsMobile] = useState(true); // Default to mobile for faster initial render
+  const [shouldLoadImage, setShouldLoadImage] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      // On mobile, delay image loading to let text be LCP
+      if (mobile) {
+        // Use requestIdleCallback or setTimeout to defer image load
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => {
+            setShouldLoadImage(true);
+          }, { timeout: 500 });
+        } else {
+          setTimeout(() => setShouldLoadImage(true), 300);
+        }
+      } else {
+        setShouldLoadImage(true);
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <section
@@ -14,7 +41,7 @@ export default function HeroSection() {
     >
       <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-8 xl:px-12 2xl:px-16">
         <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-6 sm:gap-8 md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 items-center">
-          {/* Left Column - Text Content */}
+          {/* Left Column - Text Content - This should be LCP on mobile */}
           <div className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 text-center md:text-left md:pr-4 lg:pr-4 xl:pr-8">
             {/* Main Heading */}
             <h1 className="text-[1.575rem] sm:text-[1.96875rem] md:text-[2.3625rem] lg:text-[2.3625rem] xl:text-[3.15rem] 2xl:text-[3.9375rem] font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] xl:leading-[1.05] 2xl:leading-[1.05] text-[#1a1a1a] font-heading tracking-tight">
@@ -73,22 +100,24 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column - Image */}
+          {/* Right Column - Image - Deferred on mobile to improve LCP */}
           <div className="relative w-full flex items-center justify-center md:justify-end mt-1 sm:mt-2 md:mt-0">
             <div className="relative w-full max-w-full aspect-[4/3] sm:aspect-[4/3] md:aspect-[5/4] lg:aspect-[6/5] xl:aspect-[5/4] flex items-center justify-center overflow-visible lg:overflow-hidden">
               <div className="relative w-full h-full sm:w-[100%] sm:h-[100%] md:w-[100%] md:h-[100%] lg:w-[140%] lg:h-[140%] xl:w-[150%] xl:h-[150%] 2xl:w-[160%] 2xl:h-[160%] flex items-center justify-center">
-                <Image
-                  src="/images/hero.png"
-                  alt="Premium IPTV Streaming Service - Watch on all devices"
-                  fill
-                  className="object-contain"
-                  priority
-                  fetchPriority="high"
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 70vw"
-                  quality={45}
-                  loading="eager"
-                  decoding="async"
-                />
+                {shouldLoadImage && (
+                  <Image
+                    src="/images/hero.png"
+                    alt="Premium IPTV Streaming Service - Watch on all devices"
+                    fill
+                    className="object-contain"
+                    priority={!isMobile}
+                    fetchPriority={isMobile ? "low" : "high"}
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 70vw"
+                    quality={isMobile ? 40 : 45}
+                    loading={isMobile ? "lazy" : "eager"}
+                    decoding="async"
+                  />
+                )}
               </div>
             </div>
           </div>

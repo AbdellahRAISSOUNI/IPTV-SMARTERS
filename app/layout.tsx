@@ -184,20 +184,28 @@ export default function RootLayout({
                 if (localeMatch) {
                   document.documentElement.lang = localeMatch[1];
                 }
-                // Defer CSS loading to improve FCP - load CSS asynchronously
-                const isMobile = window.innerWidth < 768;
-                if (isMobile) {
-                  // On mobile, defer CSS loading slightly
-                  const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
-                  stylesheets.forEach(link => {
-                    link.media = 'print';
-                    link.onload = function() { this.media = 'all'; };
-                    // Fallback for browsers that don't support onload
-                    setTimeout(function() {
-                      link.media = 'all';
-                    }, 50);
-                  });
-                }
+                // Defer CSS loading to improve FCP - load CSS asynchronously on all devices
+                const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+                stylesheets.forEach(link => {
+                  const originalHref = link.href;
+                  // Create a new link element for async loading
+                  const asyncLink = document.createElement('link');
+                  asyncLink.rel = 'stylesheet';
+                  asyncLink.href = originalHref;
+                  asyncLink.media = 'print';
+                  asyncLink.onload = function() { 
+                    this.media = 'all';
+                    // Remove the blocking stylesheet
+                    link.remove();
+                  };
+                  // Fallback
+                  setTimeout(function() {
+                    asyncLink.media = 'all';
+                    link.remove();
+                  }, 100);
+                  // Insert async stylesheet
+                  document.head.insertBefore(asyncLink, link.nextSibling);
+                });
               })();
             `,
           }}
@@ -246,6 +254,15 @@ export default function RootLayout({
         />
         {/* Preload hero image - only on desktop to avoid blocking mobile */}
         <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" media="(min-width: 768px)" />
+        {/* Critical CSS inline for faster FCP */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            body{font-family:system-ui,-apple-system,sans-serif;color:#1a1a1a;background:#fff}
+            h1,h2,h3,h4,h5,h6{font-family:system-ui,-apple-system,sans-serif;font-weight:700}
+            #home{position:relative;overflow:hidden;background:#fff;padding-top:6rem}
+            .max-w-7xl{max-width:80rem;margin:0 auto;padding:0 1rem}
+          `
+        }} />
       </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}
