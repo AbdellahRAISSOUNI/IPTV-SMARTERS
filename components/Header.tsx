@@ -4,8 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Header() {
+  const { t, locale } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -79,14 +81,15 @@ export default function Header() {
     };
   }, [isDesktopInstallationOpen]);
 
-  // Installation dropdown links (4 options as in design)
+  // Installation dropdown links (5 options: "How to install?" first, then 4 device-specific options)
   const installationLinks = [
-    { href: "/installation/apple-ios", label: "Apple/iOS" },
-    { href: "/installation/smart-tv", label: "Smart TV (Samsung/LG)" },
-    { href: "/installation/windows", label: "Windows" },
+    { href: `/${locale}/installation`, label: t("installation.howToInstall") },
+    { href: `/${locale}/installation/apple-ios`, label: t("installation.appleIos") },
+    { href: `/${locale}/installation/smart-tv`, label: t("installation.smartTv") },
+    { href: `/${locale}/installation/windows`, label: t("installation.windows") },
     {
-      href: "/installation/firestick-android-ios",
-      label: "FireStick, Android & iOS",
+      href: `/${locale}/installation/firestick-android-ios`,
+      label: t("installation.firestickAndroid"),
     },
   ];
 
@@ -205,11 +208,6 @@ export default function Header() {
                     transition={{ duration: 0.18 }}
                     className="absolute top-full left-0 mt-3 w-60 rounded-xl bg-black text-white shadow-2xl border border-white/10 py-3 z-50"
                   >
-                    {/* Static title row (not clickable) */}
-                    <div className="px-5 pb-2 text-sm font-semibold tracking-wide uppercase text-white/60">
-                      Installation
-                    </div>
-
                     {installationLinks.map((link) => (
                       <a
                         key={link.href}
