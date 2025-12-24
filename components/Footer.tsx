@@ -82,14 +82,14 @@ export default function Footer() {
                 className="inline-flex items-center gap-2.5 px-5 py-3 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-[#25D366]/30 hover:scale-[1.02] group"
               >
                 <MessageCircle className="w-5 h-5" />
-                <span>WhatsApp</span>
+                <span>{t("common.whatsapp")}</span>
               </a>
               <a
                 href={`mailto:${contactEmail}`}
                 className="inline-flex items-center gap-2.5 px-5 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-white/10 hover:scale-[1.02] group border border-white/20 hover:border-white/30"
               >
                 <Mail className="w-5 h-5" />
-                <span>Email</span>
+                <span>{t("common.email")}</span>
               </a>
             </div>
           </motion.div>

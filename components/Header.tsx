@@ -161,7 +161,7 @@ export default function Header() {
               onClick={(e) => handleNavClick(e, "#home")}
               className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group"
             >
-              Home
+              {t("common.home")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563eb] transition-all duration-300 group-hover:w-full" />
             </motion.a>
 
@@ -171,7 +171,7 @@ export default function Header() {
               onClick={(e) => handleNavClick(e, "#pricing")}
               className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group"
             >
-              Pricing
+              {t("common.pricing")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563eb] transition-all duration-300 group-hover:w-full" />
             </motion.a>
 
@@ -189,7 +189,7 @@ export default function Header() {
                 className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group flex items-center gap-1 cursor-pointer"
                 whileHover={{ scale: 1.02 }}
               >
-                Installation
+                {t("common.installation")}
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-200 ${
                     isDesktopInstallationOpen ? "rotate-180" : ""
@@ -228,7 +228,7 @@ export default function Header() {
               href="/revendeur"
               className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group"
             >
-              IPTV Reseller
+              {t("common.iptvReseller")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563eb] transition-all duration-300 group-hover:w-full" />
             </motion.a>
 
@@ -237,7 +237,7 @@ export default function Header() {
               href="/blog"
               className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group"
             >
-              Blog
+              {t("common.blog")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563eb] transition-all duration-300 group-hover:w-full" />
             </motion.a>
 
@@ -247,7 +247,7 @@ export default function Header() {
               onClick={(e) => handleNavClick(e, "#faq")}
               className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group"
             >
-              FAQ
+              {t("common.faq")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563eb] transition-all duration-300 group-hover:w-full" />
             </motion.a>
 
@@ -257,7 +257,7 @@ export default function Header() {
               onClick={(e) => handleNavClick(e, "#cta")}
               className="relative font-medium text-[#2563eb] hover:text-[#1d4ed8] transition-colors duration-200 group"
             >
-              Contact Us
+              {t("common.contactUs")}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2563eb] transition-all duration-300 group-hover:w-full" />
             </motion.a>
           </div>
@@ -281,7 +281,7 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Get IPTV Now
+              {t("common.getIptvNow")}
             </motion.button>
           </div>
 
@@ -373,7 +373,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1, duration: 0.2 }}
                 >
-                  Home
+                  {t("common.home")}
                 </motion.a>
 
                 {/* Pricing */}
@@ -385,7 +385,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.14, duration: 0.2 }}
                 >
-                  Pricing
+                  {t("common.pricing")}
                 </motion.a>
 
                 {/* Installation Dropdown */}
@@ -399,7 +399,7 @@ export default function Header() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.18, duration: 0.2 }}
                   >
-                    <span>Installation</span>
+                    <span>{t("common.installation")}</span>
                     <ChevronDown
                       className={`w-4 h-4 transition-transform duration-200 ${
                         isMobileInstallationOpen ? "rotate-180" : ""
@@ -442,7 +442,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.22, duration: 0.2 }}
                 >
-                  IPTV Reseller
+                  {t("common.iptvReseller")}
                 </motion.a>
 
                 {/* Blog */}
@@ -454,7 +454,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.26, duration: 0.2 }}
                 >
-                  Blog
+                  {t("common.blog")}
                 </motion.a>
 
                 {/* FAQ */}
@@ -466,7 +466,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3, duration: 0.2 }}
                 >
-                  FAQ
+                  {t("common.faq")}
                 </motion.a>
 
                 {/* Contact (Blue color) */}
@@ -478,7 +478,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.34, duration: 0.2 }}
                 >
-                  Contact Us
+                  {t("common.contactUs")}
                 </motion.a>
 
                 {/* Mobile CTA Button */}
@@ -510,7 +510,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.38, duration: 0.2 }}
                 >
-                  Get IPTV Now
+                  {t("common.getIptvNow")}
                 </motion.button>
               </nav>
             </div>
