@@ -34,7 +34,13 @@ export default function Home() {
   // Detect mobile and defer non-critical resources
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
-    window.scrollTo(0, 0);
+    
+    // Note: ScrollToTop component handles hash navigation on route changes
+    // This only handles initial page load without hash (scroll to top)
+    const hash = window.location.hash;
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
     
     // On mobile, defer loading of heavy components
     if (window.innerWidth < 768) {

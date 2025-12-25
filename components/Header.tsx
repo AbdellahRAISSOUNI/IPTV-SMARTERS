@@ -4,10 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Header() {
   const { t, locale } = useLanguage();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,6 +19,9 @@ export default function Header() {
     useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const lastScrollY = useRef(0);
+
+  // Check if we're on the home page
+  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -96,17 +101,25 @@ export default function Header() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     
-    // Calculate scroll position first (before closing menu)
+    // Close mobile menu
+    setIsMobileMenuOpen(false);
+    
+    // If we're not on the home page, navigate to home page with hash
+    if (!isHomePage) {
+      const homeUrl = `/${locale}${href}`;
+      // Use window.location for static export compatibility
+      window.location.href = homeUrl;
+      return;
+    }
+    
+    // If we're on the home page, just scroll to the element
     const element = document.querySelector(href);
     if (element) {
       const headerHeight = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
       
-      // Close mobile menu and scroll immediately
-      setIsMobileMenuOpen(false);
-      
-      // Use requestAnimationFrame for smoother scroll (minimal delay)
+      // Use requestAnimationFrame for smoother scroll
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           window.scrollTo({
@@ -115,9 +128,6 @@ export default function Header() {
           });
         });
       });
-    } else {
-      // If element not found, just close menu
-      setIsMobileMenuOpen(false);
     }
   };
 
@@ -134,8 +144,11 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <motion.a
-            href="#home"
-            onClick={(e) => handleNavClick(e, "#home")}
+            href={`/${locale}`}
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = `/${locale}`;
+            }}
             className="flex items-center"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -266,6 +279,12 @@ export default function Header() {
           <div className="hidden lg:block">
             <motion.button
               onClick={() => {
+                if (!isHomePage) {
+                  const homeUrl = `/${locale}#pricing`;
+                  window.location.href = homeUrl;
+                  return;
+                }
+                
                 const element = document.querySelector("#pricing");
                 if (element) {
                   const headerHeight = 80;
@@ -484,13 +503,19 @@ export default function Header() {
                 {/* Mobile CTA Button */}
                 <motion.button
                   onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    
+                    if (!isHomePage) {
+                      const homeUrl = `/${locale}#pricing`;
+                      window.location.href = homeUrl;
+                      return;
+                    }
+                    
                     const element = document.querySelector("#pricing");
                     if (element) {
                       const headerHeight = 80;
                       const elementPosition = element.getBoundingClientRect().top;
                       const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-                      
-                      setIsMobileMenuOpen(false);
                       
                       // Use requestAnimationFrame for smoother scroll (minimal delay)
                       requestAnimationFrame(() => {
@@ -501,8 +526,6 @@ export default function Header() {
                           });
                         });
                       });
-                    } else {
-                      setIsMobileMenuOpen(false);
                     }
                   }}
                   className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] px-6 py-3 text-sm font-semibold tracking-wide text-white shadow-md hover:shadow-lg hover:from-[#1d4ed8] hover:to-[#1e40af] transition-all duration-150 cursor-pointer"

@@ -142,7 +142,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
   return { organizationSchema, productSchema };
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
