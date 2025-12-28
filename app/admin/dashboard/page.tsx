@@ -3,19 +3,17 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Languages,
   LogOut,
   Save,
   Loader2,
   Check,
   X,
-  Globe,
   Home,
   DollarSign,
+  Users,
   Settings as SettingsIcon,
   Eye,
   EyeOff,
-  Sparkles,
 } from "lucide-react";
 
 interface Translations {
@@ -151,8 +149,8 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-white animate-spin" />
+      <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-black animate-spin" />
       </div>
     );
   }
@@ -164,26 +162,38 @@ export default function AdminDashboard() {
   const currentContent = translations[activeLocale]?.content;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
+    <div className="min-h-screen bg-[#fafafa]">
       {/* Header */}
-      <header className="bg-white/10 backdrop-blur-lg border-b border-white/20 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#2563eb] to-[#1d4ed8] rounded-xl flex items-center justify-center shadow-lg">
-                <Sparkles className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-white">Website Editor</h1>
-                <p className="text-sm text-gray-400">Edit your IPTV website visually</p>
-              </div>
+            <div>
+              <h1 className="text-xl font-medium text-black">Website Editor</h1>
+              <p className="text-sm text-gray-500 font-light mt-0.5">Edit and manage your IPTV website</p>
             </div>
 
             <div className="flex items-center gap-3">
+              {/* Language Selector */}
+              <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+                {Object.keys(translations).map((locale) => (
+                  <button
+                    key={locale}
+                    onClick={() => setActiveLocale(locale)}
+                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+                      activeLocale === locale
+                        ? "bg-white text-black shadow-sm"
+                        : "text-gray-600 hover:text-black"
+                    }`}
+                  >
+                    {locale.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+
               {/* Preview Toggle */}
               <button
                 onClick={() => setShowPreview(!showPreview)}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg transition-colors border border-white/20"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-lg transition-all"
               >
                 {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 <span>{showPreview ? "Hide" : "Preview"}</span>
@@ -193,7 +203,7 @@ export default function AdminDashboard() {
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] hover:from-[#1d4ed8] hover:to-[#1e40af] text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-black hover:bg-gray-900 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSaving ? (
                   <>
@@ -203,7 +213,7 @@ export default function AdminDashboard() {
                 ) : saveStatus === "success" ? (
                   <>
                     <Check className="w-4 h-4" />
-                    <span>Saved!</span>
+                    <span>Saved</span>
                   </>
                 ) : saveStatus === "error" ? (
                   <>
@@ -218,56 +228,30 @@ export default function AdminDashboard() {
                 )}
               </button>
 
-              {/* Logout Button */}
+              {/* Logout */}
               <button
                 onClick={handleLogout}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 font-semibold rounded-lg transition-colors border border-red-500/30"
+                className="inline-flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-black font-medium rounded-lg transition-all"
               >
                 <LogOut className="w-4 h-4" />
-                <span>Logout</span>
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid grid-cols-12 gap-6">
           {/* Sidebar */}
           <div className="col-span-3">
-            {/* Language Selector */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 mb-6">
-              <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
-                <Globe className="w-4 h-4" />
-                Language
-              </h3>
-              <div className="space-y-2">
-                {Object.keys(translations).map((locale) => (
-                  <button
-                    key={locale}
-                    onClick={() => setActiveLocale(locale)}
-                    className={`w-full px-4 py-2 rounded-lg font-semibold transition-all ${
-                      activeLocale === locale
-                        ? "bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] text-white shadow-lg"
-                        : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
-                    }`}
-                  >
-                    {locale.toUpperCase()}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Section Navigator */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-              <h3 className="text-white font-semibold mb-3">Edit Section</h3>
-              <div className="space-y-2">
+            <div className="bg-white rounded-xl border border-gray-200 p-2">
+              <nav className="space-y-1">
                 <button
                   onClick={() => setActiveSection("hero")}
-                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
                     activeSection === "hero"
-                      ? "bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] text-white shadow-lg"
-                      : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+                      ? "bg-black text-white"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
                   <Home className="w-4 h-4" />
@@ -275,10 +259,10 @@ export default function AdminDashboard() {
                 </button>
                 <button
                   onClick={() => setActiveSection("pricing")}
-                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
                     activeSection === "pricing"
-                      ? "bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] text-white shadow-lg"
-                      : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+                      ? "bg-black text-white"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
                   <DollarSign className="w-4 h-4" />
@@ -286,304 +270,351 @@ export default function AdminDashboard() {
                 </button>
                 <button
                   onClick={() => setActiveSection("reseller")}
-                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
                     activeSection === "reseller"
-                      ? "bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] text-white shadow-lg"
-                      : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+                      ? "bg-black text-white"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
-                  <Languages className="w-4 h-4" />
+                  <Users className="w-4 h-4" />
                   Reseller Page
                 </button>
                 <button
                   onClick={() => setActiveSection("settings")}
-                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
                     activeSection === "settings"
-                      ? "bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] text-white shadow-lg"
-                      : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+                      ? "bg-black text-white"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
                   <SettingsIcon className="w-4 h-4" />
                   Settings
                 </button>
-              </div>
+              </nav>
             </div>
           </div>
 
           {/* Main Editor */}
           <div className="col-span-9">
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              {currentContent && (
-                <>
-                  {/* Hero Section Editor */}
-                  {activeSection === "hero" && (
-                    <div className="space-y-6">
-                      <div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Homepage Editor</h2>
-                        <p className="text-gray-400">Edit your homepage hero section</p>
-                      </div>
+            {currentContent && (
+              <>
+                {/* Hero Section Editor */}
+                {activeSection === "hero" && (
+                  <div className="space-y-6">
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h2 className="text-2xl font-medium text-black mb-1">Homepage Hero</h2>
+                      <p className="text-gray-500 text-sm mb-6">Edit your homepage hero section</p>
 
-                      <div className="space-y-4">
-                        {/* Hero Title */}
+                      <div className="space-y-5">
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
                             Main Heading
                           </label>
                           <input
                             type="text"
                             value={getValue("hero.title")}
                             onChange={(e) => updateValue("hero.title", e.target.value)}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent text-lg font-semibold"
+                            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-lg font-medium"
                           />
                         </div>
 
-                        {/* Hero Subtitle Parts */}
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
                               Subtitle Part 1
                             </label>
                             <input
                               type="text"
                               value={getValue("hero.subtitlePart1")}
                               onChange={(e) => updateValue("hero.subtitlePart1", e.target.value)}
-                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent"
+                              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
-                              Subtitle Part 2 (Highlighted)
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Subtitle Part 2 <span className="text-blue-600">(Highlighted)</span>
                             </label>
                             <input
                               type="text"
                               value={getValue("hero.subtitlePart2")}
                               onChange={(e) => updateValue("hero.subtitlePart2", e.target.value)}
-                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-blue-400 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent font-semibold"
+                              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-blue-600 font-medium focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                             />
                           </div>
                         </div>
 
-                        {/* Hero Description */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
                             Description
                           </label>
                           <textarea
                             value={getValue("hero.description")}
                             onChange={(e) => updateValue("hero.description", e.target.value)}
                             rows={4}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent resize-none"
+                            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
                           />
                         </div>
-
-                        {/* Preview Card */}
-                        {showPreview && (
-                          <div className="mt-6 p-6 bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10 rounded-xl">
-                            <p className="text-xs text-gray-400 mb-3">PREVIEW</p>
-                            <h1 className="text-3xl font-bold text-white mb-3">
-                              <span className="underline decoration-blue-500">{getValue("hero.title")}</span>
-                              <br />
-                              <span className="mt-2 block">
-                                {getValue("hero.subtitlePart1")}{" "}
-                                <span className="text-blue-400">{getValue("hero.subtitlePart2")}</span>
-                              </span>
-                            </h1>
-                            <p className="text-gray-300">{getValue("hero.description")}</p>
-                          </div>
-                        )}
                       </div>
                     </div>
-                  )}
 
-                  {/* Pricing Section Editor */}
-                  {activeSection === "pricing" && (
-                    <div className="space-y-6">
-                      <div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Pricing Plans Editor</h2>
-                        <p className="text-gray-400">Edit your pricing section and plan features</p>
+                    {/* Preview */}
+                    {showPreview && (
+                      <div className="bg-white rounded-xl border border-gray-200 p-6">
+                        <p className="text-xs text-gray-500 mb-4 uppercase tracking-wide">Preview</p>
+                        <h1 className="text-4xl font-bold text-black mb-3">
+                          <span className="underline decoration-blue-600">{getValue("hero.title")}</span>
+                          <br />
+                          <span className="mt-2 block">
+                            {getValue("hero.subtitlePart1")}{" "}
+                            <span className="text-blue-600">{getValue("hero.subtitlePart2")}</span>
+                          </span>
+                        </h1>
+                        <p className="text-gray-600 leading-relaxed">{getValue("hero.description")}</p>
                       </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Pricing Section Editor */}
+                {activeSection === "pricing" && (
+                  <div className="space-y-6">
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h2 className="text-2xl font-medium text-black mb-1">Pricing Plans</h2>
+                      <p className="text-gray-500 text-sm mb-6">Edit your pricing section and features</p>
 
                       <div className="space-y-6">
-                        {/* Pricing Title */}
+                        {/* Section Title */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
                             Section Title
                           </label>
                           <input
                             type="text"
                             value={getValue("pricing.title")}
                             onChange={(e) => updateValue("pricing.title", e.target.value)}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent text-lg font-semibold"
+                            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-lg font-medium"
                           />
                         </div>
 
                         {/* Plan Labels */}
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
                               Standard Plans Label
                             </label>
                             <input
                               type="text"
                               value={getValue("pricing.oneConnection")}
                               onChange={(e) => updateValue("pricing.oneConnection", e.target.value)}
-                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent"
+                              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
                               Premium Plans Label
                             </label>
                             <input
                               type="text"
                               value={getValue("pricing.premiumPlans")}
                               onChange={(e) => updateValue("pricing.premiumPlans", e.target.value)}
-                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent"
+                              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                             />
                           </div>
                         </div>
 
-                        {/* Features List */}
+                        {/* Features */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
-                            Plan Features (one per line)
+                          <label className="block text-sm font-medium text-gray-700 mb-3">
+                            Plan Features
                           </label>
-                          <div className="space-y-2">
+                          <div className="grid grid-cols-2 gap-3">
                             {[
-                              "instantActivation",
-                              "freeUpdates",
-                              "liveChannels",
-                              "moviesSeries",
-                              "antiFreezing",
-                              "quality",
-                              "fastStable",
-                              "formats",
-                              "compatible",
-                              "serverAvailable",
-                              "support"
+                              { key: "instantActivation", label: "Instant Activation" },
+                              { key: "freeUpdates", label: "Free Updates" },
+                              { key: "liveChannels", label: "Live Channels" },
+                              { key: "moviesSeries", label: "Movies & Series" },
+                              { key: "adultContent", label: "Adult Content" },
+                              { key: "antiFreezing", label: "Anti-Freezing" },
+                              { key: "quality", label: "Quality" },
+                              { key: "fastStable", label: "Fast & Stable" },
+                              { key: "formats", label: "Formats" },
+                              { key: "compatible", label: "Compatible" },
+                              { key: "serverAvailable", label: "Server Available" },
+                              { key: "support", label: "24/7 Support" },
+                              { key: "freeMonth", label: "Free Month" },
+                              { key: "freeMonths", label: "Free Months" },
                             ].map((feature) => (
-                              <input
-                                key={feature}
-                                type="text"
-                                value={getValue(`pricing.${feature}`)}
-                                onChange={(e) => updateValue(`pricing.${feature}`, e.target.value)}
-                                className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent text-sm"
-                                placeholder={feature}
-                              />
+                              <div key={feature.key}>
+                                <input
+                                  type="text"
+                                  value={getValue(`pricing.${feature.key}`)}
+                                  onChange={(e) => updateValue(`pricing.${feature.key}`, e.target.value)}
+                                  placeholder={feature.label}
+                                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                                />
+                              </div>
                             ))}
                           </div>
                         </div>
                       </div>
                     </div>
-                  )}
 
-                  {/* Reseller Section Editor */}
-                  {activeSection === "reseller" && (
-                    <div className="space-y-6">
-                      <div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Reseller Page Editor</h2>
-                        <p className="text-gray-400">Edit your reseller program page content</p>
-                      </div>
+                    {/* Preview - Pricing Cards */}
+                    {showPreview && (
+                      <div className="bg-white rounded-xl border border-gray-200 p-6">
+                        <p className="text-xs text-gray-500 mb-4 uppercase tracking-wide">Preview</p>
+                        
+                        {/* Standard Plans */}
+                        <div className="mb-8">
+                          <div className="inline-block px-4 py-2 bg-gray-100 rounded-lg mb-4">
+                            <span className="text-sm font-semibold text-gray-900">{getValue("pricing.oneConnection")}</span>
+                          </div>
+                          <div className="grid grid-cols-4 gap-4">
+                            {["3 Months - €19.99", "6 Months - €29.99", "12 Months - €39.99", "24 Months - €54.99"].map((plan, i) => (
+                              <div key={i} className="border border-gray-200 rounded-lg p-4">
+                                <h3 className="font-semibold text-gray-900 mb-2">{plan}</h3>
+                                <div className="space-y-1">
+                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.instantActivation")}</p>
+                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.liveChannels")}</p>
+                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.quality")}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
 
-                      <div className="space-y-4">
-                        {/* Hero Title */}
+                        {/* Premium Plans */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
+                          <div className="inline-block px-4 py-2 bg-gray-100 rounded-lg mb-4">
+                            <span className="text-sm font-semibold text-gray-900">{getValue("pricing.premiumPlans")}</span>
+                          </div>
+                          <div className="grid grid-cols-4 gap-4">
+                            {["3 Months - €29.99", "6 Months - €39.99", "12 Months - €59.99", "24 Months - €89.99"].map((plan, i) => (
+                              <div key={i} className="border border-gray-200 rounded-lg p-4">
+                                <h3 className="font-semibold text-gray-900 mb-2">{plan}</h3>
+                                <div className="space-y-1">
+                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.adultContent")}</p>
+                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.liveChannels")}</p>
+                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.quality")}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Reseller Section Editor */}
+                {activeSection === "reseller" && (
+                  <div className="space-y-6">
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h2 className="text-2xl font-medium text-black mb-1">Reseller Page</h2>
+                      <p className="text-gray-500 text-sm mb-6">Edit your reseller program page</p>
+
+                      <div className="space-y-5">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
                             Hero Title
                           </label>
                           <textarea
                             value={getValue("reseller.heroTitle")}
                             onChange={(e) => updateValue("reseller.heroTitle", e.target.value)}
                             rows={2}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent resize-none text-lg font-semibold"
+                            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none text-lg font-medium"
                           />
                         </div>
 
-                        {/* Hero Subtitle */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
                             Hero Subtitle
                           </label>
                           <textarea
                             value={getValue("reseller.heroSubtitle")}
                             onChange={(e) => updateValue("reseller.heroSubtitle", e.target.value)}
                             rows={3}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent resize-none"
+                            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
                           />
                         </div>
 
-                        {/* CTA Button */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
-                            Call-to-Action Button Text
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Call-to-Action Button
                           </label>
                           <input
                             type="text"
                             value={getValue("reseller.heroButton")}
                             onChange={(e) => updateValue("reseller.heroButton", e.target.value)}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent"
+                            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                           />
                         </div>
                       </div>
                     </div>
-                  )}
 
-                  {/* Settings Section Editor */}
-                  {activeSection === "settings" && (
-                    <div className="space-y-6">
-                      <div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Website Settings</h2>
-                        <p className="text-gray-400">Edit global website settings and labels</p>
+                    {/* Preview */}
+                    {showPreview && (
+                      <div className="bg-white rounded-xl border border-gray-200 p-6">
+                        <p className="text-xs text-gray-500 mb-4 uppercase tracking-wide">Preview</p>
+                        <h1 className="text-3xl font-bold text-black mb-3">{getValue("reseller.heroTitle")}</h1>
+                        <p className="text-gray-600 mb-4 leading-relaxed">{getValue("reseller.heroSubtitle")}</p>
+                        <button className="px-6 py-3 bg-black text-white rounded-lg font-medium">
+                          {getValue("reseller.heroButton")}
+                        </button>
                       </div>
+                    )}
+                  </div>
+                )}
 
-                      <div className="space-y-4">
-                        {/* Common Labels */}
+                {/* Settings Section Editor */}
+                {activeSection === "settings" && (
+                  <div className="space-y-6">
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h2 className="text-2xl font-medium text-black mb-1">Website Settings</h2>
+                      <p className="text-gray-500 text-sm mb-6">Edit global labels and navigation</p>
+
+                      <div className="space-y-5">
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
-                            Navigation Labels
+                          <label className="block text-sm font-medium text-gray-700 mb-3">
+                            Navigation Menu
                           </label>
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="grid grid-cols-3 gap-3">
                             {["home", "pricing", "features", "faq", "contact", "blog", "iptvReseller"].map((label) => (
-                              <div key={label}>
-                                <input
-                                  type="text"
-                                  value={getValue(`common.${label}`)}
-                                  onChange={(e) => updateValue(`common.${label}`, e.target.value)}
-                                  className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent text-sm"
-                                  placeholder={label}
-                                />
-                                <p className="text-xs text-gray-500 mt-1">{label}</p>
-                              </div>
+                              <input
+                                key={label}
+                                type="text"
+                                value={getValue(`common.${label}`)}
+                                onChange={(e) => updateValue(`common.${label}`, e.target.value)}
+                                placeholder={label}
+                                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                              />
                             ))}
                           </div>
                         </div>
 
-                        {/* Button Labels */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-3">
                             Button Labels
                           </label>
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="grid grid-cols-3 gap-3">
                             {["viewOffers", "whatsapp", "email", "freeTest"].map((label) => (
-                              <div key={label}>
-                                <input
-                                  type="text"
-                                  value={getValue(`common.${label}`)}
-                                  onChange={(e) => updateValue(`common.${label}`, e.target.value)}
-                                  className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent text-sm"
-                                  placeholder={label}
-                                />
-                                <p className="text-xs text-gray-500 mt-1">{label}</p>
-                              </div>
+                              <input
+                                key={label}
+                                type="text"
+                                value={getValue(`common.${label}`)}
+                                onChange={(e) => updateValue(`common.${label}`, e.target.value)}
+                                placeholder={label}
+                                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                              />
                             ))}
                           </div>
                         </div>
                       </div>
                     </div>
-                  )}
-                </>
-              )}
-            </div>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
