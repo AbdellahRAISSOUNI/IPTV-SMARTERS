@@ -101,9 +101,9 @@ export default function Footer() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.3, delay: 0.05 }}
           >
-            <h4 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
+            <h2 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
               {t("footer.quickLinks")}
-            </h4>
+            </h2>
             <nav className="flex flex-col space-y-1.5" aria-label="Footer navigation">
               {[
                 { href: "#home", label: t("common.home"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#home") },
@@ -144,9 +144,9 @@ export default function Footer() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <h4 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
+            <h2 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
               {t("footer.legal")}
-            </h4>
+            </h2>
             <nav className="flex flex-col space-y-1.5 mb-4" aria-label="Legal links">
               {[
                 { href: "/privacy-policy", label: t("common.privacyPolicy") },
@@ -166,9 +166,9 @@ export default function Footer() {
             
             {/* Payment Methods - Under Legal */}
             <div>
-              <h4 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
+              <h2 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
                 {t("footer.paymentMethods")}
-              </h4>
+              </h2>
               <div className="relative w-full max-w-[160px] h-auto opacity-80 hover:opacity-100 transition-opacity duration-200 bg-white/5 p-1.5 rounded-lg backdrop-blur-sm border border-white/10">
                 <Image
                   src="/images/Methode-de-paiment.webp"

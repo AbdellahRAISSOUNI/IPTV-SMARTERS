@@ -67,6 +67,17 @@ export default function FeaturesSection() {
   return (
     <section id="features" className="pt-12 pb-6 sm:pt-16 sm:pb-8 lg:pt-20 lg:pb-10 xl:pt-24 xl:pb-12 2xl:pt-28 2xl:pb-16 bg-white">
       <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+        {/* Section Heading */}
+        <motion.h2
+          initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+          whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
+          transition={reduceAnimations ? {} : { duration: 0.3 }}
+          className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-center mb-12 xl:mb-16 2xl:mb-20 text-[#1a1a1a] font-heading"
+        >
+          {t("common.features")}
+        </motion.h2>
+        
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-12 lg:gap-18 xl:gap-20 2xl:gap-24">
           {features.map((feature, index) => (
