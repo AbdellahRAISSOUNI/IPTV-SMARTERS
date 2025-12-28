@@ -27,11 +27,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
   
-  // Root metadata - will be overridden by locale-specific metadata
+  // Root metadata - root page redirects to locale pages, so no canonical needed
   return {
     metadataBase: new URL(baseUrl),
     alternates: {
-      canonical: baseUrl,
+      // No canonical for root - it redirects to locale pages
+      // Only include hreflang tags, no canonical
       languages: {
         en: `${baseUrl}/en`,
         es: `${baseUrl}/es`,
@@ -40,8 +41,9 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     robots: {
-      index: true,
+      index: false, // Don't index root page - it redirects
       follow: true,
+      noindex: true, // Explicitly noindex the root page
     },
   };
 }

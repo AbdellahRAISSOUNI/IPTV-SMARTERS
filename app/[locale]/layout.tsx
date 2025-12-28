@@ -533,7 +533,7 @@ export async function generateMetadata({
     },
     metadataBase: new URL(baseUrl),
     alternates: {
-      canonical: `${baseUrl}/${locale}`,
+      canonical: `${baseUrl}/${locale}/`, // Include trailing slash to match next.config trailingSlash: true
       languages: alternates,
     },
     openGraph: {
