@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Monitor } from "lucide-react";
 import { openWhatsApp } from "@/lib/whatsapp";
+import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
 
 interface PricingCardProps {
   name: string;
@@ -25,12 +26,15 @@ export default function PricingCard({
   guaranteeText = "5-day refund guarantee",
   buttonText = "Buy Now",
 }: PricingCardProps) {
+  const reduceAnimations = shouldReduceAnimations();
+  const mobile = isMobile();
+  
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ 
+      initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+      whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
+      transition={reduceAnimations ? {} : { 
         opacity: { duration: 0.25, delay },
         y: { 
           duration: 0.25, 
@@ -44,7 +48,7 @@ export default function PricingCard({
           ease: "linear"
         }
       }}
-      whileHover={{ 
+      whileHover={reduceAnimations ? {} : { 
         y: -8,
         transition: {
           type: "tween",
@@ -87,10 +91,10 @@ export default function PricingCard({
         {features.map((feature, index) => (
           <motion.li
             key={index}
-            initial={{ opacity: 0, x: -10 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.2, delay: delay + index * 0.02 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, x: -10 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: mobile ? "-25px" : "-50px" }}
+            transition={reduceAnimations ? {} : { duration: 0.2, delay: delay + index * 0.02 }}
             className="flex items-start gap-2"
           >
             <svg
@@ -118,11 +122,11 @@ export default function PricingCard({
         onClick={() => {
           openWhatsApp(`Hello! I'm interested in the ${name} plan.`);
         }}
-        whileHover={{ 
+        whileHover={reduceAnimations ? {} : { 
           scale: 1.03,
           y: -2
         }}
-        whileTap={{ scale: 0.97 }}
+        whileTap={reduceAnimations ? {} : { scale: 0.97 }}
         className={`w-full py-2.5 xl:py-3 2xl:py-4 px-4 xl:px-5 2xl:px-6 rounded-lg font-semibold text-sm sm:text-base xl:text-lg 2xl:text-xl flex items-center justify-center gap-2 xl:gap-3 2xl:gap-4 transition-all duration-200 relative z-10 group cursor-pointer ${
           popular
             ? "bg-white text-[#2563eb] hover:bg-gray-50 shadow-lg hover:shadow-xl hover:ring-2 hover:ring-white/50"

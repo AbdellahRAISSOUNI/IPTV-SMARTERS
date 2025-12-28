@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Monitor, Check } from "lucide-react";
 import PricingCard from "@/components/PricingCard";
 import { openWhatsApp } from "@/lib/whatsapp";
+import { shouldReduceAnimations, isMobile, getImageQuality } from "@/lib/utils/performance";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -16,6 +17,9 @@ const ComponentLoader = () => <div className="w-full h-32 bg-gray-50 animate-pul
 
 export default function ResellerPage() {
   const { t, locale } = useLanguage();
+  const reduceAnimations = shouldReduceAnimations();
+  const mobile = isMobile();
+  const imageQuality = getImageQuality();
 
   const handleScrollToPricing = () => {
     const element = document.querySelector("#pricing");
@@ -104,9 +108,9 @@ export default function ResellerPage() {
           </div>
           
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            animate={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            transition={reduceAnimations ? {} : { duration: 0.5 }}
             className="text-center space-y-4 sm:space-y-5 py-6 sm:py-8"
           >
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight max-w-4xl mx-auto px-2">
@@ -127,23 +131,23 @@ export default function ResellerPage() {
               })()}
             </h1>
             <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              animate={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              transition={reduceAnimations ? {} : { duration: 0.5, delay: 0.1 }}
               className="text-sm sm:text-base md:text-lg text-[#1a1a1a]/70 max-w-2xl mx-auto leading-relaxed px-2"
             >
               {t("reseller.heroSubtitle")}
             </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              animate={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              transition={reduceAnimations ? {} : { duration: 0.5, delay: 0.2 }}
               className="pt-1 sm:pt-2"
             >
               <motion.button
                 onClick={handleScrollToPricing}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={reduceAnimations ? {} : { scale: 1.02 }}
+                whileTap={reduceAnimations ? {} : { scale: 0.98 }}
                 className="inline-flex items-center gap-2 sm:gap-2.5 px-6 sm:px-8 py-2.5 sm:py-3.5 bg-[#2563eb] text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:bg-[#1d4ed8] transition-all duration-200 text-sm sm:text-base cursor-pointer group"
               >
                 <span>{t("reseller.heroButton")}</span>
@@ -156,10 +160,10 @@ export default function ResellerPage() {
         {/* Pricing Section Intro */}
         <section id="pricing" className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 mb-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.4 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
+            transition={reduceAnimations ? {} : { duration: 0.4 }}
             className="text-center mb-8"
           >
             <div className="w-16 h-0.5 bg-red-600 mx-auto mb-4"></div>
@@ -176,10 +180,10 @@ export default function ResellerPage() {
 
           {/* Compatible Devices Image */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
+            transition={reduceAnimations ? {} : { duration: 0.4, delay: 0.1 }}
             className="mb-6 sm:mb-8"
           >
             <div className="relative w-full max-w-4xl mx-auto px-2 sm:px-0">
@@ -190,7 +194,7 @@ export default function ResellerPage() {
                 height={675}
                 className="w-full h-auto object-contain"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
-                quality={75}
+                quality={imageQuality}
                 loading="lazy"
               />
             </div>
@@ -198,10 +202,10 @@ export default function ResellerPage() {
 
           {/* Why Become Reseller Section */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.4, delay: 0.2 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
+            transition={reduceAnimations ? {} : { duration: 0.4, delay: 0.2 }}
             className="mb-6 sm:mb-8"
           >
             <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-3 sm:mb-4 text-center px-2">
@@ -211,10 +215,10 @@ export default function ResellerPage() {
               {whyFeatures.map((feature, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, x: -10 }}
+                  whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  transition={reduceAnimations ? {} : { duration: 0.3, delay: index * 0.05 }}
                   className="flex items-start gap-2 sm:gap-2.5 p-2.5 sm:p-3 bg-gray-50 rounded-lg border border-gray-200"
                 >
                   <Check className="w-4 h-4 text-[#2563eb] flex-shrink-0 mt-0.5" />
@@ -228,10 +232,10 @@ export default function ResellerPage() {
 
           {/* Pricing Cards */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.4, delay: 0.3 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
+            transition={reduceAnimations ? {} : { duration: 0.4, delay: 0.3 }}
             className="mb-6 sm:mb-8"
           >
             <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-4 sm:mb-6 text-center px-2">
@@ -258,10 +262,10 @@ export default function ResellerPage() {
         {/* Service Quality Section */}
         <section className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 mb-8 sm:mb-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.4 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
+            transition={reduceAnimations ? {} : { duration: 0.4 }}
             className="text-center space-y-3 sm:space-y-4 bg-gradient-to-br from-[#2563eb]/5 to-transparent rounded-xl p-5 sm:p-6 lg:p-8 border border-[#2563eb]/10"
           >
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a]">
@@ -276,10 +280,10 @@ export default function ResellerPage() {
         {/* CTA Section */}
         <section className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 mb-8 sm:mb-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.4 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
+            transition={reduceAnimations ? {} : { duration: 0.4 }}
             className="text-center space-y-3 sm:space-y-4"
           >
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] px-2">
@@ -292,8 +296,8 @@ export default function ResellerPage() {
               onClick={() => {
                 openWhatsApp("Hello! I'm interested in becoming an IPTV reseller.");
               }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={reduceAnimations ? {} : { scale: 1.02 }}
+              whileTap={reduceAnimations ? {} : { scale: 0.98 }}
               className="inline-flex items-center gap-2 sm:gap-2.5 px-6 sm:px-8 py-2.5 sm:py-3.5 bg-[#2563eb] text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:bg-[#1d4ed8] transition-all duration-200 text-sm sm:text-base cursor-pointer group"
             >
               <span>{t("reseller.heroButton")}</span>
@@ -305,10 +309,10 @@ export default function ResellerPage() {
         {/* Benefits Section */}
         <section className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 mb-8 sm:mb-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.4 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
+            transition={reduceAnimations ? {} : { duration: 0.4 }}
             className="space-y-3 sm:space-y-4"
           >
             <p className="text-sm sm:text-base lg:text-lg text-[#1a1a1a]/70 max-w-4xl mx-auto leading-relaxed text-center px-2">
@@ -318,10 +322,10 @@ export default function ResellerPage() {
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, x: -10 }}
+                  whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  transition={reduceAnimations ? {} : { duration: 0.3, delay: index * 0.05 }}
                   className="flex items-start gap-2 sm:gap-2.5 p-2.5 sm:p-3 bg-gray-50 rounded-lg border border-gray-200"
                 >
                   <Check className="w-4 h-4 text-[#2563eb] flex-shrink-0 mt-0.5" />

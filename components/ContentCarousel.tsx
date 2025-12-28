@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
+import { isMobile, getImageQuality } from "@/lib/utils/performance";
 
 // Image list - will be replaced with Sanity CMS data later
 const carouselImages = [
@@ -64,27 +65,47 @@ export default function ContentCarousel() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const imageQuality = getImageQuality();
+  
   // Optimize scroll speed based on device
   const scrollSpeed = useRef(
-    typeof window !== 'undefined' && window.innerWidth < 768 ? 0.4 : 0.6
-  ); // Slower on mobile for better performance
+    isMobile() ? 0.3 : 0.6 // Even slower on mobile for better performance
+  );
 
   // Optimize: Use all images but limit initial render
   // Duplicate images for seamless infinite scroll
   const duplicatedImages = [...carouselImages, ...carouselImages];
 
+  // Intersection Observer to pause animation when not visible
+  useEffect(() => {
+    if (!scrollContainerRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsInView(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.1 }
+    );
+    
+    observer.observe(scrollContainerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   // Infinite scroll animation - Optimized for mobile performance
   useEffect(() => {
-    if (!scrollContainerRef.current || isPaused || isDragging) return;
+    if (!scrollContainerRef.current || isPaused || isDragging || !isInView) return;
 
     // Reduce animation frequency on mobile for better performance
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const frameSkip = isMobile ? 2 : 1; // Skip frames on mobile
+    const mobile = isMobile();
+    const frameSkip = mobile ? 3 : 1; // Skip more frames on mobile
     let frameCount = 0;
 
     const animate = () => {
       frameCount++;
-      if (frameCount % frameSkip === 0 && scrollContainerRef.current && !isPaused && !isDragging) {
+      if (frameCount % frameSkip === 0 && scrollContainerRef.current && !isPaused && !isDragging && isInView) {
         scrollContainerRef.current.scrollLeft += scrollSpeed.current;
         
         // Reset scroll position for seamless loop
@@ -101,7 +122,7 @@ export default function ContentCarousel() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isPaused, isDragging]);
+  }, [isPaused, isDragging, isInView]);
 
   // Mouse drag handlers
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -199,7 +220,7 @@ export default function ContentCarousel() {
                       fill
                       sizes="(max-width: 640px) 160px, (max-width: 768px) 180px, (max-width: 1024px) 200px, (max-width: 1280px) 240px, 280px"
                       className="object-cover"
-                      quality={40}
+                      quality={imageQuality}
                       loading="lazy"
                     />
                   </div>

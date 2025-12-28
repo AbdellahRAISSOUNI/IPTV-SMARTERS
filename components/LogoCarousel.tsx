@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
+import { isMobile, getImageQuality } from "@/lib/utils/performance";
 
 interface LogoCarouselProps {
   images: string[];
@@ -17,11 +18,31 @@ export default function LogoCarousel({ images, size = "default", direction = "le
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const scrollSpeed = useRef(speed);
+  const [isInView, setIsInView] = useState(false);
+  const imageQuality = getImageQuality();
+  const mobile = isMobile();
+  const scrollSpeed = useRef(mobile ? speed * 0.5 : speed); // Slower on mobile
   const scrollDirection = direction === "right" ? -1 : 1;
 
   // Duplicate images for seamless infinite scroll
   const duplicatedImages = [...images, ...images];
+
+  // Intersection Observer to pause animation when not visible
+  useEffect(() => {
+    if (!scrollContainerRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsInView(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.1 }
+    );
+    
+    observer.observe(scrollContainerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   // Initialize scroll position for reverse direction
   useEffect(() => {
@@ -33,10 +54,14 @@ export default function LogoCarousel({ images, size = "default", direction = "le
 
   // Infinite scroll animation
   useEffect(() => {
-    if (!scrollContainerRef.current || isPaused || isDragging) return;
+    if (!scrollContainerRef.current || isPaused || isDragging || !isInView) return;
+
+    const frameSkip = mobile ? 2 : 1; // Skip frames on mobile
+    let frameCount = 0;
 
     const animate = () => {
-      if (scrollContainerRef.current && !isPaused && !isDragging) {
+      frameCount++;
+      if (frameCount % frameSkip === 0 && scrollContainerRef.current && !isPaused && !isDragging && isInView) {
         scrollContainerRef.current.scrollLeft += scrollSpeed.current * scrollDirection;
         
         // Reset scroll position for seamless loop (handle both directions)
@@ -61,7 +86,7 @@ export default function LogoCarousel({ images, size = "default", direction = "le
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isPaused, isDragging, scrollDirection]);
+  }, [isPaused, isDragging, isInView, mobile, scrollDirection]);
 
   // Mouse drag handlers
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -168,7 +193,7 @@ export default function LogoCarousel({ images, size = "default", direction = "le
                         ? "(max-width: 640px) 180px, (max-width: 768px) 200px, (max-width: 1024px) 220px, (max-width: 1280px) 250px, (max-width: 1536px) 280px, 300px"
                         : "(max-width: 640px) 140px, (max-width: 768px) 160px, (max-width: 1024px) 180px, (max-width: 1280px) 200px, (max-width: 1536px) 220px, 240px"}
                       className="object-contain"
-                      quality={40}
+                      quality={imageQuality}
                       loading="lazy"
                     />
                   </div>

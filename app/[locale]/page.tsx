@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { openWhatsApp } from "@/lib/whatsapp";
+import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
 
 // Lazy load non-critical components
 const ContentCarousel = lazy(() => import("@/components/ContentCarousel"));
@@ -29,11 +30,14 @@ const ComponentLoader = () => (
 
 export default function Home() {
   const { t } = useLanguage();
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  const [reduceAnimations, setReduceAnimations] = useState(false);
 
   // Detect mobile and defer non-critical resources
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
+    const mobile = isMobile();
+    setIsMobileDevice(mobile);
+    setReduceAnimations(shouldReduceAnimations());
     
     // Note: ScrollToTop component handles hash navigation on route changes
     // This only handles initial page load without hash (scroll to top)
@@ -43,7 +47,7 @@ export default function Home() {
     }
     
     // On mobile, defer loading of heavy components
-    if (window.innerWidth < 768) {
+    if (isMobileDevice) {
       // Use requestIdleCallback to defer non-critical work
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => {
@@ -268,10 +272,10 @@ export default function Home() {
       <section id="pricing" className="pt-8 pb-0 sm:pt-12 sm:pb-0 lg:pt-16 lg:pb-0 xl:pt-20 xl:pb-0 bg-white">
         <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.3 }}
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: isMobileDevice ? "-50px" : "-100px" }}
+            transition={reduceAnimations ? {} : { duration: 0.3 }}
             className="text-center mb-12"
           >
             {/* Red line */}
