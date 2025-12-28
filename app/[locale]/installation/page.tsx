@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { openWhatsApp } from "@/lib/whatsapp";
 import Image from "next/image";
+import { parseUrlsToLinks } from "@/lib/utils/urlParser";
 import {
   Check,
   Download,
@@ -295,7 +296,7 @@ export default function InstallationPage() {
                 {t("installation.oldVersionSubtitle").replace("{year}", (currentYear - 1).toString())}
               </p>
               <p className="text-sm text-[#1a1a1a]/70 mb-4">
-                {t("installation.oldVersionUrl")}
+                {parseUrlsToLinks(t("installation.oldVersionUrl"))}
               </p>
               <a
                 href="https://www.iptvsmarters.com/smarters.apk"

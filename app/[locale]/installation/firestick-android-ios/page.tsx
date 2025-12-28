@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
+import { parseUrlsToLinks } from "@/lib/utils/urlParser";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -467,7 +468,7 @@ export default function FirestickAndroidIosInstallation() {
                   </h2>
                   <div className="space-y-4">
                     <p className="text-base sm:text-lg text-[#1a1a1a] leading-relaxed font-medium">
-                      {t("installation.firestickStep10Content")}
+                      {parseUrlsToLinks(t("installation.firestickStep10Content"))}
                     </p>
                     <div className="relative w-full max-w-2xl mx-auto aspect-video overflow-hidden rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 shadow-sm">
                       <Image

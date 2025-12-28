@@ -11,6 +11,8 @@ interface PricingCardProps {
   features: string[];
   popular?: boolean;
   delay?: number;
+  guaranteeText?: string;
+  buttonText?: string;
 }
 
 export default function PricingCard({
@@ -20,6 +22,8 @@ export default function PricingCard({
   features,
   popular = false,
   delay = 0,
+  guaranteeText = "5-day refund guarantee",
+  buttonText = "Buy Now",
 }: PricingCardProps) {
   return (
     <motion.div
@@ -125,7 +129,7 @@ export default function PricingCard({
             : "bg-[#2563eb] text-white hover:bg-[#1d4ed8] shadow-lg hover:shadow-xl hover:ring-2 hover:ring-[#2563eb]/30"
         }`}
       >
-        <span>Buy Now</span>
+        <span>{buttonText}</span>
         <Monitor className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
       </motion.button>
       <p
@@ -133,7 +137,7 @@ export default function PricingCard({
           popular ? "text-white/90" : "text-[#1a1a1a]/70"
         }`}
       >
-        5-day refund guarantee
+        {guaranteeText}
       </p>
     </motion.div>
   );

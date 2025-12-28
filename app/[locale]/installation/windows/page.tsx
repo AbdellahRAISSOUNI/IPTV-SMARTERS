@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
+import { parseUrlsToLinks } from "@/lib/utils/urlParser";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -100,7 +101,7 @@ export default function WindowsInstallation() {
                       {t("installation.windowsStep1Content")}
                     </p>
                     <p className="text-base sm:text-lg text-[#1a1a1a] leading-relaxed font-medium">
-                      {t("installation.windowsStep1Content2")}
+                      {parseUrlsToLinks(t("installation.windowsStep1Content2"))}
                     </p>
                   </div>
                 </div>
