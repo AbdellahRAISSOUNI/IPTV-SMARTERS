@@ -147,18 +147,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Critical resource hints */}
+        {/* Preconnect to own domain for faster resource loading */}
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_BASE_URL || "https://iptv-smarters.vercel.app"} />
+        {/* Preconnect to Google Fonts for faster font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Preload critical fonts for h1 (LCP on mobile) */}
-        <link
-          rel="preload"
-          as="font"
-          href="https://fonts.gstatic.com/s/plusjakartasans/v8/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_KU7NShXUEKi4Rw.woff2"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
+        {/* DNS prefetch for external resources */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         {/* Hreflang tags for SEO - will be updated by locale layout */}
         <link
           rel="alternate"
@@ -180,17 +176,6 @@ export default function RootLayout({
           hrefLang="x-default"
           href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/en`}
         />
-        {/* Fonts already have display: swap, no need for manual loading */}
-        {/* Preload hero image only on desktop - on mobile, text is LCP */}
-        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" media="(min-width: 768px)" />
-      </head>
-      <body
-        className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}
-      >
-        <div id="root">
-          <main>{children}</main>
-        </div>
-        {/* Non-critical scripts at end of body */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -201,11 +186,84 @@ export default function RootLayout({
                   if (localeMatch) {
                     document.documentElement.lang = localeMatch[1];
                   }
-                } catch (e) {}
+                } catch (e) {
+                  // Suppress errors
+                }
               })();
             `,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  if (typeof window !== 'undefined' && window.addEventListener) {
+                    window.addEventListener('error', function(e) {
+                      try {
+                        if (e && e.message && typeof e.message === 'string' && e.message.indexOf('ipapi.co') !== -1) {
+                          e.preventDefault();
+                        }
+                      } catch (err) {
+                        // Suppress
+                      }
+                    }, true);
+                  }
+                } catch (err) {
+                  // Suppress
+                }
+              })();
+            `,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  if (typeof window !== 'undefined' && window.addEventListener) {
+                    window.addEventListener('unhandledrejection', function(e) {
+                      try {
+                        if (e && e.reason) {
+                          var reasonStr = '';
+                          if (e.reason.message && typeof e.reason.message === 'string') {
+                            reasonStr = e.reason.message;
+                          } else {
+                            try {
+                              reasonStr = String(e.reason);
+                            } catch (strErr) {
+                              // Suppress
+                            }
+                          }
+                          if (reasonStr.indexOf('ipapi.co') !== -1) {
+                            e.preventDefault();
+                          }
+                        }
+                      } catch (err) {
+                        // Suppress
+                      }
+                    });
+                  }
+                } catch (err) {
+                  // Suppress
+                }
+              })();
+            `,
+          }}
+        />
+        {/* Fonts already have display: swap, no need for manual loading */}
+        {/* Preload hero image only on desktop - on mobile, text is LCP */}
+        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" media="(min-width: 768px)" />
+        {/* Fonts already have display: swap, no need for manual loading */}
+        {/* Preload hero image only on desktop - on mobile, text is LCP */}
+        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" media="(min-width: 768px)" />
+      </head>
+      <body
+        className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}
+      >
+        <div id="root">
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );
