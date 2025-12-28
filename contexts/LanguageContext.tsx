@@ -111,12 +111,30 @@ export function LocaleDetector() {
     setDetected(true);
 
     // Optionally enhance with IP detection in background (non-blocking)
+    // Silently fail if API is unavailable or rate-limited
     if (detectedLocale === defaultLocale) {
-      fetch('https://ipapi.co/json/', { 
-        signal: AbortSignal.timeout(1000) // 1 second timeout
-      })
-        .then(res => res.json())
-        .then(data => {
+      // Use a try-catch wrapper to prevent any errors from appearing in console
+      (async () => {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 1000);
+          
+          const res = await fetch('https://ipapi.co/json/', { 
+            signal: controller.signal,
+            // Suppress CORS and network errors
+            mode: 'cors',
+            credentials: 'omit'
+          });
+          
+          clearTimeout(timeoutId);
+          
+          // Check if response is ok before parsing
+          if (!res.ok) {
+            return; // Silently return for non-ok responses (429, etc.)
+          }
+          
+          const data = await res.json();
+          
           if (data && data.country_code) {
             const countryLocale = detectLocaleFromCountry(data.country_code);
             // Only redirect if different from browser language
@@ -124,10 +142,11 @@ export function LocaleDetector() {
               router.replace(`/${countryLocale}${currentPath === '/' ? '' : currentPath}`);
             }
           }
-        })
-        .catch(() => {
-          // Silently fail - already redirected to default
-        });
+        } catch (error) {
+          // Completely suppress all errors - this is just an enhancement feature
+          // Already redirected to default locale, so failures are acceptable
+        }
+      })();
     }
   }, [router, detected]);
 

@@ -180,10 +180,34 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                const path = window.location.pathname;
-                const localeMatch = path.match(/^\/(en|es|fr)/);
-                if (localeMatch) {
-                  document.documentElement.lang = localeMatch[1];
+                try {
+                  const path = window.location.pathname;
+                  const localeMatch = path.match(/^\/(en|es|fr)/);
+                  if (localeMatch) {
+                    document.documentElement.lang = localeMatch[1];
+                  }
+                } catch (e) {
+                  // Suppress any errors silently
+                }
+              })();
+              
+              // Suppress console errors from ipapi.co network requests
+              (function() {
+                if (typeof window !== 'undefined' && window.addEventListener) {
+                  window.addEventListener('error', function(e) {
+                    if (e.message && e.message.includes('ipapi.co')) {
+                      e.preventDefault();
+                      return false;
+                    }
+                  }, true);
+                  
+                  window.addEventListener('unhandledrejection', function(e) {
+                    if (e.reason && (e.reason.message && e.reason.message.includes('ipapi.co') || 
+                        e.reason.toString && e.reason.toString().includes('ipapi.co'))) {
+                      e.preventDefault();
+                      return false;
+                    }
+                  });
                 }
               })();
             `,
