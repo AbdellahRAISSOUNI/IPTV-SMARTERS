@@ -35,7 +35,6 @@ Complete guide to the admin dashboard for managing website content and settings.
 - Setup and configuration
 - Authentication
 - Translation management
-- Settings management
 - GitHub API integration
 - Auto-deployment workflow
 - Security considerations

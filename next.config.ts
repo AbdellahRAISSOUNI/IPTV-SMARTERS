@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Removed output: "export" to enable API routes for admin dashboard
+  // Conditionally set output based on environment
+  // Admin dashboard requires server-side rendering, so disable static export for development
+  ...(process.env.NODE_ENV === 'production' && !process.env.ADMIN_MODE ? { output: "export" } : {}),
   trailingSlash: true,
   images: {
-    // Removed unoptimized: true - Vercel will optimize images automatically
+    unoptimized: true, // Required for static export
     remotePatterns: [
       {
         protocol: "https",

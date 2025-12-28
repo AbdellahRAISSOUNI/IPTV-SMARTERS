@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyPassword, createSessionToken } from '@/lib/auth';
-
-// API routes cannot be statically exported
-export const dynamic = 'force-dynamic';
+import { verifyAdminPassword, createAdminSession } from '@/lib/admin/auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,7 +12,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const isValid = verifyPassword(password);
+    // Verify password
+    const isValid = verifyAdminPassword(password);
 
     if (!isValid) {
       return NextResponse.json(
@@ -24,23 +22,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create session token
-    const token = createSessionToken();
-    
-    // Set cookie with session token
-    const response = NextResponse.json({ success: true, token });
-    response.cookies.set('admin-token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-    });
+    // Create session
+    await createAdminSession();
 
-    return response;
-  } catch (error) {
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
     console.error('Login error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: error.message || 'Login failed' },
       { status: 500 }
     );
   }

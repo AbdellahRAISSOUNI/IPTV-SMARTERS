@@ -1,22 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import { verifyAdminSession } from '@/lib/admin/auth';
 
-// API routes cannot be statically exported
-export const dynamic = 'force-dynamic';
-
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const token = request.cookies.get('admin-token')?.value;
-    
-    if (!token) {
-      return NextResponse.json({ authenticated: false }, { status: 200 });
-    }
-
-    // In production, verify token properly
-    // For now, just check if token exists
-    return NextResponse.json({ authenticated: true }, { status: 200 });
-  } catch (error) {
+    const isAuthenticated = await verifyAdminSession();
+    return NextResponse.json({ authenticated: isAuthenticated });
+  } catch (error: any) {
     console.error('Verify error:', error);
-    return NextResponse.json({ authenticated: false }, { status: 200 });
+    return NextResponse.json({ authenticated: false }, { status: 500 });
   }
 }
 

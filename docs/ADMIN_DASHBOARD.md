@@ -1,170 +1,461 @@
 # Admin Dashboard Documentation
 
-> **Quick Setup:** See [ADMIN_DASHBOARD_SETUP.md](../ADMIN_DASHBOARD_SETUP.md) for step-by-step instructions.
+## Table of Contents
+1. [Overview](#overview)
+2. [Setup & Configuration](#setup--configuration)
+3. [Authentication](#authentication)
+4. [Translation Management](#translation-management)
+5. [GitHub Integration](#github-integration)
+6. [Auto-Deployment Workflow](#auto-deployment-workflow)
+7. [Security Considerations](#security-considerations)
+8. [Troubleshooting](#troubleshooting)
+
+---
 
 ## Overview
 
-The Admin Dashboard allows administrators to manage website content and settings directly through a web interface. Changes are automatically committed to GitHub and deployed to Vercel.
+The Admin Dashboard is a secure, server-side application that allows administrators to manage website content across all languages. Changes are automatically committed to GitHub and deployed to Vercel.
 
-## Features
+### Key Features
+- 🔐 **Secure Authentication** - Password-protected admin access
+- 🌍 **Multi-Language Support** - Edit translations for EN, ES, and FR
+- 🔄 **Auto-Deployment** - Changes automatically deploy to Vercel
+- 📝 **Easy Editing** - Intuitive interface for content management
+- ✅ **Real-time Validation** - Immediate feedback on changes
+- 🚀 **GitHub Integration** - Commits pushed directly to repository
 
-- ✅ **Password-protected authentication**
-- ✅ **Translation editor** for all languages (en, es, fr)
-- ✅ **Settings management** for website configuration
-- ✅ **GitHub API integration** for automatic commits
-- ✅ **Auto-deployment** via Vercel
+---
 
-## Quick Setup
+## Setup & Configuration
 
-**IMPORTANT:** You must remove `output: "export"` from `next.config.ts` for the admin dashboard to work.
+### Environment Variables
 
-See [ADMIN_DASHBOARD_SETUP.md](../ADMIN_DASHBOARD_SETUP.md) for complete setup instructions.
+Create or update `.env.local` with the following variables:
 
-## Usage
+```bash
+# Admin Dashboard Configuration
+ADMIN_PASSWORD=admin123
+GITHUB_TOKEN=your_github_token_here
+GITHUB_REPO=AbdellahRAISSOUNI/IPTV-SMARTERS
+GITHUB_BRANCH=main
+GITHUB_EMAIL=abdellahraissouni@gmail.com
+GITHUB_NAME=AbdellahRAISSOUNI
 
-### Accessing the Dashboard
+# Base URL
+NEXT_PUBLIC_BASE_URL=https://iptv-smarters.vercel.app
+
+# Contact Email
+NEXT_PUBLIC_CONTACT_EMAIL=info@iptvsubscriptionpro.es
+```
+
+### GitHub Token Setup
+
+1. Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Click "Generate new token (classic)"
+3. Give it a descriptive name: "IPTV Admin Dashboard"
+4. Set expiration: No expiration (or your preferred duration)
+5. Select scopes:
+   - ✅ `repo` (Full control of private repositories)
+6. Generate token and copy it
+7. Add to `.env.local` as `GITHUB_TOKEN`
+
+### Vercel Configuration
+
+Vercel automatically deploys when changes are pushed to GitHub. No additional configuration needed.
+
+To ensure admin dashboard works in production:
+
+1. Go to Vercel Dashboard → Your Project → Settings → Environment Variables
+2. Add all environment variables from `.env.local`
+3. Redeploy the project
+
+---
+
+## Authentication
+
+### Login Flow
 
 1. Navigate to `/admin/login`
-2. Enter your admin password
-3. You'll be redirected to the dashboard
+2. Enter admin password
+3. Session created (valid for 24 hours)
+4. Redirected to `/admin/dashboard`
+
+### Session Management
+
+- **Duration:** 24 hours
+- **Storage:** HTTP-only secure cookie
+- **Auto-logout:** After 24 hours or manual logout
+- **Protection:** Middleware protects all `/admin/*` routes except `/admin/login`
+
+### Security Features
+
+- ✅ Password hashing in environment
+- ✅ HTTP-only cookies (not accessible via JavaScript)
+- ✅ Secure flag in production (HTTPS only)
+- ✅ SameSite protection
+- ✅ Middleware route protection
+
+---
+
+## Translation Management
 
 ### Editing Translations
 
-1. Go to "Translations" in the sidebar
-2. Select a language (EN, ES, FR)
-3. Edit any translation value
+1. Log in to admin dashboard
+2. Select language tab (EN, ES, FR)
+3. Edit translations in the form
 4. Click "Save Changes"
-5. Changes are committed to GitHub and auto-deploy
+5. Changes committed to GitHub and auto-deployed
 
-### Managing Settings
+### Translation Structure
 
-1. Go to "Settings" in the sidebar
-2. Update website configuration:
-   - Base URL
-   - Contact Email
-   - WhatsApp Number
-   - WhatsApp Default Message
-3. Click "Save Changes"
-4. Changes are committed to GitHub
+Translations are organized hierarchically:
 
-## How It Works
+```json
+{
+  "common": {
+    "home": "Home",
+    "pricing": "Pricing"
+  },
+  "hero": {
+    "title": "Best IPTV Provider",
+    "description": "..."
+  },
+  "reseller": {
+    "heroTitle": "Become IPTV Reseller",
+    "heroSubtitle": "..."
+  }
+}
+```
 
-### Authentication Flow
+### Expandable Sections
 
-1. User enters password on `/admin/login`
-2. Password is verified against `ADMIN_PASSWORD` env variable
-3. Session token is stored in HTTP-only cookie
-4. All admin routes check for valid session token
+- Sections are collapsible for easier navigation
+- Click section headers to expand/collapse
+- All sections collapsed by default
 
-### GitHub Integration
+### Field Types
 
-1. **Reading Files:**
-   - Uses GitHub Contents API to read files
-   - Returns file content and SHA (needed for updates)
+- **Short Text:** Single-line input
+- **Long Text:** Multi-line textarea (auto-adjusts height)
+- **Nested Objects:** Collapsible sections
 
-2. **Updating Files:**
-   - Uses GitHub Contents API PUT endpoint
-   - Requires file path, content, and SHA
-   - Creates commit with message
-   - Pushes to specified branch
+---
 
-### Auto-Deployment
+## GitHub Integration
 
-1. When changes are committed to GitHub
-2. Vercel detects the push (via GitHub integration)
-3. Vercel automatically builds and deploys
-4. Website updates within minutes
+### How It Works
 
-## API Routes
+```
+Admin Dashboard → GitHub API → Commit Changes → Vercel Deployment
+```
 
-### `/api/admin/login`
-- **Method:** POST
-- **Body:** `{ password: string }`
-- **Response:** `{ success: boolean, token: string }`
-- Sets admin session cookie
+### File Operations
 
-### `/api/admin/verify`
-- **Method:** GET
-- **Response:** `{ authenticated: boolean }`
-- Verifies current session
+**1. Fetch Translations:**
+```typescript
+GET /api/admin/translations
+→ Fetches all translation files from GitHub
+→ Returns content + SHA for each locale
+```
 
-### `/api/admin/logout`
-- **Method:** POST
-- **Response:** `{ success: boolean }`
-- Clears admin session cookie
+**2. Update Translations:**
+```typescript
+POST /api/admin/translations
+→ Commits changes to GitHub
+→ Returns success/error
+```
 
-### `/api/admin/github/read-file`
-- **Method:** POST
-- **Body:** `{ path: string }`
-- **Response:** `{ content: string, sha: string, path: string }`
-- Reads file from GitHub repository
+### Commit Process
 
-### `/api/admin/github/update-file`
-- **Method:** POST
-- **Body:** `{ path: string, content: string, sha: string, message?: string }`
-- **Response:** `{ success: boolean, commit: object, content: object }`
-- Updates file in GitHub repository
+1. Admin clicks "Save Changes"
+2. API validates authentication
+3. Content converted to JSON and Base64-encoded
+4. GitHub API creates commit with:
+   - Message: "Update {locale} translations via admin dashboard"
+   - Author: Your GitHub name/email
+   - Branch: main (or configured branch)
+5. Vercel webhook triggered
+6. Automatic deployment starts
+
+### GitHub API Endpoints Used
+
+- `GET /repos/:owner/:repo/contents/:path` - Fetch file
+- `PUT /repos/:owner/:repo/contents/:path` - Update file
+
+---
+
+## Auto-Deployment Workflow
+
+### Deployment Flow
+
+```
+1. Admin saves changes in dashboard
+   ↓
+2. Changes committed to GitHub (main branch)
+   ↓
+3. Vercel webhook triggered automatically
+   ↓
+4. Vercel builds and deploys new version
+   ↓
+5. Website updated with new content
+```
+
+### Deployment Timeline
+
+- **Commit time:** < 1 second
+- **Vercel build time:** 1-3 minutes
+- **Total time:** ~2-3 minutes from save to live
+
+### Vercel Integration
+
+Vercel automatically:
+- Detects changes on main branch
+- Runs `npm run build`
+- Deploys to production
+- Invalidates CDN cache
+
+No manual intervention required!
+
+---
 
 ## Security Considerations
 
-1. **Password Protection:**
-   - Use a strong `ADMIN_PASSWORD`
-   - Consider using environment-specific passwords
-   - Change password regularly
+### Best Practices
 
-2. **GitHub Token:**
-   - Store token securely in environment variables
-   - Use token with minimal required scopes
+1. **Keep Token Secure:**
+   - Never commit `.env.local` to Git
+   - Add `.env.local` to `.gitignore`
    - Rotate token periodically
 
-3. **Session Management:**
-   - Sessions expire after 7 days
-   - HTTP-only cookies prevent XSS attacks
-   - Secure flag enabled in production
+2. **Use Strong Password:**
+   - Change default admin password
+   - Use password manager
+   - Consider using environment variable
 
-4. **Rate Limiting:**
-   - GitHub API has rate limits
-   - Consider implementing rate limiting for admin routes
+3. **Limit Token Scope:**
+   - Only grant necessary permissions
+   - Use repository-specific tokens if possible
+
+4. **Monitor Access:**
+   - Check GitHub commit history regularly
+   - Review Vercel deployment logs
+
+### Security Features
+
+- ✅ Server-side authentication
+- ✅ HTTP-only cookies
+- ✅ Middleware route protection
+- ✅ Environment variable encryption
+- ✅ No client-side token exposure
+
+### .gitignore Configuration
+
+Ensure `.env.local` is in `.gitignore`:
+
+```
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+```
+
+---
 
 ## Troubleshooting
 
-### "Unauthorized" Error
+### Common Issues
 
-- Check that `ADMIN_PASSWORD` is set correctly
-- Verify session cookie is present
-- Try logging out and logging back in
+#### 1. "Unauthorized" Error
 
-### "GitHub configuration missing" Error
+**Problem:** Can't access admin dashboard after login
 
-- Verify all GitHub environment variables are set:
-  - `GITHUB_TOKEN`
-  - `GITHUB_REPO`
-  - `GITHUB_BRANCH`
-  - `GITHUB_EMAIL`
-  - `GITHUB_NAME`
+**Solutions:**
+- Clear browser cookies
+- Check `ADMIN_PASSWORD` in `.env.local`
+- Verify session hasn't expired (24 hours)
+- Try logging in again
 
-### "Failed to load translations" Error
+#### 2. "Failed to save translations" Error
 
-- Check that file path is correct
-- Verify GitHub token has `repo` scope
-- Check repository name format: `owner/repo`
+**Problem:** Can't save changes to GitHub
 
-### Changes Not Deploying
+**Solutions:**
+- Verify `GITHUB_TOKEN` is valid
+- Check token has `repo` scope
+- Ensure repository name is correct
+- Check GitHub API rate limits
 
-- Verify Vercel is connected to GitHub repository
+#### 3. Changes Not Deploying
+
+**Problem:** Saved changes but website not updating
+
+**Solutions:**
 - Check Vercel deployment logs
-- Ensure branch name matches `GITHUB_BRANCH`
+- Verify Vercel is connected to correct branch
+- Check GitHub commit was successful
+- Wait 2-3 minutes for deployment
+- Clear browser cache
+
+#### 4. "Failed to fetch translations" Error
+
+**Problem:** Can't load translation editor
+
+**Solutions:**
+- Verify `GITHUB_REPO` format: `owner/repo`
+- Check `GITHUB_BRANCH` is correct
+- Ensure translation files exist in repository
+- Verify network connection
+
+### Debugging
+
+**Enable Debug Logging:**
+
+Check browser console for detailed errors:
+```javascript
+// In browser console
+localStorage.setItem('debug', 'admin:*');
+```
+
+**Check Vercel Logs:**
+
+1. Go to Vercel Dashboard
+2. Select your project
+3. Click "Deployments"
+4. View logs for latest deployment
+
+**Check GitHub API Status:**
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  https://api.github.com/rate_limit
+```
+
+---
+
+## API Reference
+
+### Authentication Endpoints
+
+**POST /api/admin/login**
+```json
+{
+  "password": "admin123"
+}
+→ { "success": true }
+```
+
+**POST /api/admin/logout**
+```json
+→ { "success": true }
+```
+
+**GET /api/admin/verify**
+```json
+→ { "authenticated": true }
+```
+
+### Translation Endpoints
+
+**GET /api/admin/translations**
+```json
+→ {
+  "en": {
+    "content": { ... },
+    "sha": "abc123...",
+    "path": "lib/i18n/translations/en.json"
+  },
+  "es": { ... },
+  "fr": { ... }
+}
+```
+
+**POST /api/admin/translations**
+```json
+{
+  "locale": "en",
+  "content": { ... },
+  "sha": "abc123..."
+}
+→ { "success": true }
+```
+
+---
+
+## File Structure
+
+```
+app/
+├── admin/
+│   ├── login/
+│   │   └── page.tsx           # Login page
+│   └── dashboard/
+│       └── page.tsx           # Main dashboard
+├── api/
+│   └── admin/
+│       ├── login/
+│       │   └── route.ts       # Login API
+│       ├── logout/
+│       │   └── route.ts       # Logout API
+│       ├── verify/
+│       │   └── route.ts       # Session verification
+│       └── translations/
+│           └── route.ts       # Translation CRUD
+
+lib/
+└── admin/
+    ├── auth.ts                # Authentication utilities
+    └── github.ts              # GitHub API integration
+
+middleware.ts                  # Route protection
+.env.local                    # Environment variables (DO NOT COMMIT)
+```
+
+---
 
 ## Future Enhancements
 
 Potential improvements:
-- [ ] User management (multiple admins)
-- [ ] Change history/audit log
-- [ ] Preview changes before committing
-- [ ] Rollback functionality
-- [ ] Bulk translation updates
-- [ ] Image upload and management
-- [ ] Content versioning
+
+1. **Settings Management:**
+   - Edit site metadata
+   - Manage contact information
+   - Update pricing plans
+
+2. **Media Management:**
+   - Upload images via admin
+   - Optimize images automatically
+   - Manage gallery
+
+3. **User Management:**
+   - Multiple admin accounts
+   - Role-based permissions
+   - Activity logs
+
+4. **Preview Mode:**
+   - Preview changes before committing
+   - Staging environment
+
+5. **Backup & Restore:**
+   - Automatic backups
+   - Rollback capability
+   - Version history
+
+6. **Analytics Dashboard:**
+   - View deployment status
+   - Monitor performance
+   - Track changes
+
+---
+
+## Support
+
+For issues or questions:
+- Check this documentation first
+- Review GitHub commit history
+- Check Vercel deployment logs
+- Contact system administrator
 
 ---
 
