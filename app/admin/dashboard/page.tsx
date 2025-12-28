@@ -140,8 +140,8 @@ export default function AdminDashboard() {
   };
 
   // Render translation fields recursively
-  const renderFields = (obj: any, prefix = ""): JSX.Element[] => {
-    const fields: JSX.Element[] = [];
+  const renderFields = (obj: any, prefix = ""): React.ReactElement[] => {
+    const fields: React.ReactElement[] = [];
 
     Object.keys(obj).forEach((key) => {
       const value = obj[key];

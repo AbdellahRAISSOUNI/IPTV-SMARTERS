@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Conditionally set output based on environment
-  // Admin dashboard requires server-side rendering, so disable static export for development
-  ...(process.env.NODE_ENV === 'production' && !process.env.ADMIN_MODE ? { output: "export" } : {}),
+  // Admin dashboard requires server-side rendering
+  // Static export is disabled
   trailingSlash: true,
   images: {
     unoptimized: true, // Required for static export
