@@ -251,39 +251,9 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Optimize font loading - defer to not block render */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Defer font loading to not block render
-              (function() {
-                if ('requestIdleCallback' in window) {
-                  requestIdleCallback(function() {
-                    if ('fonts' in document) {
-                      document.fonts.load('400 1em Inter').catch(() => {});
-                      document.fonts.load('600 1em Inter').catch(() => {});
-                      document.fonts.load('400 1em "Plus Jakarta Sans"').catch(() => {});
-                      document.fonts.load('600 1em "Plus Jakarta Sans"').catch(() => {});
-                      document.fonts.load('700 1em "Plus Jakarta Sans"').catch(() => {});
-                    }
-                  }, { timeout: 1000 });
-                } else {
-                  setTimeout(function() {
-                    if ('fonts' in document) {
-                      document.fonts.load('400 1em Inter').catch(() => {});
-                      document.fonts.load('600 1em Inter').catch(() => {});
-                      document.fonts.load('400 1em "Plus Jakarta Sans"').catch(() => {});
-                      document.fonts.load('600 1em "Plus Jakarta Sans"').catch(() => {});
-                      document.fonts.load('700 1em "Plus Jakarta Sans"').catch(() => {});
-                    }
-                  }, 500);
-                }
-              })();
-            `,
-          }}
-        />
-        {/* Preload hero image */}
-        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" />
+        {/* Fonts already have display: swap, no need for manual loading */}
+        {/* Preload hero image only on desktop - on mobile, text is LCP */}
+        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" media="(min-width: 768px)" />
       </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}

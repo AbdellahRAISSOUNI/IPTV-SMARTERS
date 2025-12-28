@@ -42,8 +42,10 @@ const nextConfig: NextConfig = {
       exclude: ["error", "warn"],
     } : false,
   },
-  // Optimize for modern browsers
+  // Optimize for modern browsers - reduce polyfills
   transpilePackages: [],
+  // Turbopack configuration (Next.js 16 uses Turbopack by default)
+  turbopack: {},
 };
 
 export default nextConfig;

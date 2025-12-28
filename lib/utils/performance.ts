@@ -41,7 +41,7 @@ export function shouldReduceAnimations(): boolean {
  */
 export function getImageQuality(): number {
   if (isMobile()) {
-    return 30; // Lower quality on mobile
+    return 20; // Much lower quality on mobile for faster loading
   }
   return 40;
 }

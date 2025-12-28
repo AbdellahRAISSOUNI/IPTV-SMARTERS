@@ -10,7 +10,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
 
-// Lazy load non-critical components
+// Lazy load non-critical components - use dynamic imports with ssr: false for better performance
 const ContentCarousel = lazy(() => import("@/components/ContentCarousel"));
 const LogoCarousel = lazy(() => import("@/components/LogoCarousel"));
 const FeaturesSection = lazy(() => import("@/components/FeaturesSection"));
