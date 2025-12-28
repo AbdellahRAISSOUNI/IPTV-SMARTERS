@@ -467,11 +467,12 @@ export default function AdminDashboard() {
                 {/* Pricing Section Editor */}
                 {activeSection === "pricing" && (
                   <div className="space-y-6">
+                    {/* Section Settings */}
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h2 className="text-2xl font-medium text-black mb-1">Pricing Plans</h2>
-                      <p className="text-gray-500 text-sm mb-6">Edit pricing and features</p>
+                      <h2 className="text-2xl font-medium text-black mb-1">Pricing Section</h2>
+                      <p className="text-gray-500 text-sm mb-6">Edit section title and labels</p>
 
-                      <div className="space-y-6">
+                      <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Section Title
@@ -480,7 +481,7 @@ export default function AdminDashboard() {
                             type="text"
                             value={getValue("pricing.title")}
                             onChange={(e) => updateValue("pricing.title", e.target.value)}
-                            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-lg font-medium"
+                            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                           />
                         </div>
 
@@ -508,77 +509,328 @@ export default function AdminDashboard() {
                             />
                           </div>
                         </div>
+                      </div>
+                    </div>
 
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-3">
-                            Plan Features
-                          </label>
-                          <div className="grid grid-cols-2 gap-3">
-                            {[
-                              { key: "instantActivation", label: "Instant Activation" },
-                              { key: "freeUpdates", label: "Free Updates" },
-                              { key: "liveChannels", label: "Live Channels" },
-                              { key: "moviesSeries", label: "Movies & Series" },
-                              { key: "adultContent", label: "Adult Content" },
-                              { key: "antiFreezing", label: "Anti-Freezing" },
-                              { key: "quality", label: "Quality" },
-                              { key: "fastStable", label: "Fast & Stable" },
-                              { key: "formats", label: "Formats" },
-                              { key: "compatible", label: "Compatible" },
-                              { key: "serverAvailable", label: "Server Available" },
-                              { key: "support", label: "24/7 Support" },
-                              { key: "freeMonth", label: "Free Month" },
-                              { key: "freeMonths", label: "Free Months" },
-                            ].map((feature) => (
-                              <div key={feature.key}>
-                                <input
-                                  type="text"
-                                  value={getValue(`pricing.${feature.key}`)}
-                                  onChange={(e) => updateValue(`pricing.${feature.key}`, e.target.value)}
-                                  placeholder={feature.label}
-                                  className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                                />
-                              </div>
-                            ))}
+                    {/* Standard Plans - 4 Cards */}
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h3 className="text-lg font-medium text-black mb-4">Standard Plans (1 Connection)</h3>
+                      
+                      <div className="grid grid-cols-2 gap-6">
+                        {/* 3 Months Standard */}
+                        <div className="border border-gray-200 rounded-lg p-4">
+                          <h4 className="font-medium text-gray-900 mb-3">3 Months Plan</h4>
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              placeholder="Price (e.g., €19.99)"
+                              defaultValue="€19.99"
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <div className="text-xs text-gray-500 space-y-1">
+                              <p>✓ Instant Activation</p>
+                              <p>✓ Free Updates</p>
+                              <p>✓ 20,000+ Live Channels</p>
+                              <p className="text-gray-400">+ 8 more features...</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 6 Months Standard */}
+                        <div className="border border-gray-200 rounded-lg p-4">
+                          <h4 className="font-medium text-gray-900 mb-3">6 Months Plan</h4>
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              placeholder="Price (e.g., €29.99)"
+                              defaultValue="€29.99"
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <div className="text-xs text-gray-500 space-y-1">
+                              <p>✓ Instant Activation</p>
+                              <p>✓ Free Updates</p>
+                              <p>✓ 20,000+ Live Channels</p>
+                              <p className="text-gray-400">+ 8 more features...</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 12 Months Standard */}
+                        <div className="border border-blue-500 rounded-lg p-4 bg-blue-50/50">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-gray-900">12 Months Plan</h4>
+                            <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded">Popular</span>
+                          </div>
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              placeholder="Price (e.g., €39.99)"
+                              defaultValue="€39.99"
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <div className="text-xs text-gray-700 space-y-1">
+                              <p>✓ Instant Activation</p>
+                              <p>✓ Free Updates</p>
+                              <p>✓ 20,000+ Live Channels</p>
+                              <p className="text-gray-500">+ 8 more features...</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 24 Months Standard */}
+                        <div className="border border-gray-200 rounded-lg p-4">
+                          <h4 className="font-medium text-gray-900 mb-3">24 Months Plan</h4>
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              placeholder="Price (e.g., €54.99)"
+                              defaultValue="€54.99"
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <div className="text-xs text-gray-500 space-y-1">
+                              <p>✓ Instant Activation</p>
+                              <p>✓ Free Updates</p>
+                              <p>✓ 20,000+ Live Channels</p>
+                              <p className="text-gray-400">+ 8 more features...</p>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* Preview */}
+                    {/* Premium Plans - 4 Cards */}
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h3 className="text-lg font-medium text-black mb-4">Premium Plans (Multiple Connections)</h3>
+                      
+                      <div className="grid grid-cols-2 gap-6">
+                        {/* 3 Months Premium */}
+                        <div className="border border-gray-200 rounded-lg p-4">
+                          <h4 className="font-medium text-gray-900 mb-3">3 Months Premium</h4>
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              placeholder="Price (e.g., €29.99)"
+                              defaultValue="€29.99"
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <div className="text-xs text-gray-500 space-y-1">
+                              <p>✓ Adult Content</p>
+                              <p>✓ 20,000+ Live Channels</p>
+                              <p>✓ 4K & HD Quality</p>
+                              <p className="text-gray-400">+ 9 more features...</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 6 Months Premium */}
+                        <div className="border border-gray-200 rounded-lg p-4">
+                          <h4 className="font-medium text-gray-900 mb-3">6 Months Premium</h4>
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              placeholder="Price (e.g., €39.99)"
+                              defaultValue="€39.99"
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <div className="text-xs text-gray-500 space-y-1">
+                              <p>✓ Adult Content</p>
+                              <p>✓ 20,000+ Live Channels</p>
+                              <p>✓ 4K & HD Quality</p>
+                              <p className="text-gray-400">+ 9 more features...</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 12 Months Premium */}
+                        <div className="border border-blue-500 rounded-lg p-4 bg-blue-50/50">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-gray-900">12 Months Premium</h4>
+                            <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded">Popular</span>
+                          </div>
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              placeholder="Price (e.g., €59.99)"
+                              defaultValue="€59.99"
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <div className="text-xs text-gray-700 space-y-1">
+                              <p>✓ Adult Content</p>
+                              <p>✓ 20,000+ Live Channels</p>
+                              <p>✓ 1 Month FREE Bonus</p>
+                              <p className="text-gray-500">+ 9 more features...</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 24 Months Premium */}
+                        <div className="border border-gray-200 rounded-lg p-4">
+                          <h4 className="font-medium text-gray-900 mb-3">24 Months Premium</h4>
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              placeholder="Price (e.g., €89.99)"
+                              defaultValue="€89.99"
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <div className="text-xs text-gray-500 space-y-1">
+                              <p>✓ Adult Content</p>
+                              <p>✓ 20,000+ Live Channels</p>
+                              <p>✓ 3 Months FREE Bonus</p>
+                              <p className="text-gray-400">+ 9 more features...</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Features Editor */}
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h3 className="text-lg font-medium text-black mb-1">Plan Features</h3>
+                      <p className="text-gray-500 text-sm mb-4">Edit the feature text shown in all cards</p>
+                      
+                      <div className="grid grid-cols-2 gap-3">
+                        {[
+                          { key: "instantActivation", label: "Instant Activation" },
+                          { key: "freeUpdates", label: "Free Updates" },
+                          { key: "liveChannels", label: "Live Channels" },
+                          { key: "moviesSeries", label: "Movies & Series" },
+                          { key: "adultContent", label: "Adult Content (Premium)" },
+                          { key: "antiFreezing", label: "Anti-Freezing" },
+                          { key: "quality", label: "Quality" },
+                          { key: "fastStable", label: "Fast & Stable" },
+                          { key: "formats", label: "Formats" },
+                          { key: "compatible", label: "Compatible" },
+                          { key: "serverAvailable", label: "Server 99.9% Available" },
+                          { key: "support", label: "24/7 Support" },
+                        ].map((feature) => (
+                          <div key={feature.key}>
+                            <label className="text-xs text-gray-600 mb-1 block">{feature.label}</label>
+                            <input
+                              type="text"
+                              value={getValue(`pricing.${feature.key}`)}
+                              onChange={(e) => updateValue(`pricing.${feature.key}`, e.target.value)}
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Live Preview */}
                     {showPreview && (
                       <div className="bg-white rounded-xl border border-gray-200 p-6">
-                        <p className="text-xs text-gray-500 mb-4 uppercase tracking-wide">Preview</p>
+                        <p className="text-xs text-gray-500 mb-4 uppercase tracking-wide">Live Preview</p>
                         
+                        {/* Standard Plans Preview */}
                         <div className="mb-8">
-                          <div className="inline-block px-4 py-2 bg-gray-100 rounded-lg mb-4">
-                            <span className="text-sm font-semibold text-gray-900">{getValue("pricing.oneConnection")}</span>
+                          <div className="flex justify-center mb-6">
+                            <div className="relative px-6 py-2.5 rounded-lg border-2 border-gray-300 bg-gray-100">
+                              <div className="absolute inset-0 bg-blue-600 rounded-lg"></div>
+                              <span className="relative z-10 font-semibold text-sm text-white uppercase">
+                                {getValue("pricing.oneConnection")}
+                              </span>
+                            </div>
                           </div>
                           <div className="grid grid-cols-4 gap-4">
-                            {["3 Months - €19.99", "6 Months - €29.99", "12 Months - €39.99", "24 Months - €54.99"].map((plan, i) => (
-                              <div key={i} className="border border-gray-200 rounded-lg p-4">
-                                <h3 className="font-semibold text-gray-900 mb-2 text-sm">{plan}</h3>
-                                <div className="space-y-1">
-                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.instantActivation")}</p>
-                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.liveChannels")}</p>
+                            {[
+                              { name: "3 Months", price: "€19.99", popular: false },
+                              { name: "6 Months", price: "€29.99", popular: false },
+                              { name: "12 Months", price: "€39.99", popular: true },
+                              { name: "24 Months", price: "€54.99", popular: false }
+                            ].map((plan, i) => (
+                              <div key={i} className={`border-2 rounded-xl p-4 ${
+                                plan.popular ? 'border-blue-600 bg-blue-50 shadow-lg' : 'border-gray-200 bg-white'
+                              }`}>
+                                {plan.popular && (
+                                  <div className="text-center mb-2">
+                                    <span className="inline-block text-xs bg-blue-600 text-white px-3 py-1 rounded-full font-semibold">
+                                      POPULAR
+                                    </span>
+                                  </div>
+                                )}
+                                <h3 className="font-bold text-gray-900 mb-2 text-center">{plan.name}</h3>
+                                <div className="text-center mb-3">
+                                  <span className="text-2xl font-bold text-gray-900">{plan.price}</span>
                                 </div>
+                                <div className="space-y-1.5 text-xs">
+                                  <p className="flex items-center gap-1.5">
+                                    <span className="text-blue-600">✓</span>
+                                    <span>{getValue("pricing.instantActivation")}</span>
+                                  </p>
+                                  <p className="flex items-center gap-1.5">
+                                    <span className="text-blue-600">✓</span>
+                                    <span>{getValue("pricing.liveChannels")}</span>
+                                  </p>
+                                  <p className="flex items-center gap-1.5">
+                                    <span className="text-blue-600">✓</span>
+                                    <span>{getValue("pricing.quality")}</span>
+                                  </p>
+                                </div>
+                                <button className={`w-full mt-4 py-2 rounded-lg font-semibold text-sm ${
+                                  plan.popular 
+                                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                                    : 'bg-gray-900 text-white hover:bg-gray-800'
+                                }`}>
+                                  Buy Now
+                                </button>
                               </div>
                             ))}
                           </div>
                         </div>
 
+                        {/* Premium Plans Preview */}
                         <div>
-                          <div className="inline-block px-4 py-2 bg-gray-100 rounded-lg mb-4">
-                            <span className="text-sm font-semibold text-gray-900">{getValue("pricing.premiumPlans")}</span>
+                          <div className="flex justify-center mb-6">
+                            <div className="relative px-6 py-2.5 rounded-lg border-2 border-gray-300 bg-gray-100">
+                              <div className="absolute inset-0 bg-blue-600 rounded-lg"></div>
+                              <span className="relative z-10 font-semibold text-sm text-white uppercase">
+                                {getValue("pricing.premiumPlans")}
+                              </span>
+                            </div>
                           </div>
                           <div className="grid grid-cols-4 gap-4">
-                            {["3 Months - €29.99", "6 Months - €39.99", "12 Months - €59.99", "24 Months - €89.99"].map((plan, i) => (
-                              <div key={i} className="border border-gray-200 rounded-lg p-4">
-                                <h3 className="font-semibold text-gray-900 mb-2 text-sm">{plan}</h3>
-                                <div className="space-y-1">
-                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.adultContent")}</p>
-                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.liveChannels")}</p>
+                            {[
+                              { name: "3 Months", price: "€29.99", popular: false },
+                              { name: "6 Months", price: "€39.99", popular: false },
+                              { name: "12 Months", price: "€59.99", popular: true },
+                              { name: "24 Months", price: "€89.99", popular: false }
+                            ].map((plan, i) => (
+                              <div key={i} className={`border-2 rounded-xl p-4 ${
+                                plan.popular ? 'border-blue-600 bg-blue-50 shadow-lg' : 'border-gray-200 bg-white'
+                              }`}>
+                                {plan.popular && (
+                                  <div className="text-center mb-2">
+                                    <span className="inline-block text-xs bg-blue-600 text-white px-3 py-1 rounded-full font-semibold">
+                                      POPULAR
+                                    </span>
+                                  </div>
+                                )}
+                                <h3 className="font-bold text-gray-900 mb-2 text-center">{plan.name}</h3>
+                                <div className="text-center mb-3">
+                                  <span className="text-2xl font-bold text-gray-900">{plan.price}</span>
                                 </div>
+                                <div className="space-y-1.5 text-xs">
+                                  <p className="flex items-center gap-1.5">
+                                    <span className="text-blue-600">✓</span>
+                                    <span>{getValue("pricing.adultContent")}</span>
+                                  </p>
+                                  <p className="flex items-center gap-1.5">
+                                    <span className="text-blue-600">✓</span>
+                                    <span>{getValue("pricing.liveChannels")}</span>
+                                  </p>
+                                  <p className="flex items-center gap-1.5">
+                                    <span className="text-blue-600">✓</span>
+                                    <span>{getValue("pricing.quality")}</span>
+                                  </p>
+                                </div>
+                                <button className={`w-full mt-4 py-2 rounded-lg font-semibold text-sm ${
+                                  plan.popular 
+                                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                                    : 'bg-gray-900 text-white hover:bg-gray-800'
+                                }`}>
+                                  Buy Now
+                                </button>
                               </div>
                             ))}
                           </div>
