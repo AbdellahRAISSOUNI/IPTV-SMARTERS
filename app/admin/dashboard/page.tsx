@@ -1023,17 +1023,16 @@ export default function AdminDashboard() {
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {[
-                          { key: "home", label: "Home", icon: "🏠" },
-                          { key: "pricing", label: "Pricing", icon: "💰" },
-                          { key: "features", label: "Features", icon: "✨" },
-                          { key: "faq", label: "FAQ", icon: "❓" },
-                          { key: "contact", label: "Contact", icon: "📧" },
-                          { key: "blog", label: "Blog", icon: "📝" },
-                          { key: "iptvReseller", label: "IPTV Reseller", icon: "👥" },
+                          { key: "home", label: "Home" },
+                          { key: "pricing", label: "Pricing" },
+                          { key: "features", label: "Features" },
+                          { key: "faq", label: "FAQ" },
+                          { key: "contact", label: "Contact" },
+                          { key: "blog", label: "Blog" },
+                          { key: "iptvReseller", label: "IPTV Reseller" },
                         ].map((item) => (
                           <div key={item.key}>
                             <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                              <span className="mr-2">{item.icon}</span>
                               {item.label}
                             </label>
                             <input
@@ -1045,197 +1044,6 @@ export default function AdminDashboard() {
                             />
                           </div>
                         ))}
-                      </div>
-                    </div>
-
-                    {/* Button Labels */}
-                    <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h3 className="text-lg font-medium text-black mb-1">Button Labels</h3>
-                      <p className="text-gray-500 text-sm mb-4">Edit button text throughout the website</p>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {[
-                          { key: "viewOffers", label: "View Offers Button", icon: "👁️" },
-                          { key: "whatsapp", label: "WhatsApp Button", icon: "💬" },
-                          { key: "email", label: "Email Button", icon: "📧" },
-                          { key: "freeTest", label: "Free Test Button", icon: "🎁" },
-                        ].map((item) => (
-                          <div key={item.key}>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                              <span className="mr-2">{item.icon}</span>
-                              {item.label}
-                            </label>
-                            <input
-                              type="text"
-                              value={getValue(`common.${item.key}`)}
-                              onChange={(e) => updateValue(`common.${item.key}`, e.target.value)}
-                              placeholder={item.label}
-                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Contact Information */}
-                    <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h3 className="text-lg font-medium text-black mb-1">Contact Information</h3>
-                      <p className="text-gray-500 text-sm mb-4">Edit contact details and links</p>
-                      
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            📧 Contact Email
-                          </label>
-                          <input
-                            type="email"
-                            value={process.env.NEXT_PUBLIC_CONTACT_EMAIL || ""}
-                            readOnly
-                            className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-600 text-sm"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">Set via environment variable NEXT_PUBLIC_CONTACT_EMAIL</p>
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            🔗 WhatsApp Number
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="+1234567890"
-                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">Format: +[country code][number]</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* SEO Settings */}
-                    <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h3 className="text-lg font-medium text-black mb-1">SEO & Meta Information</h3>
-                      <p className="text-gray-500 text-sm mb-4">Edit meta tags and SEO settings</p>
-                      
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            🌐 Website Base URL
-                          </label>
-                          <input
-                            type="url"
-                            value={process.env.NEXT_PUBLIC_BASE_URL || ""}
-                            readOnly
-                            className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-600 text-sm"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">Set via environment variable NEXT_PUBLIC_BASE_URL</p>
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            📝 Site Description
-                          </label>
-                          <textarea
-                            rows={3}
-                            placeholder="Enter website description for SEO..."
-                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Footer Settings */}
-                    <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h3 className="text-lg font-medium text-black mb-1">Footer Settings</h3>
-                      <p className="text-gray-500 text-sm mb-4">Edit footer content and links</p>
-                      
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            📄 Footer Description
-                          </label>
-                          <textarea
-                            rows={3}
-                            value={getValue("footer.description")}
-                            onChange={(e) => updateValue("footer.description", e.target.value)}
-                            placeholder="Footer description text..."
-                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
-                          />
-                        </div>
-                        
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                              🔗 Quick Links Label
-                            </label>
-                            <input
-                              type="text"
-                              value={getValue("footer.quickLinks")}
-                              onChange={(e) => updateValue("footer.quickLinks", e.target.value)}
-                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                              ⚖️ Legal Label
-                            </label>
-                            <input
-                              type="text"
-                              value={getValue("footer.legal")}
-                              onChange={(e) => updateValue("footer.legal", e.target.value)}
-                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Social Media & Links */}
-                    <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h3 className="text-lg font-medium text-black mb-1">Social Media & External Links</h3>
-                      <p className="text-gray-500 text-sm mb-4">Add social media links and external resources</p>
-                      
-                      <div className="space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                              🔵 Facebook URL
-                            </label>
-                            <input
-                              type="url"
-                              placeholder="https://facebook.com/yourpage"
-                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                              📸 Instagram URL
-                            </label>
-                            <input
-                              type="url"
-                              placeholder="https://instagram.com/yourpage"
-                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                              🐦 Twitter/X URL
-                            </label>
-                            <input
-                              type="url"
-                              placeholder="https://twitter.com/yourpage"
-                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                              📺 YouTube URL
-                            </label>
-                            <input
-                              type="url"
-                              placeholder="https://youtube.com/yourchannel"
-                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                            />
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
