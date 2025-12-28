@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // Removed output: "export" to enable API routes for admin dashboard
   trailingSlash: true,
   images: {
-    unoptimized: true, // Required for static export
+    // Removed unoptimized: true - Vercel will optimize images automatically
     remotePatterns: [
       {
         protocol: "https",

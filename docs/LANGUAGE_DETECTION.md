@@ -165,6 +165,7 @@ useEffect(() => {
   const storedLocale = localStorage.getItem('preferred-locale');
   if (storedLocale) {
     router.replace(`/${storedLocale}${currentPath}`);
+    setDetected(true);
     return;
   }
   
@@ -181,14 +182,35 @@ useEffect(() => {
   
   // 5. Background IP detection (only if default locale)
   if (detectedLocale === defaultLocale) {
-    fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(1000) })
-      .then(data => {
-        const countryLocale = detectLocaleFromCountry(data.country_code);
-        if (countryLocale !== detectedLocale) {
-          router.replace(`/${countryLocale}${currentPath}`);
+    (async () => {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1000);
+        
+        const res = await fetch('https://ipapi.co/json/', { 
+          signal: controller.signal,
+          mode: 'cors',
+          credentials: 'omit'
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!res.ok) {
+          return; // Silently return for non-ok responses (429, etc.)
         }
-      })
-      .catch(() => {}); // Silently fail
+        
+        const data = await res.json();
+        
+        if (data && data.country_code) {
+          const countryLocale = detectLocaleFromCountry(data.country_code);
+          if (countryLocale !== detectedLocale) {
+            router.replace(`/${countryLocale}${currentPath}`);
+          }
+        }
+      } catch (error) {
+        // Silently fail - already redirected to default or network error
+      }
+    })();
   }
 }, [router, detected]);
 ```
@@ -507,9 +529,10 @@ export default async function ServerComponent({
 
 2. **Non-Blocking IP Detection:**
    - Only runs if browser language is default (English)
-   - 1-second timeout prevents hanging
-   - Fails silently if API is unavailable
+   - 1-second timeout with AbortController prevents hanging
+   - Fails silently if API is unavailable (429 errors suppressed)
    - Doesn't block initial page load
+   - Uses `async/await` with try-catch for error handling
 
 3. **Static Export:**
    - All pages pre-rendered at build time
@@ -519,6 +542,11 @@ export default async function ServerComponent({
 4. **Lazy Loading:**
    - Components loaded on demand
    - Reduces initial bundle size
+
+5. **Error Suppression:**
+   - IP geolocation errors are suppressed in console
+   - Prevents console noise from network failures
+   - Maintains clean user experience
 
 ### Browser Compatibility
 
