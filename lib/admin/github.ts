@@ -12,9 +12,10 @@ interface GitHubFileContent {
 
 interface CommitFileParams {
   path: string;
-  content: string;
+  content: string; // Can be base64 (for images) or text (for JSON)
   message: string;
   sha?: string;
+  isBase64?: boolean; // Flag to indicate if content is already base64
 }
 
 const GITHUB_API_BASE = 'https://api.github.com';
@@ -74,8 +75,16 @@ export async function updateFileOnGitHub(params: CommitFileParams): Promise<void
   
   const url = `${GITHUB_API_BASE}/repos/${repo}/contents/${params.path}`;
   
-  // Encode content to base64
-  const contentBase64 = Buffer.from(params.content, 'utf-8').toString('base64');
+  // If content is already base64 (for binary files like images), use it directly
+  // Otherwise, encode to base64
+  let contentBase64: string;
+  if (params.isBase64 || params.path.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+    // For images or explicitly marked as base64, use content as-is
+    contentBase64 = params.content;
+  } else {
+    // For text files, encode to base64
+    contentBase64 = Buffer.from(params.content, 'utf-8').toString('base64');
+  }
   
   const body: any = {
     message: params.message,

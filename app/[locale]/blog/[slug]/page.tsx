@@ -94,7 +94,8 @@ export default function BlogPostPage() {
         );
 
       case "image":
-        if (!block.imageUrl) return null;
+        if (!block.imageUrl || block.imageUrl.startsWith('blob:')) return null; // Don't render blob URLs in public pages
+        
         return (
           <div
             key={block.id}
@@ -125,6 +126,7 @@ export default function BlogPostPage() {
                 width={1200}
                 height={800}
                 className="w-full h-auto rounded-lg"
+                unoptimized={false}
               />
             </div>
           </div>
@@ -190,7 +192,7 @@ export default function BlogPostPage() {
           </header>
 
           {/* Featured Image */}
-          {blog.featuredImage && (
+          {blog.featuredImage && !blog.featuredImage.startsWith('blob:') && (
             <div className="relative w-full h-64 sm:h-96 mb-12 rounded-lg overflow-hidden bg-gray-100">
               <Image
                 src={blog.featuredImage}
@@ -198,6 +200,7 @@ export default function BlogPostPage() {
                 fill
                 className="object-cover"
                 priority
+                unoptimized={false}
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 896px"
               />
             </div>

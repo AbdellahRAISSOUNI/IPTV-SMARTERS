@@ -81,7 +81,7 @@ export default function BlogPage() {
                     href={`/${displayLocale}/blog/${blog.slug}`}
                     className="group block bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-200"
                   >
-                    {blog.featuredImage && (
+                    {blog.featuredImage && !blog.featuredImage.startsWith('blob:') && (
                       <div className="relative w-full h-48 sm:h-56 overflow-hidden bg-gray-100">
                         <Image
                           src={blog.featuredImage}
@@ -89,10 +89,7 @@ export default function BlogPage() {
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-200"
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          onError={(e) => {
-                            // Hide image if it fails to load
-                            (e.target as HTMLImageElement).style.display = 'none';
-                          }}
+                          unoptimized={false}
                         />
                       </div>
                     )}

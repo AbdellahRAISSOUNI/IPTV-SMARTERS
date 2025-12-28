@@ -149,16 +149,12 @@ export default function BlogsManager() {
                  key={blog.id}
                  className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
                >
-                 {blog.featuredImage && (
+                 {blog.featuredImage && !blog.featuredImage.startsWith('blob:') && (
                    <div className="relative w-full h-40 mb-3 overflow-hidden rounded-lg bg-gray-100">
                      <img
                        src={blog.featuredImage}
                        alt={blog.title[blog.locale] || "Blog"}
                        className="w-full h-full object-cover"
-                       onError={(e) => {
-                         // Hide image if it fails to load (not deployed yet)
-                         (e.target as HTMLImageElement).style.display = 'none';
-                       }}
                      />
                    </div>
                  )}

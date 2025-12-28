@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert file to base64
+    // Convert file to base64 for GitHub API
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const base64 = buffer.toString('base64');
@@ -36,14 +36,15 @@ export async function POST(request: NextRequest) {
     const filename = `${timestamp}.${ext}`;
     const path = `public/${folder}/${filename}`;
 
-    // Upload to GitHub
+    // Upload to GitHub - pass base64 directly with flag
     await updateFileOnGitHub({
       path,
-      content: buffer.toString('utf-8'),
+      content: base64, // Already base64 encoded
       message: `Upload image: ${filename}`,
+      isBase64: true, // Tell github.ts this is already base64
     });
 
-    // Return public URL
+    // Return public URL (relative path that Next.js will serve from public folder)
     const publicUrl = `/${folder}/${filename}`;
 
     return NextResponse.json({ 

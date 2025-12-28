@@ -53,6 +53,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   const [editingBlockId, setEditingBlockId] = useState<string | null>(null);
   const [activeLocale, setActiveLocale] = useState<"en" | "es" | "fr">("en");
   const [imagePreviewUrls, setImagePreviewUrls] = useState<Record<string, string>>({}); // For immediate previews
+  const [pendingUploads, setPendingUploads] = useState<Set<string>>(new Set()); // Track blocks/images being uploaded
 
   useEffect(() => {
     if (initialBlog) {
@@ -64,17 +65,35 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   const generateId = () => Math.random().toString(36).substring(2, 15);
 
   const handleSave = async () => {
+    // Check if there are any pending uploads
+    if (pendingUploads.size > 0 || isUploading) {
+      alert("Please wait for image uploads to complete before saving.");
+      return;
+    }
+
     setIsSaving(true);
     setSaveStatus("idle");
 
     try {
-      const blogToSave = {
+      // Clean up blob URLs before saving - ensure we only save Cloudinary URLs
+      const cleanedBlog = {
         ...blog,
         id: blog.id || generateId(),
         updatedAt: new Date().toISOString(),
         publishedAt: blog.publishedAt || new Date().toISOString(),
+        // Ensure featured image is not a blob URL (Cloudinary URLs are https://)
+        featuredImage: blog.featuredImage?.startsWith('blob:') ? undefined : blog.featuredImage,
+        // Clean up block image URLs
+        blocks: blog.blocks.map(block => {
+          if (block.type === 'image' && block.imageUrl?.startsWith('blob:')) {
+            // If it's still a blob URL, it means upload didn't complete - remove it
+            return { ...block, imageUrl: undefined };
+          }
+          return block;
+        }),
       };
-      await onSave(blogToSave);
+      
+      await onSave(cleanedBlog);
       setSaveStatus("success");
       setTimeout(() => setSaveStatus("idle"), 3000);
     } catch (error) {
@@ -97,23 +116,25 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
       formData.append("file", file);
       formData.append("folder", "blog-images");
 
-      const response = await fetch("/api/admin/upload", {
+      const response = await fetch("/api/admin/upload-cloudinary", {
         method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error("Failed to upload image");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to upload image");
       }
 
       const data = await response.json();
       
-      // Store both preview URL and actual URL mapping
+      // Store both preview URL and actual Cloudinary URL mapping
       setImagePreviewUrls(prev => ({
         ...prev,
         [data.url]: previewUrl
       }));
       
+      // Return Cloudinary URL (immediately accessible via CDN)
       return data.url;
     } catch (error) {
       console.error("Upload failed:", error);
@@ -177,18 +198,33 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     // Create immediate preview
     const previewUrl = URL.createObjectURL(file);
     
-    // Show preview immediately
+    // Mark as uploading
+    setPendingUploads(prev => new Set(prev).add(blockId));
+    
+    // Show preview immediately with blob URL
     updateBlock(blockId, { imageUrl: previewUrl });
     
     try {
       const url = await handleImageUpload(file);
-      // Update with actual URL after upload
+      // Update with actual GitHub URL after upload completes
+      // This ensures we save the real URL, not the blob URL
       updateBlock(blockId, { imageUrl: url });
+      
+      // Clean up blob URL after successful upload
+      URL.revokeObjectURL(previewUrl);
     } catch (error) {
       console.error("Failed to upload image:", error);
       // Revert to no image on error
       updateBlock(blockId, { imageUrl: undefined });
       URL.revokeObjectURL(previewUrl);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      // Remove from pending uploads
+      setPendingUploads(prev => {
+        const next = new Set(prev);
+        next.delete(blockId);
+        return next;
+      });
     }
   };
   
@@ -377,12 +413,32 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                   onChange={async (e) => {
                     const file = e.target.files?.[0];
                     if (file) {
+                      // Show preview immediately
+                      const previewUrl = URL.createObjectURL(file);
+                      setBlog({ ...blog, featuredImage: previewUrl });
+                      
+                      // Mark as uploading
+                      setPendingUploads(prev => new Set(prev).add('featured'));
+                      
                       try {
                         const url = await handleImageUpload(file);
+                        // Update with actual GitHub URL after upload
                         setBlog({ ...blog, featuredImage: url });
+                        // Clean up blob URL
+                        URL.revokeObjectURL(previewUrl);
                       } catch (error) {
                         console.error("Failed to upload:", error);
+                        // Revert on error
+                        setBlog({ ...blog, featuredImage: undefined });
+                        URL.revokeObjectURL(previewUrl);
                         alert("Failed to upload image. Please try again.");
+                      } finally {
+                        // Remove from pending uploads
+                        setPendingUploads(prev => {
+                          const next = new Set(prev);
+                          next.delete('featured');
+                          return next;
+                        });
                       }
                     }
                   }}
