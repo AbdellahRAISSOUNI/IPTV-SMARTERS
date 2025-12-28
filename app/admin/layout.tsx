@@ -15,7 +15,13 @@ export default function AdminLayout({
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check authentication
+    // Skip auth check on login page
+    if (pathname === "/admin/login") {
+      setAuthenticated(false);
+      return;
+    }
+
+    // Check authentication for other pages
     fetch("/api/admin/verify")
       .then((res) => res.json())
       .then((data) => {
@@ -23,16 +29,12 @@ export default function AdminLayout({
           setAuthenticated(true);
         } else {
           setAuthenticated(false);
-          if (pathname !== "/admin/login") {
-            router.push("/admin/login");
-          }
+          router.push("/admin/login");
         }
       })
       .catch(() => {
         setAuthenticated(false);
-        if (pathname !== "/admin/login") {
-          router.push("/admin/login");
-        }
+        router.push("/admin/login");
       });
   }, [pathname, router]);
 
@@ -42,13 +44,15 @@ export default function AdminLayout({
     router.refresh();
   };
 
+  // Always show login page without layout
   if (pathname === "/admin/login") {
     return <>{children}</>;
   }
 
+  // Show loading while checking auth
   if (authenticated === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563eb] mx-auto mb-4"></div>
           <p className="text-[#1a1a1a]/70">Loading...</p>
@@ -57,8 +61,15 @@ export default function AdminLayout({
     );
   }
 
+  // Redirect to login if not authenticated (this should be handled by useEffect, but just in case)
   if (!authenticated) {
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <p className="text-[#1a1a1a]/70">Redirecting to login...</p>
+        </div>
+      </div>
+    );
   }
 
   const navItems = [
