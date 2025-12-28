@@ -43,7 +43,6 @@ export async function generateMetadata(): Promise<Metadata> {
     robots: {
       index: false, // Don't index root page - it redirects
       follow: true,
-      noindex: true, // Explicitly noindex the root page
     },
   };
 }
