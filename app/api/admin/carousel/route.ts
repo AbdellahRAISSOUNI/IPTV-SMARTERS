@@ -1,0 +1,95 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyAdminSession } from '@/lib/admin/auth';
+import { getFileFromGitHub, updateFileOnGitHub } from '@/lib/admin/github';
+
+// GET - Fetch carousel config
+export async function GET() {
+  try {
+    const isAuthenticated = await verifyAdminSession();
+    if (!isAuthenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // For now, return hardcoded carousel data
+    // In production, this would come from a config file
+    const carouselData = {
+      channels: [
+        "/carouselle-channels/abc-tv-logo-Copy.webp",
+        "/carouselle-channels/ae-tv-logo-1.png",
+        "/carouselle-channels/AMC-tv-logo.webp",
+        "/carouselle-channels/cbs-tv-logo.png",
+        "/carouselle-channels/discovery-channel-tv-logo.png",
+        "/carouselle-channels/fox-tv-logo.png",
+        "/carouselle-channels/hbo-tv-logo.webp",
+        "/carouselle-channels/history-tv-logo.png",
+        "/carouselle-channels/national-geographic-tv-logo.png",
+        "/carouselle-channels/nbc-tv-logo.png",
+        "/carouselle-channels/tnt-tv-logo.png",
+        "/carouselle-channels/usa-network-logo.webp",
+      ],
+      streaming: [
+        "/carouselle-streaming/580b57fcd9996e24bc43c529-300x169-min-1.png",
+        "/carouselle-streaming/Bein_sport_logo-1024x595-1-min-300x174-2.png",
+        "/carouselle-streaming/canal-logo-png-transparent-385x385-1-e1677705689705-min-300x149-2.webp",
+        "/carouselle-streaming/FOX_Sports_logo.svg-1024x606-min-300x178-2.png",
+        "/carouselle-streaming/HBO-Max-Logo-768x432-2-min-300x169-2.png",
+        "/carouselle-streaming/pngegg-2-e1677705730772-min-300x155-2.png",
+        "/carouselle-streaming/sky-sports-logo-png-8-768x432-1-min-300x169-2.png",
+      ],
+      content: [
+        "/carouselle-shows/1876.webp",
+        "/carouselle-shows/3f8e093cd2b2aa6993c1d936a154831c-1.webp",
+        "/carouselle-shows/asteroid-city-movie-poster-7030.webp",
+        "/carouselle-shows/bob-marley-one-love-movie-poster.webp",
+        "/carouselle-shows/dune-part-two-movie-poster.webp",
+        "/carouselle-shows/furiosa-a-mad-max-saga-movie-poster.webp",
+        "/carouselle-shows/godzilla-x-kong-the-new-empire-movie-poster.webp",
+      ],
+    };
+
+    return NextResponse.json(carouselData);
+  } catch (error: any) {
+    console.error('Fetch carousel error:', error);
+    return NextResponse.json(
+      { error: error.message || 'Failed to fetch carousel data' },
+      { status: 500 }
+    );
+  }
+}
+
+// POST - Update carousel config
+export async function POST(request: NextRequest) {
+  try {
+    const isAuthenticated = await verifyAdminSession();
+    if (!isAuthenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const { type, images } = await request.json();
+
+    if (!type || !images) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // TODO: Save to a config file in GitHub
+    // For now, just return success
+    
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error('Update carousel error:', error);
+    return NextResponse.json(
+      { error: error.message || 'Failed to update carousel' },
+      { status: 500 }
+    );
+  }
+}
+

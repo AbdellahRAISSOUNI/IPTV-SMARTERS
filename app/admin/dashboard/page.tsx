@@ -14,6 +14,10 @@ import {
   Settings as SettingsIcon,
   Eye,
   EyeOff,
+  Image as ImageIcon,
+  Upload,
+  Trash2,
+  Plus,
 } from "lucide-react";
 
 interface Translations {
@@ -24,15 +28,24 @@ interface Translations {
   };
 }
 
-type Section = "hero" | "pricing" | "reseller" | "settings";
+interface CarouselData {
+  channels: string[];
+  streaming: string[];
+  content: string[];
+}
+
+type Section = "hero" | "pricing" | "carousel" | "reseller" | "settings";
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [translations, setTranslations] = useState<Translations>({});
+  const [carouselData, setCarouselData] = useState<CarouselData>({ channels: [], streaming: [], content: [] });
   const [activeLocale, setActiveLocale] = useState("en");
   const [activeSection, setActiveSection] = useState<Section>("hero");
+  const [activeCarouselTab, setActiveCarouselTab] = useState<"channels" | "streaming" | "content">("channels");
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
   const [showPreview, setShowPreview] = useState(false);
   const router = useRouter();
@@ -50,7 +63,7 @@ export default function AdminDashboard() {
         }
 
         setIsAuthenticated(true);
-        await loadTranslations();
+        await Promise.all([loadTranslations(), loadCarouselData()]);
       } catch (error) {
         console.error("Auth verification failed:", error);
         router.push("/admin/login");
@@ -70,6 +83,17 @@ export default function AdminDashboard() {
       setTranslations(data);
     } catch (error) {
       console.error("Failed to load translations:", error);
+    }
+  };
+
+  // Load carousel data
+  const loadCarouselData = async () => {
+    try {
+      const response = await fetch("/api/admin/carousel");
+      const data = await response.json();
+      setCarouselData(data);
+    } catch (error) {
+      console.error("Failed to load carousel data:", error);
     }
   };
 
@@ -116,6 +140,61 @@ export default function AdminDashboard() {
     } finally {
       setIsSaving(false);
     }
+  };
+
+  // Upload image
+  const handleImageUpload = async (file: File, folder: string) => {
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', folder);
+
+      const response = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const data = await response.json();
+      return data.url;
+    } catch (error) {
+      console.error("Upload failed:", error);
+      throw error;
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  // Add carousel image
+  const addCarouselImage = async (file: File) => {
+    try {
+      const folderMap = {
+        channels: "carouselle-channels",
+        streaming: "carouselle-streaming",
+        content: "carouselle-shows",
+      };
+      
+      const url = await handleImageUpload(file, folderMap[activeCarouselTab]);
+      
+      setCarouselData(prev => ({
+        ...prev,
+        [activeCarouselTab]: [...prev[activeCarouselTab], url],
+      }));
+    } catch (error) {
+      console.error("Failed to add carousel image:", error);
+    }
+  };
+
+  // Remove carousel image
+  const removeCarouselImage = (index: number) => {
+    setCarouselData(prev => ({
+      ...prev,
+      [activeCarouselTab]: prev[activeCarouselTab].filter((_, i) => i !== index),
+    }));
   };
 
   // Update translation value
@@ -169,7 +248,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-xl font-medium text-black">Website Editor</h1>
-              <p className="text-sm text-gray-500 font-light mt-0.5">Edit and manage your IPTV website</p>
+              <p className="text-sm text-gray-500 font-light mt-0.5">Edit content, images, and settings</p>
             </div>
 
             <div className="flex items-center gap-3">
@@ -196,7 +275,6 @@ export default function AdminDashboard() {
                 className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-lg transition-all"
               >
                 {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                <span>{showPreview ? "Hide" : "Preview"}</span>
               </button>
 
               {/* Save Button */}
@@ -223,7 +301,7 @@ export default function AdminDashboard() {
                 ) : (
                   <>
                     <Save className="w-4 h-4" />
-                    <span>Save & Deploy</span>
+                    <span>Save</span>
                   </>
                 )}
               </button>
@@ -266,7 +344,18 @@ export default function AdminDashboard() {
                   }`}
                 >
                   <DollarSign className="w-4 h-4" />
-                  Pricing Plans
+                  Pricing
+                </button>
+                <button
+                  onClick={() => setActiveSection("carousel")}
+                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
+                    activeSection === "carousel"
+                      ? "bg-black text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  <ImageIcon className="w-4 h-4" />
+                  Carousels
                 </button>
                 <button
                   onClick={() => setActiveSection("reseller")}
@@ -277,7 +366,7 @@ export default function AdminDashboard() {
                   }`}
                 >
                   <Users className="w-4 h-4" />
-                  Reseller Page
+                  Reseller
                 </button>
                 <button
                   onClick={() => setActiveSection("settings")}
@@ -380,10 +469,9 @@ export default function AdminDashboard() {
                   <div className="space-y-6">
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
                       <h2 className="text-2xl font-medium text-black mb-1">Pricing Plans</h2>
-                      <p className="text-gray-500 text-sm mb-6">Edit your pricing section and features</p>
+                      <p className="text-gray-500 text-sm mb-6">Edit pricing and features</p>
 
                       <div className="space-y-6">
-                        {/* Section Title */}
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Section Title
@@ -396,7 +484,6 @@ export default function AdminDashboard() {
                           />
                         </div>
 
-                        {/* Plan Labels */}
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -422,7 +509,6 @@ export default function AdminDashboard() {
                           </div>
                         </div>
 
-                        {/* Features */}
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-3">
                             Plan Features
@@ -459,12 +545,11 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    {/* Preview - Pricing Cards */}
+                    {/* Preview */}
                     {showPreview && (
                       <div className="bg-white rounded-xl border border-gray-200 p-6">
                         <p className="text-xs text-gray-500 mb-4 uppercase tracking-wide">Preview</p>
                         
-                        {/* Standard Plans */}
                         <div className="mb-8">
                           <div className="inline-block px-4 py-2 bg-gray-100 rounded-lg mb-4">
                             <span className="text-sm font-semibold text-gray-900">{getValue("pricing.oneConnection")}</span>
@@ -472,18 +557,16 @@ export default function AdminDashboard() {
                           <div className="grid grid-cols-4 gap-4">
                             {["3 Months - €19.99", "6 Months - €29.99", "12 Months - €39.99", "24 Months - €54.99"].map((plan, i) => (
                               <div key={i} className="border border-gray-200 rounded-lg p-4">
-                                <h3 className="font-semibold text-gray-900 mb-2">{plan}</h3>
+                                <h3 className="font-semibold text-gray-900 mb-2 text-sm">{plan}</h3>
                                 <div className="space-y-1">
                                   <p className="text-xs text-gray-600">✓ {getValue("pricing.instantActivation")}</p>
                                   <p className="text-xs text-gray-600">✓ {getValue("pricing.liveChannels")}</p>
-                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.quality")}</p>
                                 </div>
                               </div>
                             ))}
                           </div>
                         </div>
 
-                        {/* Premium Plans */}
                         <div>
                           <div className="inline-block px-4 py-2 bg-gray-100 rounded-lg mb-4">
                             <span className="text-sm font-semibold text-gray-900">{getValue("pricing.premiumPlans")}</span>
@@ -491,11 +574,10 @@ export default function AdminDashboard() {
                           <div className="grid grid-cols-4 gap-4">
                             {["3 Months - €29.99", "6 Months - €39.99", "12 Months - €59.99", "24 Months - €89.99"].map((plan, i) => (
                               <div key={i} className="border border-gray-200 rounded-lg p-4">
-                                <h3 className="font-semibold text-gray-900 mb-2">{plan}</h3>
+                                <h3 className="font-semibold text-gray-900 mb-2 text-sm">{plan}</h3>
                                 <div className="space-y-1">
                                   <p className="text-xs text-gray-600">✓ {getValue("pricing.adultContent")}</p>
                                   <p className="text-xs text-gray-600">✓ {getValue("pricing.liveChannels")}</p>
-                                  <p className="text-xs text-gray-600">✓ {getValue("pricing.quality")}</p>
                                 </div>
                               </div>
                             ))}
@@ -503,6 +585,105 @@ export default function AdminDashboard() {
                         </div>
                       </div>
                     )}
+                  </div>
+                )}
+
+                {/* Carousel Section Editor */}
+                {activeSection === "carousel" && (
+                  <div className="space-y-6">
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h2 className="text-2xl font-medium text-black mb-1">Carousel Images</h2>
+                      <p className="text-gray-500 text-sm mb-6">Manage carousel images - add, remove, or reorder</p>
+
+                      {/* Carousel Type Tabs */}
+                      <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1 mb-6">
+                        <button
+                          onClick={() => setActiveCarouselTab("channels")}
+                          className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex-1 ${
+                            activeCarouselTab === "channels"
+                              ? "bg-white text-black shadow-sm"
+                              : "text-gray-600 hover:text-black"
+                          }`}
+                        >
+                          TV Channels
+                        </button>
+                        <button
+                          onClick={() => setActiveCarouselTab("streaming")}
+                          className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex-1 ${
+                            activeCarouselTab === "streaming"
+                              ? "bg-white text-black shadow-sm"
+                              : "text-gray-600 hover:text-black"
+                          }`}
+                        >
+                          Streaming Services
+                        </button>
+                        <button
+                          onClick={() => setActiveCarouselTab("content")}
+                          className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex-1 ${
+                            activeCarouselTab === "content"
+                              ? "bg-white text-black shadow-sm"
+                              : "text-gray-600 hover:text-black"
+                          }`}
+                        >
+                          Content/Shows
+                        </button>
+                      </div>
+
+                      {/* Upload Button */}
+                      <div className="mb-6">
+                        <label className="inline-flex items-center gap-2 px-4 py-2 bg-black hover:bg-gray-900 text-white font-medium rounded-lg transition-all cursor-pointer">
+                          <Upload className="w-4 h-4" />
+                          <span>{isUploading ? "Uploading..." : "Upload Image"}</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) addCarouselImage(file);
+                            }}
+                            className="hidden"
+                            disabled={isUploading}
+                          />
+                        </label>
+                      </div>
+
+                      {/* Image Grid */}
+                      <div className="grid grid-cols-4 gap-4">
+                        {carouselData[activeCarouselTab]?.map((image, index) => (
+                          <div key={index} className="relative group">
+                            <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                              <img
+                                src={image}
+                                alt={`Carousel ${index + 1}`}
+                                className="w-full h-full object-contain"
+                              />
+                            </div>
+                            <button
+                              onClick={() => removeCarouselImage(index)}
+                              className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                        
+                        {/* Add More Placeholder */}
+                        <label className="aspect-video bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 hover:bg-gray-100 transition-all">
+                          <Plus className="w-8 h-8 text-gray-400 mb-2" />
+                          <span className="text-sm text-gray-500">Add Image</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) addCarouselImage(file);
+                            }}
+                            className="hidden"
+                            disabled={isUploading}
+                          />
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 )}
 
