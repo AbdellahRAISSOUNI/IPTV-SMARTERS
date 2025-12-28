@@ -20,6 +20,13 @@
     "refundPolicy": "Politique de Remboursement",
     "viewOffers": "Voir les Offres"
   },
+  "blog": {
+    "title": "Blog",
+    "description": "Derniers articles, guides et mises à jour sur l'IPTV et le streaming",
+    "noPosts": "Aucun article de blog disponible pour le moment.",
+    "readMore": "Lire la suite",
+    "backToBlog": "Retour au Blog"
+  },
   "hero": {
     "title": "Meilleur Abonnement IPTV",
     "subtitlePart1": "",

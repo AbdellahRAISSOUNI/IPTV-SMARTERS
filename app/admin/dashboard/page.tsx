@@ -18,7 +18,20 @@ import {
   Upload,
   Trash2,
   Plus,
+  FileText,
+  Edit,
+  GripVertical,
+  Type,
+  Image,
+  List,
+  Quote,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  MoveUp,
+  MoveDown,
 } from "lucide-react";
+import BlogsManager from "@/components/admin/BlogsManager";
 
 interface Translations {
   [locale: string]: {
@@ -34,7 +47,7 @@ interface CarouselData {
   content: string[];
 }
 
-type Section = "hero" | "pricing" | "carousel" | "reseller" | "settings";
+type Section = "hero" | "pricing" | "carousel" | "reseller" | "settings" | "blogs";
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -367,6 +380,17 @@ export default function AdminDashboard() {
                 >
                   <Users className="w-4 h-4" />
                   Reseller
+                </button>
+                <button
+                  onClick={() => setActiveSection("blogs")}
+                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
+                    activeSection === "blogs"
+                      ? "bg-black text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  <FileText className="w-4 h-4" />
+                  Blogs
                 </button>
                 <button
                   onClick={() => setActiveSection("settings")}
@@ -1011,6 +1035,11 @@ export default function AdminDashboard() {
                       </div>
                     )}
                   </div>
+                )}
+
+                {/* Blogs Section Editor */}
+                {activeSection === "blogs" && (
+                  <BlogsManager />
                 )}
 
                 {/* Settings Section Editor */}

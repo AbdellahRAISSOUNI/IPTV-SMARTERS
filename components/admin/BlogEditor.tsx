@@ -1,0 +1,830 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  Plus,
+  Trash2,
+  Edit,
+  Save,
+  X,
+  Loader2,
+  Check,
+  Upload,
+  Type,
+  Image as ImageIcon,
+  List,
+  Quote,
+  Heading,
+  GripVertical,
+  MoveUp,
+  MoveDown,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Eye,
+  Globe,
+} from "lucide-react";
+import type { BlogPost, BlogBlock } from "@/lib/admin/blog";
+
+interface BlogEditorProps {
+  onSave: (blog: BlogPost) => Promise<void>;
+  onDelete?: (blogId: string) => Promise<void>;
+  initialBlog?: BlogPost;
+}
+
+export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditorProps) {
+  const [blog, setBlog] = useState<BlogPost>(
+    initialBlog || {
+      id: "",
+      slug: "",
+      title: { en: "", es: "", fr: "" },
+      excerpt: { en: "", es: "", fr: "" },
+      publishedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      locale: "en",
+      translations: [],
+      blocks: [],
+    }
+  );
+
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
+  const [isUploading, setIsUploading] = useState(false);
+  const [editingBlockId, setEditingBlockId] = useState<string | null>(null);
+  const [activeLocale, setActiveLocale] = useState<"en" | "es" | "fr">("en");
+  const [imagePreviewUrls, setImagePreviewUrls] = useState<Record<string, string>>({}); // For immediate previews
+
+  useEffect(() => {
+    if (initialBlog) {
+      setBlog(initialBlog);
+      setActiveLocale(initialBlog.locale as "en" | "es" | "fr");
+    }
+  }, [initialBlog]);
+
+  const generateId = () => Math.random().toString(36).substring(2, 15);
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    setSaveStatus("idle");
+
+    try {
+      const blogToSave = {
+        ...blog,
+        id: blog.id || generateId(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: blog.publishedAt || new Date().toISOString(),
+      };
+      await onSave(blogToSave);
+      setSaveStatus("success");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    } catch (error) {
+      console.error("Error saving blog:", error);
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleImageUpload = async (file: File): Promise<string> => {
+    setIsUploading(true);
+    
+    // Create immediate preview using blob URL
+    const previewUrl = URL.createObjectURL(file);
+    
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "blog-images");
+
+      const response = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const data = await response.json();
+      
+      // Store both preview URL and actual URL mapping
+      setImagePreviewUrls(prev => ({
+        ...prev,
+        [data.url]: previewUrl
+      }));
+      
+      return data.url;
+    } catch (error) {
+      console.error("Upload failed:", error);
+      // Revoke the blob URL on error
+      URL.revokeObjectURL(previewUrl);
+      throw error;
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const addBlock = (type: BlogBlock["type"]) => {
+    const newBlock: BlogBlock = {
+      id: generateId(),
+      type,
+      content: "",
+      ...(type === "heading" && { level: 2 }),
+      ...(type === "list" && { listItems: [""] }),
+    };
+
+    setBlog({
+      ...blog,
+      blocks: [...blog.blocks, newBlock],
+    });
+    setEditingBlockId(newBlock.id);
+  };
+
+  const updateBlock = (blockId: string, updates: Partial<BlogBlock>) => {
+    setBlog({
+      ...blog,
+      blocks: blog.blocks.map((block) =>
+        block.id === blockId ? { ...block, ...updates } : block
+      ),
+    });
+  };
+
+  const deleteBlock = (blockId: string) => {
+    setBlog({
+      ...blog,
+      blocks: blog.blocks.filter((block) => block.id !== blockId),
+    });
+    if (editingBlockId === blockId) {
+      setEditingBlockId(null);
+    }
+  };
+
+  const moveBlock = (blockId: string, direction: "up" | "down") => {
+    const index = blog.blocks.findIndex((b) => b.id === blockId);
+    if (index === -1) return;
+
+    const newIndex = direction === "up" ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= blog.blocks.length) return;
+
+    const newBlocks = [...blog.blocks];
+    [newBlocks[index], newBlocks[newIndex]] = [newBlocks[newIndex], newBlocks[index]];
+
+    setBlog({ ...blog, blocks: newBlocks });
+  };
+
+  const handleImageBlockUpload = async (blockId: string, file: File) => {
+    // Create immediate preview
+    const previewUrl = URL.createObjectURL(file);
+    
+    // Show preview immediately
+    updateBlock(blockId, { imageUrl: previewUrl });
+    
+    try {
+      const url = await handleImageUpload(file);
+      // Update with actual URL after upload
+      updateBlock(blockId, { imageUrl: url });
+    } catch (error) {
+      console.error("Failed to upload image:", error);
+      // Revert to no image on error
+      updateBlock(blockId, { imageUrl: undefined });
+      URL.revokeObjectURL(previewUrl);
+    }
+  };
+  
+  // Helper to get display URL (preview if available, otherwise actual URL)
+  const getImageDisplayUrl = (url: string | undefined): string | undefined => {
+    if (!url) return undefined;
+    // If we have a preview URL for this image, use it
+    return imagePreviewUrls[url] || url;
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-medium text-black mb-1">
+              {initialBlog ? "Edit Blog Post" : "Create New Blog Post"}
+            </h2>
+            <p className="text-gray-500 text-sm">Design your blog post with complete freedom</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleSave}
+              disabled={isSaving}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-black hover:bg-gray-900 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSaving ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Saving...</span>
+                </>
+              ) : saveStatus === "success" ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  <span>Saved</span>
+                </>
+              ) : saveStatus === "error" ? (
+                <>
+                  <X className="w-4 h-4" />
+                  <span>Error</span>
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4" />
+                  <span>Save Blog</span>
+                </>
+              )}
+            </button>
+            {initialBlog && onDelete && (
+              <button
+                onClick={() => onDelete(blog.id)}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-all"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>Delete</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Language Selector */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
+          <div className="flex items-center gap-2">
+            {(["en", "es", "fr"] as const).map((locale) => (
+              <button
+                key={locale}
+                onClick={() => {
+                  setActiveLocale(locale);
+                  setBlog({ ...blog, locale });
+                }}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  blog.locale === locale
+                    ? "bg-black text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                <Globe className="w-4 h-4 inline mr-2" />
+                {locale.toUpperCase()}
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-gray-500 mt-2">
+            Create the blog in one language first, then translate to others later
+          </p>
+        </div>
+
+        {/* Basic Info */}
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              URL Slug (e.g., "my-blog-post")
+            </label>
+            <input
+              type="text"
+              value={blog.slug}
+              onChange={(e) => setBlog({ ...blog, slug: e.target.value })}
+              placeholder="my-blog-post"
+              className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Will be accessible at: /{activeLocale}/blog/{blog.slug || "your-slug"}
+            </p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Author (Optional)</label>
+            <input
+              type="text"
+              value={blog.author || ""}
+              onChange={(e) => setBlog({ ...blog, author: e.target.value })}
+              placeholder="Author name"
+              className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            />
+          </div>
+        </div>
+
+        {/* Title and Excerpt */}
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Title ({activeLocale.toUpperCase()})
+            </label>
+            <input
+              type="text"
+              value={blog.title[activeLocale] || ""}
+              onChange={(e) =>
+                setBlog({
+                  ...blog,
+                  title: { ...blog.title, [activeLocale]: e.target.value },
+                })
+              }
+              placeholder="Enter blog title"
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Excerpt ({activeLocale.toUpperCase()}) - Short description for listing page
+            </label>
+            <textarea
+              value={blog.excerpt[activeLocale] || ""}
+              onChange={(e) =>
+                setBlog({
+                  ...blog,
+                  excerpt: { ...blog.excerpt, [activeLocale]: e.target.value },
+                })
+              }
+              rows={3}
+              placeholder="Enter a short excerpt that will appear on the blog listing page"
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Featured Image (Optional)
+            </label>
+            <div className="space-y-3">
+              {blog.featuredImage && (
+                <div className="relative w-full max-w-md">
+                  <img
+                    src={getImageDisplayUrl(blog.featuredImage)}
+                    alt="Featured"
+                    className="w-full h-auto max-h-64 object-cover rounded-lg border border-gray-300"
+                  />
+                  <button
+                    onClick={() => {
+                      const url = blog.featuredImage;
+                      if (url && imagePreviewUrls[url]) {
+                        URL.revokeObjectURL(imagePreviewUrls[url]);
+                      }
+                      setBlog({ ...blog, featuredImage: undefined });
+                    }}
+                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+              <label className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-all cursor-pointer">
+                <Upload className="w-4 h-4" />
+                <span>{isUploading ? "Uploading..." : blog.featuredImage ? "Change Image" : "Upload Image"}</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      try {
+                        const url = await handleImageUpload(file);
+                        setBlog({ ...blog, featuredImage: url });
+                      } catch (error) {
+                        console.error("Failed to upload:", error);
+                        alert("Failed to upload image. Please try again.");
+                      }
+                    }
+                  }}
+                  className="hidden"
+                  disabled={isUploading}
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Blocks */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-lg font-medium text-black mb-1">Content Blocks</h3>
+            <p className="text-gray-500 text-sm">Add and arrange content blocks to build your blog post</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => addBlock("heading")}
+              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+            >
+              <Heading className="w-4 h-4" />
+              Heading
+            </button>
+            <button
+              onClick={() => addBlock("paragraph")}
+              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+            >
+              <Type className="w-4 h-4" />
+              Text
+            </button>
+            <button
+              onClick={() => addBlock("image")}
+              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+            >
+              <ImageIcon className="w-4 h-4" />
+              Image
+            </button>
+            <button
+              onClick={() => addBlock("quote")}
+              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+            >
+              <Quote className="w-4 h-4" />
+              Quote
+            </button>
+            <button
+              onClick={() => addBlock("list")}
+              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+            >
+              <List className="w-4 h-4" />
+              List
+            </button>
+          </div>
+        </div>
+
+        {/* Blocks List */}
+        <div className="space-y-4">
+          {blog.blocks.length === 0 && (
+            <div className="text-center py-12 text-gray-500">
+              <p>No content blocks yet. Click the buttons above to add content.</p>
+            </div>
+          )}
+          {blog.blocks.map((block, index) => (
+            <div
+              key={block.id}
+              className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
+            >
+              <div className="flex items-start gap-3">
+                {/* Drag Handle */}
+                <div className="flex flex-col gap-1 pt-2">
+                  <button
+                    onClick={() => moveBlock(block.id, "up")}
+                    disabled={index === 0}
+                    className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <MoveUp className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => moveBlock(block.id, "down")}
+                    disabled={index === blog.blocks.length - 1}
+                    className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <MoveDown className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Block Content */}
+                <div className="flex-1">
+                  {block.type === "heading" && (
+                    <div>
+                      <div className="flex items-center gap-3 mb-2">
+                        <select
+                          value={block.level || 2}
+                          onChange={(e) =>
+                            updateBlock(block.id, { level: parseInt(e.target.value) as 1 | 2 | 3 | 4 | 5 | 6 })
+                          }
+                          className="px-2 py-1 bg-gray-100 border border-gray-300 rounded text-sm"
+                        >
+                          {[1, 2, 3, 4, 5, 6].map((level) => (
+                            <option key={level} value={level}>
+                              H{level}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() =>
+                              updateBlock(block.id, {
+                                style: { ...block.style, textAlign: "left" },
+                              })
+                            }
+                            className={`p-1 rounded ${block.style?.textAlign === "left" ? "bg-gray-200" : ""}`}
+                          >
+                            <AlignLeft className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() =>
+                              updateBlock(block.id, {
+                                style: { ...block.style, textAlign: "center" },
+                              })
+                            }
+                            className={`p-1 rounded ${block.style?.textAlign === "center" ? "bg-gray-200" : ""}`}
+                          >
+                            <AlignCenter className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() =>
+                              updateBlock(block.id, {
+                                style: { ...block.style, textAlign: "right" },
+                              })
+                            }
+                            className={`p-1 rounded ${block.style?.textAlign === "right" ? "bg-gray-200" : ""}`}
+                          >
+                            <AlignRight className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        value={block.content}
+                        onChange={(e) => updateBlock(block.id, { content: e.target.value })}
+                        placeholder="Enter heading text"
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+                        style={{
+                          fontSize:
+                            block.level === 1
+                              ? "2rem"
+                              : block.level === 2
+                              ? "1.5rem"
+                              : block.level === 3
+                              ? "1.25rem"
+                              : "1rem",
+                          fontWeight: "bold",
+                          textAlign: block.style?.textAlign || "left",
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {block.type === "paragraph" && (
+                    <div>
+                      <div className="flex items-center gap-1 mb-2">
+                        <button
+                          onClick={() =>
+                            updateBlock(block.id, {
+                              style: { ...block.style, textAlign: "left" },
+                            })
+                          }
+                          className={`p-1 rounded ${block.style?.textAlign === "left" ? "bg-gray-200" : ""}`}
+                        >
+                          <AlignLeft className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() =>
+                            updateBlock(block.id, {
+                              style: { ...block.style, textAlign: "center" },
+                            })
+                          }
+                          className={`p-1 rounded ${block.style?.textAlign === "center" ? "bg-gray-200" : ""}`}
+                        >
+                          <AlignCenter className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() =>
+                            updateBlock(block.id, {
+                              style: { ...block.style, textAlign: "right" },
+                            })
+                          }
+                          className={`p-1 rounded ${block.style?.textAlign === "right" ? "bg-gray-200" : ""}`}
+                        >
+                          <AlignRight className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <textarea
+                        value={block.content}
+                        onChange={(e) => updateBlock(block.id, { content: e.target.value })}
+                        placeholder="Enter paragraph text"
+                        rows={4}
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black resize-none"
+                        style={{ textAlign: block.style?.textAlign || "left" }}
+                      />
+                    </div>
+                  )}
+
+                  {block.type === "image" && (
+                    <div>
+                      {block.imageUrl ? (
+                        <div className="space-y-3">
+                          <img
+                            src={getImageDisplayUrl(block.imageUrl) || block.imageUrl}
+                            alt={block.imageAlt || "Blog image"}
+                            className="max-w-full h-auto rounded-lg border border-gray-300"
+                            style={{
+                              width:
+                                block.imageWidth === "full"
+                                  ? "100%"
+                                  : block.imageWidth === "half"
+                                  ? "50%"
+                                  : block.imageWidth === "third"
+                                  ? "33.333%"
+                                  : block.imageWidth === "quarter"
+                                  ? "25%"
+                                  : "100%",
+                              margin:
+                                block.imageAlign === "center"
+                                  ? "0 auto"
+                                  : block.imageAlign === "right"
+                                  ? "0 0 0 auto"
+                                  : "0",
+                            }}
+                          />
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <label className="block text-xs font-medium text-gray-700 mb-1">Width</label>
+                              <select
+                                value={block.imageWidth || "full"}
+                                onChange={(e) =>
+                                  updateBlock(block.id, {
+                                    imageWidth: e.target.value as "full" | "half" | "third" | "quarter",
+                                  })
+                                }
+                                className="w-full px-2 py-1 bg-gray-100 border border-gray-300 rounded text-sm"
+                              >
+                                <option value="full">Full Width</option>
+                                <option value="half">Half Width</option>
+                                <option value="third">Third Width</option>
+                                <option value="quarter">Quarter Width</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label className="block text-xs font-medium text-gray-700 mb-1">Alignment</label>
+                              <select
+                                value={block.imageAlign || "left"}
+                                onChange={(e) =>
+                                  updateBlock(block.id, {
+                                    imageAlign: e.target.value as "left" | "center" | "right",
+                                  })
+                                }
+                                className="w-full px-2 py-1 bg-gray-100 border border-gray-300 rounded text-sm"
+                              >
+                                <option value="left">Left</option>
+                                <option value="center">Center</option>
+                                <option value="right">Right</option>
+                              </select>
+                            </div>
+                          </div>
+                          <input
+                            type="text"
+                            value={block.imageAlt || ""}
+                            onChange={(e) => updateBlock(block.id, { imageAlt: e.target.value })}
+                            placeholder="Image alt text"
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                          <div className="flex items-center gap-2">
+                            <label className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all cursor-pointer text-sm">
+                              <Upload className="w-4 h-4" />
+                              <span>{isUploading ? "Uploading..." : "Change Image"}</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    try {
+                                      await handleImageBlockUpload(block.id, file);
+                                    } catch (error) {
+                                      alert("Failed to upload image. Please try again.");
+                                    }
+                                  }
+                                }}
+                                className="hidden"
+                                disabled={isUploading}
+                              />
+                            </label>
+                            <button
+                              onClick={() => {
+                                const url = block.imageUrl;
+                                if (url && imagePreviewUrls[url]) {
+                                  URL.revokeObjectURL(imagePreviewUrls[url]);
+                                }
+                                updateBlock(block.id, { imageUrl: undefined });
+                              }}
+                              className="px-3 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-all text-sm font-medium"
+                            >
+                              Remove Image
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400 transition-colors bg-gray-50">
+                          {isUploading ? (
+                            <Loader2 className="w-8 h-8 text-gray-400 animate-spin mb-2" />
+                          ) : (
+                            <>
+                              <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                              <span className="text-sm text-gray-500">Click to upload image</span>
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                try {
+                                  await handleImageBlockUpload(block.id, file);
+                                } catch (error) {
+                                  alert("Failed to upload image. Please try again.");
+                                }
+                              }
+                            }}
+                            className="hidden"
+                            disabled={isUploading}
+                          />
+                        </label>
+                      )}
+                    </div>
+                  )}
+
+                  {block.type === "quote" && (
+                    <div>
+                      <textarea
+                        value={block.content}
+                        onChange={(e) => updateBlock(block.id, { content: e.target.value })}
+                        placeholder="Enter quote text"
+                        rows={3}
+                        className="w-full px-3 py-2 bg-gray-50 border-l-4 border-gray-400 rounded-lg text-gray-900 italic focus:outline-none focus:ring-2 focus:ring-black resize-none"
+                      />
+                    </div>
+                  )}
+
+                  {block.type === "list" && (
+                    <div>
+                      {(block.listItems || [""]).map((item, itemIndex) => (
+                        <div key={itemIndex} className="flex items-center gap-2 mb-2">
+                          <span className="text-gray-500">•</span>
+                          <input
+                            type="text"
+                            value={item}
+                            onChange={(e) => {
+                              const newItems = [...(block.listItems || [])];
+                              newItems[itemIndex] = e.target.value;
+                              updateBlock(block.id, { listItems: newItems });
+                            }}
+                            placeholder="List item"
+                            className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                          <button
+                            onClick={() => {
+                              const newItems = (block.listItems || []).filter((_, i) => i !== itemIndex);
+                              updateBlock(block.id, { listItems: newItems });
+                            }}
+                            className="p-1 text-red-500 hover:text-red-700"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        onClick={() => {
+                          updateBlock(block.id, {
+                            listItems: [...(block.listItems || []), ""],
+                          });
+                        }}
+                        className="mt-2 px-3 py-1 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+                      >
+                        + Add Item
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Delete Button */}
+                <button
+                  onClick={() => deleteBlock(block.id)}
+                  className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom Save Button */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-gray-500">Remember to save your changes before leaving</p>
+          <button
+            onClick={handleSave}
+            disabled={isSaving}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-black hover:bg-gray-900 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSaving ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Saving...</span>
+              </>
+            ) : saveStatus === "success" ? (
+              <>
+                <Check className="w-4 h-4" />
+                <span>Saved</span>
+              </>
+            ) : saveStatus === "error" ? (
+              <>
+                <X className="w-4 h-4" />
+                <span>Error</span>
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4" />
+                <span>Save Blog</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+

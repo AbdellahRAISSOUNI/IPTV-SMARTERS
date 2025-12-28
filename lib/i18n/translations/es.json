@@ -20,6 +20,13 @@
     "refundPolicy": "Política de Reembolso",
     "viewOffers": "Ver Ofertas"
   },
+  "blog": {
+    "title": "Blog",
+    "description": "Últimos artículos, guías y actualizaciones sobre IPTV y streaming",
+    "noPosts": "Aún no hay publicaciones en el blog.",
+    "readMore": "Leer más",
+    "backToBlog": "Volver al Blog"
+  },
   "hero": {
     "title": "Mejor Proveedor de IPTV Smarters pro",
     "subtitlePart1": "Suscripción",

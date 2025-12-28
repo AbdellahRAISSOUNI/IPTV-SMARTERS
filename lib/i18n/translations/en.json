@@ -20,6 +20,13 @@
     "refundPolicy": "Refund Policy",
     "viewOffers": "View Offers"
   },
+  "blog": {
+    "title": "Blog",
+    "description": "Latest articles, guides, and updates about IPTV and streaming",
+    "noPosts": "No blog posts available yet.",
+    "readMore": "Read more",
+    "backToBlog": "Back to Blog"
+  },
   "hero": {
     "title": "Best IPTV Provider",
     "subtitlePart1": "Premium",
