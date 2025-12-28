@@ -149,10 +149,7 @@ export default function RootLayout({
       <head>
         {/* Preconnect to own domain for faster resource loading */}
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_BASE_URL || "https://iptv-smarters.vercel.app"} />
-        {/* Preconnect to Google Fonts for faster font loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* DNS prefetch for external resources */}
+        {/* DNS prefetch for Google Fonts - fonts use display: swap so don't need preconnect */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         {/* Hreflang tags for SEO - will be updated by locale layout */}
@@ -176,7 +173,9 @@ export default function RootLayout({
           hrefLang="x-default"
           href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/en`}
         />
+        {/* Defer non-critical scripts to not block render */}
         <script
+          defer
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -194,6 +193,7 @@ export default function RootLayout({
           }}
         />
         <script
+          defer
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -217,6 +217,7 @@ export default function RootLayout({
           }}
         />
         <script
+          defer
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
