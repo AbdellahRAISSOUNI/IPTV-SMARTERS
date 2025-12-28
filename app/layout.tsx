@@ -181,33 +181,71 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  const path = window.location.pathname;
-                  const localeMatch = path.match(/^\/(en|es|fr)/);
+                  var path = window.location.pathname;
+                  var localeMatch = path.match(/^\/(en|es|fr)/);
                   if (localeMatch) {
                     document.documentElement.lang = localeMatch[1];
                   }
                 } catch (e) {
-                  // Suppress any errors silently
+                  // Suppress errors
                 }
               })();
-              
-              // Suppress console errors from ipapi.co network requests
+            `,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
               (function() {
-                if (typeof window !== 'undefined' && window.addEventListener) {
-                  window.addEventListener('error', function(e) {
-                    if (e.message && e.message.includes('ipapi.co')) {
-                      e.preventDefault();
-                      return false;
-                    }
-                  }, true);
-                  
-                  window.addEventListener('unhandledrejection', function(e) {
-                    if (e.reason && (e.reason.message && e.reason.message.includes('ipapi.co') || 
-                        e.reason.toString && e.reason.toString().includes('ipapi.co'))) {
-                      e.preventDefault();
-                      return false;
-                    }
-                  });
+                try {
+                  if (typeof window !== 'undefined' && window.addEventListener) {
+                    window.addEventListener('error', function(e) {
+                      try {
+                        if (e && e.message && typeof e.message === 'string' && e.message.indexOf('ipapi.co') !== -1) {
+                          e.preventDefault();
+                        }
+                      } catch (err) {
+                        // Suppress
+                      }
+                    }, true);
+                  }
+                } catch (err) {
+                  // Suppress
+                }
+              })();
+            `,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  if (typeof window !== 'undefined' && window.addEventListener) {
+                    window.addEventListener('unhandledrejection', function(e) {
+                      try {
+                        if (e && e.reason) {
+                          var reasonStr = '';
+                          if (e.reason.message && typeof e.reason.message === 'string') {
+                            reasonStr = e.reason.message;
+                          } else {
+                            try {
+                              reasonStr = String(e.reason);
+                            } catch (strErr) {
+                              // Suppress
+                            }
+                          }
+                          if (reasonStr.indexOf('ipapi.co') !== -1) {
+                            e.preventDefault();
+                          }
+                        }
+                      } catch (err) {
+                        // Suppress
+                      }
+                    });
+                  }
+                } catch (err) {
+                  // Suppress
                 }
               })();
             `,
