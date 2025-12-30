@@ -38,6 +38,76 @@ export default function BlogPostPage() {
     loadBlog();
   }, [slug, locale]);
 
+  // Update meta tags for SEO when blog loads
+  useEffect(() => {
+    if (!blog) return;
+
+    const displayTitle = blog.title[locale] || blog.title[blog.locale] || "Untitled";
+    const displayExcerpt = blog.excerpt[locale] || blog.excerpt[blog.locale] || "";
+    const keywords = blog.meta?.keywords?.[locale] || blog.meta?.keywords?.[blog.locale] || "";
+
+    // Update title
+    document.title = `${displayTitle} | StreamPro`;
+
+    // Update or create meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', displayExcerpt);
+
+    // Update or create meta keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (keywords) {
+      if (!metaKeywords) {
+        metaKeywords = document.createElement('meta');
+        metaKeywords.setAttribute('name', 'keywords');
+        document.head.appendChild(metaKeywords);
+      }
+      metaKeywords.setAttribute('content', keywords);
+    } else if (metaKeywords) {
+      // Remove keywords meta tag if no keywords provided
+      metaKeywords.remove();
+    }
+
+    // Update Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', displayTitle);
+    else {
+      const newOgTitle = document.createElement('meta');
+      newOgTitle.setAttribute('property', 'og:title');
+      newOgTitle.setAttribute('content', displayTitle);
+      document.head.appendChild(newOgTitle);
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) ogDescription.setAttribute('content', displayExcerpt);
+    else {
+      const newOgDescription = document.createElement('meta');
+      newOgDescription.setAttribute('property', 'og:description');
+      newOgDescription.setAttribute('content', displayExcerpt);
+      document.head.appendChild(newOgDescription);
+    }
+
+    if (blog.featuredImage && !blog.featuredImage.startsWith('blob:')) {
+      const ogImage = document.querySelector('meta[property="og:image"]');
+      if (ogImage) ogImage.setAttribute('content', blog.featuredImage);
+      else {
+        const newOgImage = document.createElement('meta');
+        newOgImage.setAttribute('property', 'og:image');
+        newOgImage.setAttribute('content', blog.featuredImage);
+        document.head.appendChild(newOgImage);
+      }
+    }
+
+    // Cleanup function
+    return () => {
+      // Optionally reset meta tags on unmount
+    };
+  }, [blog, locale]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Eye, Loader2 } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Loader2, AlertTriangle, X } from "lucide-react";
 import BlogEditor from "./BlogEditor";
 import type { BlogPost } from "@/lib/admin/blog";
 
@@ -10,6 +10,7 @@ export default function BlogsManager() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedBlog, setSelectedBlog] = useState<BlogPost | undefined | null>(null);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [deleteConfirmBlog, setDeleteConfirmBlog] = useState<BlogPost | null>(null);
   const [imagePreviews, setImagePreviews] = useState<Record<string, string>>({}); // Store blob URLs for images
 
   useEffect(() => {
@@ -65,9 +66,18 @@ export default function BlogsManager() {
     }
   };
 
-  const handleDelete = async (blogId: string) => {
-    if (!confirm("Are you sure you want to delete this blog post?")) return;
+  const handleDeleteClick = (blog: BlogPost) => {
+    setDeleteConfirmBlog(blog);
+  };
 
+  const handleDeleteCancel = () => {
+    setDeleteConfirmBlog(null);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteConfirmBlog) return;
+
+    const blogId = deleteConfirmBlog.id;
     setIsDeleting(blogId);
     try {
       const response = await fetch(`/api/admin/blogs?id=${blogId}`, {
@@ -80,6 +90,7 @@ export default function BlogsManager() {
 
       await loadBlogs();
       setSelectedBlog(null);
+      setDeleteConfirmBlog(null);
     } catch (error) {
       console.error("Error deleting blog:", error);
       alert("Failed to delete blog post");
@@ -110,8 +121,74 @@ export default function BlogsManager() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+    <>
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmBlog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Blurry Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={handleDeleteCancel}
+          />
+          
+          {/* Modal */}
+          <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-in fade-in zoom-in duration-200">
+            {/* Close Button */}
+            <button
+              onClick={handleDeleteCancel}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Icon */}
+            <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full">
+              <AlertTriangle className="w-8 h-8 text-red-600" />
+            </div>
+
+            {/* Title */}
+            <h3 className="text-xl font-semibold text-gray-900 text-center mb-2">
+              Delete Blog Post?
+            </h3>
+
+            {/* Description */}
+            <p className="text-gray-600 text-center mb-6">
+              Are you sure you want to delete <span className="font-medium text-gray-900">"{deleteConfirmBlog.title[deleteConfirmBlog.locale] || "Untitled"}"</span>? This action cannot be undone.
+            </p>
+
+            {/* Actions */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleDeleteCancel}
+                disabled={isDeleting === deleteConfirmBlog.id}
+                className="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-all disabled:opacity-50 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                disabled={isDeleting === deleteConfirmBlog.id}
+                className="flex-1 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {isDeleting === deleteConfirmBlog.id ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-4 h-4" />
+                    Delete
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-medium text-black mb-1">Blog Management</h2>
@@ -188,9 +265,9 @@ export default function BlogsManager() {
                     View
                   </a>
                   <button
-                    onClick={() => handleDelete(blog.id)}
+                    onClick={() => handleDeleteClick(blog)}
                     disabled={isDeleting === blog.id}
-                    className="px-3 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-all text-sm font-medium disabled:opacity-50"
+                    className="px-3 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-all text-sm font-medium disabled:opacity-50 cursor-pointer"
                   >
                     {isDeleting === blog.id ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -205,6 +282,7 @@ export default function BlogsManager() {
         )}
       </div>
     </div>
+    </>
   );
 }
 

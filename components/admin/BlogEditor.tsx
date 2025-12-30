@@ -23,6 +23,7 @@ import {
   AlignRight,
   Eye,
   Globe,
+  Tag,
 } from "lucide-react";
 import type { BlogPost, BlogBlock } from "@/lib/admin/blog";
 
@@ -44,6 +45,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
       locale: "en",
       translations: [],
       blocks: [],
+      meta: {
+        keywords: { en: "", es: "", fr: "" },
+      },
     }
   );
 
@@ -57,7 +61,20 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
   useEffect(() => {
     if (initialBlog) {
-      setBlog(initialBlog);
+      // Ensure meta field exists with keywords
+      const blogWithMeta = {
+        ...initialBlog,
+        meta: {
+          ...initialBlog.meta,
+          keywords: {
+            en: "",
+            es: "",
+            fr: "",
+            ...initialBlog.meta?.keywords,
+          },
+        },
+      };
+      setBlog(blogWithMeta);
       setActiveLocale(initialBlog.locale as "en" | "es" | "fr");
     }
   }, [initialBlog]);
@@ -377,6 +394,33 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
               placeholder="Enter a short excerpt that will appear on the blog listing page"
               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
             />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+              <Tag className="w-4 h-4 text-gray-500" />
+              SEO Keywords ({activeLocale.toUpperCase()}) - Comma-separated keywords (not visible on website)
+            </label>
+            <input
+              type="text"
+              value={blog.meta?.keywords?.[activeLocale] || ""}
+              onChange={(e) =>
+                setBlog({
+                  ...blog,
+                  meta: {
+                    ...blog.meta,
+                    keywords: {
+                      ...(blog.meta?.keywords || { en: "", es: "", fr: "" }),
+                      [activeLocale]: e.target.value,
+                    },
+                  },
+                })
+              }
+              placeholder="keyword1, keyword2, keyword3"
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Enter keywords separated by commas. These will be added to meta tags for SEO but won't be visible on the website.
+            </p>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">

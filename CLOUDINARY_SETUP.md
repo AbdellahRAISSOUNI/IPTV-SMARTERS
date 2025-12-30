@@ -74,3 +74,4 @@ https://res.cloudinary.com/demo/image/upload/v1234567890/blog-images/1234567890.
 
 Images are automatically optimized and served via CDN!
 
+
