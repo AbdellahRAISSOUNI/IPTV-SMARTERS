@@ -92,12 +92,24 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     setSaveStatus("idle");
 
     try {
+      // Auto-populate translations array based on which locales have content
+      // A locale is considered "translated" if it has at least title OR excerpt
+      const translations: string[] = [];
+      (["en", "es", "fr"] as const).forEach((loc) => {
+        if (blog.title[loc] || blog.excerpt[loc]) {
+          translations.push(loc);
+        }
+      });
+      
       // Clean up blob URLs before saving - ensure we only save Cloudinary URLs
       const cleanedBlog = {
         ...blog,
         id: blog.id || generateId(),
         updatedAt: new Date().toISOString(),
         publishedAt: blog.publishedAt || new Date().toISOString(),
+        // Auto-populate translations based on content availability
+        // Include primary locale if no translations found
+        translations: translations.length > 0 ? translations : [blog.locale],
         // Ensure featured image is not a blob URL (Cloudinary URLs are https://)
         featuredImage: blog.featuredImage?.startsWith('blob:') ? undefined : blog.featuredImage,
         // Clean up block image URLs

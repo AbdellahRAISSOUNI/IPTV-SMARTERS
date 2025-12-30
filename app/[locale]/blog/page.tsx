@@ -35,13 +35,9 @@ export default function BlogPage() {
     loadBlogs();
   }, []);
   
-  // Filter blogs that have content in the current locale or are in the primary locale
-  const availableBlogs = blogs.filter(
-    (blog) =>
-      blog.locale === locale ||
-      blog.translations?.includes(locale) ||
-      (blog.title[locale] && blog.excerpt[locale])
-  );
+  // Show all blogs - display in current locale if available, otherwise fallback to primary locale
+  // This ensures blogs are visible in all languages, even if not fully translated
+  const availableBlogs = blogs;
 
   return (
     <div className="min-h-screen bg-white">
