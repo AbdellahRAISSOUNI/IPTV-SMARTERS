@@ -13,7 +13,7 @@
       "fr": "Lecteur IPTV : Avant l’internet, nous ne pouvions regarder nos émissions de télévision préférées qu’à travers la télévision par câble à la maison. De nos jours, nous disposons de plateformes telles qu’Apple TV qui nous permettent de regarder du contenu sans avoir besoin du câble, qui était relativement lent et n’offrait pas beaucoup d’options de divertissement.\nLes fournisseurs de services IPTV ont pu développer des lecteurs IPTV comme IPTV Smarters Pro, rendant le streaming de contenu encore plus agréable et plus simple.\nLe lecteur IPTV est essentiel, et en avoir un à la maison apporte les avantages suivants, liés à ses fonctionnalités :"
     },
     "publishedAt": "2026-01-01T18:27:52.453Z",
-    "updatedAt": "2026-01-01T18:36:42.372Z",
+    "updatedAt": "2026-01-01T19:03:06.557Z",
     "locale": "fr",
     "translations": [
       "en",
@@ -24,90 +24,163 @@
       {
         "id": "ti4l2cgb6l",
         "type": "heading",
-        "content": " It allows you to stream Live TV, Movies, Series, and Radio",
+        "content": {
+          "en": " It allows you to stream Live TV, Movies, Series, and Radio",
+          "es": "Permite transmitir TV en vivo, películas, series y radio",
+          "fr": "Il permet de diffuser la télévision en direct, des films, des séries et la radio"
+        },
         "level": 2
       },
       {
         "id": "k0zm77cfxw",
         "type": "paragraph",
-        "content": "IPTV Smarters Pro is a video player that allows end-users to watch content such as Live TV, Movies, and Series on their devices. So if you are at home, you can use this player to stream your favorite radio show, series, or movies. The IPTV Smarters Pro does not provide any content, it only plays content from the service provider’s end. This means that you have to first buy a subscription from your service provider’s, then you can use IPTV Smarters Pro to stream content on your devices. "
+        "content": {
+          "en": "IPTV Smarters Pro is a video player that allows end-users to watch content such as Live TV, Movies, and Series on their devices. So if you are at home, you can use this player to stream your favorite radio show, series, or movies. The IPTV Smarters Pro does not provide any content, it only plays content from the service provider’s end. This means that you have to first buy a subscription from your service provider’s, then you can use IPTV Smarters Pro to stream content on your devices. ",
+          "es": "IPTV Smarters Pro es un reproductor de video que permite a los usuarios finales ver contenido como TV en vivo, películas y series en sus dispositivos. Por lo tanto, si estás en casa, puedes usar este reproductor para transmitir tu programa de radio, serie o película favorita.\nIPTV Smarters Pro no proporciona ningún contenido, solo reproduce el contenido proveniente del proveedor del servicio. Esto significa que primero debes comprar una suscripción a tu proveedor de servicios, y luego podrás usar IPTV Smarters Pro para transmitir contenido en tus dispositivos.",
+          "fr": "IPTV Smarters Pro est un lecteur vidéo qui permet aux utilisateurs de regarder du contenu tel que la télévision en direct, des films et des séries sur leurs appareils. Ainsi, si vous êtes à la maison, vous pouvez utiliser ce lecteur pour diffuser votre émission de radio, votre série ou vos films préférés.\nIPTV Smarters Pro ne fournit aucun contenu, il se contente de lire le contenu provenant du fournisseur de services. Cela signifie que vous devez d’abord acheter un abonnement auprès de votre fournisseur, puis utiliser IPTV Smarters Pro pour diffuser le contenu sur vos appareils."
+        }
       },
       {
         "id": "30ksdahdvfm",
         "type": "heading",
-        "content": "Allows you to stream content across different devices and platforms",
+        "content": {
+          "en": "Allows you to stream content across different devices and platforms",
+          "es": "Permite transmitir contenido en diferentes dispositivos y plataformas",
+          "fr": "Permet de diffuser du contenu sur différents appareils et plateformes"
+        },
         "level": 6
       },
       {
         "id": "lvwvuro3db",
         "type": "paragraph",
-        "content": "Having an IPTV Stream Player at home helps you stream content on all your devices and platforms. For example, if you are using the IPTV Smarters Pro player, you will be able to stream content on these platforms or devices:\n"
+        "content": {
+          "en": "Having an IPTV Stream Player at home helps you stream content on all your devices and platforms. For example, if you are using the IPTV Smarters Pro player, you will be able to stream content on these platforms or devices:\n",
+          "es": "Tener un reproductor de streaming IPTV en casa te permite transmitir contenido en todos tus dispositivos y plataformas. Por ejemplo, si utilizas el reproductor IPTV Smarters Pro, podrás transmitir contenido en las siguientes plataformas o dispositivos:",
+          "fr": "Avoir un lecteur de streaming IPTV à la maison vous permet de diffuser du contenu sur tous vos appareils et plateformes. Par exemple, si vous utilisez le lecteur IPTV Smarters Pro, vous pourrez diffuser du contenu sur les plateformes ou appareils suivants :"
+        },
+        "style": {
+          "textAlign": "left"
+        }
       },
       {
         "id": "8kpgz75mgcb",
         "type": "list",
         "content": "",
-        "listItems": [
-          "Windows and MAC",
-          "Android devices – Nvidia Shields, Android Phones, Android TV, Android TV Boxes, Android FireTV Sticks",
-          "Smart TVs – Samsung and LG TVs",
-          "iOS – iPhone, iPad, Apple TV."
-        ]
+        "listItems": {
+          "en": [
+            "Windows and MAC",
+            "Android devices – Nvidia Shields, Android Phones, Android TV, Android TV Boxes, Android FireTV Sticks",
+            "Smart TVs – Samsung and LG TVs",
+            "iOS – iPhone, iPad, Apple TV."
+          ],
+          "es": [
+            "Windows y MAC",
+            "Dispositivos Android – Nvidia Shield, teléfonos Android, Android TV, cajas Android TV, Amazon Fire TV Stick",
+            "Smart TVs – Samsung y LG TVs",
+            "iOS – iPhone, iPad, Apple TV."
+          ],
+          "fr": [
+            "Windows et MAC",
+            "Appareils Android – Nvidia Shield, téléphones Android, Android TV, boîtiers Android TV, Amazon Fire TV Stick",
+            "Smart TVs – Samsung et LG TVs",
+            "iOS – iPhone, iPad, Apple TV."
+          ]
+        }
       },
       {
         "id": "sx41i90xap",
         "type": "heading",
-        "content": "Allows you to quickly search your favorite content",
+        "content": {
+          "en": "Allows you to quickly search your favorite content",
+          "es": "Te permite buscar rápidamente tu contenido favorito",
+          "fr": "Vous permet de rechercher rapidement votre contenu préféré"
+        },
         "level": 2
       },
       {
         "id": "dbc99szv82d",
         "type": "paragraph",
-        "content": "With the help of a Master Search function in the IPTV  player, you can quickly search for your favorite content. Instead of looking through each content manually, you can submit a query once and the player will search the whole platform for appropriate content, simplifying and streamlining the search process. This feature improves the user experience by enabling a centralized and thorough search functionality."
+        "content": {
+          "en": "With the help of a Master Search function in the IPTV  player, you can quickly search for your favorite content. Instead of looking through each content manually, you can submit a query once and the player will search the whole platform for appropriate content, simplifying and streamlining the search process. This feature improves the user experience by enabling a centralized and thorough search functionality.",
+          "es": "Con la ayuda de la función de Búsqueda Maestra en el reproductor IPTV, puedes buscar rápidamente tu contenido favorito. En lugar de revisar cada contenido manualmente, puedes enviar una consulta una sola vez y el reproductor buscará en toda la plataforma el contenido adecuado, simplificando y agilizando el proceso de búsqueda. Esta función mejora la experiencia del usuario al ofrecer una funcionalidad de búsqueda centralizada y completa.",
+          "fr": "Avec l'aide de la fonction de Recherche Maître dans le lecteur IPTV, vous pouvez rechercher rapidement votre contenu préféré. Au lieu de parcourir chaque contenu manuellement, vous pouvez soumettre une requête une seule fois et le lecteur recherchera sur toute la plateforme le contenu approprié, simplifiant et rationalisant le processus de recherche. Cette fonctionnalité améliore l'expérience utilisateur en offrant une fonction de recherche centralisée et complète."
+        }
       },
       {
         "id": "ti2px1xdh4",
         "type": "heading",
-        "content": "Allows you to catch up from where you left",
+        "content": {
+          "en": "Allows you to catch up from where you left",
+          "es": "Te permite continuar desde donde lo dejaste",
+          "fr": "Vous permet de reprendre là où vous vous étiez arrêté"
+        },
         "level": 2
       },
       {
         "id": "0ebcfoi7rprb",
         "type": "paragraph",
-        "content": "While at home, you may want to pause your movie or series. With the help of IPTV Player such as IPTV Smarters Player, you continue watching your content from where you left off. This is made possible by the “Continue Watching Feature”. This feature enables you to simply resume playback of content that they have previously begun but not completed.\n\nWhen you start watching a TV episode, movie, or any other content, the player keeps track of their progress, including the timestamp when they stop watching. The “Continue Watching” function provides a list of these partially viewed titles, allowing viewers to immediately resume where they left off without having to hunt for the content themselves."
+        "content": {
+          "en": "While at home, you may want to pause your movie or series. With the help of IPTV Player such as IPTV Smarters Player, you continue watching your content from where you left off. This is made possible by the “Continue Watching Feature”. This feature enables you to simply resume playback of content that they have previously begun but not completed.\n\nWhen you start watching a TV episode, movie, or any other content, the player keeps track of their progress, including the timestamp when they stop watching. The “Continue Watching” function provides a list of these partially viewed titles, allowing viewers to immediately resume where they left off without having to hunt for the content themselves.",
+          "es": "Mientras estás en casa, es posible que quieras pausar tu película o serie. Con la ayuda de un reproductor IPTV como IPTV Smarters Player, puedes continuar viendo tu contenido desde donde lo dejaste. Esto es posible gracias a la “Función Continuar Viendo”. Esta función te permite reanudar fácilmente la reproducción de contenido que previamente comenzaste pero no completaste.\n\nCuando empiezas a ver un episodio de TV, película o cualquier otro contenido, el reproductor realiza un seguimiento de tu progreso, incluyendo la marca de tiempo cuando dejas de ver. La función “Continuar Viendo” proporciona una lista de estos títulos parcialmente vistos, permitiendo a los espectadores reanudar inmediatamente desde donde lo dejaron sin tener que buscar el contenido ellos mismos.",
+          "fr": "While at home, you may want to pause your movie or series. With the help of IPTV Player such as IPTV Smarters Player, you continue watching your content from where you left off. This is made possible by the “Continue Watching Feature”. This feature enables you to simply resume playback of content that they have previously begun but not completed.\n\nLorsque vous êtes à la maison, vous pouvez vouloir mettre en pause votre film ou série. Avec l’aide d’un lecteur IPTV tel que IPTV Smarters Player, vous pouvez continuer à regarder votre contenu là où vous vous étiez arrêté. Cela est rendu possible grâce à la “Fonction Reprendre la Lecture”. Cette fonction vous permet de reprendre facilement la lecture de contenu que vous avez commencé mais pas terminé.\n\nLorsque vous commencez à regarder un épisode de télévision, un film ou tout autre contenu, le lecteur suit votre progression, y compris le moment où vous arrêtez de regarder. La fonction “Reprendre la Lecture” fournit une liste de ces titres partiellement visionnés, permettant aux spectateurs de reprendre immédiatement là où ils se sont arrêtés sans avoir à chercher le contenu eux-mêmes."
+        }
       },
       {
         "id": "cx58f8i5xsj",
         "type": "heading",
-        "content": "You can open the content list on the player",
+        "content": {
+          "en": "You can open the content list on the player",
+          "es": "Puedes abrir la lista de contenido en el reproductor",
+          "fr": "Vous pouvez ouvrir la liste de contenu sur le lecteur"
+        },
         "level": 2
       },
       {
         "id": "wrokpof2y9l",
         "type": "paragraph",
-        "content": "You can access the list of content on your platform within the player instead of having to navigate away from the video being played. You can also scroll through the available content, choose a different content to watch, or even transition between contents without leaving the video player."
+        "content": {
+          "en": "You can access the list of content on your platform within the player instead of having to navigate away from the video being played. You can also scroll through the available content, choose a different content to watch, or even transition between contents without leaving the video player.",
+          "es": "Puedes acceder a la lista de contenido en tu plataforma desde el reproductor, en lugar de tener que salir del video que se está reproduciendo. También puedes desplazarte por el contenido disponible, elegir otro contenido para ver o incluso cambiar entre contenidos sin salir del reproductor de video.",
+          "fr": "Vous pouvez accéder à la liste de contenu de votre plateforme directement dans le lecteur, au lieu de devoir quitter la vidéo en cours de lecture. Vous pouvez également faire défiler le contenu disponible, choisir un autre contenu à regarder ou même passer d’un contenu à l’autre sans quitter le lecteur vidéo."
+        }
       },
       {
         "id": "duu34i9qvuq",
         "type": "heading",
-        "content": "Parental Control: Safety and Security",
+        "content": {
+          "en": "Parental Control: Safety and Security",
+          "es": "Control Parental: Seguridad y Protección",
+          "fr": "Contrôle Parental : Sécurité et Protection"
+        },
         "level": 2
       },
       {
         "id": "glhireporn7",
         "type": "paragraph",
-        "content": "While at home you can use the IPTV player to manage access to particular content depending on age group suitability or specific content ratings. Parental control often includes the ability to create PINs, restrict access to specific shows, filter content based on ratings or content types (e.g., violence or adult content), and set viewing times."
+        "content": {
+          "en": "While at home you can use the IPTV player to manage access to particular content depending on age group suitability or specific content ratings. Parental control often includes the ability to create PINs, restrict access to specific shows, filter content based on ratings or content types (e.g., violence or adult content), and set viewing times.",
+          "es": "Mientras estás en casa, puedes usar el reproductor IPTV para gestionar el acceso a contenido específico según la idoneidad por grupo de edad o las clasificaciones de contenido. El control parental a menudo incluye la posibilidad de crear PINs, restringir el acceso a programas específicos, filtrar contenido según las calificaciones o tipos de contenido (por ejemplo, violencia o contenido para adultos) y establecer horarios de visualización.",
+          "fr": "Lorsque vous êtes à la maison, vous pouvez utiliser le lecteur IPTV pour gérer l’accès à certains contenus en fonction de l’adéquation par tranche d’âge ou des classifications de contenu. Le contrôle parental inclut souvent la possibilité de créer des codes PIN, de restreindre l’accès à des émissions spécifiques, de filtrer le contenu en fonction des classifications ou des types de contenu (par exemple, violence ou contenu pour adultes) et de définir des horaires de visionnage."
+        }
       },
       {
         "id": "gva8yo1iqjf",
         "type": "heading",
-        "content": "Finally",
+        "content": {
+          "en": "Finally",
+          "es": "Finalmente",
+          "fr": "Enfin"
+        },
         "level": 2
       },
       {
         "id": "7xy1mbdw8z4",
         "type": "paragraph",
-        "content": "Having an IPTV platform is not enough to give you the best entertainment that you deserve at home. You also need video streaming players such as IPTV Smarters Player which is designed with features that allow you to enjoy watching content from your platform.  With features such as parental control, you can enjoy watching content with peace of mind knowing that your family, especially your children are safe.IPTV Player/IPTV Player/IPTV Player."
+        "content": {
+          "en": "Having an IPTV platform is not enough to give you the best entertainment that you deserve at home. You also need video streaming players such as IPTV Smarters Player which is designed with features that allow you to enjoy watching content from your platform.  With features such as parental control, you can enjoy watching content with peace of mind knowing that your family, especially your children are safe.IPTV Player/IPTV Player/IPTV Player.",
+          "es": "Tener una plataforma IPTV no es suficiente para brindarte el mejor entretenimiento que mereces en casa. También necesitas reproductores de video en streaming, como IPTV Smarters Player, que están diseñados con funciones que te permiten disfrutar del contenido de tu plataforma. Con funciones como el control parental, puedes ver contenido con tranquilidad, sabiendo que tu familia, especialmente tus hijos, está segura. Reproductor IPTV/Reproductor IPTV/Reproductor IPTV.",
+          "fr": "Avoir une plateforme IPTV ne suffit pas pour vous offrir le meilleur divertissement que vous méritez à la maison. Vous avez également besoin de lecteurs de streaming vidéo tels que IPTV Smarters Player, conçus avec des fonctionnalités qui vous permettent de profiter du contenu de votre plateforme. Avec des fonctionnalités telles que le contrôle parental, vous pouvez regarder du contenu en toute tranquillité, en sachant que votre famille, en particulier vos enfants, est en sécurité. Lecteur IPTV/Lecteur IPTV/Lecteur IPTV."
+        }
       }
     ],
     "meta": {
