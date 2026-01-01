@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, ArrowRight, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("");
@@ -43,8 +44,19 @@ export default function AdminLogin() {
       <div className="w-full max-w-[420px]">
         {/* Logo/Title */}
         <div className="mb-12 text-center">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-black rounded-full mb-6">
-            <Lock className="w-7 h-7 text-white" strokeWidth={1.5} />
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-black rounded-full">
+              <Lock className="w-7 h-7 text-white" strokeWidth={1.5} />
+            </div>
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-black rounded-full p-2.5">
+              <Image
+                src="/logo/Logo3-removebg-preview.png"
+                alt="IPTV Smarters Logo"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+            </div>
           </div>
           <h1 className="text-3xl font-light text-black mb-2 tracking-tight">Admin Access</h1>
           <p className="text-gray-500 font-light">Enter your credentials to continue</p>

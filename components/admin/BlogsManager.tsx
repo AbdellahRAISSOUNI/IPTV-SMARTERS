@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Edit, Trash2, Eye, Loader2, AlertTriangle, X } from "lucide-react";
 import BlogEditor from "./BlogEditor";
+import DeploymentNotification from "./DeploymentNotification";
 import type { BlogPost } from "@/lib/admin/blog";
 
 export default function BlogsManager() {
@@ -12,6 +13,8 @@ export default function BlogsManager() {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [deleteConfirmBlog, setDeleteConfirmBlog] = useState<BlogPost | null>(null);
   const [imagePreviews, setImagePreviews] = useState<Record<string, string>>({}); // Store blob URLs for images
+  const [showDeploymentNotification, setShowDeploymentNotification] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
 
   useEffect(() => {
     loadBlogs();
@@ -60,8 +63,12 @@ export default function BlogsManager() {
 
       await loadBlogs();
       setSelectedBlog(null);
+      setSaveStatus("success");
+      setShowDeploymentNotification(true);
     } catch (error) {
       console.error("Error saving blog:", error);
+      setSaveStatus("error");
+      setShowDeploymentNotification(true);
       throw error;
     }
   };
@@ -122,6 +129,11 @@ export default function BlogsManager() {
           initialBlog={selectedBlog || undefined}
           onSave={handleSave}
           onDelete={selectedBlog && typeof selectedBlog === 'object' && 'id' in selectedBlog ? () => handleDelete(selectedBlog.id) : undefined}
+        />
+        <DeploymentNotification
+          show={showDeploymentNotification}
+          onClose={() => setShowDeploymentNotification(false)}
+          type={saveStatus === "error" ? "error" : "success"}
         />
       </div>
     );
@@ -288,6 +300,13 @@ export default function BlogsManager() {
           </div>
         )}
       </div>
+      
+      {/* Deployment Notification */}
+      <DeploymentNotification
+        show={showDeploymentNotification}
+        onClose={() => setShowDeploymentNotification(false)}
+        type={saveStatus === "error" ? "error" : "success"}
+      />
     </div>
     </>
   );

@@ -1,0 +1,1110 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================
+% PACKAGES AND CONFIGURATION
+% ============================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% Modern fonts - using Source Sans Pro (works with pdfLaTeX)
+\usepackage[default]{sourcesanspro}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % Fallback for symbols
+
+% Colors - Professional color scheme
+\usepackage{xcolor}
+\definecolor{primaryblue}{RGB}{37, 99, 235}      % #2563eb
+\definecolor{secondaryblue}{RGB}{29, 78, 216}   % #1d4ed8
+\definecolor{accentgreen}{RGB}{34, 197, 94}     % #22c55e
+\definecolor{warningorange}{RGB}{251, 146, 60}  % #fb923c
+\definecolor{errorred}{RGB}{239, 68, 68}       % #ef4444
+\definecolor{lightgray}{RGB}{243, 244, 246}    % #f3f4f6
+\definecolor{mediumgray}{RGB}{156, 163, 175}    % #9ca3af
+\definecolor{darkgray}{RGB}{55, 65, 81}        % #374151
+\definecolor{codebg}{RGB}{248, 250, 252}       % #f8fafc
+
+% Page layout
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{primaryblue}{\textbf{Google Search Console Setup Guide}}}
+\fancyhead[R]{\textcolor{mediumgray}{\thepage}}
+\fancyfoot[C]{\textcolor{mediumgray}{\small IPTV Smarters Pro - SEO Setup Guide}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{primaryblue}\leaders\hrule height \headrulewidth\hfill}}
+
+% Custom section formatting
+\usepackage{titlesec}
+\titleformat{\section}
+{\Large\bfseries\color{primaryblue}}
+{}
+{0em}
+{}[\titlerule[0.5pt]]
+
+\titleformat{\subsection}
+{\large\bfseries\color{secondaryblue}}
+{}
+{0em}
+{}
+
+\titleformat{\subsubsection}
+{\normalsize\bfseries\color{darkgray}}
+{}
+{0em}
+{}
+
+% Colored boxes for important information
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable, skins}
+
+% Info box style
+\newtcolorbox{infobox}[1]{
+    colback=primaryblue!10,
+    colframe=primaryblue,
+    colbacktitle=primaryblue!20,
+    coltitle=darkgray,
+    title=#1,
+    fonttitle=\bfseries\large\color{darkgray},
+    breakable,
+    enhanced,
+    boxrule=1pt,
+    arc=3pt,
+    titlerule=0pt
+}
+
+% Warning box style
+\newtcolorbox{warningbox}[1]{
+    colback=warningorange!10,
+    colframe=warningorange,
+    colbacktitle=warningorange!20,
+    coltitle=darkgray,
+    title=#1,
+    fonttitle=\bfseries\large\color{darkgray},
+    breakable,
+    enhanced,
+    boxrule=1pt,
+    arc=3pt,
+    titlerule=0pt
+}
+
+% Success box style
+\newtcolorbox{successbox}[1]{
+    colback=accentgreen!10,
+    colframe=accentgreen,
+    colbacktitle=accentgreen!20,
+    coltitle=darkgray,
+    title=#1,
+    fonttitle=\bfseries\large\color{darkgray},
+    breakable,
+    enhanced,
+    boxrule=1pt,
+    arc=3pt,
+    titlerule=0pt
+}
+
+% Code box style
+\newtcolorbox{codebox}{
+    colback=codebg,
+    colframe=mediumgray,
+    breakable,
+    enhanced,
+    boxrule=0.5pt,
+    arc=2pt,
+    fontupper=\ttfamily\small
+}
+
+% Code listing configuration
+\usepackage{listings}
+\lstset{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small\color{darkgray},
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    commentstyle=\color{mediumgray}\itshape,
+    frame=single,
+    framerule=0.5pt,
+    rulecolor=\color{mediumgray},
+    keywordstyle=\color{primaryblue}\bfseries,
+    numberstyle=\tiny\color{mediumgray},
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stringstyle=\color{accentgreen},
+    tabsize=2,
+    xleftmargin=10pt,
+    xrightmargin=10pt
+}
+
+% Hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    filecolor=primaryblue,
+    urlcolor=primaryblue,
+    citecolor=secondaryblue,
+    pdftitle={Google Search Console Setup Guide},
+    pdfauthor={IPTV Smarters Pro},
+    pdfsubject={SEO Setup Guide},
+    pdfkeywords={Google Search Console, SEO, IPTV, Setup Guide}
+}
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{float}
+
+% Lists
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*, itemsep=0.5em}
+\setlist[enumerate]{leftmargin=*, itemsep=0.5em}
+
+% Custom commands
+\newcommand{\stepnumber}[1]{\textcolor{primaryblue}{\textbf{Step #1:}}}
+\newcommand{\important}[1]{\textcolor{errorred}{\textbf{⚠ #1}}}
+\newcommand{\tip}[1]{\textcolor{accentgreen}{\textbf{💡 Tip:} #1}}
+\newcommand{\note}[1]{\textcolor{mediumgray}{\textit{Note: #1}}}
+
+% ============================================
+% DOCUMENT CONTENT
+% ============================================
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge\bfseries\color{primaryblue} Google Search Console}\\[0.5cm]
+    {\Huge\bfseries\color{primaryblue} Complete Setup Guide}\\[1cm]
+    
+    \vspace{1cm}
+    
+    {\Large\color{darkgray} Step-by-Step Instructions for}\\[0.3cm]
+    {\Large\color{darkgray} IPTV Smarters Pro Website}\\[1.5cm]
+    
+    \vspace{2cm}
+    
+    \begin{tcolorbox}[colback=primaryblue!10, colframe=primaryblue, width=0.8\textwidth, arc=5pt]
+        \centering
+        {\Large\bfseries\color{primaryblue} Professional SEO Setup}\\[0.3cm]
+        {\large\color{darkgray} Get Your Website Indexed and Ranked}\\[0.3cm]
+        {\normalsize\color{mediumgray} Follow this guide to set up Google Search Console}\\
+        {\normalsize\color{mediumgray} and improve your search engine visibility}
+    \end{tcolorbox}
+    
+    \vfill
+    
+    {\large\color{mediumgray} Version 1.0 | 2026}\\[0.3cm]
+    {\normalsize\color{mediumgray} IPTV Smarters Pro - SEO Optimization}
+    
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% ============================================
+% INTRODUCTION
+% ============================================
+
+\section{Introduction}
+
+\subsection{What is Google Search Console?}
+
+Google Search Console (formerly Google Webmaster Tools) is a free service provided by Google that helps you monitor, maintain, and troubleshoot your website's presence in Google Search results. It's an essential tool for any website owner who wants to:
+
+\begin{itemize}
+    \item \textbf{Monitor website performance} in Google Search
+    \item \textbf{Identify and fix} indexing issues
+    \item \textbf{Submit sitemaps} to help Google discover your pages
+    \item \textbf{View search analytics} (queries, clicks, impressions)
+    \item \textbf{Receive alerts} about website issues
+    \item \textbf{Improve SEO} with actionable insights
+\end{itemize}
+
+\begin{infobox}{Why This Matters}
+    Setting up Google Search Console is the first step to improving your website's visibility in search engines. Without it, you're essentially invisible to Google's search algorithm, and you won't know how your website is performing in search results.
+\end{infobox}
+
+\subsection{What You'll Learn}
+
+By the end of this guide, you will be able to:
+
+\begin{enumerate}
+    \item Create a Google Search Console account
+    \item Add and verify your website property
+    \item Submit your sitemap to Google
+    \item Monitor your website's search performance
+    \item Understand and use key Search Console features
+    \item Troubleshoot common issues
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+Before you begin, make sure you have:
+
+\begin{itemize}
+    \item ✓ A Google account (Gmail account works)
+    \item ✓ Access to your website's domain or hosting
+    \item ✓ Your website URL (e.g., \texttt{https://yourdomain.com})
+    \item ✓ Basic understanding of how to access your website files (if using HTML file verification)
+    \item ✓ 15-20 minutes of uninterrupted time
+\end{itemize}
+
+\newpage
+
+% ============================================
+% STEP 1: ACCESSING GOOGLE SEARCH CONSOLE
+% ============================================
+
+\section{Step 1: Accessing Google Search Console}
+
+\stepnumber{1.1} Navigate to Google Search Console
+
+\begin{enumerate}
+    \item Open your web browser (Chrome, Firefox, Safari, or Edge)
+    \item Go to: \href{https://search.google.com/search-console}{https://search.google.com/search-console}
+    \item You'll see the Google Search Console homepage
+\end{enumerate}
+
+\stepnumber{1.2} Sign In with Your Google Account
+
+\begin{enumerate}
+    \item Click the \textbf{"Sign in"} button in the top right corner
+    \item Enter your Google account email and password
+    \item If you don't have a Google account:
+    \begin{itemize}
+        \item Click \textbf{"Create account"}
+        \item Follow the prompts to create a new Gmail account
+        \item Use a professional email address if possible
+    \end{itemize}
+\end{enumerate}
+
+\begin{warningbox}{Important}
+    Use a Google account that you'll have long-term access to. If you're setting this up for a client, consider creating a dedicated Google account for the business or using the client's existing Google account.
+\end{warningbox}
+
+\stepnumber{1.3} Understanding the Dashboard
+
+Once signed in, you'll see the Google Search Console dashboard. Don't worry if it looks empty—you haven't added your website yet! The dashboard will show:
+
+\begin{itemize}
+    \item \textcolor{primaryblue}{\textbf{Properties:}} Your verified websites
+    \item \textcolor{primaryblue}{\textbf{Performance:}} Search analytics data
+    \item \textcolor{primaryblue}{\textbf{Coverage:}} Indexing status
+    \item \textcolor{primaryblue}{\textbf{Enhancements:}} Rich results and structured data
+\end{itemize}
+
+\newpage
+
+% ============================================
+% STEP 2: ADDING YOUR WEBSITE PROPERTY
+% ============================================
+
+\section{Step 2: Adding Your Website Property}
+
+\stepnumber{2.1} Start Adding a Property
+
+\begin{enumerate}
+    \item In the Google Search Console dashboard, look for the \textbf{"Add property"} button or dropdown
+    \item Click on \textbf{"Add property"}
+    \item You'll see two options:
+    \begin{itemize}
+        \item \textcolor{primaryblue}{\textbf{URL prefix:}} Enter your full website URL (Recommended)
+        \item \textcolor{primaryblue}{\textbf{Domain:}} Enter just your domain name (Advanced)
+    \end{itemize}
+\end{enumerate}
+
+\begin{infobox}{Which Method to Choose?}
+    \textbf{URL prefix} is recommended for most users because:
+    \begin{itemize}
+        \item It's easier to verify
+        \item Works with any hosting provider
+        \item Supports both HTTP and HTTPS
+        \item More flexible for subdomains
+    \end{itemize}
+    
+    \textbf{Domain} method is for advanced users who want to verify an entire domain including all subdomains and protocols.
+\end{infobox}
+
+\stepnumber{2.2} Enter Your Website URL
+
+\begin{enumerate}
+    \item Select \textbf{"URL prefix"}
+    \item Enter your complete website URL in the text field
+    
+    \begin{codebox}
+        Example URLs:
+        https://yourdomain.com
+        https://www.yourdomain.com
+        https://iptv-smarters.vercel.app
+    \end{codebox}
+    
+    \item \important{Important:} Make sure to include:
+    \begin{itemize}
+        \item The protocol (\texttt{https://} or \texttt{http://})
+        \item The full domain name
+        \item No trailing slash at the end
+        \item The exact URL format your website uses
+    \end{itemize}
+    
+    \item Click \textbf{"Continue"}
+\end{enumerate}
+
+\begin{warningbox}{Common Mistakes}
+    \begin{itemize}
+        \item ✗ Forgetting \texttt{https://} or \texttt{http://}
+        \item ✗ Adding a trailing slash (\texttt{/})
+        \item ✗ Using \texttt{www.} when your site doesn't use it (or vice versa)
+        \item ✗ Including paths like \texttt{/home} or \texttt{/index.html}
+    \end{itemize}
+    
+    \tip{Check your website's actual URL by looking at the address bar when you visit your homepage.}
+\end{warningbox}
+
+\newpage
+
+% ============================================
+% STEP 3: VERIFYING OWNERSHIP
+% ============================================
+
+\section{Step 3: Verifying Website Ownership}
+
+After adding your property, Google needs to verify that you own the website. This is a security measure to prevent unauthorized access.
+
+\subsection{Verification Methods Overview}
+
+Google offers several verification methods. We'll cover the three most common:
+
+\begin{enumerate}
+    \item \textcolor{primaryblue}{\textbf{HTML tag}} (Easiest - Recommended)
+    \item \textcolor{primaryblue}{\textbf{HTML file upload}}
+    \item \textcolor{primaryblue}{\textbf{DNS record}} (Advanced)
+\end{enumerate}
+
+\subsection{Method 1: HTML Tag Verification (Recommended)}
+
+This is the easiest method and works for most websites.
+
+\stepnumber{3.1} Get Your Verification Code
+
+\begin{enumerate}
+    \item On the verification page, select \textbf{"HTML tag"}
+    \item You'll see a meta tag that looks like this:
+    
+    \begin{codebox}
+        <meta name="google-site-verification" 
+              content="abc123xyz789..." />
+    \end{codebox}
+    
+    \item \important{Copy the entire content value} (the long string of characters after \texttt{content="})
+    
+    \begin{codebox}
+        Example: abc123xyz789def456ghi012jkl345mno678pqr901stu234vwx567
+    \end{codebox}
+    
+    \item This is your \textbf{verification code}
+\end{enumerate}
+
+\stepnumber{3.2} Add Verification Code to Your Website
+
+\begin{enumerate}
+    \item \textbf{Contact your developer} and provide them with:
+    \begin{itemize}
+        \item The verification code you copied
+        \item Instructions to add it to the website's metadata
+    \end{itemize}
+    
+    \item \textbf{Or, if you have access:}
+    \begin{itemize}
+        \item Locate your website's main layout file
+        \item For Next.js projects: \texttt{app/layout.tsx} or \texttt{app/[locale]/layout.tsx}
+        \item Add the verification code to the metadata section
+    \end{itemize}
+    
+    \item The code should be added in the \texttt{<head>} section of your website
+\end{enumerate}
+
+\begin{infobox}{Where to Add the Code}
+    The verification code should be added to your website's metadata. In Next.js, this is typically in the \texttt{generateMetadata} function or in the \texttt{verification} section of the metadata object.
+    
+    \textbf{Example location:}
+    \begin{lstlisting}[language=JavaScript]
+    verification: {
+        google: "your-verification-code-here"
+    }
+    \end{lstlisting}
+\end{infobox}
+
+\stepnumber{3.3} Verify Ownership
+
+\begin{enumerate}
+    \item After the code is added to your website, return to Google Search Console
+    \item Click the \textbf{"Verify"} button
+    \item Google will check your website for the verification code
+    \item If successful, you'll see a success message
+\end{enumerate}
+
+\begin{successbox}{Verification Successful!}
+    Once verified, you'll see:
+    \begin{itemize}
+        \item ✓ A green checkmark
+        \item ✓ "Ownership verified" message
+        \item ✓ Access to your website's Search Console data
+    \end{itemize}
+    
+    \note{It may take a few minutes for Google to detect the verification code. If it fails, wait 5-10 minutes and try again.}
+\end{successbox}
+
+\newpage
+
+\subsection{Method 2: HTML File Upload}
+
+If you can't modify your website's code, you can upload an HTML file instead.
+
+\stepnumber{3.4} Download the Verification File
+
+\begin{enumerate}
+    \item On the verification page, select \textbf{"HTML file"}
+    \item Click \textbf{"Download this HTML file"}
+    \item Save the file to your computer
+    \item The file will be named something like: \texttt{google1234567890abcdef.html}
+\end{enumerate}
+
+\stepnumber{3.5} Upload the File to Your Website
+
+\begin{enumerate}
+    \item Access your website's hosting or file manager
+    \item Navigate to the \textbf{root directory} (public folder, www folder, or public\_html)
+    \item Upload the HTML file to the root directory
+    \item Make sure the file is accessible at: \texttt{https://yourdomain.com/google1234567890abcdef.html}
+\end{enumerate}
+
+\stepnumber{3.6} Verify Ownership
+
+\begin{enumerate}
+    \item Return to Google Search Console
+    \item Click \textbf{"Verify"}
+    \item Google will check if the file is accessible
+    \item If successful, you'll see the success message
+\end{enumerate}
+
+\begin{warningbox}{Important Notes for File Upload}
+    \begin{itemize}
+        \item The file must be in the root directory, not in a subfolder
+        \item The file must be accessible via HTTP/HTTPS (not blocked by security)
+        \item Don't modify the file name or content
+        \item The file can be deleted after verification (but it's safe to leave it)
+    \end{itemize}
+\end{warningbox}
+
+\newpage
+
+\subsection{Method 3: DNS Verification (Advanced)}
+
+This method verifies your entire domain, including all subdomains.
+
+\stepnumber{3.7} Get DNS Verification Record
+
+\begin{enumerate}
+    \item Select \textbf{"DNS record"} verification method
+    \item Google will provide you with a TXT record to add
+    \item Copy the record details:
+    \begin{itemize}
+        \item Record type: \texttt{TXT}
+        \item Name/Host: Usually \texttt{@} or your domain name
+        \item Value: A long string provided by Google
+    \end{itemize}
+\end{enumerate}
+
+\stepnumber{3.8} Add DNS Record
+
+\begin{enumerate}
+    \item Log in to your domain registrar or DNS provider
+    \item Navigate to DNS management
+    \item Add a new TXT record with the details from Google
+    \item Save the changes
+    \item Wait for DNS propagation (can take up to 48 hours, usually much faster)
+\end{enumerate}
+
+\stepnumber{3.9} Verify Ownership
+
+\begin{enumerate}
+    \item Return to Google Search Console
+    \item Click \textbf{"Verify"}
+    \item Google will check your DNS records
+    \item If the record is found, verification will succeed
+\end{enumerate}
+
+\begin{infobox}{DNS Propagation}
+    DNS changes can take time to propagate worldwide. If verification fails immediately, wait a few hours and try again. You can check DNS propagation using tools like \href{https://www.whatsmydns.net}{whatsmydns.net}.
+\end{infobox}
+
+\newpage
+
+% ============================================
+% STEP 4: SUBMITTING YOUR SITEMAP
+% ============================================
+
+\section{Step 4: Submitting Your Sitemap}
+
+A sitemap is a file that tells search engines about the pages on your website. Your website already has a sitemap at \texttt{/sitemap.xml}.
+
+\stepnumber{4.1} Navigate to Sitemaps Section
+
+\begin{enumerate}
+    \item In Google Search Console, look at the left sidebar
+    \item Click on \textbf{"Sitemaps"} (under "Indexing")
+    \item You'll see the sitemaps management page
+\end{enumerate}
+
+\stepnumber{4.2} Submit Your Sitemap
+
+\begin{enumerate}
+    \item In the "Add a new sitemap" section, you'll see a text field
+    \item Enter: \texttt{sitemap.xml}
+    
+    \begin{codebox}
+        Enter only: sitemap.xml
+        NOT: https://yourdomain.com/sitemap.xml
+    \end{codebox}
+    
+    \item Click \textbf{"Submit"}
+    \item Google will start processing your sitemap
+\end{enumerate}
+
+\begin{infobox}{What is a Sitemap?}
+    A sitemap is an XML file that lists all the pages on your website. It helps search engines:
+    \begin{itemize}
+        \item Discover all your pages
+        \item Understand your website structure
+        \item Index pages more efficiently
+        \item Know when pages were last updated
+    \end{itemize}
+    
+    Your sitemap is automatically generated and includes:
+    \begin{itemize}
+        \item All language versions (English, Spanish, French)
+        \item All installation guides
+        \item All blog posts
+        \item Proper priorities and update frequencies
+    \end{itemize}
+\end{infobox}
+
+\stepnumber{4.3} Verify Sitemap Submission
+
+\begin{enumerate}
+    \item After submission, you'll see your sitemap in the list
+    \item Status will show as "Success" once Google processes it
+    \item You'll see statistics like:
+    \begin{itemize}
+        \item Number of URLs discovered
+        \item Number of URLs indexed
+        \item Any errors or warnings
+    \end{itemize}
+\end{enumerate}
+
+\begin{successbox}{Sitemap Submitted Successfully!}
+    Once your sitemap is submitted:
+    \begin{itemize}
+        \item ✓ Google will start crawling your pages
+        \item ✓ You'll see indexing progress in Search Console
+        \item ✓ Pages will begin appearing in search results
+    \end{itemize}
+    
+    \note{It may take 24-48 hours for Google to fully process your sitemap and start indexing pages.}
+\end{successbox}
+
+\newpage
+
+% ============================================
+% STEP 5: UNDERSTANDING THE DASHBOARD
+% ============================================
+
+\section{Step 5: Understanding the Dashboard}
+
+Now that your website is verified and your sitemap is submitted, let's explore the key features of Google Search Console.
+
+\subsection{Overview Page}
+
+The Overview page shows a summary of your website's performance:
+
+\begin{itemize}
+    \item \textcolor{primaryblue}{\textbf{Total clicks:}} How many times users clicked on your site in search results
+    \item \textcolor{primaryblue}{\textbf{Total impressions:}} How many times your site appeared in search results
+    \item \textcolor{primaryblue}{\textbf{Average CTR:}} Click-through rate (clicks ÷ impressions)
+    \item \textcolor{primaryblue}{\textbf{Average position:}} Average ranking position in search results
+\end{itemize}
+
+\subsection{Performance Report}
+
+The Performance report shows detailed search analytics:
+
+\begin{enumerate}
+    \item Click \textbf{"Performance"} in the left sidebar
+    \item You'll see graphs and tables showing:
+    \begin{itemize}
+        \item \textbf{Queries:} What people searched for to find your site
+        \item \textbf{Pages:} Which pages got the most traffic
+        \item \textbf{Countries:} Where your visitors are from
+        \item \textbf{Devices:} Mobile vs. desktop traffic
+        \item \textbf{Search appearance:} How your site appears in results
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Coverage Report}
+
+The Coverage report shows indexing status:
+
+\begin{enumerate}
+    \item Click \textbf{"Coverage"} in the left sidebar
+    \item You'll see:
+    \begin{itemize}
+        \item \textcolor{accentgreen}{\textbf{Valid:}} Pages successfully indexed
+        \item \textcolor{warningorange}{\textbf{Warnings:}} Pages with issues
+        \item \textcolor{errorred}{\textbf{Errors:}} Pages that couldn't be indexed
+        \item \textcolor{mediumgray}{\textbf{Excluded:}} Pages intentionally excluded
+    \end{itemize}
+\end{enumerate}
+
+\begin{infobox}{Understanding Coverage Status}
+    \begin{itemize}
+        \item \textbf{Valid} means your pages are indexed correctly—this is good!
+        \item \textbf{Warnings} are usually minor issues that don't prevent indexing
+        \item \textbf{Errors} need to be fixed—these pages won't appear in search
+        \item \textbf{Excluded} pages are intentionally not indexed (like admin pages)
+    \end{itemize}
+\end{infobox}
+
+\subsection{URL Inspection Tool}
+
+This tool lets you test individual pages:
+
+\begin{enumerate}
+    \item Click the search bar at the top of Search Console
+    \item Enter any URL from your website
+    \item Click \textbf{"Test Live URL"} or \textbf{"Request Indexing"}
+    \item You'll see:
+    \begin{itemize}
+        \item Whether the page is indexed
+        \item Any issues preventing indexing
+        \item Mobile usability status
+        \item Structured data detected
+    \end{itemize}
+\end{enumerate}
+
+\newpage
+
+% ============================================
+% STEP 6: MONITORING AND MAINTENANCE
+% ============================================
+
+\section{Step 6: Monitoring and Maintenance}
+
+Setting up Google Search Console is just the beginning. Regular monitoring helps you maintain and improve your SEO.
+
+\subsection{What to Monitor Regularly}
+
+\subsubsection{Weekly Checks}
+
+\begin{itemize}
+    \item \textbf{Performance report:} Check for new queries and traffic trends
+    \item \textbf{Coverage errors:} Fix any new indexing errors
+    \item \textbf{Security issues:} Check for any security warnings
+\end{itemize}
+
+\subsubsection{Monthly Reviews}
+
+\begin{itemize}
+    \item \textbf{Search analytics:} Review top-performing pages and queries
+    \item \textbf{Indexing status:} Ensure all important pages are indexed
+    \item \textbf{Mobile usability:} Check for mobile-friendly issues
+    \item \textbf{Core Web Vitals:} Monitor page speed and user experience
+\end{itemize}
+
+\subsection{Setting Up Email Notifications}
+
+Google Search Console can email you about important issues:
+
+\begin{enumerate}
+    \item Click the gear icon (⚙️) in the top right
+    \item Select \textbf{"Users and permissions"}
+    \item Make sure your email notifications are enabled
+    \item You'll receive alerts for:
+    \begin{itemize}
+        \item Security issues
+        \item Manual actions (penalties)
+        \item Coverage errors
+        \item Mobile usability problems
+    \end{itemize}
+\end{enumerate}
+
+\begin{warningbox}{Don't Ignore Notifications}
+    Google Search Console notifications are important! They alert you to issues that could hurt your search rankings. Check your email regularly and address issues promptly.
+\end{warningbox}
+
+\subsection{Understanding Key Metrics}
+
+\subsubsection{Clicks vs. Impressions}
+
+\begin{itemize}
+    \item \textbf{Impressions:} How many times your site appeared in search results
+    \item \textbf{Clicks:} How many times users actually clicked on your site
+    \item \textbf{CTR (Click-Through Rate):} Clicks ÷ Impressions × 100
+\end{itemize}
+
+\subsubsection{Position}
+
+\begin{itemize}
+    \item \textbf{Average position:} Where your site ranks on average
+    \item Position 1-3: \textcolor{accentgreen}{Excellent} (first page, top results)
+    \item Position 4-10: \textcolor{primaryblue}{Good} (first page)
+    \item Position 11-20: \textcolor{warningorange}{Fair} (second page)
+    \item Position 21+: \textcolor{errorred}{Needs improvement} (third page or lower)
+\end{itemize}
+
+\newpage
+
+% ============================================
+% TROUBLESHOOTING
+% ============================================
+
+\section{Troubleshooting Common Issues}
+
+\subsection{Verification Failed}
+
+\textbf{Problem:} Google can't verify your website ownership.
+
+\textbf{Solutions:}
+
+\begin{enumerate}
+    \item \textbf{Check the code/file is correct:}
+    \begin{itemize}
+        \item Verify the verification code matches exactly
+        \item Make sure there are no extra spaces or characters
+        \item Check the code is in the correct location
+    \end{itemize}
+    
+    \item \textbf{Wait and retry:}
+    \begin{itemize}
+        \item Sometimes it takes 5-10 minutes for changes to be detected
+        \item Clear your browser cache
+        \item Try again after waiting
+    \end{itemize}
+    
+    \item \textbf{Check website accessibility:}
+    \begin{itemize}
+        \item Make sure your website is publicly accessible
+        \item Check if there are any security restrictions
+        \item Verify the URL is correct
+    \end{itemize}
+    
+    \item \textbf{Try a different method:}
+    \begin{itemize}
+        \item If HTML tag doesn't work, try HTML file upload
+        \item If file upload doesn't work, try DNS verification
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Sitemap Errors}
+
+\textbf{Problem:} Sitemap shows errors or warnings.
+
+\textbf{Solutions:}
+
+\begin{enumerate}
+    \item \textbf{Check sitemap accessibility:}
+    \begin{itemize}
+        \item Visit \texttt{https://yourdomain.com/sitemap.xml} in your browser
+        \item Make sure it loads correctly
+        \item Check for any XML errors
+    \end{itemize}
+    
+    \item \textbf{Review sitemap content:}
+    \begin{itemize}
+        \item Check that all URLs are valid
+        \item Ensure URLs use the correct protocol (HTTPS)
+        \item Verify no duplicate URLs
+    \end{itemize}
+    
+    \item \textbf{Wait for processing:}
+    \begin{itemize}
+        \item Sitemaps can take 24-48 hours to fully process
+        \item Some warnings are normal and don't need fixing
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Pages Not Indexing}
+
+\textbf{Problem:} Your pages aren't appearing in search results.
+
+\textbf{Solutions:}
+
+\begin{enumerate}
+    \item \textbf{Check Coverage report:}
+    \begin{itemize}
+        \item Look for errors in the Coverage section
+        \item Fix any blocking issues
+        \item Request indexing for important pages
+    \end{itemize}
+    
+    \item \textbf{Use URL Inspection:}
+    \begin{itemize}
+        \item Test individual URLs
+        \item Request indexing for specific pages
+        \item Check for any issues preventing indexing
+    \end{itemize}
+    
+    \item \textbf{Be patient:}
+    \begin{itemize}
+        \item New pages can take days or weeks to index
+        \item Google prioritizes popular and frequently updated pages
+        \item Ensure your pages have quality content
+    \end{itemize}
+\end{enumerate}
+
+\begin{infobox}{Indexing Timeline}
+    \begin{itemize}
+        \item \textbf{New websites:} 1-4 weeks for initial indexing
+        \item \textbf{New pages:} 3-7 days typically
+        \item \textbf{Updated pages:} 1-3 days for re-indexing
+        \item \textbf{Popular pages:} Often indexed within hours
+    \end{itemize}
+    
+    \note{These are general guidelines. Actual times vary based on many factors.}
+\end{infobox}
+
+\newpage
+
+% ============================================
+% BEST PRACTICES
+% ============================================
+
+\section{Best Practices and Tips}
+
+\subsection{SEO Best Practices}
+
+\begin{enumerate}
+    \item \textbf{Create quality content:}
+    \begin{itemize}
+        \item Write original, valuable content
+        \item Use relevant keywords naturally
+        \item Update content regularly
+    \end{itemize}
+    
+    \item \textbf{Optimize page titles and descriptions:}
+    \begin{itemize}
+        \item Use descriptive, keyword-rich titles
+        \item Write compelling meta descriptions
+        \item Keep titles under 60 characters
+        \item Keep descriptions under 160 characters
+    \end{itemize}
+    
+    \item \textbf{Ensure mobile-friendliness:}
+    \begin{itemize}
+        \item Your website should work well on mobile devices
+        \item Check Mobile Usability report in Search Console
+        \item Fix any mobile usability issues
+    \end{itemize}
+    
+    \item \textbf{Improve page speed:}
+    \begin{itemize}
+        \item Fast-loading pages rank better
+        \item Monitor Core Web Vitals in Search Console
+        \item Optimize images and code
+    \end{itemize}
+    
+    \item \textbf{Build quality backlinks:}
+    \begin{itemize}
+        \item Get other websites to link to yours
+        \item Focus on relevant, authoritative sites
+        \item Avoid spammy link-building tactics
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Regular Maintenance Tasks}
+
+\begin{tcolorbox}[colback=lightgray, colframe=darkgray, title=Monthly Checklist, breakable]
+    \begin{itemize}
+        \item[ ] Review Performance report for trends
+        \item[ ] Check Coverage report for errors
+        \item[ ] Review top-performing pages
+        \item[ ] Check for new security issues
+        \item[ ] Monitor mobile usability
+        \item[ ] Review Core Web Vitals
+        \item[ ] Update sitemap if new pages added
+        \item[ ] Check for manual actions
+    \end{itemize}
+\end{tcolorbox}
+
+\subsection{What to Expect}
+
+\begin{itemize}
+    \item \textbf{Week 1-2:} Google starts crawling your site
+    \item \textbf{Week 2-4:} Pages begin appearing in search results
+    \item \textbf{Month 1-2:} Search traffic starts increasing
+    \item \textbf{Month 2-3:} Rankings begin to stabilize
+    \item \textbf{Month 3-6:} Full SEO impact becomes visible
+\end{itemize}
+
+\begin{successbox}{Patience is Key}
+    SEO is a long-term strategy. Don't expect immediate results. Consistent, quality content and proper optimization will improve your rankings over time. Focus on providing value to your visitors, and search rankings will follow.
+\end{successbox}
+
+\newpage
+
+% ============================================
+% ADDITIONAL RESOURCES
+% ============================================
+
+\section{Additional Resources}
+
+\subsection{Google Resources}
+
+\begin{itemize}
+    \item \href{https://support.google.com/webmasters}{Google Search Console Help Center}
+    \item \href{https://developers.google.com/search/docs}{Google Search Central}
+    \item \href{https://search.google.com/search-console}{Google Search Console}
+\end{itemize}
+
+\subsection{SEO Learning Resources}
+
+\begin{itemize}
+    \item \href{https://moz.com/beginners-guide-to-seo}{Moz Beginner's Guide to SEO}
+    \item \href{https://www.semrush.com/academy}{SEMrush Academy}
+    \item \href{https://ahrefs.com/blog}{Ahrefs Blog}
+\end{itemize}
+
+\subsection{Getting Help}
+
+If you encounter issues:
+
+\begin{enumerate}
+    \item Check the Troubleshooting section in this guide
+    \item Review Google Search Console Help Center
+    \item Contact your website developer
+    \item Post questions in SEO forums or communities
+\end{enumerate}
+
+\newpage
+
+% ============================================
+% QUICK REFERENCE
+% ============================================
+
+\section{Quick Reference Guide}
+
+\subsection{Important URLs}
+
+\begin{codebox}
+Google Search Console: https://search.google.com/search-console
+Your Sitemap: https://yourdomain.com/sitemap.xml
+URL Inspection: Use the search bar in Search Console
+\end{codebox}
+
+\subsection{Verification Methods Comparison}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Method} & \textbf{Pros} & \textbf{Cons} \\
+\hline
+HTML Tag & Easy, Quick, No file upload & Requires code access \\
+\hline
+HTML File & No code changes needed & Requires file upload access \\
+\hline
+DNS & Verifies entire domain & Requires DNS access, Slower \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Key Metrics to Track}
+
+\begin{itemize}
+    \item \textcolor{primaryblue}{\textbf{Clicks:}} Actual traffic from search
+    \item \textcolor{primaryblue}{\textbf{Impressions:}} Visibility in search
+    \item \textcolor{primaryblue}{\textbf{CTR:}} Click-through rate
+    \item \textcolor{primaryblue}{\textbf{Position:}} Average ranking
+    \item \textcolor{primaryblue}{\textbf{Coverage:}} Indexing status
+\end{itemize}
+
+\subsection{Common Status Messages}
+
+\begin{itemize}
+    \item \textcolor{accentgreen}{\textbf{Success:}} Everything is working correctly
+    \item \textcolor{warningorange}{\textbf{Warning:}} Minor issue, doesn't block functionality
+    \item \textcolor{errorred}{\textbf{Error:}} Problem that needs to be fixed
+    \item \textcolor{mediumgray}{\textbf{Excluded:}} Intentionally not indexed (normal for admin pages)
+\end{itemize}
+
+\newpage
+
+% ============================================
+% CONCLUSION
+% ============================================
+
+\section{Conclusion}
+
+Congratulations! You've successfully set up Google Search Console for your website. Here's what you've accomplished:
+
+\begin{enumerate}
+    \item ✓ Created a Google Search Console account
+    \item ✓ Added and verified your website property
+    \item ✓ Submitted your sitemap
+    \item ✓ Learned how to use the dashboard
+    \item ✓ Understood key metrics and reports
+\end{enumerate}
+
+\subsection{Next Steps}
+
+\begin{enumerate}
+    \item \textbf{Monitor regularly:} Check Search Console weekly for insights
+    \item \textbf{Fix issues promptly:} Address any errors or warnings
+    \item \textbf{Create quality content:} Focus on providing value to visitors
+    \item \textbf{Be patient:} SEO results take time to develop
+    \item \textbf{Keep learning:} SEO is an ongoing process
+\end{enumerate}
+
+\begin{successbox}{You're All Set!}
+    Your website is now connected to Google Search Console. Google will start crawling and indexing your pages. Monitor your performance regularly, create quality content, and watch your search visibility grow over time.
+    
+    Remember: SEO is a marathon, not a sprint. Consistency and quality are key to long-term success.
+\end{successbox}
+
+\subsection{Final Tips}
+
+\begin{itemize}
+    \item \tip{Check Search Console at least once a week}
+    \item \tip{Focus on creating valuable, original content}
+    \item \tip{Monitor your top-performing pages and create similar content}
+    \item \tip{Keep your website updated and secure}
+    \item \tip{Be patient—SEO results take 3-6 months to fully develop}
+\end{itemize}
+
+\vspace{1cm}
+
+\begin{center}
+    {\Large\bfseries\color{primaryblue} Good luck with your SEO journey!}\\[0.5cm]
+    {\large\color{mediumgray} Questions? Refer back to this guide or check the Additional Resources section.}
+\end{center}
+
+\vfill
+
+\begin{center}
+    {\small\color{mediumgray}
+    Google Search Console Setup Guide\\
+    Version 1.0 | 2026\\
+    IPTV Smarters Pro - SEO Optimization
+    }
+\end{center}
+
+\end{document}

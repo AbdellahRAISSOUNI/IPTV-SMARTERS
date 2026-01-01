@@ -32,6 +32,7 @@ import {
   MoveDown,
 } from "lucide-react";
 import BlogsManager from "@/components/admin/BlogsManager";
+import DeploymentNotification from "@/components/admin/DeploymentNotification";
 
 interface Translations {
   [locale: string]: {
@@ -61,6 +62,7 @@ export default function AdminDashboard() {
   const [isUploading, setIsUploading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
   const [showPreview, setShowPreview] = useState(false);
+  const [showDeploymentNotification, setShowDeploymentNotification] = useState(false);
   const router = useRouter();
 
   // Verify authentication
@@ -114,7 +116,7 @@ export default function AdminDashboard() {
   const handleLogout = async () => {
     try {
       await fetch("/api/admin/logout", { method: "POST" });
-      router.push("/admin/login");
+      router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -143,6 +145,7 @@ export default function AdminDashboard() {
       }
 
       setSaveStatus("success");
+      setShowDeploymentNotification(true);
       await loadTranslations();
       
       setTimeout(() => setSaveStatus("idle"), 3000);
@@ -1082,6 +1085,13 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Deployment Notification */}
+      <DeploymentNotification
+        show={showDeploymentNotification}
+        onClose={() => setShowDeploymentNotification(false)}
+        type={saveStatus === "error" ? "error" : "success"}
+      />
     </div>
   );
 }

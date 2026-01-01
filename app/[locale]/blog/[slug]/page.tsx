@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { notFound, useParams } from "next/navigation";
+import { useEffect, useState, useRef } from "react";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { locales, type Locale } from "@/lib/i18n";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
@@ -13,98 +13,69 @@ import type { BlogPost } from "@/lib/admin/blog";
 export default function BlogPostPage() {
   const { t, locale } = useLanguage();
   const params = useParams();
+  const router = useRouter();
   const slug = params.slug as string;
   const [blog, setBlog] = useState<BlogPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const isMountedRef = useRef(true);
 
   useEffect(() => {
+    isMountedRef.current = true;
+    
     async function loadBlog() {
       try {
         // Use public API endpoint
         const response = await fetch(`/api/blogs?slug=${slug}&locale=${locale}`);
         if (response.ok) {
           const data = await response.json();
-          setBlog(data);
+          if (isMountedRef.current) {
+            setBlog(data);
+          }
         } else {
-          notFound();
+          if (isMountedRef.current) {
+            notFound();
+          }
         }
       } catch (error) {
         console.error("Failed to load blog:", error);
-        notFound();
+        if (isMountedRef.current) {
+          notFound();
+        }
       } finally {
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
       }
     }
     loadBlog();
+    
+    return () => {
+      isMountedRef.current = false;
+    };
   }, [slug, locale]);
 
-  // Update meta tags for SEO when blog loads
+  // Update meta tags for SEO when blog loads - simplified to avoid navigation issues
   useEffect(() => {
-    if (!blog) return;
+    if (!blog || !isMountedRef.current) return;
+    if (typeof document === 'undefined') return;
 
     const displayTitle = blog.title[locale] || blog.title[blog.locale] || "Untitled";
     const displayExcerpt = blog.excerpt[locale] || blog.excerpt[blog.locale] || "";
-    const keywords = blog.meta?.keywords?.[locale] || blog.meta?.keywords?.[blog.locale] || "";
 
-    // Update title
-    document.title = `${displayTitle} | StreamPro`;
-
-    // Update or create meta description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', displayExcerpt);
-
-    // Update or create meta keywords
-    let metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (keywords) {
-      if (!metaKeywords) {
-        metaKeywords = document.createElement('meta');
-        metaKeywords.setAttribute('name', 'keywords');
-        document.head.appendChild(metaKeywords);
+    // Only update title - minimal DOM manipulation
+    const timeoutId = setTimeout(() => {
+      if (isMountedRef.current && document) {
+        try {
+          document.title = `${displayTitle} | StreamPro`;
+        } catch (e) {
+          // Ignore errors
+        }
       }
-      metaKeywords.setAttribute('content', keywords);
-    } else if (metaKeywords) {
-      // Remove keywords meta tag if no keywords provided
-      metaKeywords.remove();
-    }
+    }, 0);
 
-    // Update Open Graph tags
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', displayTitle);
-    else {
-      const newOgTitle = document.createElement('meta');
-      newOgTitle.setAttribute('property', 'og:title');
-      newOgTitle.setAttribute('content', displayTitle);
-      document.head.appendChild(newOgTitle);
-    }
-
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) ogDescription.setAttribute('content', displayExcerpt);
-    else {
-      const newOgDescription = document.createElement('meta');
-      newOgDescription.setAttribute('property', 'og:description');
-      newOgDescription.setAttribute('content', displayExcerpt);
-      document.head.appendChild(newOgDescription);
-    }
-
-    if (blog.featuredImage && !blog.featuredImage.startsWith('blob:')) {
-      const ogImage = document.querySelector('meta[property="og:image"]');
-      if (ogImage) ogImage.setAttribute('content', blog.featuredImage);
-      else {
-        const newOgImage = document.createElement('meta');
-        newOgImage.setAttribute('property', 'og:image');
-        newOgImage.setAttribute('content', blog.featuredImage);
-        document.head.appendChild(newOgImage);
-      }
-    }
-
-    // Cleanup function
     return () => {
-      // Optionally reset meta tags on unmount
+      clearTimeout(timeoutId);
+      // No cleanup needed - Next.js will handle metadata on navigation
     };
   }, [blog, locale]);
 
@@ -134,14 +105,14 @@ export default function BlogPostPage() {
     switch (block.type) {
       case "heading":
         const level = block.level || 2;
-        const headingClassName = `font-bold text-[#1a1a1a] mb-4 mt-8 first:mt-0 ${
+        const headingClassName = `font-bold text-[#1a1a1a] mb-3 sm:mb-4 mt-6 sm:mt-8 first:mt-0 ${
           level === 1
-            ? "text-4xl sm:text-5xl"
+            ? "text-2xl sm:text-3xl md:text-4xl"
             : level === 2
-            ? "text-3xl sm:text-4xl"
+            ? "text-xl sm:text-2xl md:text-3xl"
             : level === 3
-            ? "text-2xl sm:text-3xl"
-            : "text-xl sm:text-2xl"
+            ? "text-lg sm:text-xl md:text-2xl"
+            : "text-base sm:text-lg md:text-xl"
         }`;
         const headingStyle = { textAlign: block.style?.textAlign || "left" } as React.CSSProperties;
         
@@ -156,7 +127,7 @@ export default function BlogPostPage() {
         return (
           <p
             key={block.id}
-            className="text-base sm:text-lg text-[#1a1a1a]/80 leading-relaxed mb-6"
+            className="text-sm sm:text-base md:text-lg text-[#1a1a1a]/80 leading-relaxed mb-4 sm:mb-6"
             style={{ textAlign: block.style?.textAlign || "left" }}
           >
             {block.content}
@@ -166,37 +137,42 @@ export default function BlogPostPage() {
       case "image":
         if (!block.imageUrl || block.imageUrl.startsWith('blob:')) return null; // Don't render blob URLs in public pages
         
+        // Determine max width based on imageWidth setting
+        const getImageMaxWidth = () => {
+          switch (block.imageWidth) {
+            case "full":
+              return "w-full max-w-full";
+            case "half":
+              return "w-full sm:w-full md:w-1/2 max-w-md";
+            case "third":
+              return "w-full sm:w-2/3 md:w-1/3 max-w-xs";
+            case "quarter":
+              return "w-full sm:w-1/2 md:w-1/4 max-w-[200px]";
+            default:
+              return "w-full max-w-md";
+          }
+        };
+        
         return (
           <div
             key={block.id}
-            className={`mb-8 ${
+            className={`mb-4 sm:mb-6 md:mb-8 ${
               block.imageAlign === "center"
                 ? "flex justify-center"
                 : block.imageAlign === "right"
-                ? "flex justify-end"
-                : ""
+                ? "flex justify-end sm:justify-end"
+                : "flex justify-start"
             }`}
           >
-            <div
-              className={`relative ${
-                block.imageWidth === "full"
-                  ? "w-full"
-                  : block.imageWidth === "half"
-                  ? "w-full md:w-1/2"
-                  : block.imageWidth === "third"
-                  ? "w-full md:w-1/3"
-                  : block.imageWidth === "quarter"
-                  ? "w-full md:w-1/4"
-                  : "w-full"
-              }`}
-            >
+            <div className={`relative ${getImageMaxWidth()}`}>
               <Image
                 src={block.imageUrl}
                 alt={block.imageAlt || displayTitle}
-                width={1200}
-                height={800}
+                width={800}
+                height={600}
                 className="w-full h-auto rounded-lg"
                 unoptimized={false}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>
           </div>
@@ -206,7 +182,7 @@ export default function BlogPostPage() {
         return (
           <blockquote
             key={block.id}
-            className="border-l-4 border-[#2563eb] pl-6 py-4 my-8 italic text-lg text-[#1a1a1a]/70 bg-gray-50 rounded-r-lg"
+            className="border-l-4 border-[#2563eb] pl-3 sm:pl-4 md:pl-6 py-3 sm:py-4 my-4 sm:my-6 md:my-8 italic text-sm sm:text-base md:text-lg text-[#1a1a1a]/70 bg-gray-50 rounded-r-lg"
           >
             {block.content}
           </blockquote>
@@ -214,9 +190,9 @@ export default function BlogPostPage() {
 
       case "list":
         return (
-          <ul key={block.id} className="list-disc list-inside mb-6 space-y-2 text-[#1a1a1a]/80">
+          <ul key={block.id} className="list-disc list-inside mb-4 sm:mb-6 space-y-1.5 sm:space-y-2 text-[#1a1a1a]/80">
             {block.listItems?.map((item: string, itemIndex: number) => (
-              <li key={itemIndex} className="text-base sm:text-lg">
+              <li key={itemIndex} className="text-sm sm:text-base md:text-lg leading-relaxed">
                 {item}
               </li>
             ))}
@@ -231,26 +207,32 @@ export default function BlogPostPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <main className="pt-20 pb-16">
+      <main className="pt-16 sm:pt-20 pb-10 sm:pb-14 md:pb-16">
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Link */}
-          <Link
-            href={`/${locale}/blog`}
-            className="inline-flex items-center gap-2 text-[#2563eb] hover:text-[#1d4ed8] mb-8 font-medium"
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              isMountedRef.current = false;
+              // Use window.location for a full page reload to avoid navigation issues
+              window.location.href = `/${locale}/blog`;
+            }}
+            className="inline-flex items-center gap-2 text-[#2563eb] hover:text-[#1d4ed8] mb-4 sm:mb-6 md:mb-8 font-medium transition-colors cursor-pointer text-sm sm:text-base"
           >
             ← {t("blog.backToBlog")}
-          </Link>
+          </button>
 
           {/* Header */}
-          <header className="mb-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1a1a1a] mb-4">
+          <header className="mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-3 sm:mb-4 leading-tight">
               {displayTitle}
             </h1>
             {displayExcerpt && (
-              <p className="text-xl sm:text-2xl text-[#1a1a1a]/70 mb-6">{displayExcerpt}</p>
+              <p className="text-base sm:text-lg md:text-xl text-[#1a1a1a]/70 mb-4 sm:mb-6 leading-relaxed">{displayExcerpt}</p>
             )}
-            <div className="flex items-center gap-4 text-sm text-gray-500">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
               {blog.author && <span>By {blog.author}</span>}
+              {blog.author && <span className="hidden sm:inline">•</span>}
               <span>
                 {new Date(blog.publishedAt).toLocaleDateString(locale, {
                   year: "numeric",
@@ -263,7 +245,7 @@ export default function BlogPostPage() {
 
           {/* Featured Image */}
           {blog.featuredImage && !blog.featuredImage.startsWith('blob:') && (
-            <div className="relative w-full h-64 sm:h-96 mb-12 rounded-lg overflow-hidden bg-gray-100">
+            <div className="relative w-full h-40 sm:h-56 md:h-64 lg:h-72 mb-6 sm:mb-8 md:mb-10 rounded-lg overflow-hidden bg-gray-100">
               <Image
                 src={blog.featuredImage}
                 alt={displayTitle}
@@ -271,7 +253,7 @@ export default function BlogPostPage() {
                 className="object-cover"
                 priority
                 unoptimized={false}
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 896px"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 896px"
               />
             </div>
           )}
