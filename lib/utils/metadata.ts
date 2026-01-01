@@ -56,7 +56,7 @@ export function generateMetadata(options: MetadataOptions): Metadata {
   const pageUrl = url || `${baseUrl}/${locale}`;
 
   // Enhanced Open Graph metadata
-  const openGraph: Metadata["openGraph"] = {
+  const openGraph: NonNullable<Metadata["openGraph"]> = {
     type: type === "article" ? "article" : "website",
     locale: localeMap[locale],
     url: pageUrl,
@@ -72,18 +72,16 @@ export function generateMetadata(options: MetadataOptions): Metadata {
         type: "image/jpeg",
       },
     ],
+    ...(type === "article" && {
+      article: {
+        publishedTime,
+        modifiedTime,
+        authors: [author],
+        section,
+        tags,
+      },
+    }),
   };
-
-  // Add article-specific metadata
-  if (type === "article") {
-    openGraph.article = {
-      publishedTime,
-      modifiedTime,
-      authors: [author],
-      section,
-      tags,
-    };
-  }
 
   // Enhanced Twitter Card metadata
   const twitter: Metadata["twitter"] = {
