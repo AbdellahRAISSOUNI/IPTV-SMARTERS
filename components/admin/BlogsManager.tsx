@@ -99,6 +99,13 @@ export default function BlogsManager() {
     }
   };
 
+  const handleDelete = async (blogId: string) => {
+    const blog = blogs.find(b => b.id === blogId);
+    if (blog) {
+      setDeleteConfirmBlog(blog);
+    }
+  };
+
   // Show editor when selectedBlog is undefined (new blog) or a BlogPost object (editing)
   if (selectedBlog !== null) {
     return (

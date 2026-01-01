@@ -3,19 +3,19 @@
 import { motion } from "framer-motion";
 import { Home, Monitor, ArrowLeft, Wifi, WifiOff } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { openWhatsApp } from "@/lib/whatsapp";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export default function NotFound() {
-  const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <Header />
-      
-      <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+    <LanguageProvider initialLocale="en">
+      <div className="min-h-screen bg-white flex flex-col">
+        <Header />
+        
+        <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* Animated 404 with TV/Streaming Theme */}
           <motion.div
@@ -171,9 +171,10 @@ export default function NotFound() {
             </div>
           </motion.div>
         </div>
-      </main>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </LanguageProvider>
   );
 }
