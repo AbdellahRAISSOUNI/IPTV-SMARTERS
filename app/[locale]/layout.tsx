@@ -693,10 +693,11 @@ export async function generateMetadata({
       description,
       images: [
         {
-          url: `${baseUrl}/og-image.jpg`,
+          url: `${baseUrl}/images/hero.png`,
           width: 1200,
           height: 630,
           alt: title,
+          type: "image/jpeg",
         },
       ],
     },
@@ -704,9 +705,17 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [`${baseUrl}/og-image.jpg`],
+      images: [`${baseUrl}/images/hero.png`],
       creator: "@streampro",
       site: "@streampro",
+    },
+    other: {
+      "og:image:secure_url": `${baseUrl}/images/hero.png`,
+      "og:image:type": "image/jpeg",
+      "og:image:width": "1200",
+      "og:image:height": "630",
+      "og:image:alt": title,
+      "article:author": "StreamPro",
     },
     robots: {
       index: true,

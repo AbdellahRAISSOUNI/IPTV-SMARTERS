@@ -25,14 +25,19 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://iptv-smarters.vercel.app";
   
-  // Root metadata - root page redirects to locale pages, so no canonical needed
+  const title = "Best IPTV Subscription Service 2026 | IPTV Smarters Pro | 20,000+ Channels | Free Test";
+  const description = "Get the #1 IPTV subscription service with IPTV Smarters Pro. Access 20,000+ live TV channels, movies, and series in 4K quality. 99.9% uptime guarantee. Free test available. Works on Windows, Android, iOS, Mac, Smart TV, Firestick. Instant activation.";
+  const ogImage = `${baseUrl}/images/hero.png`;
+  
+  // Root metadata - default to English, but support all languages
   return {
+    title,
+    description,
     metadataBase: new URL(baseUrl),
     alternates: {
-      // No canonical for root - it redirects to locale pages
-      // Only include hreflang tags, no canonical
+      canonical: `${baseUrl}/en`,
       languages: {
         en: `${baseUrl}/en`,
         es: `${baseUrl}/es`,
@@ -40,9 +45,48 @@ export async function generateMetadata(): Promise<Metadata> {
         "x-default": `${baseUrl}/en`,
       },
     },
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      url: `${baseUrl}/en`,
+      siteName: "StreamPro - Premium IPTV Service",
+      title,
+      description,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+          type: "image/jpeg",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+      creator: "@streampro",
+      site: "@streampro",
+    },
     robots: {
-      index: false, // Don't index root page - it redirects
+      index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    other: {
+      "og:image:secure_url": ogImage,
+      "og:image:type": "image/jpeg",
+      "og:image:width": "1200",
+      "og:image:height": "630",
+      "og:image:alt": title,
     },
   };
 }

@@ -18,13 +18,13 @@ const octokit = new Octokit({
 export interface BlogBlock {
   id: string;
   type: "heading" | "paragraph" | "image" | "quote" | "list";
-  content: string;
+  content: string | Record<string, string>; // Support both old format (string) and new format (multi-language)
   level?: number; // For headings (1-6)
   imageUrl?: string;
-  imageAlt?: string;
+  imageAlt?: string | Record<string, string>; // Support multi-language alt text
   imageWidth?: "full" | "half" | "third" | "quarter";
   imageAlign?: "left" | "center" | "right";
-  listItems?: string[]; // For list type
+  listItems?: string[] | Record<string, string[]>; // Support multi-language lists
   style?: {
     textAlign?: "left" | "center" | "right";
     fontSize?: string;

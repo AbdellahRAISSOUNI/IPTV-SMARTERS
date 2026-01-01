@@ -24,6 +24,9 @@ import {
   Eye,
   Globe,
   Tag,
+  Bold,
+  Italic,
+  Link as LinkIcon,
 } from "lucide-react";
 import type { BlogPost, BlogBlock } from "@/lib/admin/blog";
 
@@ -58,6 +61,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   const [activeLocale, setActiveLocale] = useState<"en" | "es" | "fr">("en");
   const [imagePreviewUrls, setImagePreviewUrls] = useState<Record<string, string>>({}); // For immediate previews
   const [pendingUploads, setPendingUploads] = useState<Set<string>>(new Set()); // Track blocks/images being uploaded
+  const [blockLocales, setBlockLocales] = useState<Record<string, "en" | "es" | "fr">>({}); // Track locale per block
 
   useEffect(() => {
     if (initialBlog) {
@@ -175,13 +179,52 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     }
   };
 
+  // Helper to get content for current locale (supports both old string format and new multi-language format)
+  const getBlockContent = (block: BlogBlock, locale: string): string => {
+    if (typeof block.content === 'string') {
+      return block.content;
+    }
+    return block.content[locale] || block.content[block.content.en ? 'en' : Object.keys(block.content)[0]] || '';
+  };
+
+  // Helper to set content for current locale
+  const setBlockContent = (blockId: string, locale: string, value: string) => {
+    setBlog({
+      ...blog,
+      blocks: blog.blocks.map((block) => {
+        if (block.id !== blockId) return block;
+        
+        // Convert old string format to multi-language format if needed
+        if (typeof block.content === 'string') {
+          return {
+            ...block,
+            content: {
+              en: block.content,
+              es: '',
+              fr: '',
+              [locale]: value,
+            },
+          };
+        }
+        
+        return {
+          ...block,
+          content: {
+            ...block.content,
+            [locale]: value,
+          },
+        };
+      }),
+    });
+  };
+
   const addBlock = (type: BlogBlock["type"]) => {
     const newBlock: BlogBlock = {
       id: generateId(),
       type,
-      content: "",
+      content: { en: "", es: "", fr: "" }, // Initialize as multi-language
       ...(type === "heading" && { level: 2 }),
-      ...(type === "list" && { listItems: [""] }),
+      ...(type === "list" && { listItems: { en: [""], es: [""], fr: [""] } }),
     };
 
     setBlog({
@@ -189,6 +232,14 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
       blocks: [...blog.blocks, newBlock],
     });
     setEditingBlockId(newBlock.id);
+    
+    // Scroll to the new block after a short delay
+    setTimeout(() => {
+      const element = document.getElementById(`block-${newBlock.id}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
   };
 
   const updateBlock = (blockId: string, updates: Partial<BlogBlock>) => {
@@ -408,9 +459,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <Tag className="w-4 h-4 text-gray-500" />
-              SEO Keywords ({activeLocale.toUpperCase()}) - Comma-separated keywords (not visible on website)
+              <span>SEO Keywords ({activeLocale.toUpperCase()}) - Comma-separated keywords (not visible on website)</span>
             </label>
             <input
               type="text"
@@ -508,62 +559,79 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
       </div>
 
       {/* Content Blocks */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="bg-white rounded-xl border border-gray-200 p-6 relative">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h3 className="text-lg font-medium text-black mb-1">Content Blocks</h3>
             <p className="text-gray-500 text-sm">Add and arrange content blocks to build your blog post</p>
           </div>
-          <div className="flex items-center gap-2">
+        </div>
+
+        {/* Floating Add Block Button - Sticky at bottom */}
+        <div className="fixed bottom-6 right-6 z-40">
+          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 p-2 flex flex-col gap-2">
             <button
               onClick={() => addBlock("heading")}
-              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2 whitespace-nowrap"
+              title="Add Heading"
             >
               <Heading className="w-4 h-4" />
-              Heading
+              <span className="hidden sm:inline">Heading</span>
             </button>
             <button
               onClick={() => addBlock("paragraph")}
-              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2 whitespace-nowrap"
+              title="Add Text"
             >
               <Type className="w-4 h-4" />
-              Text
+              <span className="hidden sm:inline">Text</span>
             </button>
             <button
               onClick={() => addBlock("image")}
-              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2 whitespace-nowrap"
+              title="Add Image"
             >
               <ImageIcon className="w-4 h-4" />
-              Image
+              <span className="hidden sm:inline">Image</span>
             </button>
             <button
               onClick={() => addBlock("quote")}
-              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2 whitespace-nowrap"
+              title="Add Quote"
             >
               <Quote className="w-4 h-4" />
-              Quote
+              <span className="hidden sm:inline">Quote</span>
             </button>
             <button
               onClick={() => addBlock("list")}
-              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center gap-2 whitespace-nowrap"
+              title="Add List"
             >
               <List className="w-4 h-4" />
-              List
+              <span className="hidden sm:inline">List</span>
             </button>
           </div>
         </div>
 
         {/* Blocks List */}
-        <div className="space-y-4">
+        <div className="space-y-4 pb-24">
           {blog.blocks.length === 0 && (
             <div className="text-center py-12 text-gray-500">
               <p>No content blocks yet. Click the buttons above to add content.</p>
             </div>
           )}
-          {blog.blocks.map((block, index) => (
+          {blog.blocks.map((block, index) => {
+            const blockLocale = blockLocales[block.id] || activeLocale;
+            const setBlockLocale = (loc: "en" | "es" | "fr") => {
+              setBlockLocales(prev => ({ ...prev, [block.id]: loc }));
+            };
+            const currentContent = getBlockContent(block, blockLocale);
+            
+            return (
             <div
               key={block.id}
-              className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
+              id={`block-${block.id}`}
+              className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors mb-4"
             >
               <div className="flex items-start gap-3">
                 {/* Drag Handle */}
@@ -572,6 +640,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                     onClick={() => moveBlock(block.id, "up")}
                     disabled={index === 0}
                     className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="Move up"
                   >
                     <MoveUp className="w-4 h-4" />
                   </button>
@@ -579,13 +648,41 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                     onClick={() => moveBlock(block.id, "down")}
                     disabled={index === blog.blocks.length - 1}
                     className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="Move down"
                   >
                     <MoveDown className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => deleteBlock(block.id)}
+                    className="p-1 text-red-400 hover:text-red-600 mt-2"
+                    title="Delete block"
+                  >
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Block Content */}
                 <div className="flex-1">
+                  {/* Language Tabs for Text-based Blocks */}
+                  {(block.type === "heading" || block.type === "paragraph" || block.type === "quote" || block.type === "list") && (
+                    <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-200">
+                      <span className="text-xs text-gray-500 font-medium">Language:</span>
+                      {(["en", "es", "fr"] as const).map((loc) => (
+                        <button
+                          key={loc}
+                          onClick={() => setBlockLocale(loc)}
+                          className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
+                            blockLocale === loc
+                              ? "bg-[#2563eb] text-white"
+                              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                          }`}
+                        >
+                          {loc.toUpperCase()}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
                   {block.type === "heading" && (
                     <div>
                       <div className="flex items-center gap-3 mb-2">
@@ -610,6 +707,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                               })
                             }
                             className={`p-1 rounded ${block.style?.textAlign === "left" ? "bg-gray-200" : ""}`}
+                            title="Align left"
                           >
                             <AlignLeft className="w-4 h-4" />
                           </button>
@@ -620,6 +718,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                               })
                             }
                             className={`p-1 rounded ${block.style?.textAlign === "center" ? "bg-gray-200" : ""}`}
+                            title="Align center"
                           >
                             <AlignCenter className="w-4 h-4" />
                           </button>
@@ -630,6 +729,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                               })
                             }
                             className={`p-1 rounded ${block.style?.textAlign === "right" ? "bg-gray-200" : ""}`}
+                            title="Align right"
                           >
                             <AlignRight className="w-4 h-4" />
                           </button>
@@ -637,9 +737,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                       </div>
                       <input
                         type="text"
-                        value={block.content}
-                        onChange={(e) => updateBlock(block.id, { content: e.target.value })}
-                        placeholder="Enter heading text"
+                        value={currentContent}
+                        onChange={(e) => setBlockContent(block.id, blockLocale, e.target.value)}
+                        placeholder={`Enter heading text (${blockLocale.toUpperCase()})`}
                         className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
                         style={{
                           fontSize:
@@ -659,14 +759,81 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
                   {block.type === "paragraph" && (
                     <div>
-                      <div className="flex items-center gap-1 mb-2">
+                      {/* Rich Text Formatting Toolbar */}
+                      <div className="flex items-center gap-1 mb-2 flex-wrap">
+                        <div className="flex items-center gap-1 border-r border-gray-300 pr-2 mr-2">
+                          <button
+                            onClick={() => {
+                              const textarea = document.getElementById(`paragraph-${block.id}`) as HTMLTextAreaElement;
+                              if (textarea) {
+                                const start = textarea.selectionStart;
+                                const end = textarea.selectionEnd;
+                                const selectedText = currentContent.substring(start, end);
+                                const newText = currentContent.substring(0, start) + `**${selectedText}**` + currentContent.substring(end);
+                                setBlockContent(block.id, blockLocale, newText);
+                                setTimeout(() => {
+                                  textarea.focus();
+                                  textarea.setSelectionRange(start + 2, end + 2);
+                                }, 0);
+                              }
+                            }}
+                            className="p-1.5 rounded hover:bg-gray-200 transition-colors"
+                            title="Bold (**text**)"
+                          >
+                            <Bold className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              const textarea = document.getElementById(`paragraph-${block.id}`) as HTMLTextAreaElement;
+                              if (textarea) {
+                                const start = textarea.selectionStart;
+                                const end = textarea.selectionEnd;
+                                const selectedText = currentContent.substring(start, end);
+                                const newText = currentContent.substring(0, start) + `*${selectedText}*` + currentContent.substring(end);
+                                setBlockContent(block.id, blockLocale, newText);
+                                setTimeout(() => {
+                                  textarea.focus();
+                                  textarea.setSelectionRange(start + 1, end + 1);
+                                }, 0);
+                              }
+                            }}
+                            className="p-1.5 rounded hover:bg-gray-200 transition-colors"
+                            title="Italic (*text*)"
+                          >
+                            <Italic className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              const url = prompt("Enter URL:");
+                              if (url) {
+                                const textarea = document.getElementById(`paragraph-${block.id}`) as HTMLTextAreaElement;
+                                if (textarea) {
+                                  const start = textarea.selectionStart;
+                                  const end = textarea.selectionEnd;
+                                  const selectedText = currentContent.substring(start, end) || "link text";
+                                  const newText = currentContent.substring(0, start) + `[${selectedText}](${url})` + currentContent.substring(end);
+                                  setBlockContent(block.id, blockLocale, newText);
+                                  setTimeout(() => {
+                                    textarea.focus();
+                                    textarea.setSelectionRange(start + selectedText.length + 3, start + selectedText.length + 3 + url.length);
+                                  }, 0);
+                                }
+                              }
+                            }}
+                            className="p-1.5 rounded hover:bg-gray-200 transition-colors"
+                            title="Add Link ([text](url))"
+                          >
+                            <LinkIcon className="w-4 h-4" />
+                          </button>
+                        </div>
                         <button
                           onClick={() =>
                             updateBlock(block.id, {
                               style: { ...block.style, textAlign: "left" },
                             })
                           }
-                          className={`p-1 rounded ${block.style?.textAlign === "left" ? "bg-gray-200" : ""}`}
+                          className={`p-1.5 rounded ${block.style?.textAlign === "left" ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                          title="Align left"
                         >
                           <AlignLeft className="w-4 h-4" />
                         </button>
@@ -676,7 +843,8 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                               style: { ...block.style, textAlign: "center" },
                             })
                           }
-                          className={`p-1 rounded ${block.style?.textAlign === "center" ? "bg-gray-200" : ""}`}
+                          className={`p-1.5 rounded ${block.style?.textAlign === "center" ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                          title="Align center"
                         >
                           <AlignCenter className="w-4 h-4" />
                         </button>
@@ -686,29 +854,52 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                               style: { ...block.style, textAlign: "right" },
                             })
                           }
-                          className={`p-1 rounded ${block.style?.textAlign === "right" ? "bg-gray-200" : ""}`}
+                          className={`p-1.5 rounded ${block.style?.textAlign === "right" ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                          title="Align right"
                         >
                           <AlignRight className="w-4 h-4" />
                         </button>
                       </div>
                       <textarea
-                        value={block.content}
-                        onChange={(e) => updateBlock(block.id, { content: e.target.value })}
-                        placeholder="Enter paragraph text"
+                        id={`paragraph-${block.id}`}
+                        value={currentContent}
+                        onChange={(e) => setBlockContent(block.id, blockLocale, e.target.value)}
+                        placeholder={`Enter paragraph text (${blockLocale.toUpperCase()})`}
                         rows={4}
-                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black resize-none"
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black resize-none font-mono text-sm"
                         style={{ textAlign: block.style?.textAlign || "left" }}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        Formatting: <strong>**bold**</strong>, <em>*italic*</em>, <span className="text-gray-600">[link text](url)</span>
+                      </p>
                     </div>
                   )}
 
                   {block.type === "image" && (
                     <div>
+                      {/* Language Tabs for Image Alt Text */}
+                      <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-200">
+                        <span className="text-xs text-gray-500 font-medium">Alt Text Language:</span>
+                        {(["en", "es", "fr"] as const).map((loc) => (
+                          <button
+                            key={loc}
+                            onClick={() => setBlockLocale(loc)}
+                            className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
+                              blockLocale === loc
+                                ? "bg-[#2563eb] text-white"
+                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                            }`}
+                          >
+                            {loc.toUpperCase()}
+                          </button>
+                        ))}
+                      </div>
+                      
                       {block.imageUrl ? (
                         <div className="space-y-3">
                           <img
                             src={getImageDisplayUrl(block.imageUrl) || block.imageUrl}
-                            alt={block.imageAlt || "Blog image"}
+                            alt={typeof block.imageAlt === 'string' ? block.imageAlt : (block.imageAlt?.[blockLocale] || "Blog image")}
                             className="max-w-full h-auto rounded-lg border border-gray-300"
                             style={{
                               width:
@@ -766,9 +957,14 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                           </div>
                           <input
                             type="text"
-                            value={block.imageAlt || ""}
-                            onChange={(e) => updateBlock(block.id, { imageAlt: e.target.value })}
-                            placeholder="Image alt text"
+                            value={typeof block.imageAlt === 'string' ? block.imageAlt : (block.imageAlt?.[blockLocale] || "")}
+                            onChange={(e) => {
+                              const newAlt = typeof block.imageAlt === 'string' 
+                                ? { en: block.imageAlt, es: "", fr: "", [blockLocale]: e.target.value }
+                                : { ...(block.imageAlt || { en: "", es: "", fr: "" }), [blockLocale]: e.target.value };
+                              updateBlock(block.id, { imageAlt: newAlt });
+                            }}
+                            placeholder={`Image alt text (${blockLocale.toUpperCase()})`}
                             className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                           />
                           <div className="flex items-center gap-2">
@@ -840,9 +1036,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                   {block.type === "quote" && (
                     <div>
                       <textarea
-                        value={block.content}
-                        onChange={(e) => updateBlock(block.id, { content: e.target.value })}
-                        placeholder="Enter quote text"
+                        value={currentContent}
+                        onChange={(e) => setBlockContent(block.id, blockLocale, e.target.value)}
+                        placeholder={`Enter quote text (${blockLocale.toUpperCase()})`}
                         rows={3}
                         className="w-full px-3 py-2 bg-gray-50 border-l-4 border-gray-400 rounded-lg text-gray-900 italic focus:outline-none focus:ring-2 focus:ring-black resize-none"
                       />
@@ -851,36 +1047,105 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
                   {block.type === "list" && (
                     <div>
-                      {(block.listItems || [""]).map((item, itemIndex) => (
-                        <div key={itemIndex} className="flex items-center gap-2 mb-2">
-                          <span className="text-gray-500">•</span>
-                          <input
-                            type="text"
-                            value={item}
-                            onChange={(e) => {
-                              const newItems = [...(block.listItems || [])];
-                              newItems[itemIndex] = e.target.value;
-                              updateBlock(block.id, { listItems: newItems });
-                            }}
-                            placeholder="List item"
-                            className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
-                          />
-                          <button
-                            onClick={() => {
-                              const newItems = (block.listItems || []).filter((_, i) => i !== itemIndex);
-                              updateBlock(block.id, { listItems: newItems });
-                            }}
-                            className="p-1 text-red-500 hover:text-red-700"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
+                      {(() => {
+                        // Handle both old format (string[]) and new format (Record<string, string[]>)
+                        let items: string[] = [];
+                        if (Array.isArray(block.listItems)) {
+                          items = block.listItems;
+                        } else if (block.listItems && typeof block.listItems === 'object') {
+                          items = block.listItems[blockLocale] || block.listItems['en'] || [];
+                        }
+                        
+                        return items.map((item, itemIndex) => (
+                          <div key={itemIndex} className="flex items-center gap-2 mb-2">
+                            <span className="text-gray-500">•</span>
+                            <input
+                              type="text"
+                              value={item}
+                              onChange={(e) => {
+                                const currentItems = Array.isArray(block.listItems) 
+                                  ? block.listItems 
+                                  : (block.listItems?.[blockLocale] || block.listItems?.['en'] || []);
+                                const newItems = [...currentItems];
+                                newItems[itemIndex] = e.target.value;
+                                
+                                // Convert to multi-language format if needed
+                                if (Array.isArray(block.listItems)) {
+                                  updateBlock(block.id, { 
+                                    listItems: {
+                                      en: block.listItems,
+                                      es: [],
+                                      fr: [],
+                                      [blockLocale]: newItems,
+                                    }
+                                  });
+                                } else {
+                                  updateBlock(block.id, { 
+                                    listItems: {
+                                      ...(block.listItems || { en: [], es: [], fr: [] }),
+                                      [blockLocale]: newItems,
+                                    }
+                                  });
+                                }
+                              }}
+                              placeholder={`List item (${blockLocale.toUpperCase()})`}
+                              className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <button
+                              onClick={() => {
+                                const currentItems = Array.isArray(block.listItems) 
+                                  ? block.listItems 
+                                  : (block.listItems?.[blockLocale] || block.listItems?.['en'] || []);
+                                const newItems = currentItems.filter((_, i) => i !== itemIndex);
+                                
+                                if (Array.isArray(block.listItems)) {
+                                  updateBlock(block.id, { 
+                                    listItems: {
+                                      en: block.listItems,
+                                      es: [],
+                                      fr: [],
+                                      [blockLocale]: newItems,
+                                    }
+                                  });
+                                } else {
+                                  updateBlock(block.id, { 
+                                    listItems: {
+                                      ...(block.listItems || { en: [], es: [], fr: [] }),
+                                      [blockLocale]: newItems,
+                                    }
+                                  });
+                                }
+                              }}
+                              className="p-1 text-red-500 hover:text-red-700"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ));
+                      })()}
                       <button
                         onClick={() => {
-                          updateBlock(block.id, {
-                            listItems: [...(block.listItems || []), ""],
-                          });
+                          const currentItems = Array.isArray(block.listItems) 
+                            ? block.listItems 
+                            : (block.listItems?.[blockLocale] || block.listItems?.['en'] || []);
+                          
+                          if (Array.isArray(block.listItems)) {
+                            updateBlock(block.id, { 
+                              listItems: {
+                                en: [...block.listItems, ""],
+                                es: [],
+                                fr: [],
+                                [blockLocale]: [...currentItems, ""],
+                              }
+                            });
+                          } else {
+                            updateBlock(block.id, { 
+                              listItems: {
+                                ...(block.listItems || { en: [], es: [], fr: [] }),
+                                [blockLocale]: [...currentItems, ""],
+                              }
+                            });
+                          }
                         }}
                         className="mt-2 px-3 py-1 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
                       >
@@ -889,23 +1154,16 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                     </div>
                   )}
                 </div>
-
-                {/* Delete Button */}
-                <button
-                  onClick={() => deleteBlock(block.id)}
-                  className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
       </div>
 
       {/* Bottom Save Button */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <div className="flex items-center justify-between">
+      <div className="bg-white rounded-xl border border-gray-200 p-6 mt-6">
+        <div className="flex flex-col items-center gap-4">
           <p className="text-sm text-gray-500">Remember to save your changes before leaving</p>
           <button
             onClick={handleSave}

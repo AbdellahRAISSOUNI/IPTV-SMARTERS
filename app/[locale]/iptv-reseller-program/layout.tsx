@@ -81,30 +81,70 @@ export async function generateMetadata({
     fr: "fr_FR",
   };
 
+  const siteNameMap: Record<Locale, string> = {
+    en: "StreamPro - Premium IPTV Service",
+    es: "StreamPro - Servicio IPTV Premium",
+    fr: "StreamPro - Service IPTV Premium",
+  };
+
+  const ogImage = `${baseUrl}/images/hero.png`;
+
   return {
     title: titleMap[locale],
     description: descriptionMap[locale],
     keywords: keywordsMap[locale],
+    metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `${baseUrl}/${locale}/iptv-reseller-program`,
       languages: {
         en: `${baseUrl}/en/iptv-reseller-program`,
         es: `${baseUrl}/es/iptv-reseller-program`,
         fr: `${baseUrl}/fr/iptv-reseller-program`,
+        "x-default": `${baseUrl}/en/iptv-reseller-program`,
       },
     },
     openGraph: {
       type: "website",
       locale: localeMap[locale],
       url: `${baseUrl}/${locale}/iptv-reseller-program`,
+      siteName: siteNameMap[locale],
       title: titleMap[locale],
       description: descriptionMap[locale],
-      siteName: locale === "en" ? "StreamPro IPTV" : locale === "es" ? "StreamPro IPTV" : "StreamPro IPTV",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: titleMap[locale],
+          type: "image/jpeg",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: titleMap[locale],
       description: descriptionMap[locale],
+      images: [ogImage],
+      creator: "@streampro",
+      site: "@streampro",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    other: {
+      "og:image:secure_url": ogImage,
+      "og:image:type": "image/jpeg",
+      "og:image:width": "1200",
+      "og:image:height": "630",
+      "og:image:alt": titleMap[locale],
     },
   };
 }

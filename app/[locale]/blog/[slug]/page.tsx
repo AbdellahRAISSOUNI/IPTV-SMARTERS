@@ -101,7 +101,36 @@ export default function BlogPostPage() {
   const displayExcerpt =
     blog.excerpt[locale] || blog.excerpt[blog.locale] || "";
 
+  // Helper to get content for current locale
+  const getBlockContent = (block: any): string => {
+    if (typeof block.content === 'string') {
+      return block.content;
+    }
+    if (block.content && typeof block.content === 'object') {
+      return block.content[locale] || block.content[blog.locale] || block.content['en'] || '';
+    }
+    return '';
+  };
+
+  // Helper to parse markdown-like formatting (bold, italic, links)
+  const parseMarkdown = (text: string) => {
+    if (!text) return text;
+    
+    // Parse links: [text](url)
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#2563eb] hover:underline">$1</a>');
+    
+    // Parse bold: **text**
+    text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    
+    // Parse italic: *text*
+    text = text.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+    
+    return text;
+  };
+
   const renderBlock = (block: any, index: number) => {
+    const blockContent = getBlockContent(block);
+    
     switch (block.type) {
       case "heading":
         const level = block.level || 2;
@@ -116,22 +145,22 @@ export default function BlogPostPage() {
         }`;
         const headingStyle = { textAlign: block.style?.textAlign || "left" } as React.CSSProperties;
         
-        if (level === 1) return <h1 key={block.id} className={headingClassName} style={headingStyle}>{block.content}</h1>;
-        if (level === 2) return <h2 key={block.id} className={headingClassName} style={headingStyle}>{block.content}</h2>;
-        if (level === 3) return <h3 key={block.id} className={headingClassName} style={headingStyle}>{block.content}</h3>;
-        if (level === 4) return <h4 key={block.id} className={headingClassName} style={headingStyle}>{block.content}</h4>;
-        if (level === 5) return <h5 key={block.id} className={headingClassName} style={headingStyle}>{block.content}</h5>;
-        return <h6 key={block.id} className={headingClassName} style={headingStyle}>{block.content}</h6>;
+        if (level === 1) return <h1 key={block.id} className={headingClassName} style={headingStyle}>{blockContent}</h1>;
+        if (level === 2) return <h2 key={block.id} className={headingClassName} style={headingStyle}>{blockContent}</h2>;
+        if (level === 3) return <h3 key={block.id} className={headingClassName} style={headingStyle}>{blockContent}</h3>;
+        if (level === 4) return <h4 key={block.id} className={headingClassName} style={headingStyle}>{blockContent}</h4>;
+        if (level === 5) return <h5 key={block.id} className={headingClassName} style={headingStyle}>{blockContent}</h5>;
+        return <h6 key={block.id} className={headingClassName} style={headingStyle}>{blockContent}</h6>;
 
       case "paragraph":
+        const parsedContent = parseMarkdown(blockContent);
         return (
           <p
             key={block.id}
             className="text-sm sm:text-base md:text-lg text-[#1a1a1a]/80 leading-relaxed mb-4 sm:mb-6"
             style={{ textAlign: block.style?.textAlign || "left" }}
-          >
-            {block.content}
-          </p>
+            dangerouslySetInnerHTML={{ __html: parsedContent }}
+          />
         );
 
       case "image":
@@ -167,7 +196,7 @@ export default function BlogPostPage() {
             <div className={`relative ${getImageMaxWidth()}`}>
               <Image
                 src={block.imageUrl}
-                alt={block.imageAlt || displayTitle}
+                alt={typeof block.imageAlt === 'string' ? block.imageAlt : (block.imageAlt?.[locale] || block.imageAlt?.[blog.locale] || displayTitle)}
                 width={800}
                 height={600}
                 className="w-full h-auto rounded-lg"
@@ -179,22 +208,28 @@ export default function BlogPostPage() {
         );
 
       case "quote":
+        const quoteContent = getBlockContent(block);
         return (
           <blockquote
             key={block.id}
             className="border-l-4 border-[#2563eb] pl-3 sm:pl-4 md:pl-6 py-3 sm:py-4 my-4 sm:my-6 md:my-8 italic text-sm sm:text-base md:text-lg text-[#1a1a1a]/70 bg-gray-50 rounded-r-lg"
-          >
-            {block.content}
-          </blockquote>
+            dangerouslySetInnerHTML={{ __html: parseMarkdown(quoteContent) }}
+          />
         );
 
       case "list":
+        // Handle both old format (string[]) and new format (Record<string, string[]>)
+        let listItems: string[] = [];
+        if (Array.isArray(block.listItems)) {
+          listItems = block.listItems;
+        } else if (block.listItems && typeof block.listItems === 'object') {
+          listItems = block.listItems[locale] || block.listItems[blog.locale] || block.listItems['en'] || [];
+        }
+        
         return (
           <ul key={block.id} className="list-disc list-inside mb-4 sm:mb-6 space-y-1.5 sm:space-y-2 text-[#1a1a1a]/80">
-            {block.listItems?.map((item: string, itemIndex: number) => (
-              <li key={itemIndex} className="text-sm sm:text-base md:text-lg leading-relaxed">
-                {item}
-              </li>
+            {listItems.map((item: string, itemIndex: number) => (
+              <li key={itemIndex} className="text-sm sm:text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: parseMarkdown(item) }} />
             ))}
           </ul>
         );
