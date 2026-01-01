@@ -139,7 +139,155 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         ],
   };
 
-  return { organizationSchema, productSchema };
+  // FAQ Schema for homepage
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: locale === "en"
+      ? [
+          {
+            "@type": "Question",
+            name: "What is IPTV Smarters Pro?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "IPTV Smarters Pro is a premium IPTV streaming service that provides access to over 20,000 live TV channels, movies, and series in 4K quality. It works on all devices including Windows, Android, iOS, Mac, and Smart TVs.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How much does IPTV subscription cost?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Our IPTV subscription plans start from €19.99 for 3 months, with options for 6 months (€24.99), 12 months (€39.99), and 24 months (€54.99). All plans include instant activation and free test available.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Is a free test available?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes, we offer a free test of our IPTV service so you can experience the quality before purchasing. Contact us via WhatsApp to get your free test.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What devices are supported?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Our IPTV service works on all devices including Windows PC, Android phones and tablets, iOS devices (iPhone/iPad), Mac computers, Smart TVs, Firestick, Roku, Apple TV, and more.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How do I install IPTV Smarters Pro?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "We provide detailed installation guides for all devices. Visit our installation guide page for step-by-step instructions for Windows, Android, iOS, Smart TV, and Firestick.",
+            },
+          },
+        ]
+      : locale === "es"
+      ? [
+          {
+            "@type": "Question",
+            name: "¿Qué es IPTV Smarters Pro?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "IPTV Smarters Pro es un servicio de streaming IPTV premium que proporciona acceso a más de 20,000 canales de TV en vivo, películas y series en calidad 4K. Funciona en todos los dispositivos incluyendo Windows, Android, iOS, Mac y Smart TVs.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "¿Cuánto cuesta la suscripción IPTV?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nuestros planes de suscripción IPTV comienzan desde €19.99 por 3 meses, con opciones para 6 meses (€24.99), 12 meses (€39.99) y 24 meses (€54.99). Todos los planes incluyen activación instantánea y prueba gratuita disponible.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "¿Hay una prueba gratuita disponible?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Sí, ofrecemos una prueba gratuita de nuestro servicio IPTV para que puedas experimentar la calidad antes de comprar. Contáctanos por WhatsApp para obtener tu prueba gratuita.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "¿Qué dispositivos son compatibles?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nuestro servicio IPTV funciona en todos los dispositivos incluyendo PC con Windows, teléfonos y tabletas Android, dispositivos iOS (iPhone/iPad), computadoras Mac, Smart TVs, Firestick, Roku, Apple TV y más.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "¿Cómo instalo IPTV Smarters Pro?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Proporcionamos guías de instalación detalladas para todos los dispositivos. Visita nuestra página de guía de instalación para instrucciones paso a paso para Windows, Android, iOS, Smart TV y Firestick.",
+            },
+          },
+        ]
+      : [
+          {
+            "@type": "Question",
+            name: "Qu'est-ce que IPTV Smarters Pro?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "IPTV Smarters Pro est un service de streaming IPTV premium qui fournit l'accès à plus de 20,000 chaînes TV en direct, films et séries en qualité 4K. Il fonctionne sur tous les appareils incluant Windows, Android, iOS, Mac et Smart TVs.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Combien coûte l'abonnement IPTV?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nos plans d'abonnement IPTV commencent à partir de 19,99€ pour 3 mois, avec des options pour 6 mois (24,99€), 12 mois (39,99€) et 24 mois (54,99€). Tous les plans incluent une activation instantanée et un essai gratuit disponible.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Un essai gratuit est-il disponible?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Oui, nous offrons un essai gratuit de notre service IPTV afin que vous puissiez expérimenter la qualité avant d'acheter. Contactez-nous via WhatsApp pour obtenir votre essai gratuit.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Quels appareils sont pris en charge?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Notre service IPTV fonctionne sur tous les appareils incluant PC Windows, téléphones et tablettes Android, appareils iOS (iPhone/iPad), ordinateurs Mac, Smart TVs, Firestick, Roku, Apple TV et plus encore.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Comment installer IPTV Smarters Pro?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nous fournissons des guides d'installation détaillés pour tous les appareils. Visitez notre page de guide d'installation pour des instructions étape par étape pour Windows, Android, iOS, Smart TV et Firestick.",
+            },
+          },
+        ],
+  };
+
+  // Breadcrumb Schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: locale === "en" ? "Home" : locale === "es" ? "Inicio" : "Accueil",
+        item: `${baseUrl}/${locale}`,
+      },
+    ],
+  };
+
+  return { organizationSchema, productSchema, faqSchema, breadcrumbSchema };
 }
 
 export async function generateStaticParams() {
@@ -162,15 +310,15 @@ export async function generateMetadata({
   };
 
   const titleMap: Record<Locale, string> = {
-    en: "Best IPTV Subscription Service | IPTV Smarters Pro Subscription | Free Test Available",
-    es: "Mejor Servicio de Suscripción IPTV | IPTV Smarters Pro | Comprar IPTV España | Prueba Gratuita",
-    fr: "Meilleur Service d'Abonnement IPTV | IPTV Smarters Pro | Abonnement IPTV France | Essai Gratuit",
+    en: "Best IPTV Subscription Service 2026 | IPTV Smarters Pro | 20,000+ Channels | Free Test | Instant Activation",
+    es: "Mejor Servicio IPTV 2026 | IPTV Smarters Pro | 20,000+ Canales | Prueba Gratis | Activación Instantánea",
+    fr: "Meilleur Service IPTV 2026 | IPTV Smarters Pro | 20,000+ Chaînes | Essai Gratuit | Activation Instantanée",
   };
 
   const descriptionMap: Record<Locale, string> = {
-    en: "Get the best IPTV subscription service with IPTV Smarters Pro. 20,000+ channels, 4K quality, 99.9% uptime. Free test available. Works on Windows, Android, iOS, Mac, Smart TV. Instant activation. Best IPTV service with IPTV Smarters Pro subscription. IPTV subscription plans and IPTV Smarters Pro codes available.",
-    es: "Obtén el mejor servicio de suscripción IPTV con IPTV Smarters Pro. Más de 20,000 canales, calidad 4K, 99.9% de tiempo de actividad. Prueba gratuita disponible. Funciona en Windows, Android, iOS, Mac, Smart TV. Activación instantánea. Comprar IPTV España. Comprar códigos IPTV Smarters Pro. Comprar código IPTV. Suscripción IPTV. IPTV España comprar.",
-    fr: "Obtenez le meilleur service d'abonnement IPTV avec IPTV Smarters Pro. Plus de 20,000 chaînes, qualité 4K, 99.9% de disponibilité. Essai gratuit disponible. Fonctionne sur Windows, Android, iOS, Mac, Smart TV. Activation instantanée. Abonnement IPTV France. IPTV Smarters Pro Windows et Android. Abonnement IP TV. IPTV abonnement.",
+    en: "Get the #1 IPTV subscription service with IPTV Smarters Pro. Access 20,000+ live TV channels, movies, and series in 4K quality. 99.9% uptime guarantee. Free test available. Works on Windows, Android, iOS, Mac, Smart TV, Firestick. Instant activation. Best IPTV service 2024. Premium IPTV subscription plans starting from €19.99. IPTV Smarters Pro codes and accounts available.",
+    es: "Obtén el servicio de suscripción IPTV #1 con IPTV Smarters Pro. Accede a más de 20,000 canales de TV en vivo, películas y series en calidad 4K. Garantía de 99.9% de tiempo de actividad. Prueba gratuita disponible. Funciona en Windows, Android, iOS, Mac, Smart TV, Firestick. Activación instantánea. Mejor servicio IPTV 2024. Planes de suscripción IPTV premium desde €19.99. Códigos y cuentas IPTV Smarters Pro disponibles.",
+    fr: "Obtenez le service d'abonnement IPTV #1 avec IPTV Smarters Pro. Accédez à plus de 20,000 chaînes TV en direct, films et séries en qualité 4K. Garantie de disponibilité 99.9%. Essai gratuit disponible. Fonctionne sur Windows, Android, iOS, Mac, Smart TV, Firestick. Activation instantanée. Meilleur service IPTV 2024. Plans d'abonnement IPTV premium à partir de 19,99€. Codes et comptes IPTV Smarters Pro disponibles.",
   };
 
   const title = titleMap[locale];
@@ -594,7 +742,7 @@ export default async function LocaleLayout({
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
-  const { organizationSchema, productSchema } = generateStructuredData(locale as Locale, baseUrl);
+  const { organizationSchema, productSchema, faqSchema, breadcrumbSchema } = generateStructuredData(locale as Locale, baseUrl);
 
   return (
     <LanguageProvider initialLocale={locale as Locale}>
@@ -606,6 +754,14 @@ export default async function LocaleLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {children}
     </LanguageProvider>

@@ -88,12 +88,12 @@ export default function Header() {
 
   // Installation dropdown links (5 options: "How to install?" first, then 4 device-specific options)
   const installationLinks = [
-    { href: `/${locale}/installation`, label: t("installation.howToInstall") },
-    { href: `/${locale}/installation/apple-ios`, label: t("installation.appleIos") },
-    { href: `/${locale}/installation/smart-tv`, label: t("installation.smartTv") },
-    { href: `/${locale}/installation/windows`, label: t("installation.windows") },
+    { href: `/${locale}/iptv-installation-guide`, label: t("installation.howToInstall") },
+    { href: `/${locale}/iptv-installation-ios`, label: t("installation.appleIos") },
+    { href: `/${locale}/iptv-installation-smart-tv`, label: t("installation.smartTv") },
+    { href: `/${locale}/iptv-installation-windows`, label: t("installation.windows") },
     {
-      href: `/${locale}/installation/firestick-android-ios`,
+      href: `/${locale}/iptv-installation-firestick`,
       label: t("installation.firestickAndroid"),
     },
   ];
@@ -238,7 +238,7 @@ export default function Header() {
 
             {/* IPTV Reseller */}
             <motion.a
-              href={`/${locale}/revendeur`}
+              href={`/${locale}/iptv-reseller-program`}
               className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group"
             >
               {t("common.iptvReseller")}
@@ -454,7 +454,7 @@ export default function Header() {
 
                 {/* IPTV Reseller */}
                 <motion.a
-                  href={`/${locale}/revendeur`}
+                  href={`/${locale}/iptv-reseller-program`}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-base font-medium text-[#1a1a1a] hover:text-[#2563eb] py-3 px-4 rounded-lg hover:bg-[#f5f5f5] transition-all duration-200"
                   initial={{ opacity: 0, x: -10 }}

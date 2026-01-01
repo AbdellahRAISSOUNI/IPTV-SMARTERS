@@ -51,6 +51,44 @@ const nextConfig: NextConfig = {
   transpilePackages: [],
   // Turbopack configuration (Next.js 16 uses Turbopack by default)
   turbopack: {},
+  // Redirects for SEO-friendly URLs
+  async redirects() {
+    return [
+      // Installation guide redirect
+      {
+        source: '/:locale/installation',
+        destination: '/:locale/iptv-installation-guide',
+        permanent: true,
+      },
+      // Device-specific installation redirects
+      {
+        source: '/:locale/installation/apple-ios',
+        destination: '/:locale/iptv-installation-ios',
+        permanent: true,
+      },
+      {
+        source: '/:locale/installation/smart-tv',
+        destination: '/:locale/iptv-installation-smart-tv',
+        permanent: true,
+      },
+      {
+        source: '/:locale/installation/windows',
+        destination: '/:locale/iptv-installation-windows',
+        permanent: true,
+      },
+      {
+        source: '/:locale/installation/firestick-android-ios',
+        destination: '/:locale/iptv-installation-firestick',
+        permanent: true,
+      },
+      // Reseller program redirect
+      {
+        source: '/:locale/revendeur',
+        destination: '/:locale/iptv-reseller-program',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

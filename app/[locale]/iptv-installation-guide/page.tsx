@@ -378,7 +378,7 @@ export default function InstallationPage() {
           />
         </div>
         <p className="text-base text-[#1a1a1a]/70 mb-6 leading-relaxed">
-          Vous cherchez une Application 100 % gratuite pour profiter de votre Abonnement IPTV ? Ne cherchez plus ! Smarters Player Lite est la solution idéale. Cette version légère de l’application IPTV Smarters vous permet d’accéder à vos chaînes TV, films, séries et contenus à la demande facilement, sans frais supplémentaires.
+          Vous cherchez une Application 100 % gratuite pour profiter de votre Abonnement IPTV ? Ne cherchez plus ! Smarters Player Lite est la solution idéale. Cette version légère de l'application IPTV Smarters vous permet d'accéder à vos chaînes TV, films, séries et contenus à la demande facilement, sans frais supplémentaires.
         </p>
         <h3 className="text-lg font-semibold text-[#1a1a1a] mb-4">
           {t("installation.whyLiteTitle")}
