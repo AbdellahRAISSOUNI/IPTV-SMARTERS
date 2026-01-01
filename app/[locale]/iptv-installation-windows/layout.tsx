@@ -10,9 +10,9 @@ export async function generateMetadata({
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
 
   const titleMap: Record<Locale, string> = {
-    en: "How to Install IPTV Smarters Pro on Windows | Step-by-Step Guide 2026",
-    es: "Cómo Instalar IPTV Smarters Pro en Windows | Guía Paso a Paso 2026",
-    fr: "Comment Installer IPTV Smarters Pro sur Windows | Guide Étape par Étape 2026",
+    en: "How to Install IPTV Smarters Pro on Windows | Step-by-Step Guide",
+    es: "Cómo Instalar IPTV Smarters Pro en Windows | Guía Paso a Paso",
+    fr: "Comment Installer IPTV Smarters Pro sur Windows | Guide Étape par Étape",
   };
 
   const descriptionMap: Record<Locale, string> = {

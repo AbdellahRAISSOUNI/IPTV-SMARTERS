@@ -27,7 +27,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://iptv-smarters.vercel.app";
   
-  const title = "Best IPTV Subscription Service 2026 | IPTV Smarters Pro | 20,000+ Channels | Free Test";
+  const title = "Best IPTV Subscription Service | IPTV Smarters Pro | 20,000+ Channels | Free Test";
   const description = "Get the #1 IPTV subscription service with IPTV Smarters Pro. Access 20,000+ live TV channels, movies, and series in 4K quality. 99.9% uptime guarantee. Free test available. Works on Windows, Android, iOS, Mac, Smart TV, Firestick. Instant activation.";
   const ogImage = `${baseUrl}/images/hero.png`;
   
