@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
+import { getResellerMetadata } from "@/lib/utils/metadata-loader";
 
 export async function generateMetadata({
   params,
@@ -9,17 +10,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
 
-  const titleMap: Record<Locale, string> = {
-    en: "IPTV Reseller Program | Become an IPTV Reseller | White Label IPTV Business | Start Your IPTV Business",
-    es: "Programa Revendedor IPTV | Conviértete en Revendedor IPTV | Negocio IPTV White Label | Inicia tu Negocio IPTV",
-    fr: "Programme Revendeur IPTV | Devenir Revendeur IPTV | Business IPTV White Label | Démarrer votre Business IPTV",
-  };
-
-  const descriptionMap: Record<Locale, string> = {
-    en: "Become an IPTV reseller and start your own streaming business. White label IPTV reseller program with competitive pricing, dedicated support, and instant activation. Join our IPTV reseller program today and earn profits selling premium IPTV services.",
-    es: "Conviértete en revendedor IPTV y comienza tu propio negocio de streaming. Programa revendedor IPTV white label con precios competitivos, soporte dedicado y activación instantánea. Únete a nuestro programa revendedor IPTV hoy y gana beneficios vendiendo servicios IPTV premium.",
-    fr: "Devenez revendeur IPTV et démarrez votre propre business de streaming. Programme revendeur IPTV white label avec tarifs compétitifs, support dédié et activation instantanée. Rejoignez notre programme revendeur IPTV aujourd'hui et gagnez des profits en vendant des services IPTV premium.",
-  };
+  // Load metadata from file
+  const pageMetadata = await getResellerMetadata(locale);
+  const title = pageMetadata.title;
+  const description = pageMetadata.description;
 
   const keywordsMap: Record<Locale, string[]> = {
     en: [
@@ -90,8 +84,8 @@ export async function generateMetadata({
   const ogImage = `${baseUrl}/images/hero.png`;
 
   return {
-    title: titleMap[locale],
-    description: descriptionMap[locale],
+    title,
+    description,
     keywords: keywordsMap[locale],
     metadataBase: new URL(baseUrl),
     alternates: {
@@ -108,22 +102,22 @@ export async function generateMetadata({
       locale: localeMap[locale],
       url: `${baseUrl}/${locale}/iptv-reseller-program`,
       siteName: siteNameMap[locale],
-      title: titleMap[locale],
-      description: descriptionMap[locale],
+      title,
+      description,
       images: [
         {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: titleMap[locale],
+          alt: title,
           type: "image/jpeg",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: titleMap[locale],
-      description: descriptionMap[locale],
+      title,
+      description,
       images: [ogImage],
       creator: "@streampro",
       site: "@streampro",
@@ -144,7 +138,7 @@ export async function generateMetadata({
       "og:image:type": "image/jpeg",
       "og:image:width": "1200",
       "og:image:height": "630",
-      "og:image:alt": titleMap[locale],
+      "og:image:alt": title,
     },
   };
 }

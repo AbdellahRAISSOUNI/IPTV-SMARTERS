@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
-import { getTranslations } from "@/lib/i18n";
+import { getBlogListingMetadata } from "@/lib/utils/metadata-loader";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://iptv-smarters.vercel.app";
 
@@ -23,20 +23,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   
-  const titleMap: Record<Locale, string> = {
-    en: "IPTV Blog - Latest News, Guides & Tips | StreamPro",
-    es: "Blog IPTV - Últimas Noticias, Guías y Consejos | StreamPro",
-    fr: "Blog IPTV - Dernières Nouvelles, Guides et Conseils | StreamPro",
-  };
-
-  const descriptionMap: Record<Locale, string> = {
-    en: "Read the latest IPTV news, installation guides, tips, and tutorials. Learn how to get the most out of your IPTV Smarters Pro subscription. Expert advice and step-by-step guides.",
-    es: "Lee las últimas noticias de IPTV, guías de instalación, consejos y tutoriales. Aprende cómo aprovechar al máximo tu suscripción IPTV Smarters Pro. Consejos de expertos y guías paso a paso.",
-    fr: "Lisez les dernières actualités IPTV, guides d'installation, conseils et tutoriels. Apprenez à tirer le meilleur parti de votre abonnement IPTV Smarters Pro. Conseils d'experts et guides étape par étape.",
-  };
-
-  const title = titleMap[locale];
-  const description = descriptionMap[locale];
+  // Load metadata from file
+  const pageMetadata = await getBlogListingMetadata(locale);
+  const title = pageMetadata.title;
+  const description = pageMetadata.description;
 
   return {
     title,

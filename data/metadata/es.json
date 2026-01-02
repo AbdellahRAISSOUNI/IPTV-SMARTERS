@@ -1,0 +1,40 @@
+{
+  "homepage": {
+    "title": "Mejor Servicio IPTV | IPTV Smarters Pro | 20,000+ Canales | Prueba Gratis | Activación Instantánea",
+    "description": "Obtén el servicio de suscripción IPTV #1 con IPTV Smarters Pro. Accede a más de 20,000 canales de TV en vivo, películas y series en calidad 4K. Garantía de 99.9% de tiempo de actividad. Prueba gratuita disponible. Funciona en Windows, Android, iOS, Mac, Smart TV, Firestick. Activación instantánea. Planes de suscripción IPTV premium desde €19.99. Códigos y cuentas IPTV Smarters Pro disponibles."
+  },
+  "blog": {
+    "title": "Blog IPTV | Últimas Noticias, Guías y Consejos",
+    "description": "Mantente actualizado con las últimas noticias de IPTV, guías de instalación, consejos y mejores prácticas. Aprende cómo aprovechar al máximo tu suscripción IPTV."
+  },
+  "blogListing": {
+    "title": "Blog IPTV | Últimos Artículos y Guías",
+    "description": "Explora nuestra colección de artículos IPTV, guías de instalación, consejos y noticias de la industria. Todo lo que necesitas saber sobre streaming IPTV."
+  },
+  "installation": {
+    "windows": {
+      "title": "Cómo Instalar IPTV Smarters Pro en Windows | Guía Paso a Paso",
+      "description": "Guía completa paso a paso para instalar IPTV Smarters Pro en PC con Windows. Descarga, instala y configura IPTV Smarters Pro en Windows. Soporte de instalación gratuito disponible."
+    },
+    "ios": {
+      "title": "Cómo Instalar IPTV Smarters Pro en iOS | Guía para iPhone e iPad",
+      "description": "Guía completa para instalar IPTV Smarters Pro en iPhone e iPad. Instrucciones paso a paso para instalación en iOS. Soporte gratuito disponible."
+    },
+    "firestick": {
+      "title": "Cómo Instalar IPTV Smarters Pro en Firestick | Guía Amazon Fire TV",
+      "description": "Guía completa para instalar IPTV Smarters Pro en Amazon Firestick y Fire TV. Instrucciones fáciles paso a paso. Soporte de instalación gratuito."
+    },
+    "smartTv": {
+      "title": "Cómo Instalar IPTV Smarters Pro en Smart TV | Guía Completa",
+      "description": "Guía completa para instalar IPTV Smarters Pro en Smart TV. Funciona con Samsung, LG, Android TV y más. Instrucciones paso a paso."
+    },
+    "guide": {
+      "title": "Guía de Instalación IPTV | Instrucciones de Configuración Completas",
+      "description": "Guía completa de instalación IPTV para todos los dispositivos. Aprende cómo instalar IPTV Smarters Pro en Windows, Android, iOS, Smart TV y Firestick."
+    }
+  },
+  "reseller": {
+    "title": "Programa de Revendedor IPTV | Inicia Tu Negocio IPTV",
+    "description": "Únete a nuestro programa de revendedor IPTV y comienza tu propio negocio IPTV. Precios competitivos, soluciones white-label y soporte dedicado. Conviértete en revendedor IPTV hoy."
+  }
+}

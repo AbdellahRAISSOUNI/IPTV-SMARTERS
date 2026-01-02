@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import { locales, type Locale, getTranslations } from "@/lib/i18n";
+import { getHomepageMetadata } from "@/lib/utils/metadata-loader";
 
 // Generate structured data for SEO
 function generateStructuredData(locale: Locale, baseUrl: string) {
@@ -309,20 +310,10 @@ export async function generateMetadata({
     fr: "fr_FR",
   };
 
-  const titleMap: Record<Locale, string> = {
-    en: "Best IPTV Subscription Service | IPTV Smarters Pro | 20,000+ Channels | Free Test | Instant Activation",
-    es: "Mejor Servicio IPTV | IPTV Smarters Pro | 20,000+ Canales | Prueba Gratis | Activación Instantánea",
-    fr: "Meilleur Service IPTV | IPTV Smarters Pro | 20,000+ Chaînes | Essai Gratuit | Activation Instantanée",
-  };
-
-  const descriptionMap: Record<Locale, string> = {
-    en: "Get the #1 IPTV subscription service with IPTV Smarters Pro. Access 20,000+ live TV channels, movies, and series in 4K quality. 99.9% uptime guarantee. Free test available. Works on Windows, Android, iOS, Mac, Smart TV, Firestick. Instant activation. Premium IPTV subscription plans starting from €19.99. IPTV Smarters Pro codes and accounts available.",
-    es: "Obtén el servicio de suscripción IPTV #1 con IPTV Smarters Pro. Accede a más de 20,000 canales de TV en vivo, películas y series en calidad 4K. Garantía de 99.9% de tiempo de actividad. Prueba gratuita disponible. Funciona en Windows, Android, iOS, Mac, Smart TV, Firestick. Activación instantánea. Planes de suscripción IPTV premium desde €19.99. Códigos y cuentas IPTV Smarters Pro disponibles.",
-    fr: "Obtenez le service d'abonnement IPTV #1 avec IPTV Smarters Pro. Accédez à plus de 20,000 chaînes TV en direct, films et séries en qualité 4K. Garantie de disponibilité 99.9%. Essai gratuit disponible. Fonctionne sur Windows, Android, iOS, Mac, Smart TV, Firestick. Activation instantanée. Plans d'abonnement IPTV premium à partir de 19,99€. Codes et comptes IPTV Smarters Pro disponibles.",
-  };
-
-  const title = titleMap[locale];
-  const description = descriptionMap[locale];
+  // Load metadata from file
+  const homepageMetadata = await getHomepageMetadata(locale);
+  const title = homepageMetadata.title;
+  const description = homepageMetadata.description;
 
   // Enhanced keywords for each language - Comprehensive SEO keywords
   const keywordsMap: Record<Locale, string[]> = {

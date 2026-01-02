@@ -48,13 +48,14 @@ interface CarouselData {
   content: string[];
 }
 
-type Section = "hero" | "pricing" | "carousel" | "reseller" | "settings" | "blogs";
+type Section = "hero" | "pricing" | "carousel" | "reseller" | "settings" | "blogs" | "metadata";
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [translations, setTranslations] = useState<Translations>({});
   const [carouselData, setCarouselData] = useState<CarouselData>({ channels: [], streaming: [], content: [] });
+  const [metadata, setMetadata] = useState<Record<string, any>>({});
   const [activeLocale, setActiveLocale] = useState("en");
   const [activeSection, setActiveSection] = useState<Section>("hero");
   const [activeCarouselTab, setActiveCarouselTab] = useState<"channels" | "streaming" | "content">("channels");
@@ -78,7 +79,7 @@ export default function AdminDashboard() {
         }
 
         setIsAuthenticated(true);
-        await Promise.all([loadTranslations(), loadCarouselData()]);
+        await Promise.all([loadTranslations(), loadCarouselData(), loadMetadata()]);
       } catch (error) {
         console.error("Auth verification failed:", error);
         router.push("/admin/login");
@@ -109,6 +110,17 @@ export default function AdminDashboard() {
       setCarouselData(data);
     } catch (error) {
       console.error("Failed to load carousel data:", error);
+    }
+  };
+
+  // Load metadata
+  const loadMetadata = async () => {
+    try {
+      const response = await fetch("/api/admin/metadata");
+      const data = await response.json();
+      setMetadata(data);
+    } catch (error) {
+      console.error("Failed to load metadata:", error);
     }
   };
 
@@ -147,6 +159,42 @@ export default function AdminDashboard() {
       setSaveStatus("success");
       setShowDeploymentNotification(true);
       await loadTranslations();
+      
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    } catch (error) {
+      console.error("Save failed:", error);
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Save metadata
+  const handleSaveMetadata = async () => {
+    setIsSaving(true);
+    setSaveStatus("idle");
+
+    try {
+      const response = await fetch("/api/admin/metadata", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          locale: activeLocale,
+          content: metadata[activeLocale]?.content || {},
+          sha: metadata[activeLocale]?.sha || "",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save metadata");
+      }
+
+      setSaveStatus("success");
+      setShowDeploymentNotification(true);
+      await loadMetadata();
       
       setTimeout(() => setSaveStatus("idle"), 3000);
     } catch (error) {
@@ -295,7 +343,7 @@ export default function AdminDashboard() {
 
               {/* Save Button */}
               <button
-                onClick={handleSave}
+                onClick={activeSection === "metadata" ? handleSaveMetadata : handleSave}
                 disabled={isSaving}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-black hover:bg-gray-900 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -394,6 +442,17 @@ export default function AdminDashboard() {
                 >
                   <FileText className="w-4 h-4" />
                   Blogs
+                </button>
+                <button
+                  onClick={() => setActiveSection("metadata")}
+                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
+                    activeSection === "metadata"
+                      ? "bg-black text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  <Type className="w-4 h-4" />
+                  Page Metadata
                 </button>
                 <button
                   onClick={() => setActiveSection("settings")}
@@ -1043,6 +1102,310 @@ export default function AdminDashboard() {
                 {/* Blogs Section Editor */}
                 {activeSection === "blogs" && (
                   <BlogsManager />
+                )}
+
+                {/* Metadata Section Editor */}
+                {activeSection === "metadata" && (
+                  <div className="space-y-8">
+                    {/* Header */}
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 p-6">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-blue-600 rounded-lg">
+                          <Type className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <h2 className="text-2xl font-semibold text-gray-900">Page Metadata</h2>
+                          <p className="text-sm text-gray-600 mt-0.5">Edit SEO titles and descriptions for all pages</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-8">
+                      {/* Homepage */}
+                      <div className="bg-white rounded-xl border-2 border-blue-200 shadow-sm overflow-hidden">
+                        <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 border-b border-blue-800">
+                          <div className="flex items-center gap-3">
+                            <Home className="w-5 h-5 text-white" />
+                            <h3 className="text-lg font-semibold text-white">Homepage</h3>
+                            <span className="ml-auto px-2.5 py-1 bg-blue-500/30 text-white text-xs font-medium rounded-full">Main Page</span>
+                          </div>
+                        </div>
+                        <div className="p-6 space-y-5">
+                          <div>
+                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2.5">
+                              <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
+                              Page Title
+                            </label>
+                            <input
+                              type="text"
+                              value={metadata[activeLocale]?.content?.homepage?.title || ""}
+                              onChange={(e) => {
+                                const newMetadata = { ...metadata };
+                                if (!newMetadata[activeLocale]) {
+                                  newMetadata[activeLocale] = { content: {}, sha: "" };
+                                }
+                                newMetadata[activeLocale].content = {
+                                  ...newMetadata[activeLocale].content,
+                                  homepage: {
+                                    ...newMetadata[activeLocale].content?.homepage,
+                                    title: e.target.value,
+                                  },
+                                };
+                                setMetadata(newMetadata);
+                              }}
+                              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                              placeholder="Enter page title for SEO..."
+                            />
+                          </div>
+                          <div>
+                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2.5">
+                              <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
+                              Meta Description
+                            </label>
+                            <textarea
+                              value={metadata[activeLocale]?.content?.homepage?.description || ""}
+                              onChange={(e) => {
+                                const newMetadata = { ...metadata };
+                                if (!newMetadata[activeLocale]) {
+                                  newMetadata[activeLocale] = { content: {}, sha: "" };
+                                }
+                                newMetadata[activeLocale].content = {
+                                  ...newMetadata[activeLocale].content,
+                                  homepage: {
+                                    ...newMetadata[activeLocale].content?.homepage,
+                                    description: e.target.value,
+                                  },
+                                };
+                                setMetadata(newMetadata);
+                              }}
+                              rows={4}
+                              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all"
+                              placeholder="Enter meta description for SEO..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Blog Listing */}
+                      <div className="bg-white rounded-xl border-2 border-purple-200 shadow-sm overflow-hidden">
+                        <div className="bg-gradient-to-r from-purple-600 to-purple-700 px-6 py-4 border-b border-purple-800">
+                          <div className="flex items-center gap-3">
+                            <FileText className="w-5 h-5 text-white" />
+                            <h3 className="text-lg font-semibold text-white">Blog Listing Page</h3>
+                            <span className="ml-auto px-2.5 py-1 bg-purple-500/30 text-white text-xs font-medium rounded-full">Content</span>
+                          </div>
+                        </div>
+                        <div className="p-6 space-y-5">
+                          <div>
+                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2.5">
+                              <span className="w-1.5 h-1.5 bg-purple-600 rounded-full"></span>
+                              Page Title
+                            </label>
+                            <input
+                              type="text"
+                              value={metadata[activeLocale]?.content?.blogListing?.title || ""}
+                              onChange={(e) => {
+                                const newMetadata = { ...metadata };
+                                if (!newMetadata[activeLocale]) {
+                                  newMetadata[activeLocale] = { content: {}, sha: "" };
+                                }
+                                newMetadata[activeLocale].content = {
+                                  ...newMetadata[activeLocale].content,
+                                  blogListing: {
+                                    ...newMetadata[activeLocale].content?.blogListing,
+                                    title: e.target.value,
+                                  },
+                                };
+                                setMetadata(newMetadata);
+                              }}
+                              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                              placeholder="Enter page title for SEO..."
+                            />
+                          </div>
+                          <div>
+                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2.5">
+                              <span className="w-1.5 h-1.5 bg-purple-600 rounded-full"></span>
+                              Meta Description
+                            </label>
+                            <textarea
+                              value={metadata[activeLocale]?.content?.blogListing?.description || ""}
+                              onChange={(e) => {
+                                const newMetadata = { ...metadata };
+                                if (!newMetadata[activeLocale]) {
+                                  newMetadata[activeLocale] = { content: {}, sha: "" };
+                                }
+                                newMetadata[activeLocale].content = {
+                                  ...newMetadata[activeLocale].content,
+                                  blogListing: {
+                                    ...newMetadata[activeLocale].content?.blogListing,
+                                    description: e.target.value,
+                                  },
+                                };
+                                setMetadata(newMetadata);
+                              }}
+                              rows={4}
+                              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none transition-all"
+                              placeholder="Enter meta description for SEO..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Installation Pages */}
+                      <div className="bg-white rounded-xl border-2 border-green-200 shadow-sm overflow-hidden">
+                        <div className="bg-gradient-to-r from-green-600 to-green-700 px-6 py-4 border-b border-green-800">
+                          <div className="flex items-center gap-3">
+                            <SettingsIcon className="w-5 h-5 text-white" />
+                            <h3 className="text-lg font-semibold text-white">Installation Pages</h3>
+                            <span className="ml-auto px-2.5 py-1 bg-green-500/30 text-white text-xs font-medium rounded-full">5 Pages</span>
+                          </div>
+                        </div>
+                        <div className="p-6">
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                            {[
+                              { key: "windows", label: "Windows Installation", icon: "💻" },
+                              { key: "ios", label: "iOS Installation", icon: "📱" },
+                              { key: "firestick", label: "Firestick Installation", icon: "📺" },
+                              { key: "smartTv", label: "Smart TV Installation", icon: "🖥️" },
+                              { key: "guide", label: "Installation Guide", icon: "📖" },
+                            ].map((page) => (
+                              <div key={page.key} className="bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 rounded-xl p-5 hover:border-green-400 transition-all hover:shadow-md">
+                                <div className="flex items-center gap-3 mb-4">
+                                  <span className="text-2xl">{page.icon}</span>
+                                  <h4 className="font-semibold text-gray-900">{page.label}</h4>
+                                </div>
+                                <div className="space-y-4">
+                                  <div>
+                                    <label className="flex items-center gap-2 text-xs font-semibold text-gray-700 mb-2">
+                                      <span className="w-1 h-1 bg-green-600 rounded-full"></span>
+                                      Page Title
+                                    </label>
+                                    <input
+                                      type="text"
+                                      value={metadata[activeLocale]?.content?.installation?.[page.key]?.title || ""}
+                                      onChange={(e) => {
+                                        const newMetadata = { ...metadata };
+                                        if (!newMetadata[activeLocale]) {
+                                          newMetadata[activeLocale] = { content: {}, sha: "" };
+                                        }
+                                        if (!newMetadata[activeLocale].content.installation) {
+                                          newMetadata[activeLocale].content.installation = {};
+                                        }
+                                        newMetadata[activeLocale].content.installation = {
+                                          ...newMetadata[activeLocale].content.installation,
+                                          [page.key]: {
+                                            ...newMetadata[activeLocale].content.installation[page.key],
+                                            title: e.target.value,
+                                          },
+                                        };
+                                        setMetadata(newMetadata);
+                                      }}
+                                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                                      placeholder="Enter page title..."
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="flex items-center gap-2 text-xs font-semibold text-gray-700 mb-2">
+                                      <span className="w-1 h-1 bg-green-600 rounded-full"></span>
+                                      Meta Description
+                                    </label>
+                                    <textarea
+                                      value={metadata[activeLocale]?.content?.installation?.[page.key]?.description || ""}
+                                      onChange={(e) => {
+                                        const newMetadata = { ...metadata };
+                                        if (!newMetadata[activeLocale]) {
+                                          newMetadata[activeLocale] = { content: {}, sha: "" };
+                                        }
+                                        if (!newMetadata[activeLocale].content.installation) {
+                                          newMetadata[activeLocale].content.installation = {};
+                                        }
+                                        newMetadata[activeLocale].content.installation = {
+                                          ...newMetadata[activeLocale].content.installation,
+                                          [page.key]: {
+                                            ...newMetadata[activeLocale].content.installation[page.key],
+                                            description: e.target.value,
+                                          },
+                                        };
+                                        setMetadata(newMetadata);
+                                      }}
+                                      rows={3}
+                                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-none transition-all"
+                                      placeholder="Enter meta description..."
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Reseller Page */}
+                      <div className="bg-white rounded-xl border-2 border-orange-200 shadow-sm overflow-hidden">
+                        <div className="bg-gradient-to-r from-orange-600 to-orange-700 px-6 py-4 border-b border-orange-800">
+                          <div className="flex items-center gap-3">
+                            <Users className="w-5 h-5 text-white" />
+                            <h3 className="text-lg font-semibold text-white">Reseller Program Page</h3>
+                            <span className="ml-auto px-2.5 py-1 bg-orange-500/30 text-white text-xs font-medium rounded-full">Business</span>
+                          </div>
+                        </div>
+                        <div className="p-6 space-y-5">
+                          <div>
+                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2.5">
+                              <span className="w-1.5 h-1.5 bg-orange-600 rounded-full"></span>
+                              Page Title
+                            </label>
+                            <input
+                              type="text"
+                              value={metadata[activeLocale]?.content?.reseller?.title || ""}
+                              onChange={(e) => {
+                                const newMetadata = { ...metadata };
+                                if (!newMetadata[activeLocale]) {
+                                  newMetadata[activeLocale] = { content: {}, sha: "" };
+                                }
+                                newMetadata[activeLocale].content = {
+                                  ...newMetadata[activeLocale].content,
+                                  reseller: {
+                                    ...newMetadata[activeLocale].content?.reseller,
+                                    title: e.target.value,
+                                  },
+                                };
+                                setMetadata(newMetadata);
+                              }}
+                              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                              placeholder="Enter page title for SEO..."
+                            />
+                          </div>
+                          <div>
+                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2.5">
+                              <span className="w-1.5 h-1.5 bg-orange-600 rounded-full"></span>
+                              Meta Description
+                            </label>
+                            <textarea
+                              value={metadata[activeLocale]?.content?.reseller?.description || ""}
+                              onChange={(e) => {
+                                const newMetadata = { ...metadata };
+                                if (!newMetadata[activeLocale]) {
+                                  newMetadata[activeLocale] = { content: {}, sha: "" };
+                                }
+                                newMetadata[activeLocale].content = {
+                                  ...newMetadata[activeLocale].content,
+                                  reseller: {
+                                    ...newMetadata[activeLocale].content?.reseller,
+                                    description: e.target.value,
+                                  },
+                                };
+                                setMetadata(newMetadata);
+                              }}
+                              rows={4}
+                              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none transition-all"
+                              placeholder="Enter meta description for SEO..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 )}
 
                 {/* Settings Section Editor */}

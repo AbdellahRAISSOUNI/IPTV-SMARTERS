@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
+import { getInstallationMetadata } from "@/lib/utils/metadata-loader";
 
 export async function generateMetadata({
   params,
@@ -9,17 +10,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
 
-  const titleMap: Record<Locale, string> = {
-    en: "How to Install IPTV Smarters Pro on Windows | Step-by-Step Guide",
-    es: "Cómo Instalar IPTV Smarters Pro en Windows | Guía Paso a Paso",
-    fr: "Comment Installer IPTV Smarters Pro sur Windows | Guide Étape par Étape",
-  };
-
-  const descriptionMap: Record<Locale, string> = {
-    en: "Complete step-by-step guide to install IPTV Smarters Pro on Windows PC. Download, install, and configure IPTV Smarters Pro on Windows. Free installation support available.",
-    es: "Guía completa paso a paso para instalar IPTV Smarters Pro en PC con Windows. Descarga, instala y configura IPTV Smarters Pro en Windows. Soporte de instalación gratuito disponible.",
-    fr: "Guide complet étape par étape pour installer IPTV Smarters Pro sur PC Windows. Téléchargez, installez et configurez IPTV Smarters Pro sur Windows. Support d'installation gratuit disponible.",
-  };
+  // Load metadata from file
+  const pageMetadata = await getInstallationMetadata(locale, 'windows');
+  const title = pageMetadata.title;
+  const description = pageMetadata.description;
 
   const keywordsMap: Record<Locale, string[]> = {
     en: [
@@ -66,8 +60,8 @@ export async function generateMetadata({
   const ogImage = `${baseUrl}/images/hero.png`;
 
   return {
-    title: titleMap[locale],
-    description: descriptionMap[locale],
+    title,
+    description,
     keywords: keywordsMap[locale],
     metadataBase: new URL(baseUrl),
     alternates: {
@@ -84,22 +78,22 @@ export async function generateMetadata({
       locale: localeMap[locale],
       url: `${baseUrl}/${locale}/iptv-installation-windows`,
       siteName: siteNameMap[locale],
-      title: titleMap[locale],
-      description: descriptionMap[locale],
+      title,
+      description,
       images: [
         {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: titleMap[locale],
+          alt: title,
           type: "image/jpeg",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: titleMap[locale],
-      description: descriptionMap[locale],
+      title,
+      description,
       images: [ogImage],
       creator: "@streampro",
       site: "@streampro",
@@ -120,7 +114,7 @@ export async function generateMetadata({
       "og:image:type": "image/jpeg",
       "og:image:width": "1200",
       "og:image:height": "630",
-      "og:image:alt": titleMap[locale],
+      "og:image:alt": title,
       "article:author": "StreamPro",
     },
   };
