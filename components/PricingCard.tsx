@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Monitor } from "lucide-react";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface PricingCardProps {
   name: string;
@@ -26,6 +27,7 @@ export default function PricingCard({
   guaranteeText = "5-day refund guarantee",
   buttonText = "Buy Now",
 }: PricingCardProps) {
+  const { t } = useLanguage();
   const reduceAnimations = shouldReduceAnimations();
   const mobile = isMobile();
   
@@ -120,7 +122,8 @@ export default function PricingCard({
       </ul>
       <motion.button
         onClick={() => {
-          openWhatsApp(`Hello! I'm interested in the ${name} plan.`);
+          const message = t("whatsapp.pricingPlan").replace("{planName}", name);
+          openWhatsApp(message);
         }}
         whileHover={reduceAnimations ? {} : { 
           scale: 1.03,

@@ -6,12 +6,12 @@ import Link from "next/link";
 import { openWhatsApp } from "@/lib/whatsapp";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
 
-export default function NotFound() {
+function NotFoundContent() {
+  const { t } = useLanguage();
 
   return (
-    <LanguageProvider initialLocale="en">
       <div className="min-h-screen bg-white flex flex-col">
         <Header />
         
@@ -125,7 +125,7 @@ export default function NotFound() {
 
             {/* Contact Button */}
             <button
-              onClick={() => openWhatsApp("Hello! I need help finding something on your website.")}
+              onClick={() => openWhatsApp(t("whatsapp.notFoundHelp"))}
               className="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#25D366] text-white font-semibold rounded-lg shadow-md hover:bg-[#20ba5a] hover:shadow-xl transition-all duration-200 text-sm sm:text-base lg:text-lg"
             >
               <Wifi className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 group-hover:rotate-12" />
@@ -175,6 +175,13 @@ export default function NotFound() {
 
         <Footer />
       </div>
+  );
+}
+
+export default function NotFound() {
+  return (
+    <LanguageProvider initialLocale="en">
+      <NotFoundContent />
     </LanguageProvider>
   );
 }

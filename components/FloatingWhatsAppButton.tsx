@@ -3,9 +3,11 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function FloatingWhatsAppButton() {
-  const whatsappUrl = getWhatsAppUrl("Hello! I'd like to know more about your IPTV service.");
+  const { t } = useLanguage();
+  const whatsappUrl = getWhatsAppUrl(t("whatsapp.floatingButton"));
 
   return (
     <motion.a
@@ -34,7 +36,7 @@ export default function FloatingWhatsAppButton() {
 
       {/* Tooltip on hover */}
       <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#1a1a1a] text-white text-xs sm:text-sm font-medium px-3 py-2 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-lg">
-        Chat with us
+        {t("whatsapp.tooltip")}
         <div className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-[#1a1a1a]" />
       </div>
     </motion.a>

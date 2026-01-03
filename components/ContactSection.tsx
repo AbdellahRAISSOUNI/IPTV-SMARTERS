@@ -3,9 +3,11 @@
 import { motion } from "framer-motion";
 import { MessageCircle, Mail } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function ContactSection() {
-  const whatsappUrl = getWhatsAppUrl("Hello! I have a question about your IPTV service.");
+  const { t } = useLanguage();
+  const whatsappUrl = getWhatsAppUrl(t("whatsapp.contactQuestion"));
   
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@iptvsubscriptionpro.es";
 

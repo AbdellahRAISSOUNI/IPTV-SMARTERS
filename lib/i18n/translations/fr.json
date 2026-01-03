@@ -157,6 +157,18 @@
     "whatsapp": "Contactez-nous sur WhatsApp",
     "email": "Envoyer un Email"
   },
+  "whatsapp": {
+    "floatingButton": "Bonjour ! J'aimerais en savoir plus sur votre service IPTV.",
+    "defaultButton": "Bonjour ! J'aimerais commencer un essai gratuit de votre service IPTV.",
+    "ctaSection": "Bonjour ! J'aimerais obtenir plus d'informations sur votre service IPTV.",
+    "homePage": "Bonjour ! Je suis intéressé par votre service IPTV.",
+    "pricingPlan": "Bonjour ! Je suis intéressé par le plan {planName}.",
+    "contactQuestion": "Bonjour ! J'ai une question sur votre service IPTV.",
+    "installationHelp": "Bonjour ! J'ai besoin d'aide pour l'installation d'IPTV Smarters Pro.",
+    "resellerInterest": "Bonjour ! Je suis intéressé à devenir revendeur IPTV.",
+    "notFoundHelp": "Bonjour ! J'ai besoin d'aide pour trouver quelque chose sur votre site web.",
+    "tooltip": "Discutez avec nous"
+  },
   "footer": {
     "description": "Service de streaming IPTV premium offrant des milliers de chaînes, films et séries. Profitez du meilleur du divertissement avec un support fiable 24/7.",
     "quickLinks": "Liens Rapides",

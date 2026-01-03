@@ -24,7 +24,7 @@ const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) =>
 export default function Footer() {
   const { t, locale, setLocale } = useLanguage();
   const currentYear = new Date().getFullYear();
-  const whatsappUrl = getWhatsAppUrl("Hello! I have a question about your IPTV service.");
+  const whatsappUrl = getWhatsAppUrl(t("whatsapp.contactQuestion"));
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@iptvsubscriptionpro.es";
 
   const languageNames: Record<Locale, string> = {

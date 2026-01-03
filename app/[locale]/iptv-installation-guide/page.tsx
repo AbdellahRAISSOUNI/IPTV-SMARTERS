@@ -429,7 +429,7 @@ export default function InstallationPage() {
               {t("installation.contactAction")}
             </p>
             <button
-              onClick={() => openWhatsApp("Hello! I need help with IPTV Smarters Pro installation.")}
+              onClick={() => openWhatsApp(t("whatsapp.installationHelp"))}
               className="inline-flex items-center gap-2 text-base text-[#2563eb] hover:text-[#1d4ed8] font-medium"
             >
               <MessageCircle className="w-5 h-5" />

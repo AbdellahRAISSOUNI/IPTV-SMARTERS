@@ -74,7 +74,7 @@ export default function CTASection() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               {/* WhatsApp Button */}
               <motion.a
-                href={getWhatsAppUrl("Hello! I'd like to get more information about your IPTV service.")}
+                href={getWhatsAppUrl(t("whatsapp.ctaSection"))}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-flex items-center gap-2.5 xl:gap-3 2xl:gap-4 px-7 xl:px-8 2xl:px-10 py-3.5 xl:py-4 2xl:py-5 bg-[#25D366] text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-[#25D366]/30 transition-all duration-300 cursor-pointer text-sm sm:text-base xl:text-lg 2xl:text-xl"

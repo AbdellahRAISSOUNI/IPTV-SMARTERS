@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface WhatsAppButtonProps {
   message?: string;
@@ -10,11 +11,13 @@ interface WhatsAppButtonProps {
 }
 
 export default function WhatsAppButton({
-  message = "Hello! I'd like to start a free test of your IPTV service.",
+  message,
   className = "",
   variant = "primary",
 }: WhatsAppButtonProps) {
-  const whatsappUrl = getWhatsAppUrl(message);
+  const { t } = useLanguage();
+  const defaultMessage = t("whatsapp.defaultButton");
+  const whatsappUrl = getWhatsAppUrl(message || defaultMessage);
 
   const baseStyles =
     "inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold transition-all duration-200 rounded-lg cursor-pointer";

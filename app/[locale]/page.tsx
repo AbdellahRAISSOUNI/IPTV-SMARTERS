@@ -420,7 +420,7 @@ export default function Home() {
             <div className="pt-1">
               <motion.button
                 onClick={() => {
-                  openWhatsApp("Hello! I'm interested in your IPTV service.");
+                  openWhatsApp(t("whatsapp.homePage"));
                 }}
                 whileHover={{ 
                   scale: 1.03,

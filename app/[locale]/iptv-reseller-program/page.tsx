@@ -294,7 +294,7 @@ export default function ResellerPage() {
             </p>
             <motion.button
               onClick={() => {
-                openWhatsApp("Hello! I'm interested in becoming an IPTV reseller.");
+                openWhatsApp(t("whatsapp.resellerInterest"));
               }}
               whileHover={reduceAnimations ? {} : { scale: 1.02 }}
               whileTap={reduceAnimations ? {} : { scale: 0.98 }}
