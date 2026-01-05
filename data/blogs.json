@@ -13,7 +13,7 @@
       "fr": ""
     },
     "publishedAt": "2026-01-05T15:56:04.204Z",
-    "updatedAt": "2026-01-05T16:25:39.581Z",
+    "updatedAt": "2026-01-05T16:29:27.951Z",
     "locale": "en",
     "translations": [
       "en"
@@ -37,7 +37,7 @@
           "es": "",
           "fr": ""
         },
-        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1767629650/blog-images/l1bkdwsvosffegtisaju.jpg"
+        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1767630566/blog-images/fwtywyks9vo4vsur2be5.jpg"
       },
       {
         "id": "ff7rksv2q4n",
@@ -152,7 +152,8 @@
         "fr": ""
       }
     },
-    "author": "Iptv smarters-"
+    "author": "Iptv smarters-",
+    "featuredImage": "https://res.cloudinary.com/df5we7yoo/image/upload/v1767630544/blog-images/cg9g9vkp4gltzmiualrn.jpg"
   },
   {
     "id": "ykvd0xjlbp",
