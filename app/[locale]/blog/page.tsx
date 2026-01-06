@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, ArrowRight, Clock } from "lucide-react";
 import type { BlogPost } from "@/lib/admin/blog";
+import { getBlogUrl } from "@/lib/utils/blog-slugs";
 
 export default function BlogPage() {
   const { t, locale } = useLanguage();
@@ -103,7 +104,7 @@ export default function BlogPage() {
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                   >
                     <Link
-                      href={`/${displayLocale}/blog/${blog.slug}`}
+                      href={getBlogUrl(blog, locale)}
                       className="group block h-full bg-white border border-gray-200/80 rounded-2xl overflow-hidden hover:border-[#2563eb]/30 hover:shadow-xl transition-all duration-300"
                     >
                       {/* Image */}

@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { locales, type Locale } from '@/lib/i18n';
 import { getAllBlogs } from '@/lib/admin/blog';
 import { getInstallationUrl } from '@/lib/utils/installation-slugs';
+import { getBlogUrl, getAllBlogSlugs } from '@/lib/utils/blog-slugs';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour for fresh blog posts
@@ -85,26 +86,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ? blog.translations 
         : [blog.locale];
       
-      // Helper to get slug for a locale
-      const getBlogSlug = (loc: string): string => {
-        if (typeof blog.slug === 'string') {
-          return blog.slug;
-        }
-        const slugRecord = blog.slug as Record<string, string>;
-        // If empty, fallback to English slug
-        return slugRecord[loc] || slugRecord['en'] || '';
-      };
+      // Get all slugs for this blog
+      const allSlugs = getAllBlogSlugs(blog);
       
       blogLocales.forEach((blogLocale) => {
         if (locales.includes(blogLocale as any)) {
-          const blogSlug = getBlogSlug(blogLocale);
-          const url = `${baseUrl}/${blogLocale}/blog/${blogSlug}`;
+          const url = `${baseUrl}${getBlogUrl(blog, blogLocale as Locale)}`;
           
           // Generate alternates with language-specific slugs
           const alternates: Record<string, string> = {};
           blogLocales.forEach((loc) => {
-            const altSlug = getBlogSlug(loc);
-            alternates[loc] = `${baseUrl}/${loc}/blog/${altSlug}`;
+            if (locales.includes(loc as any)) {
+              alternates[loc] = `${baseUrl}${getBlogUrl(blog, loc as Locale)}`;
+            }
           });
           
           sitemapEntries.push({

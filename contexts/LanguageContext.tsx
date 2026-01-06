@@ -4,6 +4,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { usePathname, useRouter } from 'next/navigation';
 import { getTranslations, type Locale, locales, defaultLocale, detectLocaleFromCountry } from '@/lib/i18n';
 import { getEnglishSlugFromLocalized, getInstallationSlug, isInstallationSlug, isResellerSlug, getResellerSlug } from '@/lib/utils/installation-slugs';
+import { getBlogUrl, findBlogByAnySlug } from '@/lib/utils/blog-slugs';
+import type { BlogPost } from '@/lib/admin/blog';
 
 type Translations = ReturnType<typeof getTranslations>;
 
@@ -56,23 +58,16 @@ export function LanguageProvider({ children, initialLocale }: { children: ReactN
         if (pathWithoutLocale.startsWith('/blog/')) {
           const blogSlug = pathWithoutLocale.replace('/blog/', '').replace(/\/$/, '');
           
-          // Fetch blog by slug to get language-specific slugs
-          fetch(`/api/blogs?slug=${blogSlug}&locale=${locale}`)
+          // Fetch all blogs to find the one matching this slug
+          fetch(`/api/blogs`)
             .then((res) => res.json())
-            .then((blog) => {
-              if (blog && blog.slug) {
-                // Get the slug for the new locale
-                let newBlogSlug: string;
-                if (typeof blog.slug === 'string') {
-                  // Old format: use same slug
-                  newBlogSlug = blog.slug;
-                } else {
-                  // New format: get slug for new locale, fallback to English
-                  const slugRecord = blog.slug as Record<string, string>;
-                  newBlogSlug = slugRecord[newLocale] || slugRecord['en'] || blogSlug;
-                }
-                
-                const newPath = `/${newLocale}/blog/${newBlogSlug}`;
+            .then((blogs: BlogPost[]) => {
+              // Find blog by any slug (could be from any locale)
+              const blog = findBlogByAnySlug(blogs, blogSlug);
+              
+              if (blog) {
+                // Get the correct URL for the new locale
+                const newPath = getBlogUrl(blog, newLocale);
                 router.replace(newPath);
                 if (typeof window !== 'undefined') {
                   localStorage.setItem('preferred-locale', newLocale);

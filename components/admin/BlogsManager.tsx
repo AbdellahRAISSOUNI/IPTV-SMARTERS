@@ -5,6 +5,7 @@ import { Plus, Edit, Trash2, Eye, Loader2, AlertTriangle, X } from "lucide-react
 import BlogEditor from "./BlogEditor";
 import DeploymentNotification from "./DeploymentNotification";
 import type { BlogPost } from "@/lib/admin/blog";
+import { getBlogUrl } from "@/lib/utils/blog-slugs";
 
 export default function BlogsManager() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -22,7 +23,7 @@ export default function BlogsManager() {
       return blog.slug;
     }
     const slugRecord = blog.slug as Record<string, string>;
-    const targetLocale = locale || blog.locale;
+    const targetLocale = (locale || blog.locale) as 'en' | 'es' | 'fr';
     return slugRecord[targetLocale] || slugRecord['en'] || '';
   };
 
@@ -285,7 +286,7 @@ export default function BlogsManager() {
                     Edit
                   </button>
                   <a
-                    href={`/${blog.locale}/blog/${getSlugForDisplay(blog)}`}
+                    href={getBlogUrl(blog, blog.locale as 'en' | 'es' | 'fr')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center justify-center gap-2"
