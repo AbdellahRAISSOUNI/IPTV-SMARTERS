@@ -56,6 +56,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     "@type": "Product",
     name: productNameMap[locale],
     description: productDescMap[locale],
+    image: [`${baseUrl}/images/hero.png`],
     brand: {
       "@type": "Brand",
       name: "StreamPro",
@@ -73,6 +74,28 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: `${baseUrl}/${locale}#pricing`,
+        priceValidUntil: "2026-12-31",
+        shippingDetails: {
+          "@type": "OfferShippingDetails",
+          shippingDestination: {
+            "@type": "DefinedRegion",
+            addressCountry:
+              locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
+          },
+          shippingRate: {
+            "@type": "MonetaryAmount",
+            value: "0",
+            currency: "EUR",
+          },
+        },
+        hasMerchantReturnPolicy: {
+          "@type": "MerchantReturnPolicy",
+          applicableCountry:
+            locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
+          returnPolicyCategory:
+            "https://schema.org/MerchantReturnFiniteReturnWindow",
+          returnPolicyDays: 30,
+        },
       },
       {
         "@type": "Offer",
@@ -81,6 +104,28 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: `${baseUrl}/${locale}#pricing`,
+        priceValidUntil: "2026-12-31",
+        shippingDetails: {
+          "@type": "OfferShippingDetails",
+          shippingDestination: {
+            "@type": "DefinedRegion",
+            addressCountry:
+              locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
+          },
+          shippingRate: {
+            "@type": "MonetaryAmount",
+            value: "0",
+            currency: "EUR",
+          },
+        },
+        hasMerchantReturnPolicy: {
+          "@type": "MerchantReturnPolicy",
+          applicableCountry:
+            locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
+          returnPolicyCategory:
+            "https://schema.org/MerchantReturnFiniteReturnWindow",
+          returnPolicyDays: 30,
+        },
       },
       {
         "@type": "Offer",
@@ -89,6 +134,28 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: `${baseUrl}/${locale}#pricing`,
+        priceValidUntil: "2026-12-31",
+        shippingDetails: {
+          "@type": "OfferShippingDetails",
+          shippingDestination: {
+            "@type": "DefinedRegion",
+            addressCountry:
+              locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
+          },
+          shippingRate: {
+            "@type": "MonetaryAmount",
+            value: "0",
+            currency: "EUR",
+          },
+        },
+        hasMerchantReturnPolicy: {
+          "@type": "MerchantReturnPolicy",
+          applicableCountry:
+            locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
+          returnPolicyCategory:
+            "https://schema.org/MerchantReturnFiniteReturnWindow",
+          returnPolicyDays: 30,
+        },
       },
       {
         "@type": "Offer",
@@ -97,6 +164,28 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: `${baseUrl}/${locale}#pricing`,
+        priceValidUntil: "2026-12-31",
+        shippingDetails: {
+          "@type": "OfferShippingDetails",
+          shippingDestination: {
+            "@type": "DefinedRegion",
+            addressCountry:
+              locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
+          },
+          shippingRate: {
+            "@type": "MonetaryAmount",
+            value: "0",
+            currency: "EUR",
+          },
+        },
+        hasMerchantReturnPolicy: {
+          "@type": "MerchantReturnPolicy",
+          applicableCountry:
+            locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
+          returnPolicyCategory:
+            "https://schema.org/MerchantReturnFiniteReturnWindow",
+          returnPolicyDays: 30,
+        },
       },
     ],
     aggregateRating: {

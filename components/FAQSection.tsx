@@ -121,17 +121,9 @@ const generateFAQSchema = (faqs: FAQItem[], t: (key: string) => string) => {
     });
   };
 
-  const faqSchema = generateFAQSchema(faqData, t);
-
   return (
     <section id="faq" className="pt-0 pb-0 xl:pt-4 2xl:pt-6 bg-white">
       <div className="max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
-        {/* Schema.org JSON-LD */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-
         {/* Section Heading */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
