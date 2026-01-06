@@ -412,17 +412,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
         {/* Language Selector - Only show when editing blog content */}
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Editing Language - Switch to edit content in different languages
-            </label>
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              <span>Primary:</span>
-              <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded font-medium">
-                {blog.locale.toUpperCase()}
-              </span>
-            </div>
-          </div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Editing Language - Switch to edit content in different languages
+          </label>
           <div className="flex items-center gap-2">
             {(["en", "es", "fr"] as const).map((locale) => (
               <button
@@ -434,22 +426,19 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                     setBlog({ ...blog, locale });
                   }
                 }}
-                className={`px-4 py-2 rounded-lg font-medium transition-all relative ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   activeLocale === locale
                     ? "bg-black text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                } ${blog.locale === locale ? "ring-2 ring-blue-500" : ""}`}
+                }`}
               >
                 <Globe className="w-4 h-4 inline mr-2" />
                 {locale.toUpperCase()}
-                {blog.locale === locale && (
-                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
-                )}
               </button>
             ))}
           </div>
           <p className="text-xs text-gray-500 mt-2">
-            Switch between languages to edit title, excerpt, and content. The <strong>primary language</strong> (marked with blue) determines the default language for this blog post.
+            Switch between languages to edit title, excerpt, and content.
           </p>
         </div>
 
