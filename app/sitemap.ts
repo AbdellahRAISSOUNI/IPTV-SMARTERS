@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
-import { locales } from '@/lib/i18n';
+import { locales, type Locale } from '@/lib/i18n';
 import { getAllBlogs } from '@/lib/admin/blog';
+import { getInstallationUrl } from '@/lib/utils/installation-slugs';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour for fresh blog posts
@@ -8,23 +9,58 @@ export const revalidate = 3600; // Revalidate every hour for fresh blog posts
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.pro-iptvsmarters.com';
 
-  // Generate sitemap entries for each locale
-  const routes = [
+  // Pages with language-specific slugs (installation + reseller)
+  const localizedPages = [
+    'iptv-installation-guide',
+    'iptv-installation-ios',
+    'iptv-installation-smart-tv',
+    'iptv-installation-windows',
+    'iptv-installation-firestick',
+    'iptv-reseller-program',
+  ];
+
+  // Other static routes
+  const otherRoutes = [
     { path: '', priority: 1.0, changeFrequency: 'daily' as const }, // Homepage
-    { path: '/iptv-installation-guide', priority: 0.9, changeFrequency: 'weekly' as const },
-    { path: '/iptv-installation-ios', priority: 0.85, changeFrequency: 'monthly' as const },
-    { path: '/iptv-installation-smart-tv', priority: 0.85, changeFrequency: 'monthly' as const },
-    { path: '/iptv-installation-windows', priority: 0.85, changeFrequency: 'monthly' as const },
-    { path: '/iptv-installation-firestick', priority: 0.85, changeFrequency: 'monthly' as const },
-    { path: '/iptv-reseller-program', priority: 0.9, changeFrequency: 'weekly' as const },
     { path: '/blog', priority: 0.8, changeFrequency: 'daily' as const },
   ];
   
   const sitemapEntries: MetadataRoute.Sitemap = [];
 
-  // Add static routes
+  // Add pages with language-specific URLs (installation + reseller)
+  localizedPages.forEach((englishSlug) => {
+    locales.forEach((locale) => {
+      const localizedPath = getInstallationUrl(englishSlug, locale).replace(`/${locale}`, '');
+      const url = `${baseUrl}${localizedPath}`;
+      
+      // Generate alternates with language-specific URLs
+      const alternates: Record<string, string> = {};
+      locales.forEach((loc) => {
+        const altPath = getInstallationUrl(englishSlug, loc).replace(`/${loc}`, '');
+        alternates[loc] = `${baseUrl}${altPath}`;
+      });
+      
+      // Set priority based on page type
+      let priority = 0.85;
+      if (englishSlug === 'iptv-installation-guide' || englishSlug === 'iptv-reseller-program') {
+        priority = 0.9;
+      }
+      
+      sitemapEntries.push({
+        url,
+        lastModified: new Date(),
+        changeFrequency: 'weekly',
+        priority,
+        alternates: {
+          languages: alternates,
+        },
+      });
+    });
+  });
+
+  // Add other static routes
   locales.forEach((locale) => {
-    routes.forEach((route) => {
+    otherRoutes.forEach((route) => {
       const url = `${baseUrl}/${locale}${route.path}`;
       sitemapEntries.push({
         url,

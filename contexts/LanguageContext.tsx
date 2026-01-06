@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getTranslations, type Locale, locales, defaultLocale, detectLocaleFromCountry } from '@/lib/i18n';
+import { getEnglishSlugFromLocalized, getInstallationSlug, isInstallationSlug, isResellerSlug, getResellerSlug } from '@/lib/utils/installation-slugs';
 
 type Translations = ReturnType<typeof getTranslations>;
 
@@ -29,11 +30,58 @@ export function LanguageProvider({ children, initialLocale }: { children: ReactN
   }, [pathname]);
 
   const setLocale = (newLocale: Locale) => {
+    if (newLocale === locale) {
+      // Already on this locale, no need to change
+      return;
+    }
+    
     setLocaleState(newLocale);
     // Update URL to reflect new locale
-    const currentPath = pathname;
+    // Use window.location.pathname as fallback to ensure we get the actual current path
+    const currentPath = typeof window !== 'undefined' ? window.location.pathname : pathname;
+    // Remove locale prefix and normalize path
     const pathWithoutLocale = currentPath.replace(/^\/(en|es|fr)/, '') || '/';
-    const newPath = `/${newLocale}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`;
+    
+    // Check if current path is an installation page and translate the slug
+    let translatedPath = pathWithoutLocale;
+    if (pathWithoutLocale && pathWithoutLocale !== '/') {
+      // Extract slug from path (remove leading slash and trailing slash if present)
+      const currentSlug = pathWithoutLocale.replace(/^\/+|\/+$/g, '').trim();
+      
+      if (!currentSlug) {
+        // Empty slug, just go to homepage
+        translatedPath = '/';
+      } else {
+        // Find English slug - try current locale first, then check all locales
+        let englishSlug: string | null = getEnglishSlugFromLocalized(currentSlug, locale);
+        
+        // If not found as localized slug, check if it's already English (installation or reseller)
+        if (!englishSlug && (isInstallationSlug(currentSlug) || isResellerSlug(currentSlug))) {
+          englishSlug = currentSlug;
+        }
+        
+        // If we found an English slug (either from reverse lookup or it's already English)
+        if (englishSlug) {
+          if (isInstallationSlug(englishSlug)) {
+            // Translate to new locale's slug for installation pages
+            const newSlug = getInstallationSlug(englishSlug, newLocale);
+            // Ensure we have a leading slash and handle trailing slash based on next.config
+            translatedPath = `/${newSlug}/`;
+          } else if (isResellerSlug(englishSlug)) {
+            // Translate to new locale's slug for reseller pages
+            const newSlug = getResellerSlug(englishSlug, newLocale);
+            // Ensure we have a leading slash and handle trailing slash based on next.config
+            translatedPath = `/${newSlug}/`;
+          }
+        }
+        // If it's not an installation or reseller page, keep the path as-is (but ensure trailing slash)
+        else if (translatedPath !== '/' && !translatedPath.endsWith('/')) {
+          translatedPath = `${translatedPath}/`;
+        }
+      }
+    }
+    
+    const newPath = `/${newLocale}${translatedPath === '/' ? '' : translatedPath}`;
     router.replace(newPath);
     // Store preference
     if (typeof window !== 'undefined') {

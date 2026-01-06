@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { getResellerMetadata } from "@/lib/utils/metadata-loader";
+import { getInstallationUrl } from "@/lib/utils/installation-slugs";
+import { locales } from "@/lib/i18n";
 
 export async function generateMetadata({
   params,
@@ -82,6 +84,18 @@ export async function generateMetadata({
   };
 
   const ogImage = `${baseUrl}/images/hero.png`;
+  
+  // Get language-specific URL for this page
+  const currentUrl = getInstallationUrl('iptv-reseller-program', locale);
+  const canonicalUrl = `${baseUrl}${currentUrl}`;
+  
+  // Generate alternates with language-specific URLs
+  const languageAlternates: Record<string, string> = {};
+  locales.forEach((loc) => {
+    const altUrl = getInstallationUrl('iptv-reseller-program', loc);
+    languageAlternates[loc] = `${baseUrl}${altUrl}`;
+  });
+  languageAlternates['x-default'] = `${baseUrl}${getInstallationUrl('iptv-reseller-program', 'en')}`;
 
   return {
     title,
@@ -89,18 +103,13 @@ export async function generateMetadata({
     keywords: keywordsMap[locale],
     metadataBase: new URL(baseUrl),
     alternates: {
-      canonical: `${baseUrl}/${locale}/iptv-reseller-program`,
-      languages: {
-        en: `${baseUrl}/en/iptv-reseller-program`,
-        es: `${baseUrl}/es/iptv-reseller-program`,
-        fr: `${baseUrl}/fr/iptv-reseller-program`,
-        "x-default": `${baseUrl}/en/iptv-reseller-program`,
-      },
+      canonical: canonicalUrl,
+      languages: languageAlternates,
     },
     openGraph: {
       type: "website",
       locale: localeMap[locale],
-      url: `${baseUrl}/${locale}/iptv-reseller-program`,
+      url: canonicalUrl,
       siteName: siteNameMap[locale],
       title,
       description,

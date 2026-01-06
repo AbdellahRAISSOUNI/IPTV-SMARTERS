@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
+import { getInstallationUrl } from "@/lib/utils/installation-slugs";
+import { locales } from "@/lib/i18n";
 
 export async function generateMetadata({
   params,
@@ -88,6 +90,18 @@ export async function generateMetadata({
   };
 
   const ogImage = `${baseUrl}/images/hero.png`;
+  
+  // Get language-specific URL for this page
+  const currentUrl = getInstallationUrl('iptv-installation-guide', locale);
+  const canonicalUrl = `${baseUrl}${currentUrl}`;
+  
+  // Generate alternates with language-specific URLs
+  const languageAlternates: Record<string, string> = {};
+  locales.forEach((loc) => {
+    const altUrl = getInstallationUrl('iptv-installation-guide', loc);
+    languageAlternates[loc] = `${baseUrl}${altUrl}`;
+  });
+  languageAlternates['x-default'] = `${baseUrl}${getInstallationUrl('iptv-installation-guide', 'en')}`;
 
   return {
     title: titleMap[locale],
@@ -95,18 +109,13 @@ export async function generateMetadata({
     keywords: keywordsMap[locale],
     metadataBase: new URL(baseUrl),
     alternates: {
-      canonical: `${baseUrl}/${locale}/iptv-installation-guide`,
-      languages: {
-        en: `${baseUrl}/en/iptv-installation-guide`,
-        es: `${baseUrl}/es/iptv-installation-guide`,
-        fr: `${baseUrl}/fr/iptv-installation-guide`,
-        "x-default": `${baseUrl}/en/iptv-installation-guide`,
-      },
+      canonical: canonicalUrl,
+      languages: languageAlternates,
     },
     openGraph: {
       type: "article",
       locale: localeMap[locale],
-      url: `${baseUrl}/${locale}/iptv-installation-guide`,
+      url: canonicalUrl,
       siteName: siteNameMap[locale],
       title: titleMap[locale],
       description: descriptionMap[locale],

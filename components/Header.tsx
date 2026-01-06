@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getInstallationUrl } from "@/lib/utils/installation-slugs";
 
 export default function Header() {
   const { t, locale } = useLanguage();
@@ -87,13 +88,14 @@ export default function Header() {
   }, [isDesktopInstallationOpen]);
 
   // Installation dropdown links (5 options: "How to install?" first, then 4 device-specific options)
+  // Use language-specific URLs for installation pages
   const installationLinks = [
-    { href: `/${locale}/iptv-installation-guide`, label: t("installation.howToInstall") },
-    { href: `/${locale}/iptv-installation-ios`, label: t("installation.appleIos") },
-    { href: `/${locale}/iptv-installation-smart-tv`, label: t("installation.smartTv") },
-    { href: `/${locale}/iptv-installation-windows`, label: t("installation.windows") },
+    { href: getInstallationUrl('iptv-installation-guide', locale), label: t("installation.howToInstall") },
+    { href: getInstallationUrl('iptv-installation-ios', locale), label: t("installation.appleIos") },
+    { href: getInstallationUrl('iptv-installation-smart-tv', locale), label: t("installation.smartTv") },
+    { href: getInstallationUrl('iptv-installation-windows', locale), label: t("installation.windows") },
     {
-      href: `/${locale}/iptv-installation-firestick`,
+      href: getInstallationUrl('iptv-installation-firestick', locale),
       label: t("installation.firestickAndroid"),
     },
   ];
@@ -238,7 +240,7 @@ export default function Header() {
 
             {/* IPTV Reseller */}
             <motion.a
-              href={`/${locale}/iptv-reseller-program`}
+              href={getInstallationUrl('iptv-reseller-program', locale)}
               className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group"
             >
               {t("common.iptvReseller")}
@@ -454,7 +456,7 @@ export default function Header() {
 
                 {/* IPTV Reseller */}
                 <motion.a
-                  href={`/${locale}/iptv-reseller-program`}
+                  href={getInstallationUrl('iptv-reseller-program', locale)}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-base font-medium text-[#1a1a1a] hover:text-[#2563eb] py-3 px-4 rounded-lg hover:bg-[#f5f5f5] transition-all duration-200"
                   initial={{ opacity: 0, x: -10 }}

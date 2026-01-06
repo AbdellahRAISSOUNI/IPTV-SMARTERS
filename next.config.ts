@@ -81,10 +81,76 @@ const nextConfig: NextConfig = {
         destination: '/:locale/iptv-installation-firestick',
         permanent: true,
       },
-      // Reseller program redirect
+      // Reseller program redirect (old route)
       {
         source: '/:locale/revendeur',
         destination: '/:locale/iptv-reseller-program',
+        permanent: true,
+      },
+      // Language-specific reseller program redirects (redirect English URLs to localized URLs for non-English)
+      // Spanish redirect
+      {
+        source: '/es/iptv-reseller-program',
+        destination: '/es/programa-revendedor-iptv',
+        permanent: true,
+      },
+      // French redirect
+      {
+        source: '/fr/iptv-reseller-program',
+        destination: '/fr/programme-revendeur-iptv',
+        permanent: true,
+      },
+      // Language-specific installation page redirects (redirect English URLs to localized URLs for non-English)
+      // Spanish redirects
+      {
+        source: '/es/iptv-installation-guide',
+        destination: '/es/guia-instalacion-iptv',
+        permanent: true,
+      },
+      {
+        source: '/es/iptv-installation-ios',
+        destination: '/es/instalacion-ios-iptv',
+        permanent: true,
+      },
+      {
+        source: '/es/iptv-installation-windows',
+        destination: '/es/instalacion-windows-iptv',
+        permanent: true,
+      },
+      {
+        source: '/es/iptv-installation-smart-tv',
+        destination: '/es/instalacion-smart-tv-iptv',
+        permanent: true,
+      },
+      {
+        source: '/es/iptv-installation-firestick',
+        destination: '/es/instalacion-firestick-iptv',
+        permanent: true,
+      },
+      // French redirects
+      {
+        source: '/fr/iptv-installation-guide',
+        destination: '/fr/guide-installation-iptv',
+        permanent: true,
+      },
+      {
+        source: '/fr/iptv-installation-ios',
+        destination: '/fr/installation-ios-iptv',
+        permanent: true,
+      },
+      {
+        source: '/fr/iptv-installation-windows',
+        destination: '/fr/installation-windows-iptv',
+        permanent: true,
+      },
+      {
+        source: '/fr/iptv-installation-smart-tv',
+        destination: '/fr/installation-smart-tv-iptv',
+        permanent: true,
+      },
+      {
+        source: '/fr/iptv-installation-firestick',
+        destination: '/fr/installation-firestick-iptv',
         permanent: true,
       },
     ];

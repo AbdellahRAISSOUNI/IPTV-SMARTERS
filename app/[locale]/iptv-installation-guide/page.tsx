@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { openWhatsApp } from "@/lib/whatsapp";
 import Image from "next/image";
 import { parseUrlsToLinks } from "@/lib/utils/urlParser";
+import { getInstallationUrl } from "@/lib/utils/installation-slugs";
 import {
   Check,
   Download,
@@ -76,19 +77,19 @@ export default function InstallationPage() {
 
   const installationOptions = [
     {
-      href: `/${locale}/iptv-installation-ios`,
+      href: getInstallationUrl('iptv-installation-ios', locale),
       label: t("installation.appleIos"),
     },
     {
-      href: `/${locale}/iptv-installation-smart-tv`,
+      href: getInstallationUrl('iptv-installation-smart-tv', locale),
       label: t("installation.smartTv"),
     },
     {
-      href: `/${locale}/iptv-installation-windows`,
+      href: getInstallationUrl('iptv-installation-windows', locale),
       label: t("installation.windows"),
     },
     {
-      href: `/${locale}/iptv-installation-firestick`,
+      href: getInstallationUrl('iptv-installation-firestick', locale),
       label: t("installation.firestickAndroid"),
     },
   ];
