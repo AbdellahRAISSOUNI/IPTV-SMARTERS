@@ -16,6 +16,16 @@ export default function BlogsManager() {
   const [showDeploymentNotification, setShowDeploymentNotification] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
 
+  // Helper to get slug for display
+  const getSlugForDisplay = (blog: BlogPost, locale?: string): string => {
+    if (typeof blog.slug === 'string') {
+      return blog.slug;
+    }
+    const slugRecord = blog.slug as Record<string, string>;
+    const targetLocale = locale || blog.locale;
+    return slugRecord[targetLocale] || slugRecord['en'] || '';
+  };
+
   useEffect(() => {
     loadBlogs();
   }, []);
@@ -261,7 +271,7 @@ export default function BlogsManager() {
                    {blog.excerpt[blog.locale] || "No excerpt"}
                  </p>
                  <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
-                   <span className="truncate">/{blog.locale}/blog/{blog.slug}</span>
+                   <span className="truncate">/{blog.locale}/blog/{getSlugForDisplay(blog)}</span>
                    <span className="whitespace-nowrap ml-2">
                      {new Date(blog.publishedAt).toLocaleDateString()}
                    </span>
@@ -275,7 +285,7 @@ export default function BlogsManager() {
                     Edit
                   </button>
                   <a
-                    href={`/${blog.locale}/blog/${blog.slug}`}
+                    href={`/${blog.locale}/blog/${getSlugForDisplay(blog)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center justify-center gap-2"

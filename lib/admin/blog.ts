@@ -38,7 +38,7 @@ export interface BlogBlock {
 
 export interface BlogPost {
   id: string;
-  slug: string;
+  slug: string | Record<string, string>; // Support both old format (string) and new format (Record<string, string>)
   title: Record<string, string>; // { en: "Title", es: "Título", fr: "Titre" }
   excerpt: Record<string, string>;
   featuredImage?: string;
@@ -82,7 +82,24 @@ export async function getAllBlogs(): Promise<BlogPost[]> {
 
 export async function getBlogBySlug(slug: string, locale?: string): Promise<BlogPost | null> {
   const blogs = await getAllBlogs();
-  const blog = blogs.find((b) => b.slug === slug);
+  
+  // Find blog by slug - support both old format (string) and new format (Record<string, string>)
+  const blog = blogs.find((b) => {
+    if (typeof b.slug === 'string') {
+      // Old format: direct match
+      return b.slug === slug;
+    } else if (typeof b.slug === 'object' && b.slug !== null) {
+      // New format: check all locales
+      const slugRecord = b.slug as Record<string, string>;
+      // If locale is specified, check that locale first, then fallback to all
+      if (locale && slugRecord[locale] === slug) {
+        return true;
+      }
+      // Check all locales
+      return Object.values(slugRecord).includes(slug);
+    }
+    return false;
+  });
   
   if (!blog) return null;
   
@@ -128,13 +145,17 @@ export async function saveBlog(blog: BlogPost): Promise<void> {
     }
 
     // Use createOrUpdateFileContents which works for both create and update
+    const slugDisplay = typeof blog.slug === 'string' 
+      ? blog.slug 
+      : (blog.slug[blog.locale] || blog.slug['en'] || Object.values(blog.slug)[0] || 'blog');
+    
     await octokit.repos.createOrUpdateFileContents({
       owner: GITHUB_REPO_OWNER!,
       repo: GITHUB_REPO_NAME!,
       path: BLOG_DATA_PATH,
       message: sha 
-        ? `Update blog: ${blog.title[blog.locale] || blog.slug}`
-        : `Create blog: ${blog.title[blog.locale] || blog.slug}`,
+        ? `Update blog: ${blog.title[blog.locale] || slugDisplay}`
+        : `Create blog: ${blog.title[blog.locale] || slugDisplay}`,
       content: Buffer.from(content).toString("base64"),
       sha: sha, // Include SHA if updating existing file
       branch: GITHUB_BRANCH,

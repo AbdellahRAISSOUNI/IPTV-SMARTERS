@@ -40,7 +40,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   const [blog, setBlog] = useState<BlogPost>(
     initialBlog || {
       id: "",
-      slug: "",
+      slug: { en: "", es: "", fr: "" },
       title: { en: "", es: "", fr: "" },
       excerpt: { en: "", es: "", fr: "" },
       publishedAt: new Date().toISOString(),
@@ -66,8 +66,12 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   useEffect(() => {
     if (initialBlog) {
       // Ensure meta field exists with keywords
+      // Also ensure slug is in new format (Record<string, string>)
       const blogWithMeta = {
         ...initialBlog,
+        slug: typeof initialBlog.slug === 'string' 
+          ? { en: initialBlog.slug, es: initialBlog.slug, fr: initialBlog.slug }
+          : { en: "", es: "", fr: "", ...initialBlog.slug },
         meta: {
           ...initialBlog.meta,
           keywords: {
@@ -84,6 +88,31 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   }, [initialBlog]);
 
   const generateId = () => Math.random().toString(36).substring(2, 15);
+
+  // Helper to get slug for a locale (with fallback to English if empty)
+  const getSlug = (locale: "en" | "es" | "fr"): string => {
+    if (typeof blog.slug === 'string') {
+      return blog.slug;
+    }
+    const slugRecord = blog.slug as Record<string, string>;
+    // If empty, fallback to English slug
+    return slugRecord[locale] || slugRecord['en'] || '';
+  };
+
+  // Helper to set slug for a locale
+  const setSlug = (locale: "en" | "es" | "fr", value: string) => {
+    const currentSlug = typeof blog.slug === 'string' 
+      ? { en: blog.slug, es: blog.slug, fr: blog.slug }
+      : { ...(blog.slug as Record<string, string>) };
+    
+    setBlog({
+      ...blog,
+      slug: {
+        ...currentSlug,
+        [locale]: value,
+      },
+    });
+  };
 
   const handleSave = async () => {
     // Check if there are any pending uploads
@@ -105,10 +134,25 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
         }
       });
       
+      // Ensure slug is properly formatted - if empty for a locale, use English slug
+      let cleanedSlug: Record<string, string>;
+      if (typeof blog.slug === 'string') {
+        cleanedSlug = { en: blog.slug, es: blog.slug, fr: blog.slug };
+      } else {
+        const slugRecord = blog.slug as Record<string, string>;
+        const englishSlug = slugRecord['en'] || '';
+        cleanedSlug = {
+          en: englishSlug,
+          es: slugRecord['es'] || englishSlug,
+          fr: slugRecord['fr'] || englishSlug,
+        };
+      }
+      
       // Clean up blob URLs before saving - ensure we only save Cloudinary URLs
       const cleanedBlog = {
         ...blog,
         id: blog.id || generateId(),
+        slug: cleanedSlug,
         updatedAt: new Date().toISOString(),
         publishedAt: blog.publishedAt || new Date().toISOString(),
         // Auto-populate translations based on content availability
@@ -366,30 +410,46 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
           </div>
         </div>
 
-        {/* Language Selector */}
+        {/* Language Selector - Only show when editing blog content */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Editing Language - Switch to edit content in different languages
+            </label>
+            <div className="flex items-center gap-2 text-xs text-gray-500">
+              <span>Primary:</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded font-medium">
+                {blog.locale.toUpperCase()}
+              </span>
+            </div>
+          </div>
           <div className="flex items-center gap-2">
             {(["en", "es", "fr"] as const).map((locale) => (
               <button
                 key={locale}
                 onClick={() => {
                   setActiveLocale(locale);
-                  setBlog({ ...blog, locale });
+                  // Only update blog.locale if this is a new blog (no ID yet)
+                  if (!blog.id) {
+                    setBlog({ ...blog, locale });
+                  }
                 }}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  blog.locale === locale
+                className={`px-4 py-2 rounded-lg font-medium transition-all relative ${
+                  activeLocale === locale
                     ? "bg-black text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                } ${blog.locale === locale ? "ring-2 ring-blue-500" : ""}`}
               >
                 <Globe className="w-4 h-4 inline mr-2" />
                 {locale.toUpperCase()}
+                {blog.locale === locale && (
+                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+                )}
               </button>
             ))}
           </div>
           <p className="text-xs text-gray-500 mt-2">
-            Create the blog in one language first, then translate to others later
+            Switch between languages to edit title, excerpt, and content. The <strong>primary language</strong> (marked with blue) determines the default language for this blog post.
           </p>
         </div>
 
@@ -397,17 +457,42 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              URL Slug (e.g., "my-blog-post")
+              URL Slugs (leave empty to use English slug)
             </label>
-            <input
-              type="text"
-              value={blog.slug}
-              onChange={(e) => setBlog({ ...blog, slug: e.target.value })}
-              placeholder="my-blog-post"
-              className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Will be accessible at: /{activeLocale}/blog/{blog.slug || "your-slug"}
+            <div className="space-y-2">
+              <div>
+                <label className="block text-xs text-gray-600 mb-1">English (EN)</label>
+                <input
+                  type="text"
+                  value={getSlug('en')}
+                  onChange={(e) => setSlug('en', e.target.value)}
+                  placeholder="my-blog-post"
+                  className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-600 mb-1">Spanish (ES) - Leave empty to use English</label>
+                <input
+                  type="text"
+                  value={getSlug('es')}
+                  onChange={(e) => setSlug('es', e.target.value)}
+                  placeholder={getSlug('en') || "my-blog-post"}
+                  className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-600 mb-1">French (FR) - Leave empty to use English</label>
+                <input
+                  type="text"
+                  value={getSlug('fr')}
+                  onChange={(e) => setSlug('fr', e.target.value)}
+                  placeholder={getSlug('en') || "my-blog-post"}
+                  className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                />
+              </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              Will be accessible at: /{activeLocale}/blog/{getSlug(activeLocale) || getSlug('en') || "your-slug"}
             </p>
           </div>
           <div>
@@ -463,8 +548,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
               <Tag className="w-4 h-4 text-gray-500" />
               <span>SEO Keywords ({activeLocale.toUpperCase()}) - Comma-separated keywords (not visible on website)</span>
             </label>
-            <input
-              type="text"
+            <textarea
               value={blog.meta?.keywords?.[activeLocale] || ""}
               onChange={(e) =>
                 setBlog({
@@ -479,7 +563,8 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                 })
               }
               placeholder="keyword1, keyword2, keyword3"
-              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              rows={3}
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-y"
             />
             <p className="text-xs text-gray-500 mt-1">
               Enter keywords separated by commas. These will be added to meta tags for SEO but won't be visible on the website.

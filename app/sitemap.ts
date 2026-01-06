@@ -85,18 +85,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ? blog.translations 
         : [blog.locale];
       
+      // Helper to get slug for a locale
+      const getBlogSlug = (loc: string): string => {
+        if (typeof blog.slug === 'string') {
+          return blog.slug;
+        }
+        const slugRecord = blog.slug as Record<string, string>;
+        // If empty, fallback to English slug
+        return slugRecord[loc] || slugRecord['en'] || '';
+      };
+      
       blogLocales.forEach((blogLocale) => {
         if (locales.includes(blogLocale as any)) {
-          const url = `${baseUrl}/${blogLocale}/blog/${blog.slug}`;
+          const blogSlug = getBlogSlug(blogLocale);
+          const url = `${baseUrl}/${blogLocale}/blog/${blogSlug}`;
+          
+          // Generate alternates with language-specific slugs
+          const alternates: Record<string, string> = {};
+          blogLocales.forEach((loc) => {
+            const altSlug = getBlogSlug(loc);
+            alternates[loc] = `${baseUrl}/${loc}/blog/${altSlug}`;
+          });
+          
           sitemapEntries.push({
             url,
             lastModified: new Date(blog.updatedAt || blog.publishedAt),
             changeFrequency: 'weekly',
             priority: 0.7,
             alternates: {
-              languages: Object.fromEntries(
-                blogLocales.map((loc) => [loc, `${baseUrl}/${loc}/blog/${blog.slug}`])
-              ),
+              languages: alternates,
             },
           });
         }

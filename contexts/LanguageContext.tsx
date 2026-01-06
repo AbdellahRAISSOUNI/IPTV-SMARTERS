@@ -52,6 +52,51 @@ export function LanguageProvider({ children, initialLocale }: { children: ReactN
         // Empty slug, just go to homepage
         translatedPath = '/';
       } else {
+        // Check if this is a blog post path
+        if (pathWithoutLocale.startsWith('/blog/')) {
+          const blogSlug = pathWithoutLocale.replace('/blog/', '').replace(/\/$/, '');
+          
+          // Fetch blog by slug to get language-specific slugs
+          fetch(`/api/blogs?slug=${blogSlug}&locale=${locale}`)
+            .then((res) => res.json())
+            .then((blog) => {
+              if (blog && blog.slug) {
+                // Get the slug for the new locale
+                let newBlogSlug: string;
+                if (typeof blog.slug === 'string') {
+                  // Old format: use same slug
+                  newBlogSlug = blog.slug;
+                } else {
+                  // New format: get slug for new locale, fallback to English
+                  const slugRecord = blog.slug as Record<string, string>;
+                  newBlogSlug = slugRecord[newLocale] || slugRecord['en'] || blogSlug;
+                }
+                
+                const newPath = `/${newLocale}/blog/${newBlogSlug}`;
+                router.replace(newPath);
+                if (typeof window !== 'undefined') {
+                  localStorage.setItem('preferred-locale', newLocale);
+                }
+              } else {
+                // Blog not found, just change locale prefix
+                const newPath = `/${newLocale}${pathWithoutLocale}`;
+                router.replace(newPath);
+                if (typeof window !== 'undefined') {
+                  localStorage.setItem('preferred-locale', newLocale);
+                }
+              }
+            })
+            .catch(() => {
+              // On error, just change locale prefix
+              const newPath = `/${newLocale}${pathWithoutLocale}`;
+              router.replace(newPath);
+              if (typeof window !== 'undefined') {
+                localStorage.setItem('preferred-locale', newLocale);
+              }
+            });
+          return; // Exit early, async handling will update the path
+        }
+        
         // Find English slug - try current locale first, then check all locales
         let englishSlug: string | null = getEnglishSlugFromLocalized(currentSlug, locale);
         
