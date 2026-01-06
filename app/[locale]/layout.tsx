@@ -87,6 +87,34 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             value: "0",
             currency: "EUR",
           },
+          deliveryTime: {
+            "@type": "ShippingDeliveryTime",
+            businessDays: {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ],
+            },
+            cutoffTime: "17:00",
+            handlingTime: {
+              "@type": "QuantitativeValue",
+              minValue: 0,
+              maxValue: 0,
+              unitCode: "DAY",
+            },
+            transitTime: {
+              "@type": "QuantitativeValue",
+              minValue: 0,
+              maxValue: 0,
+              unitCode: "DAY",
+            },
+          },
         },
         hasMerchantReturnPolicy: {
           "@type": "MerchantReturnPolicy",
@@ -95,6 +123,9 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
           returnPolicyCategory:
             "https://schema.org/MerchantReturnFiniteReturnWindow",
           returnPolicyDays: 30,
+          merchantReturnDays: 30,
+          returnFees: "https://schema.org/FreeReturn",
+          returnMethod: "https://schema.org/ReturnByMail",
         },
       },
       {
@@ -117,6 +148,34 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             value: "0",
             currency: "EUR",
           },
+          deliveryTime: {
+            "@type": "ShippingDeliveryTime",
+            businessDays: {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ],
+            },
+            cutoffTime: "17:00",
+            handlingTime: {
+              "@type": "QuantitativeValue",
+              minValue: 0,
+              maxValue: 0,
+              unitCode: "DAY",
+            },
+            transitTime: {
+              "@type": "QuantitativeValue",
+              minValue: 0,
+              maxValue: 0,
+              unitCode: "DAY",
+            },
+          },
         },
         hasMerchantReturnPolicy: {
           "@type": "MerchantReturnPolicy",
@@ -125,6 +184,9 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
           returnPolicyCategory:
             "https://schema.org/MerchantReturnFiniteReturnWindow",
           returnPolicyDays: 30,
+          merchantReturnDays: 30,
+          returnFees: "https://schema.org/FreeReturn",
+          returnMethod: "https://schema.org/ReturnByMail",
         },
       },
       {
@@ -147,6 +209,34 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             value: "0",
             currency: "EUR",
           },
+          deliveryTime: {
+            "@type": "ShippingDeliveryTime",
+            businessDays: {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ],
+            },
+            cutoffTime: "17:00",
+            handlingTime: {
+              "@type": "QuantitativeValue",
+              minValue: 0,
+              maxValue: 0,
+              unitCode: "DAY",
+            },
+            transitTime: {
+              "@type": "QuantitativeValue",
+              minValue: 0,
+              maxValue: 0,
+              unitCode: "DAY",
+            },
+          },
         },
         hasMerchantReturnPolicy: {
           "@type": "MerchantReturnPolicy",
@@ -155,6 +245,9 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
           returnPolicyCategory:
             "https://schema.org/MerchantReturnFiniteReturnWindow",
           returnPolicyDays: 30,
+          merchantReturnDays: 30,
+          returnFees: "https://schema.org/FreeReturn",
+          returnMethod: "https://schema.org/ReturnByMail",
         },
       },
       {
@@ -177,6 +270,34 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             value: "0",
             currency: "EUR",
           },
+          deliveryTime: {
+            "@type": "ShippingDeliveryTime",
+            businessDays: {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ],
+            },
+            cutoffTime: "17:00",
+            handlingTime: {
+              "@type": "QuantitativeValue",
+              minValue: 0,
+              maxValue: 0,
+              unitCode: "DAY",
+            },
+            transitTime: {
+              "@type": "QuantitativeValue",
+              minValue: 0,
+              maxValue: 0,
+              unitCode: "DAY",
+            },
+          },
         },
         hasMerchantReturnPolicy: {
           "@type": "MerchantReturnPolicy",
@@ -185,6 +306,9 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
           returnPolicyCategory:
             "https://schema.org/MerchantReturnFiniteReturnWindow",
           returnPolicyDays: 30,
+          merchantReturnDays: 30,
+          returnFees: "https://schema.org/FreeReturn",
+          returnMethod: "https://schema.org/ReturnByMail",
         },
       },
     ],
