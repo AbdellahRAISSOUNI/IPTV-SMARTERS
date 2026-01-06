@@ -25,7 +25,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://iptv-smarters.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
   
   const title = "Best IPTV Subscription Service | IPTV Smarters Pro | 20,000+ Channels | Free Test";
   const description = "Get the #1 IPTV subscription service with IPTV Smarters Pro. Access 20,000+ live TV channels, movies, and series in 4K quality. 99.9% uptime guarantee. Free test available. Works on Windows, Android, iOS, Mac, Smart TV, Firestick. Instant activation.";
@@ -98,7 +98,7 @@ export const viewport: Viewport = {
   userScalable: true,
 };
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -192,7 +192,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Preconnect to own domain for faster resource loading */}
-        <link rel="preconnect" href={process.env.NEXT_PUBLIC_BASE_URL || "https://iptv-smarters.vercel.app"} />
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com"} />
         {/* Preconnect to Google Fonts for faster font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -205,22 +205,22 @@ export default function RootLayout({
         <link
           rel="alternate"
           hrefLang="en"
-          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/en`}
+          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com"}/en`}
         />
         <link
           rel="alternate"
           hrefLang="es"
-          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/es`}
+          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com"}/es`}
         />
         <link
           rel="alternate"
           hrefLang="fr"
-          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/fr`}
+          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com"}/fr`}
         />
         <link
           rel="alternate"
           hrefLang="x-default"
-          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}/en`}
+          href={`${process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com"}/en`}
         />
         <script
           dangerouslySetInnerHTML={{

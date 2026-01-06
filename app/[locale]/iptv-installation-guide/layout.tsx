@@ -7,7 +7,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
   const titleMap: Record<Locale, string> = {
     en: "IPTV Installation Guide | How to Install IPTV Smarters Pro on All Devices | Step-by-Step Tutorial",
