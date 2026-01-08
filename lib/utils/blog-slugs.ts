@@ -18,10 +18,11 @@ export function getBlogSlug(blog: BlogPost, locale: Locale): string {
 
 /**
  * Get the blog URL for a specific locale
+ * Includes trailing slash for consistency with next.config trailingSlash: true
  */
 export function getBlogUrl(blog: BlogPost, locale: Locale): string {
   const slug = getBlogSlug(blog, locale);
-  return `/${locale}/blog/${slug}`;
+  return `/${locale}/blog/${slug}/`;
 }
 
 /**

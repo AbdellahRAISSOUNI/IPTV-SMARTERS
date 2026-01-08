@@ -11,10 +11,7 @@ interface FAQItem {
   answerKey: string;
 }
 
-export default function FAQSection() {
-  const { t } = useLanguage();
-  
-  const faqData: FAQItem[] = [
+const faqData: FAQItem[] = [
   {
     id: "payment-methods",
     questionKey: "faq.paymentMethods.question",
@@ -92,21 +89,8 @@ export default function FAQSection() {
   },
 ];
 
-// Generate Schema.org JSON-LD for FAQ
-const generateFAQSchema = (faqs: FAQItem[], t: (key: string) => string) => {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: t(faq.questionKey),
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: t(faq.answerKey),
-      },
-    })),
-  };
-};
+export default function FAQSection() {
+  const { t } = useLanguage();
   const [openIndices, setOpenIndices] = useState<Set<number>>(new Set());
 
   const toggleItem = (index: number) => {

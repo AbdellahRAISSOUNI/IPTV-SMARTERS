@@ -32,13 +32,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   localizedPages.forEach((englishSlug) => {
     locales.forEach((locale) => {
       const localizedPath = getInstallationUrl(englishSlug, locale).replace(`/${locale}`, '');
-      const url = `${baseUrl}${localizedPath}`;
+      const url = `${baseUrl}${localizedPath}/`; // Add trailing slash for consistency with next.config trailingSlash: true
       
       // Generate alternates with language-specific URLs
       const alternates: Record<string, string> = {};
       locales.forEach((loc) => {
         const altPath = getInstallationUrl(englishSlug, loc).replace(`/${loc}`, '');
-        alternates[loc] = `${baseUrl}${altPath}`;
+        alternates[loc] = `${baseUrl}${altPath}/`; // Add trailing slash
       });
       
       // Set priority based on page type
@@ -62,7 +62,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Add other static routes
   locales.forEach((locale) => {
     otherRoutes.forEach((route) => {
-      const url = `${baseUrl}/${locale}${route.path}`;
+      // Ensure trailing slash for consistency with next.config trailingSlash: true
+      const pathWithSlash = route.path === '' ? '/' : route.path.endsWith('/') ? route.path : `${route.path}/`;
+      const url = `${baseUrl}/${locale}${pathWithSlash}`;
       sitemapEntries.push({
         url,
         lastModified: new Date(),
@@ -70,7 +72,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: route.priority,
         alternates: {
           languages: Object.fromEntries(
-            locales.map((loc) => [loc, `${baseUrl}/${loc}${route.path}`])
+            locales.map((loc) => {
+              const altPathWithSlash = route.path === '' ? '/' : route.path.endsWith('/') ? route.path : `${route.path}/`;
+              return [loc, `${baseUrl}/${loc}${altPathWithSlash}`];
+            })
           ),
         },
       });
@@ -91,13 +96,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       
       blogLocales.forEach((blogLocale) => {
         if (locales.includes(blogLocale as any)) {
-          const url = `${baseUrl}${getBlogUrl(blog, blogLocale as Locale)}`;
+          const blogUrl = getBlogUrl(blog, blogLocale as Locale);
+          const url = `${baseUrl}${blogUrl}`; // getBlogUrl now includes trailing slash
           
           // Generate alternates with language-specific slugs
           const alternates: Record<string, string> = {};
           blogLocales.forEach((loc) => {
             if (locales.includes(loc as any)) {
-              alternates[loc] = `${baseUrl}${getBlogUrl(blog, loc as Locale)}`;
+              const altBlogUrl = getBlogUrl(blog, loc as Locale);
+              alternates[loc] = `${baseUrl}${altBlogUrl}`; // getBlogUrl now includes trailing slash
             }
           });
           

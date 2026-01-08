@@ -45,18 +45,18 @@ export async function generateMetadata({
       keywords: blog.meta?.keywords?.[locale] || blog.meta?.keywords?.[blog.locale] || [],
       metadataBase: new URL(baseUrl),
       alternates: {
-        canonical: `${baseUrl}/${locale}/blog/${slug}`,
+        canonical: `${baseUrl}/${locale}/blog/${slug}/`, // Include trailing slash for consistency
         languages: {
-          en: `${baseUrl}/en/blog/${slug}`,
-          es: `${baseUrl}/es/blog/${slug}`,
-          fr: `${baseUrl}/fr/blog/${slug}`,
-          "x-default": `${baseUrl}/en/blog/${slug}`,
+          en: `${baseUrl}/en/blog/${slug}/`,
+          es: `${baseUrl}/es/blog/${slug}/`,
+          fr: `${baseUrl}/fr/blog/${slug}/`,
+          "x-default": `${baseUrl}/en/blog/${slug}/`,
         },
       },
       openGraph: {
         type: "article",
         locale: localeMap[locale],
-        url: `${baseUrl}/${locale}/blog/${slug}`,
+        url: `${baseUrl}/${locale}/blog/${slug}/`, // Include trailing slash for consistency
         siteName: siteNameMap[locale],
         title: `${title} | StreamPro`,
         description,
@@ -119,7 +119,7 @@ function getDefaultMetadata(locale: Locale, slug: string): Metadata {
     description,
     metadataBase: new URL(baseUrl),
     alternates: {
-      canonical: `${baseUrl}/${locale}/blog/${slug}`,
+      canonical: `${baseUrl}/${locale}/blog/${slug}/`, // Include trailing slash for consistency
     },
     openGraph: {
       type: "article",

@@ -13,6 +13,13 @@ import path from 'path';
  * Load metadata for a locale
  */
 export async function loadPageMetadata(locale: Locale): Promise<MetadataContent> {
+  // Validate locale first - only valid locales should reach here
+  const validLocales: Locale[] = ['en', 'es', 'fr'];
+  if (!validLocales.includes(locale)) {
+    // Invalid locale, return default for English
+    return getDefaultMetadata('en');
+  }
+  
   // Try to load from file system
   try {
     const filePath = path.join(process.cwd(), 'data', 'metadata', `${locale}.json`);
@@ -21,7 +28,10 @@ export async function loadPageMetadata(locale: Locale): Promise<MetadataContent>
     return data as MetadataContent;
   } catch (error) {
     // File doesn't exist or can't be read, use default
-    console.error(`Failed to load metadata for ${locale}, using defaults:`, error);
+    // Only log error for valid locales (invalid ones are handled above)
+    if (validLocales.includes(locale)) {
+      console.error(`Failed to load metadata for ${locale}, using defaults:`, error);
+    }
   }
 
   // Fallback to default

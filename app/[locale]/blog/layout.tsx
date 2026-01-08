@@ -33,7 +33,7 @@ export async function generateMetadata({
     description,
     metadataBase: new URL(baseUrl),
     alternates: {
-      canonical: `${baseUrl}/${locale}/blog`,
+      canonical: `${baseUrl}/${locale}/blog/`, // Include trailing slash for consistency
       languages: {
         en: `${baseUrl}/en/blog`,
         es: `${baseUrl}/es/blog`,

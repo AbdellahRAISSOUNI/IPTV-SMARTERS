@@ -511,9 +511,20 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale: localeParam } = await params;
+  
+  // Validate locale before processing - prevent errors from invalid routes like /placeholder-image.png
+  if (!locales.includes(localeParam as Locale)) {
+    // Return basic metadata for invalid locales (will be handled by notFound() in layout)
+    return {
+      title: "Page Not Found",
+      description: "The page you are looking for does not exist.",
+    };
+  }
+  
+  const locale = localeParam as Locale;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
   const translations = getTranslations(locale);
   
@@ -860,8 +871,10 @@ export async function generateMetadata({
   // Generate hreflang alternates
   const alternates: Record<string, string> = {};
   locales.forEach((loc) => {
-    alternates[loc] = `${baseUrl}/${loc}`;
+    alternates[loc] = `${baseUrl}/${loc}/`;
   });
+  // Add x-default pointing to English (default locale)
+  alternates['x-default'] = `${baseUrl}/en/`;
 
   // Site name translations
   const siteNameMap: Record<Locale, string> = {

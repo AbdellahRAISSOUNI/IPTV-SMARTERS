@@ -272,7 +272,7 @@ export default function BlogsManager() {
                    {blog.excerpt[blog.locale] || "No excerpt"}
                  </p>
                  <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
-                   <span className="truncate">/{blog.locale}/blog/{getSlugForDisplay(blog)}</span>
+                   <span className="truncate">/{blog.locale}/blog/{getSlugForDisplay(blog)}/</span>
                    <span className="whitespace-nowrap ml-2">
                      {new Date(blog.publishedAt).toLocaleDateString()}
                    </span>
