@@ -390,5 +390,62 @@
     "benefit2": "+ Podrás ofrecer soporte al cliente a tus clientes directamente a través de tu panel de revendedor.",
     "benefit3": "+ Gestión simple y completa de usuarios.",
     "benefit4": "+ Podrás anunciar el servicio con el nombre de tu marca."
+  },
+  "legal": {
+    "refundPolicy": {
+      "title": "Política de Reembolso",
+      "intro": "En Officiel IPTV Abonnement, nos comprometemos a ofrecer un servicio IPTV de la más alta calidad a un precio competitivo. Si, por alguna razón, nuestros servicios no cumplen con sus expectativas o no están conformes con nuestros estándares de calidad, hemos establecido una garantía de reembolso de 5 días.",
+      "intro2": "Esto significa que tiene la posibilidad de solicitar un reembolso completo por cualquier compra realizada dentro de los 5 días siguientes a su suscripción. El proceso de solicitud es simple y rápido, permitiéndole obtener fácilmente un reembolso.",
+      "howItWorksTitle": "¿Cómo funciona nuestra garantía de reembolso?",
+      "howItWorksText": "Si encuentra un problema después del período de 5 días y no podemos resolver la situación con respecto a su suscripción IPTV, le reembolsaremos únicamente el período no utilizado. Por ejemplo, si se suscribió a una suscripción de 12 meses por 49 €, pero solo utiliza nuestro servicio durante 3 meses antes de encontrar un problema, solo se le cobrará por estos 3 meses (es decir, 18 €), y le reembolsaremos los 31 € restantes.",
+      "conclusion": "Hacemos todo lo posible para que su experiencia sea fluida y sin problemas. Si encuentra dificultades en cualquier etapa, nuestro equipo de soporte está disponible para brindarle asistencia completa, desde la configuración hasta la instalación. No dude en contactarnos si necesita ayuda."
+    },
+    "privacyPolicy": {
+      "title": "Política de Privacidad",
+      "intro": "En Officiel IPTV Abonnement, otorgamos una importancia primordial a la protección de su privacidad y sus datos personales. Conscientes de los desafíos relacionados con el uso de Internet y los servicios en línea, hacemos todo lo posible para garantizar la confidencialidad de su información. Nuestro compromiso se extiende a todas nuestras actividades digitales, asegurando así una experiencia segura y transparente.",
+      "intro2": "Además de nuestra política de privacidad general, ciertas ofertas o servicios específicos pueden incluir condiciones particulares, que se le comunicarán en el momento oportuno.",
+      "dataProtectionTitle": "Protección de datos personales",
+      "dataProtectionText": "Officiel IPTV Abonnement no comparte, vende ni divulga ninguna información personal identificable (nombre, dirección, correo electrónico, número de teléfono) a terceros con fines comerciales no relacionados con nuestros servicios. Sus datos se utilizan estrictamente para asegurar la calidad y mejora de nuestros servicios. En caso de fusión o reestructuración, esta información será tratada como un activo estratégico de la empresa.",
+      "dataUsageTitle": "Uso de su información",
+      "dataUsageText": "Utilizamos los datos recopilados principalmente para brindarle los servicios suscritos y mantenerlo informado de nuevas ofertas que puedan interesarle. Su dirección de correo electrónico puede ser utilizada para comunicar sobre suscripciones en curso, actualizaciones o facturación. Si desea limitar las comunicaciones promocionales, ponemos a su disposición opciones de gestión de preferencias.",
+      "dataUsageText2": "En casos excepcionales, podríamos estar obligados a divulgar cierta información si la ley lo exige o si necesitamos proteger nuestros derechos, los de nuestros usuarios o asegurar la seguridad de nuestros servicios.",
+      "dataCollectionTitle": "Recopilación de información",
+      "dataCollectionText": "Recopilamos su información personal cuando se registra para un servicio, participa en una oferta promocional o completa un formulario en nuestro sitio. Los datos esenciales se refieren principalmente a su nombre, dirección de correo electrónico y número de teléfono. Otra información puede ser solicitada según los servicios a los que se suscriba.",
+      "dataCollectionText2": "Además, ofrecemos regularmente concursos y promociones. La participación en estas actividades es totalmente opcional. Si decide registrarse, su información se utilizará exclusivamente para la gestión de la operación y el envío de recompensas.",
+      "securityTitle": "Seguridad y protección de datos",
+      "securityText": "Implementamos medidas de seguridad avanzadas, incluido el cifrado de datos y el uso de firewalls, para prevenir cualquier acceso no autorizado a su información. Para garantizar una protección adicional, ciertas funcionalidades de nuestro sitio requieren autenticación por contraseña u otro medio de validación.",
+      "conclusion": "En Officiel IPTV Abonnement, su confianza es nuestra prioridad. Nos aseguramos de ofrecer una experiencia de usuario fluida y segura mientras respetamos la confidencialidad de sus datos personales."
+    },
+    "termsOfService": {
+      "title": "Términos de Servicio",
+      "intro": "Al acceder a este sitio, acepta todos los términos y condiciones establecidos a continuación. Si no acepta estas condiciones, por favor deje de usar inmediatamente el sitio Officiel IPTV Abonnement.",
+      "definitionsTitle": "Definiciones",
+      "definitionsText": "Los siguientes términos se aplican a estas condiciones, la política de privacidad y la exención de responsabilidad, así como a todos los acuerdos: \"Cliente\", \"Usted\", \"Su\" se refiere al usuario del sitio que acepta las condiciones de servicio de la empresa. \"La Empresa\", \"Nosotros\", \"Nuestro\", \"Nuestros\" se refiere a Officiel IPTV Abonnement. Los términos \"Parte\", \"Partes\" o \"Nosotros\" se refieren tanto al cliente como a nosotros mismos. Todas las referencias forman parte del acuerdo que establece la oferta, aceptación y pago necesarios para brindar nuestros servicios al cliente, de acuerdo con las leyes vigentes.",
+      "cookiesTitle": "Uso de Cookies",
+      "cookiesText": "Utilizamos cookies para mejorar la experiencia de navegación en nuestro sitio. Al acceder a Officiel IPTV Abonnement, consiente el uso de cookies de acuerdo con nuestra política de privacidad. Las cookies se utilizan para ayudarnos a personalizar el sitio según sus preferencias y para recopilar información sobre su visita. Algunos socios afiliados también pueden usar cookies.",
+      "intellectualPropertyTitle": "Propiedad Intelectual",
+      "intellectualPropertyText": "Todo el contenido en Officiel IPTV Abonnement, excepto el que pertenece a terceros, es propiedad exclusiva de nuestra empresa y está protegido por derechos de propiedad intelectual. Está autorizado a ver este contenido solo para uso personal, siempre que respete las condiciones establecidas en estos términos generales.",
+      "intellectualPropertyRestrictions": "Está prohibido:",
+      "restriction1": "Reproducir, vender, sublicenciar o redistribuir el contenido del sitio sin autorización.",
+      "restriction2": "Usar el contenido con fines comerciales sin nuestro acuerdo previo.",
+      "commentsTitle": "Comentarios y Contenido Enviado por Usuarios",
+      "commentsText": "Algunas secciones de nuestro sitio permiten a los usuarios publicar comentarios. Officiel IPTV Abonnement no filtra ni revisa los comentarios antes de su publicación. Las opiniones expresadas en estos comentarios son las de los usuarios y no de la empresa. Nos reservamos el derecho de eliminar cualquier contribución considerada inapropiada, ofensiva o que viole estas condiciones.",
+      "commentsText2": "Usted garantiza que tiene todos los derechos necesarios para publicar sus comentarios y que no infringen derechos de propiedad intelectual, ni son difamatorios, ofensivos o ilegales.",
+      "hyperlinksTitle": "Hipervínculos a Nuestro Sitio",
+      "hyperlinksText": "Organizaciones como agencias gubernamentales, motores de búsqueda u otras entidades acreditadas pueden crear enlaces a nuestro sitio sin solicitud previa, siempre que dicho enlace cumpla con nuestros requisitos. También podemos revisar y aprobar solicitudes de enlaces de ciertos tipos de organizaciones, incluidas las relacionadas con información al consumidor, portales en línea o instituciones académicas.",
+      "hyperlinksText2": "Si es una organización que desea establecer un enlace a nuestro sitio, por favor infórmenos. Los enlaces deben crearse en un contexto apropiado y no deben ser engañosos.",
+      "iframesTitle": "iFrames y Modificaciones Visuales",
+      "iframesText": "Está prohibido crear marcos (iFrames) alrededor de nuestras páginas sin nuestra autorización escrita. Deseamos que nuestro sitio se visualice en su forma original y no debe ser modificado por elementos externos.",
+      "contentResponsibilityTitle": "Responsabilidad del Contenido",
+      "contentResponsibilityText": "No podemos ser considerados responsables del contenido externo vinculado a nuestro sitio. Usted se compromete a indemnizarnos contra cualquier reclamo relacionado con su sitio web. Ningún enlace en su sitio debe interpretarse como difamatorio, obsceno o ilegal.",
+      "privacyDataTitle": "Privacidad y Protección de Datos",
+      "privacyDataText": "Respetamos su privacidad. Para obtener más detalles sobre cómo recopilamos y usamos su información personal, consulte nuestra política de privacidad.",
+      "modificationsTitle": "Modificación de las Condiciones",
+      "modificationsText": "Nos reservamos el derecho de modificar estas condiciones generales en cualquier momento. Al continuar usando nuestro sitio después de una modificación, acepta cumplir con las condiciones actualizadas. Si le pedimos que retire un enlace a nuestro sitio, se compromete a hacerlo de inmediato.",
+      "linkRemovalTitle": "Eliminación de Enlaces",
+      "linkRemovalText": "Si encuentra un enlace en nuestro sitio que considera inapropiado, puede informarnos. Aunque podemos revisar su solicitud, no estamos obligados a eliminar el enlace o responder directamente.",
+      "limitationTitle": "Limitación de Responsabilidad",
+      "limitationText": "En la medida permitida por la ley, rechazamos cualquier responsabilidad relacionada con pérdidas o daños que puedan resultar del uso de nuestro sitio. No somos responsables de problemas relacionados con la disponibilidad del sitio o la precisión de su contenido, ni de las pérdidas que puedan resultar de ello."
+    }
   }
 }

@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getTranslations, type Locale, locales, defaultLocale, detectLocaleFromCountry } from '@/lib/i18n';
-import { getEnglishSlugFromLocalized, getInstallationSlug, isInstallationSlug, isResellerSlug, getResellerSlug } from '@/lib/utils/installation-slugs';
+import { getEnglishSlugFromLocalized, getInstallationSlug, isInstallationSlug, isResellerSlug, getResellerSlug, isLegalSlug, getLegalSlug } from '@/lib/utils/installation-slugs';
 import { getBlogUrl, findBlogByAnySlug } from '@/lib/utils/blog-slugs';
 import type { BlogPost } from '@/lib/admin/blog';
 
@@ -95,8 +95,8 @@ export function LanguageProvider({ children, initialLocale }: { children: ReactN
         // Find English slug - try current locale first, then check all locales
         let englishSlug: string | null = getEnglishSlugFromLocalized(currentSlug, locale);
         
-        // If not found as localized slug, check if it's already English (installation or reseller)
-        if (!englishSlug && (isInstallationSlug(currentSlug) || isResellerSlug(currentSlug))) {
+        // If not found as localized slug, check if it's already English (installation, reseller, or legal)
+        if (!englishSlug && (isInstallationSlug(currentSlug) || isResellerSlug(currentSlug) || isLegalSlug(currentSlug))) {
           englishSlug = currentSlug;
         }
         
@@ -110,6 +110,11 @@ export function LanguageProvider({ children, initialLocale }: { children: ReactN
           } else if (isResellerSlug(englishSlug)) {
             // Translate to new locale's slug for reseller pages
             const newSlug = getResellerSlug(englishSlug, newLocale);
+            // Ensure we have a leading slash and handle trailing slash based on next.config
+            translatedPath = `/${newSlug}/`;
+          } else if (isLegalSlug(englishSlug)) {
+            // Translate to new locale's slug for legal pages
+            const newSlug = getLegalSlug(englishSlug, newLocale);
             // Ensure we have a leading slash and handle trailing slash based on next.config
             translatedPath = `/${newSlug}/`;
           }

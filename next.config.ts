@@ -153,6 +153,44 @@ const nextConfig: NextConfig = {
         destination: '/fr/installation-firestick-iptv',
         permanent: true,
       },
+      // Legal pages redirects - Spanish
+      {
+        source: '/es/refund-policy',
+        destination: '/es/politica-de-reembolso',
+        permanent: true,
+      },
+      {
+        source: '/es/privacy-policy',
+        destination: '/es/politica-de-privacidad',
+        permanent: true,
+      },
+      {
+        source: '/es/terms-of-service',
+        destination: '/es/terminos-de-servicio',
+        permanent: true,
+      },
+      // Legal pages redirects - French
+      {
+        source: '/fr/refund-policy',
+        destination: '/fr/politique-de-remboursement',
+        permanent: true,
+      },
+      {
+        source: '/fr/privacy-policy',
+        destination: '/fr/politique-de-confidentialite',
+        permanent: true,
+      },
+      {
+        source: '/fr/terms-of-service',
+        destination: '/fr/conditions-utilisation',
+        permanent: true,
+      },
+      // Alternative redirects for old URLs
+      {
+        source: '/:locale/terms-and-conditions',
+        destination: '/:locale/terms-of-service',
+        permanent: true,
+      },
     ];
   },
 };

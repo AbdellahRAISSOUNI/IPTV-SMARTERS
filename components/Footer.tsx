@@ -6,6 +6,7 @@ import { Mail, MessageCircle, ArrowRight, Globe } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { locales, type Locale } from "@/lib/i18n";
+import { getLegalUrl } from "@/lib/utils/installation-slugs";
 
 const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
   e.preventDefault();
@@ -149,13 +150,13 @@ export default function Footer() {
             </h2>
             <nav className="flex flex-col space-y-1.5 mb-4" aria-label="Legal links">
               {[
-                { href: "/privacy-policy", label: t("common.privacyPolicy") },
-                { href: "/terms-and-conditions", label: t("common.termsOfService") },
-                { href: "/refund-policy", label: t("common.refundPolicy") },
+                { slug: "privacy-policy", label: t("common.privacyPolicy") },
+                { slug: "terms-of-service", label: t("common.termsOfService") },
+                { slug: "refund-policy", label: t("common.refundPolicy") },
               ].map((link, index) => (
                 <a
                   key={index}
-                  href={link.href}
+                  href={getLegalUrl(link.slug, locale)}
                   className="text-white/70 hover:text-white transition-colors duration-200 text-sm group inline-flex items-center gap-2 w-fit"
                 >
                   <span>{link.label}</span>
