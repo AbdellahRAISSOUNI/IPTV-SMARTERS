@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       locale: "en_US",
-      url: `${baseUrl}/en`,
+      url: `${baseUrl}/en/`, // Include trailing slash for consistency
       siteName: "StreamPro - Premium IPTV Service",
       title,
       description,
@@ -66,10 +66,10 @@ export async function generateMetadata(): Promise<Metadata> {
       site: "@streampro",
     },
     robots: {
-      index: true,
-      follow: true,
+      index: false, // Don't index root page - it redirects to /en/
+      follow: true, // But follow links
       googleBot: {
-        index: true,
+        index: false, // Don't index root page
         follow: true,
         "max-video-preview": -1,
         "max-image-preview": "large",

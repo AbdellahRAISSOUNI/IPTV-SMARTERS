@@ -124,7 +124,7 @@ function getDefaultMetadata(locale: Locale, slug: string): Metadata {
     openGraph: {
       type: "article",
       locale: localeMap[locale],
-      url: `${baseUrl}/${locale}/blog/${slug}`,
+      url: `${baseUrl}/${locale}/blog/${slug}/`, // Include trailing slash for consistency
       siteName: siteNameMap[locale],
       title,
       description,

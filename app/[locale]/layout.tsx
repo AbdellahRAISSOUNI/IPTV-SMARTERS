@@ -36,7 +36,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     "@type": "Organization",
     name: organizationNameMap[locale],
     description: organizationDescMap[locale],
-    url: `${baseUrl}/${locale}`,
+    url: `${baseUrl}/${locale}/`, // Include trailing slash for consistency
     logo: `${baseUrl}/logo/Logo3-removebg-preview.png`,
     contactPoint: {
       "@type": "ContactPoint",
@@ -73,7 +73,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         price: "19.99",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
-        url: `${baseUrl}/${locale}#pricing`,
+        url: `${baseUrl}/${locale}/#pricing`, // Include trailing slash before hash
         priceValidUntil: "2026-12-31",
         shippingDetails: {
           "@type": "OfferShippingDetails",
@@ -134,7 +134,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         price: "24.99",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
-        url: `${baseUrl}/${locale}#pricing`,
+        url: `${baseUrl}/${locale}/#pricing`, // Include trailing slash before hash
         priceValidUntil: "2026-12-31",
         shippingDetails: {
           "@type": "OfferShippingDetails",
@@ -195,7 +195,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         price: "39.99",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
-        url: `${baseUrl}/${locale}#pricing`,
+        url: `${baseUrl}/${locale}/#pricing`, // Include trailing slash before hash
         priceValidUntil: "2026-12-31",
         shippingDetails: {
           "@type": "OfferShippingDetails",
@@ -256,7 +256,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         price: "54.99",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
-        url: `${baseUrl}/${locale}#pricing`,
+        url: `${baseUrl}/${locale}/#pricing`, // Include trailing slash before hash
         priceValidUntil: "2026-12-31",
         shippingDetails: {
           "@type": "OfferShippingDetails",
@@ -904,7 +904,7 @@ export async function generateMetadata({
     openGraph: {
       type: "website",
       locale: localeMap[locale],
-      url: `${baseUrl}/${locale}`,
+      url: `${baseUrl}/${locale}/`, // Include trailing slash for consistency
       siteName: siteNameMap[locale],
       title,
       description,

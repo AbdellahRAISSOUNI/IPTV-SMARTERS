@@ -169,18 +169,20 @@ export function getResellerSlug(englishSlug: string, locale: Locale): string {
 
 /**
  * Get installation page URL for a specific locale
+ * Includes trailing slash for consistency with next.config trailingSlash: true
  */
 export function getInstallationUrl(englishSlug: string, locale: Locale): string {
   const slug = getInstallationSlug(englishSlug, locale);
-  return `/${locale}/${slug}`;
+  return `/${locale}/${slug}/`;
 }
 
 /**
  * Get reseller page URL for a specific locale
+ * Includes trailing slash for consistency with next.config trailingSlash: true
  */
 export function getResellerUrl(englishSlug: string, locale: Locale): string {
   const slug = getResellerSlug(englishSlug, locale);
-  return `/${locale}/${slug}`;
+  return `/${locale}/${slug}/`;
 }
 
 /**
@@ -196,8 +198,9 @@ export function getLegalSlug(englishSlug: string, locale: Locale): string {
 
 /**
  * Get legal page URL for a specific locale
+ * Includes trailing slash for consistency with next.config trailingSlash: true
  */
 export function getLegalUrl(englishSlug: string, locale: Locale): string {
   const slug = getLegalSlug(englishSlug, locale);
-  return `/${locale}/${slug}`;
+  return `/${locale}/${slug}/`;
 }

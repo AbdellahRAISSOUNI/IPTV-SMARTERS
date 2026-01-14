@@ -54,6 +54,12 @@ const nextConfig: NextConfig = {
   // Redirects for SEO-friendly URLs
   async redirects() {
     return [
+      // Root page redirect - prevent duplicate content (301 permanent redirect)
+      {
+        source: '/',
+        destination: '/en/',
+        permanent: true,
+      },
       // Installation guide redirect
       {
         source: '/:locale/installation',

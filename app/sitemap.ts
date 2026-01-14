@@ -31,14 +31,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Add pages with language-specific URLs (installation + reseller)
   localizedPages.forEach((englishSlug) => {
     locales.forEach((locale) => {
+      // getInstallationUrl now includes trailing slash, so we use it directly
       const localizedPath = getInstallationUrl(englishSlug, locale).replace(`/${locale}`, '');
-      const url = `${baseUrl}${localizedPath}/`; // Add trailing slash for consistency with next.config trailingSlash: true
+      const url = `${baseUrl}${localizedPath}`; // URL function already includes trailing slash
       
       // Generate alternates with language-specific URLs
       const alternates: Record<string, string> = {};
       locales.forEach((loc) => {
         const altPath = getInstallationUrl(englishSlug, loc).replace(`/${loc}`, '');
-        alternates[loc] = `${baseUrl}${altPath}/`; // Add trailing slash
+        alternates[loc] = `${baseUrl}${altPath}`; // URL function already includes trailing slash
       });
       
       // Set priority based on page type

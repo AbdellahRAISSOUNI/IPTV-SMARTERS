@@ -35,16 +35,16 @@ export async function generateMetadata({
     alternates: {
       canonical: `${baseUrl}/${locale}/blog/`, // Include trailing slash for consistency
       languages: {
-        en: `${baseUrl}/en/blog`,
-        es: `${baseUrl}/es/blog`,
-        fr: `${baseUrl}/fr/blog`,
-        "x-default": `${baseUrl}/en/blog`,
+        en: `${baseUrl}/en/blog/`,
+        es: `${baseUrl}/es/blog/`,
+        fr: `${baseUrl}/fr/blog/`,
+        "x-default": `${baseUrl}/en/blog/`,
       },
     },
     openGraph: {
       type: "website",
       locale: localeMap[locale],
-      url: `${baseUrl}/${locale}/blog`,
+      url: `${baseUrl}/${locale}/blog/`, // Include trailing slash for consistency
       siteName: siteNameMap[locale],
       title,
       description,
