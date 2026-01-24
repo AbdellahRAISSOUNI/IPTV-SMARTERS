@@ -734,12 +734,12 @@ export default function FirestickAndroidIosInstallation() {
             <p className="text-base sm:text-lg text-[#1a1a1a] leading-relaxed mb-6">
               {t("installation.firestickHowToUseContent")}{" "}
               <a
-                href="https://officieliptvabonnement.fr/#pricing"
+                href={t("installation.officielIptvPricingLink")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium"
               >
-                https://officieliptvabonnement.fr/#pricing
+                {t("installation.officielIptvPricingLink")}
               </a>
             </p>
           </motion.div>
