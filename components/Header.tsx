@@ -249,7 +249,7 @@ export default function Header() {
 
             {/* Blog */}
             <motion.a
-              href={`/${locale}/blog`}
+              href={`/${locale}/blog/`}
               className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group"
             >
               {t("common.blog")}
@@ -468,7 +468,7 @@ export default function Header() {
 
                 {/* Blog */}
                 <motion.a
-                  href={`/${locale}/blog`}
+                  href={`/${locale}/blog/`}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-base font-medium text-[#1a1a1a] hover:text-[#2563eb] py-3 px-4 rounded-lg hover:bg-[#f5f5f5] transition-all duration-200"
                   initial={{ opacity: 0, x: -10 }}
