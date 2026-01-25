@@ -52,261 +52,54 @@ const nextConfig: NextConfig = {
   // Turbopack configuration (Next.js 16 uses Turbopack by default)
   turbopack: {},
   // Redirects for SEO-friendly URLs
+  // Note: Critical redirects (root, trailing slashes, English->localized slugs) are handled in middleware.ts
+  // These redirects handle old/legacy routes only
   async redirects() {
     return [
       // Root page redirect - prevent duplicate content (301 permanent redirect)
+      // This is a backup - middleware handles this first, but keeping for safety
       {
         source: '/',
         destination: '/en/',
         permanent: true,
       },
-      // Language root pages without trailing slash - redirect to version with trailing slash
-      {
-        source: '/en',
-        destination: '/en/',
-        permanent: true,
-      },
-      {
-        source: '/es',
-        destination: '/es/',
-        permanent: true,
-      },
-      {
-        source: '/fr',
-        destination: '/fr/',
-        permanent: true,
-      },
-      // Blog pages without trailing slash
-      {
-        source: '/:locale/blog',
-        destination: '/:locale/blog/',
-        permanent: true,
-      },
-      // Installation guide redirect
+      // Old installation guide routes - redirect to new structure
       {
         source: '/:locale/installation',
-        destination: '/:locale/iptv-installation-guide',
+        destination: '/:locale/iptv-installation-guide/',
         permanent: true,
       },
-      // Device-specific installation redirects
+      // Old device-specific installation routes
       {
         source: '/:locale/installation/apple-ios',
-        destination: '/:locale/iptv-installation-ios',
+        destination: '/:locale/iptv-installation-ios/',
         permanent: true,
       },
       {
         source: '/:locale/installation/smart-tv',
-        destination: '/:locale/iptv-installation-smart-tv',
+        destination: '/:locale/iptv-installation-smart-tv/',
         permanent: true,
       },
       {
         source: '/:locale/installation/windows',
-        destination: '/:locale/iptv-installation-windows',
+        destination: '/:locale/iptv-installation-windows/',
         permanent: true,
       },
       {
         source: '/:locale/installation/firestick-android-ios',
-        destination: '/:locale/iptv-installation-firestick',
+        destination: '/:locale/iptv-installation-firestick/',
         permanent: true,
       },
-      // Reseller program redirect (old route)
+      // Old reseller program route
       {
         source: '/:locale/revendeur',
-        destination: '/:locale/iptv-reseller-program',
-        permanent: true,
-      },
-      // Language-specific reseller program redirects (redirect English URLs to localized URLs for non-English)
-      // Spanish redirects (with and without trailing slash)
-      {
-        source: '/es/iptv-reseller-program',
-        destination: '/es/programa-revendedor-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-reseller-program/',
-        destination: '/es/programa-revendedor-iptv/',
-        permanent: true,
-      },
-      // French redirects (with and without trailing slash)
-      {
-        source: '/fr/iptv-reseller-program',
-        destination: '/fr/programme-revendeur-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-reseller-program/',
-        destination: '/fr/programme-revendeur-iptv/',
-        permanent: true,
-      },
-      // Language-specific installation page redirects (redirect English URLs to localized URLs for non-English)
-      // Spanish redirects (with and without trailing slash)
-      {
-        source: '/es/iptv-installation-guide',
-        destination: '/es/guia-instalacion-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-installation-guide/',
-        destination: '/es/guia-instalacion-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-installation-ios',
-        destination: '/es/instalacion-ios-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-installation-ios/',
-        destination: '/es/instalacion-ios-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-installation-windows',
-        destination: '/es/instalacion-windows-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-installation-windows/',
-        destination: '/es/instalacion-windows-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-installation-smart-tv',
-        destination: '/es/instalacion-smart-tv-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-installation-smart-tv/',
-        destination: '/es/instalacion-smart-tv-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-installation-firestick',
-        destination: '/es/instalacion-firestick-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/es/iptv-installation-firestick/',
-        destination: '/es/instalacion-firestick-iptv/',
-        permanent: true,
-      },
-      // French redirects (with and without trailing slash)
-      {
-        source: '/fr/iptv-installation-guide',
-        destination: '/fr/guide-installation-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-installation-guide/',
-        destination: '/fr/guide-installation-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-installation-ios',
-        destination: '/fr/installation-ios-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-installation-ios/',
-        destination: '/fr/installation-ios-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-installation-windows',
-        destination: '/fr/installation-windows-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-installation-windows/',
-        destination: '/fr/installation-windows-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-installation-smart-tv',
-        destination: '/fr/installation-smart-tv-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-installation-smart-tv/',
-        destination: '/fr/installation-smart-tv-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-installation-firestick',
-        destination: '/fr/installation-firestick-iptv/',
-        permanent: true,
-      },
-      {
-        source: '/fr/iptv-installation-firestick/',
-        destination: '/fr/installation-firestick-iptv/',
-        permanent: true,
-      },
-      // Legal pages redirects - Spanish (with and without trailing slash)
-      {
-        source: '/es/refund-policy',
-        destination: '/es/politica-de-reembolso/',
-        permanent: true,
-      },
-      {
-        source: '/es/refund-policy/',
-        destination: '/es/politica-de-reembolso/',
-        permanent: true,
-      },
-      {
-        source: '/es/privacy-policy',
-        destination: '/es/politica-de-privacidad/',
-        permanent: true,
-      },
-      {
-        source: '/es/privacy-policy/',
-        destination: '/es/politica-de-privacidad/',
-        permanent: true,
-      },
-      {
-        source: '/es/terms-of-service',
-        destination: '/es/terminos-de-servicio/',
-        permanent: true,
-      },
-      {
-        source: '/es/terms-of-service/',
-        destination: '/es/terminos-de-servicio/',
-        permanent: true,
-      },
-      // Legal pages redirects - French (with and without trailing slash)
-      {
-        source: '/fr/refund-policy',
-        destination: '/fr/politique-de-remboursement/',
-        permanent: true,
-      },
-      {
-        source: '/fr/refund-policy/',
-        destination: '/fr/politique-de-remboursement/',
-        permanent: true,
-      },
-      {
-        source: '/fr/privacy-policy',
-        destination: '/fr/politique-de-confidentialite/',
-        permanent: true,
-      },
-      {
-        source: '/fr/privacy-policy/',
-        destination: '/fr/politique-de-confidentialite/',
-        permanent: true,
-      },
-      {
-        source: '/fr/terms-of-service',
-        destination: '/fr/conditions-utilisation/',
-        permanent: true,
-      },
-      {
-        source: '/fr/terms-of-service/',
-        destination: '/fr/conditions-utilisation/',
+        destination: '/:locale/iptv-reseller-program/',
         permanent: true,
       },
       // Alternative redirects for old URLs
       {
         source: '/:locale/terms-and-conditions',
-        destination: '/:locale/terms-of-service',
+        destination: '/:locale/terms-of-service/',
         permanent: true,
       },
     ];

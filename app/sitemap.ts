@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { locales, type Locale } from '@/lib/i18n';
 import { getAllBlogs } from '@/lib/admin/blog';
-import { getInstallationUrl, getResellerUrl, isInstallationSlug, isResellerSlug } from '@/lib/utils/installation-slugs';
+import { getInstallationUrl } from '@/lib/utils/installation-slugs';
 import { getBlogUrl, getAllBlogSlugs } from '@/lib/utils/blog-slugs';
 
 export const dynamic = 'force-dynamic';
@@ -31,22 +31,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Add pages with language-specific URLs (installation + reseller)
   localizedPages.forEach((englishSlug) => {
     locales.forEach((locale) => {
-      // Get the correct URL based on page type
-      const localizedPath = isInstallationSlug(englishSlug)
-        ? getInstallationUrl(englishSlug, locale)
-        : isResellerSlug(englishSlug)
-        ? getResellerUrl(englishSlug, locale)
-        : `/${locale}/${englishSlug}/`;
+      // getInstallationUrl returns full path with locale and trailing slash (e.g., /en/iptv-installation-guide/)
+      const localizedPath = getInstallationUrl(englishSlug, locale);
       const url = `${baseUrl}${localizedPath}`;
       
-      // Generate alternates with language-specific URLs
+      // Generate alternates with language-specific URLs (canonical localized slugs)
       const alternates: Record<string, string> = {};
       locales.forEach((loc) => {
-        const altPath = isInstallationSlug(englishSlug)
-          ? getInstallationUrl(englishSlug, loc)
-          : isResellerSlug(englishSlug)
-          ? getResellerUrl(englishSlug, loc)
-          : `/${loc}/${englishSlug}/`;
+        const altPath = getInstallationUrl(englishSlug, loc);
         alternates[loc] = `${baseUrl}${altPath}`;
       });
       

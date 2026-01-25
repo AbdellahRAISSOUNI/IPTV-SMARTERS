@@ -157,13 +157,13 @@ function NotFoundContent() {
                 FAQ
               </Link>
               <Link
-                href="/en/iptv-installation-guide/"
+                href="/iptv-installation-guide"
                 className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium text-sm sm:text-base transition-colors"
               >
                 Installation
               </Link>
               <Link
-                href="/en/blog/"
+                href="/blog"
                 className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium text-sm sm:text-base transition-colors"
               >
                 Blog
