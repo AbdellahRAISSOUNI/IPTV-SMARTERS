@@ -19,9 +19,12 @@ export function middleware(request: NextRequest) {
 
   // CRITICAL: Root domain redirect - must be 301 permanent redirect for SEO
   // Redirect root domain to /en/ to prevent duplicate content
+  // Add noindex header so Google doesn't try to index the root domain
   if (pathname === '/') {
     url.pathname = '/en/';
-    return NextResponse.redirect(url, 301);
+    const response = NextResponse.redirect(url, 301);
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    return response;
   }
 
   // Redirect root language pages without trailing slash to with trailing slash
@@ -38,6 +41,7 @@ export function middleware(request: NextRequest) {
   // Redirect English slugs to localized slugs for non-English locales
   // AND handle trailing slash in one redirect to avoid double redirects
   // This ensures canonical URLs are used (localized slugs are canonical)
+  // CRITICAL: Add noindex header so Google doesn't try to index these redirect pages
   if (pathSegments.length >= 2) {
     const locale = pathSegments[0];
     const slug = pathSegments[1];
@@ -59,7 +63,11 @@ export function middleware(request: NextRequest) {
       if (redirectMap[slug]) {
         // Redirect directly to localized version with trailing slash
         url.pathname = `/es/${redirectMap[slug]}/`;
-        return NextResponse.redirect(url, 301);
+        const response = NextResponse.redirect(url, 301);
+        // Add noindex header so Google doesn't try to index the English slug URL
+        // This prevents it from appearing in Search Console as "not indexed"
+        response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+        return response;
       }
     }
 
@@ -80,7 +88,11 @@ export function middleware(request: NextRequest) {
       if (redirectMap[slug]) {
         // Redirect directly to localized version with trailing slash
         url.pathname = `/fr/${redirectMap[slug]}/`;
-        return NextResponse.redirect(url, 301);
+        const response = NextResponse.redirect(url, 301);
+        // Add noindex header so Google doesn't try to index the English slug URL
+        // This prevents it from appearing in Search Console as "not indexed"
+        response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+        return response;
       }
     }
   }
