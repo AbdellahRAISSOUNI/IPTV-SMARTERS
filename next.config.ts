@@ -60,6 +60,28 @@ const nextConfig: NextConfig = {
         destination: '/en/',
         permanent: true,
       },
+      // Language root pages without trailing slash - redirect to version with trailing slash
+      {
+        source: '/en',
+        destination: '/en/',
+        permanent: true,
+      },
+      {
+        source: '/es',
+        destination: '/es/',
+        permanent: true,
+      },
+      {
+        source: '/fr',
+        destination: '/fr/',
+        permanent: true,
+      },
+      // Blog pages without trailing slash
+      {
+        source: '/:locale/blog',
+        destination: '/:locale/blog/',
+        permanent: true,
+      },
       // Installation guide redirect
       {
         source: '/:locale/installation',
@@ -94,101 +116,191 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       // Language-specific reseller program redirects (redirect English URLs to localized URLs for non-English)
-      // Spanish redirect
+      // Spanish redirects (with and without trailing slash)
       {
         source: '/es/iptv-reseller-program',
-        destination: '/es/programa-revendedor-iptv',
+        destination: '/es/programa-revendedor-iptv/',
         permanent: true,
       },
-      // French redirect
+      {
+        source: '/es/iptv-reseller-program/',
+        destination: '/es/programa-revendedor-iptv/',
+        permanent: true,
+      },
+      // French redirects (with and without trailing slash)
       {
         source: '/fr/iptv-reseller-program',
-        destination: '/fr/programme-revendeur-iptv',
+        destination: '/fr/programme-revendeur-iptv/',
+        permanent: true,
+      },
+      {
+        source: '/fr/iptv-reseller-program/',
+        destination: '/fr/programme-revendeur-iptv/',
         permanent: true,
       },
       // Language-specific installation page redirects (redirect English URLs to localized URLs for non-English)
-      // Spanish redirects
+      // Spanish redirects (with and without trailing slash)
       {
         source: '/es/iptv-installation-guide',
-        destination: '/es/guia-instalacion-iptv',
+        destination: '/es/guia-instalacion-iptv/',
+        permanent: true,
+      },
+      {
+        source: '/es/iptv-installation-guide/',
+        destination: '/es/guia-instalacion-iptv/',
         permanent: true,
       },
       {
         source: '/es/iptv-installation-ios',
-        destination: '/es/instalacion-ios-iptv',
+        destination: '/es/instalacion-ios-iptv/',
+        permanent: true,
+      },
+      {
+        source: '/es/iptv-installation-ios/',
+        destination: '/es/instalacion-ios-iptv/',
         permanent: true,
       },
       {
         source: '/es/iptv-installation-windows',
-        destination: '/es/instalacion-windows-iptv',
+        destination: '/es/instalacion-windows-iptv/',
+        permanent: true,
+      },
+      {
+        source: '/es/iptv-installation-windows/',
+        destination: '/es/instalacion-windows-iptv/',
         permanent: true,
       },
       {
         source: '/es/iptv-installation-smart-tv',
-        destination: '/es/instalacion-smart-tv-iptv',
+        destination: '/es/instalacion-smart-tv-iptv/',
+        permanent: true,
+      },
+      {
+        source: '/es/iptv-installation-smart-tv/',
+        destination: '/es/instalacion-smart-tv-iptv/',
         permanent: true,
       },
       {
         source: '/es/iptv-installation-firestick',
-        destination: '/es/instalacion-firestick-iptv',
+        destination: '/es/instalacion-firestick-iptv/',
         permanent: true,
       },
-      // French redirects
+      {
+        source: '/es/iptv-installation-firestick/',
+        destination: '/es/instalacion-firestick-iptv/',
+        permanent: true,
+      },
+      // French redirects (with and without trailing slash)
       {
         source: '/fr/iptv-installation-guide',
-        destination: '/fr/guide-installation-iptv',
+        destination: '/fr/guide-installation-iptv/',
+        permanent: true,
+      },
+      {
+        source: '/fr/iptv-installation-guide/',
+        destination: '/fr/guide-installation-iptv/',
         permanent: true,
       },
       {
         source: '/fr/iptv-installation-ios',
-        destination: '/fr/installation-ios-iptv',
+        destination: '/fr/installation-ios-iptv/',
+        permanent: true,
+      },
+      {
+        source: '/fr/iptv-installation-ios/',
+        destination: '/fr/installation-ios-iptv/',
         permanent: true,
       },
       {
         source: '/fr/iptv-installation-windows',
-        destination: '/fr/installation-windows-iptv',
+        destination: '/fr/installation-windows-iptv/',
+        permanent: true,
+      },
+      {
+        source: '/fr/iptv-installation-windows/',
+        destination: '/fr/installation-windows-iptv/',
         permanent: true,
       },
       {
         source: '/fr/iptv-installation-smart-tv',
-        destination: '/fr/installation-smart-tv-iptv',
+        destination: '/fr/installation-smart-tv-iptv/',
+        permanent: true,
+      },
+      {
+        source: '/fr/iptv-installation-smart-tv/',
+        destination: '/fr/installation-smart-tv-iptv/',
         permanent: true,
       },
       {
         source: '/fr/iptv-installation-firestick',
-        destination: '/fr/installation-firestick-iptv',
+        destination: '/fr/installation-firestick-iptv/',
         permanent: true,
       },
-      // Legal pages redirects - Spanish
+      {
+        source: '/fr/iptv-installation-firestick/',
+        destination: '/fr/installation-firestick-iptv/',
+        permanent: true,
+      },
+      // Legal pages redirects - Spanish (with and without trailing slash)
       {
         source: '/es/refund-policy',
-        destination: '/es/politica-de-reembolso',
+        destination: '/es/politica-de-reembolso/',
+        permanent: true,
+      },
+      {
+        source: '/es/refund-policy/',
+        destination: '/es/politica-de-reembolso/',
         permanent: true,
       },
       {
         source: '/es/privacy-policy',
-        destination: '/es/politica-de-privacidad',
+        destination: '/es/politica-de-privacidad/',
+        permanent: true,
+      },
+      {
+        source: '/es/privacy-policy/',
+        destination: '/es/politica-de-privacidad/',
         permanent: true,
       },
       {
         source: '/es/terms-of-service',
-        destination: '/es/terminos-de-servicio',
+        destination: '/es/terminos-de-servicio/',
         permanent: true,
       },
-      // Legal pages redirects - French
+      {
+        source: '/es/terms-of-service/',
+        destination: '/es/terminos-de-servicio/',
+        permanent: true,
+      },
+      // Legal pages redirects - French (with and without trailing slash)
       {
         source: '/fr/refund-policy',
-        destination: '/fr/politique-de-remboursement',
+        destination: '/fr/politique-de-remboursement/',
+        permanent: true,
+      },
+      {
+        source: '/fr/refund-policy/',
+        destination: '/fr/politique-de-remboursement/',
         permanent: true,
       },
       {
         source: '/fr/privacy-policy',
-        destination: '/fr/politique-de-confidentialite',
+        destination: '/fr/politique-de-confidentialite/',
+        permanent: true,
+      },
+      {
+        source: '/fr/privacy-policy/',
+        destination: '/fr/politique-de-confidentialite/',
         permanent: true,
       },
       {
         source: '/fr/terms-of-service',
-        destination: '/fr/conditions-utilisation',
+        destination: '/fr/conditions-utilisation/',
+        permanent: true,
+      },
+      {
+        source: '/fr/terms-of-service/',
+        destination: '/fr/conditions-utilisation/',
         permanent: true,
       },
       // Alternative redirects for old URLs

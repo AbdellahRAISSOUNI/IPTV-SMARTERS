@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { locales, type Locale } from '@/lib/i18n';
 import { getAllBlogs } from '@/lib/admin/blog';
-import { getInstallationUrl } from '@/lib/utils/installation-slugs';
+import { getInstallationUrl, getResellerUrl, isInstallationSlug, isResellerSlug } from '@/lib/utils/installation-slugs';
 import { getBlogUrl, getAllBlogSlugs } from '@/lib/utils/blog-slugs';
 
 export const dynamic = 'force-dynamic';
@@ -31,15 +31,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Add pages with language-specific URLs (installation + reseller)
   localizedPages.forEach((englishSlug) => {
     locales.forEach((locale) => {
-      // getInstallationUrl now includes trailing slash, so we use it directly
-      const localizedPath = getInstallationUrl(englishSlug, locale).replace(`/${locale}`, '');
-      const url = `${baseUrl}${localizedPath}`; // URL function already includes trailing slash
+      // Get the correct URL based on page type
+      const localizedPath = isInstallationSlug(englishSlug)
+        ? getInstallationUrl(englishSlug, locale)
+        : isResellerSlug(englishSlug)
+        ? getResellerUrl(englishSlug, locale)
+        : `/${locale}/${englishSlug}/`;
+      const url = `${baseUrl}${localizedPath}`;
       
       // Generate alternates with language-specific URLs
       const alternates: Record<string, string> = {};
       locales.forEach((loc) => {
-        const altPath = getInstallationUrl(englishSlug, loc).replace(`/${loc}`, '');
-        alternates[loc] = `${baseUrl}${altPath}`; // URL function already includes trailing slash
+        const altPath = isInstallationSlug(englishSlug)
+          ? getInstallationUrl(englishSlug, loc)
+          : isResellerSlug(englishSlug)
+          ? getResellerUrl(englishSlug, loc)
+          : `/${loc}/${englishSlug}/`;
+        alternates[loc] = `${baseUrl}${altPath}`;
       });
       
       // Set priority based on page type
