@@ -87,38 +87,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const blogs = await getAllBlogs();
     blogs.forEach((blog) => {
-      // Add blog post for each available translation
-      const blogLocales = blog.translations && blog.translations.length > 0 
-        ? blog.translations 
-        : [blog.locale];
-      
-      // Get all slugs for this blog
+      // Get all slugs for this blog to determine which locales have valid slugs
       const allSlugs = getAllBlogSlugs(blog);
       
-      blogLocales.forEach((blogLocale) => {
-        if (locales.includes(blogLocale as any)) {
-          const blogUrl = getBlogUrl(blog, blogLocale as Locale);
-          const url = `${baseUrl}${blogUrl}`; // getBlogUrl now includes trailing slash
-          
-          // Generate alternates with language-specific slugs
-          const alternates: Record<string, string> = {};
-          blogLocales.forEach((loc) => {
-            if (locales.includes(loc as any)) {
-              const altBlogUrl = getBlogUrl(blog, loc as Locale);
-              alternates[loc] = `${baseUrl}${altBlogUrl}`; // getBlogUrl now includes trailing slash
-            }
-          });
-          
-          sitemapEntries.push({
-            url,
-            lastModified: new Date(blog.updatedAt || blog.publishedAt),
-            changeFrequency: 'weekly',
-            priority: 0.7,
-            alternates: {
-              languages: alternates,
-            },
-          });
+      // Determine which locales should be included in sitemap
+      // Include all locales that have non-empty slugs (not just those in translations array)
+      const blogLocales: Locale[] = [];
+      locales.forEach((locale) => {
+        const slug = allSlugs[locale];
+        // Include locale if it has a slug (even if empty content - slug means it's a valid URL)
+        if (slug && slug.trim() !== '') {
+          blogLocales.push(locale);
         }
+      });
+      
+      // Fallback: if no valid slugs found, use translations array or primary locale
+      const finalLocales = blogLocales.length > 0 
+        ? blogLocales 
+        : (blog.translations && blog.translations.length > 0 
+          ? blog.translations.filter((loc): loc is Locale => locales.includes(loc as Locale))
+          : [blog.locale as Locale].filter((loc): loc is Locale => locales.includes(loc)));
+      
+      // Generate alternates map for all valid locales
+      const alternates: Record<string, string> = {};
+      blogLocales.forEach((loc) => {
+        const altBlogUrl = getBlogUrl(blog, loc);
+        alternates[loc] = `${baseUrl}${altBlogUrl}`;
+      });
+      
+      // Add sitemap entry for each valid locale
+      finalLocales.forEach((blogLocale) => {
+        const blogUrl = getBlogUrl(blog, blogLocale);
+        const url = `${baseUrl}${blogUrl}`; // getBlogUrl now includes trailing slash
+        
+        sitemapEntries.push({
+          url,
+          lastModified: new Date(blog.updatedAt || blog.publishedAt),
+          changeFrequency: 'weekly',
+          priority: 0.7,
+          alternates: {
+            languages: alternates,
+          },
+        });
       });
     });
   } catch (error) {
