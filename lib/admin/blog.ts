@@ -103,11 +103,8 @@ export async function getBlogBySlug(slug: string, locale?: string): Promise<Blog
   
   if (!blog) return null;
   
-  // If locale is specified, return blog with that locale's content if available
-  if (locale && blog.translations?.includes(locale)) {
-    return blog;
-  }
-  
+  // Always return the blog - the page component will handle locale fallbacks
+  // This ensures Googlebot can index the page even if not fully translated
   return blog;
 }
 

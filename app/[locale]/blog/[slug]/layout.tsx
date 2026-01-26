@@ -24,7 +24,8 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   
   try {
-    const blog = await getBlogBySlug(slug);
+    // Pass locale to getBlogBySlug to ensure correct blog is found
+    const blog = await getBlogBySlug(slug, locale);
     
     if (!blog) {
       return getDefaultMetadata(locale, slug);
