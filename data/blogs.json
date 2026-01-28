@@ -1,5 +1,282 @@
 [
   {
+    "id": "n6wh1px1dyn",
+    "slug": {
+      "en": "",
+      "es": "activar-configurar-iptv-smarters-pro-smart-tv",
+      "fr": ""
+    },
+    "title": {
+      "en": "",
+      "es": "Cómo Activar y Configurar IPTV Smarters Pro en Smart TV (Guía 2026)",
+      "fr": ""
+    },
+    "excerpt": {
+      "en": "",
+      "es": "Descubre cómo activar y configurar IPTV Smarters Pro en Smart TV paso a paso. Guía fácil para usar IPTV con Xtream Codes o M3U en 2026.",
+      "fr": ""
+    },
+    "publishedAt": "2026-01-28T22:15:12.528Z",
+    "updatedAt": "2026-01-28T23:07:03.492Z",
+    "locale": "es",
+    "translations": [
+      "es"
+    ],
+    "blocks": [
+      {
+        "id": "w1k269i0tto",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "Cómo activar y configurar IPTV Smarters Pro para Smart TV",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "4lazhrykwjj",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "[IPTV Smarters Pro](https://www.pro-iptvsmarters.com/es/) es una de las aplicaciones IPTV más populares y completas para Smart TV, Android TV y dispositivos móviles. Permite gestionar fácilmente suscripciones IPTV mediante [Xtream Codes](https://www.pro-iptvsmarters.com/es/) o enlaces M3U, ofreciendo una experiencia fluida y organizada.\n\nEs importante aclarar que [IPTV Smarters Pro](https://www.iptvsmarters.com/) no incluye canales. Para acceder al contenido, necesitas una [suscripción IPTV](https://www.pro-iptvsmarters.com/es/) activa proporcionada por un proveedor.",
+          "fr": ""
+        }
+      },
+      {
+        "id": "bc1fh798esl",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "Características principales de IPTV Smarters Pro",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "zlzs9mpeob",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Interfaz intuitiva y fácil de usar",
+            "Canales y VOD organizados automáticamente",
+            "Soporte para EPG (Guía Electrónica de Programación)",
+            "Búsqueda rápida de canales, series y películas",
+            "Reproductores integrados y compatibilidad con VLC o MX Player",
+            "Información detallada de VOD (sinopsis, pósters, valoraciones)",
+            "Gestión de favoritos",
+            "Información completa de la suscripción",
+            "Compatible con Xtream Codes (sin M3U obligatorio)",
+            "Soporte multilenguaje (incluye alemán)"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "0jnr1zsqy9qj",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "¿Dónde descargar IPTV Smarters Pro?",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "pw8egmaajm",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "¿Dónde descargar IPTV Smarters Pro?",
+          "fr": ""
+        }
+      },
+      {
+        "id": "fyazqgefqa",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Android / Android TV / Android Box",
+            "iOS (iPhone y iPad)",
+            "Smart TV compatibles"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "ibvtmh6pak",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "Se descarga directamente desde la tienda de aplicaciones del dispositivo.",
+          "fr": ""
+        }
+      },
+      {
+        "id": "xcwkrn8xr5",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "Cómo configurar IPTV Smarters Pro",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "47xibioogzj",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "La configuración es rápida y sencilla:",
+          "fr": ""
+        }
+      },
+      {
+        "id": "42pcsu80etf",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "1. La configuración es rápida y sencilla:",
+            "2. Abre la aplicación y selecciona Iniciar sesión con Xtream Codes API.",
+            "3. Introduce los datos proporcionados por tu proveedor IPTV:Nombre de usuario ;Contraseña; URL del servidor",
+            "4. Guarda la configuración y espera a que carguen los canales y el contenido VOD."
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "tdv9nhkzier",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "Configuración usando enlace M3U (opcional)",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "arqoj0bev7d",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "Si dispones de un enlace M3U, también puedes usarlo.\nEjemplo de enlace M3U:",
+          "fr": ""
+        }
+      },
+      {
+        "id": "x74lgoirca",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "http://example.com:8789/get.php?username=5799&password=abCD123&type=m3u&output=ts",
+          "fr": ""
+        }
+      },
+      {
+        "id": "af2te3vu5pe",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "Datos extraídos del enlace:",
+          "fr": ""
+        }
+      },
+      {
+        "id": "244x8zq47s6",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Usuario: 5799",
+            "Contraseña: abCD123",
+            "Servidor: http://example.com:8789"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "69b57ko07n",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "Conclusión",
+          "fr": ""
+        },
+        "level": 4
+      },
+      {
+        "id": "luo3svhb74d",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "IPTV Smarters Pro es una de las mejores aplicaciones IPTV para Smart TV en 2025. Destaca por su facilidad de configuración, compatibilidad con [Xtream Codes](https://www.pro-iptvsmarters.com/es/), diseño intuitivo y estabilidad, convirtiéndose en una opción ideal para disfrutar de cualquier suscripción IPTV sin complicaciones.",
+          "fr": ""
+        }
+      },
+      {
+        "id": "ig4pf3p24b",
+        "type": "image",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1769641387/blog-images/zzmjjrqjrqf75gz6xgkd.jpg",
+        "imageAlt": {
+          "en": "",
+          "es": "Cómo activar y configurar IPTV Smarters Pro para Smart TV",
+          "fr": ""
+        }
+      }
+    ],
+    "meta": {
+      "keywords": {
+        "en": "",
+        "es": "iptv smarters pro, IPTV Smarters Pro en Smart TV,activar iptv smarters pro,iptv smarters smart tv,configurar iptv smarters,iptv smarters xtream codes,iptv smarters m3u,mejor app iptv smart tv",
+        "fr": ""
+      }
+    },
+    "featuredImage": "https://res.cloudinary.com/df5we7yoo/image/upload/v1769641609/blog-images/tilqe351r1bhz5hroj4l.jpg"
+  },
+  {
     "id": "f91yhvqi19",
     "slug": {
       "en": "",
