@@ -17,7 +17,7 @@
       "fr": ""
     },
     "publishedAt": "2026-01-29T17:01:28.874Z",
-    "updatedAt": "2026-01-29T17:12:03.659Z",
+    "updatedAt": "2026-01-29T17:14:47.662Z",
     "locale": "es",
     "translations": [
       "es"
@@ -52,6 +52,15 @@
           "fr": ""
         },
         "level": 3
+      },
+      {
+        "id": "si3rcu5wuvc",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "Smart IPTV (SIPTV) es una aplicación IPTV muy popular que permite reproducir canales de televisión en directo, contenido VOD y guía EPG mediante listas M3U. No incluye canales propios, por lo que es necesario contar con una [suscripción IPTV](https://www.pro-iptvsmarters.com/es/#pricing) válida.\n\nGracias a su estabilidad y compatibilidad, Smart IPTV es una de las apps más utilizadas en Smart TV Samsung, LG y Android TV",
+          "fr": ""
+        }
       }
     ],
     "meta": {
