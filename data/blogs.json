@@ -17,7 +17,7 @@
       "fr": ""
     },
     "publishedAt": "2026-01-29T17:01:28.874Z",
-    "updatedAt": "2026-01-29T17:14:47.662Z",
+    "updatedAt": "2026-01-29T17:17:35.231Z",
     "locale": "es",
     "translations": [
       "es"
@@ -61,6 +61,100 @@
           "es": "Smart IPTV (SIPTV) es una aplicación IPTV muy popular que permite reproducir canales de televisión en directo, contenido VOD y guía EPG mediante listas M3U. No incluye canales propios, por lo que es necesario contar con una [suscripción IPTV](https://www.pro-iptvsmarters.com/es/#pricing) válida.\n\nGracias a su estabilidad y compatibilidad, Smart IPTV es una de las apps más utilizadas en Smart TV Samsung, LG y Android TV",
           "fr": ""
         }
+      },
+      {
+        "id": "gbe6dbkzvdb",
+        "type": "image",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1769706911/blog-images/n4qav4x4wwwmiuzzmw0c.jpg",
+        "imageAlt": {
+          "en": "",
+          "es": "Smart iptv",
+          "fr": ""
+        }
+      },
+      {
+        "id": "fum59ieftio",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "⭐ Características principales de Smart IPTV",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "0bsbf5wclkta",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Reproducción en HD, Full HD y 4K",
+            "Compatible con listas M3U y EPG",
+            "Interfaz sencilla y rápida",
+            "Organización avanzada de canales",
+            "Excelente rendimiento en pantallas grandes"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "c52gww3egec",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "📱 Dispositivos compatibles",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "v0a278dyplq",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Samsung Smart TV",
+            "LG Smart TV",
+            "Android TV",
+            "Android Box",
+            "Nvidia Shield",
+            "Fire TV Stick"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "suydigj14dc",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 2
       }
     ],
     "meta": {
