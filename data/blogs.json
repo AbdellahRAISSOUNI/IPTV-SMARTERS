@@ -17,7 +17,7 @@
       "fr": ""
     },
     "publishedAt": "2026-01-29T17:01:28.874Z",
-    "updatedAt": "2026-01-29T17:17:35.231Z",
+    "updatedAt": "2026-01-29T17:26:16.243Z",
     "locale": "es",
     "translations": [
       "es"
@@ -58,7 +58,7 @@
         "type": "paragraph",
         "content": {
           "en": "",
-          "es": "Smart IPTV (SIPTV) es una aplicación IPTV muy popular que permite reproducir canales de televisión en directo, contenido VOD y guía EPG mediante listas M3U. No incluye canales propios, por lo que es necesario contar con una [suscripción IPTV](https://www.pro-iptvsmarters.com/es/#pricing) válida.\n\nGracias a su estabilidad y compatibilidad, Smart IPTV es una de las apps más utilizadas en Smart TV Samsung, LG y Android TV",
+          "es": "[Smart IPTV](https://www.pro-iptvsmarters.com/es/#pricing) (SIPTV) es una aplicación IPTV muy popular que permite reproducir canales de televisión en directo, contenido VOD y guía EPG mediante listas M3U. No incluye canales propios, por lo que es necesario contar con una [suscripción IPTV](https://www.pro-iptvsmarters.com/es/#pricing) válida.\n\nGracias a su estabilidad y compatibilidad, Smart IPTV es una de las apps más utilizadas en Smart TV Samsung, LG y Android TV",
           "fr": ""
         }
       },
@@ -151,10 +151,225 @@
         "type": "heading",
         "content": {
           "en": "",
+          "es": "📥 Cómo instalar Smart IPTV en Smart TV",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "cc3w6lsm31u",
+        "type": "list",
+        "content": {
+          "en": "",
           "es": "",
           "fr": ""
         },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Abre la tienda de aplicaciones de tu TV",
+            "Busca Smart IPTV",
+            "Descarga e instala la aplicación",
+            "Abre la app y anota la dirección MAC"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "zx39n3zlm7p",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "🔐 Activación de Smart IPTV",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "vwu1mwhu0y",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "Smart IPTV ofrece un período de prueba. Para seguir usándola es necesario activarla:",
+          "fr": ""
+        }
+      },
+      {
+        "id": "6u8ihs1nvx",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Accede al sitio oficial de activación",
+            "Introduce la MAC Address",
+            "Realiza el pago único (≈ 5–6 €)",
+            "Reinicia la aplicación"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "ouwyfbux2ks",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "La licencia queda vinculada al televisor.",
+          "fr": ""
+        }
+      },
+      {
+        "id": "q4ig0onuj8",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "⚖️ Smart IPTV gratis vs versión Premium",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "pam515ahn3o",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "Versión gratuita",
+          "fr": ""
+        }
+      },
+      {
+        "id": "6spoy7ax6n3",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Acceso limitado",
+            "Solo para pruebas"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "mi6wqb6wwq",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "Versión Premium",
+          "fr": ""
+        }
+      },
+      {
+        "id": "jjty0kc6b6f",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Acceso completo",
+            "Mayor estabilidad",
+            "Mejor personalización"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "idvjeh03sr",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "🔄 Mejores alternativas a Smart IPTV",
+          "fr": ""
+        },
         "level": 2
+      },
+      {
+        "id": "2nxc3v2ra0l",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            "Flix IPTV: interfaz moderna y rápida",
+            "IBO Player: muy estable y fácil de configurar",
+            "Room IPTV: excelente calidad y soporte multi-dispositivo"
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "guns38o5zak",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "❓ Preguntas frecuentes",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "r38okyo8h9",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "**¿Smart IPTV incluye canales?** :\nNo, necesitas una suscripción IPTV externa.\n\n**¿Es legal Smart IPTV?** :\nLa aplicación es legal; la legalidad depende del proveedor IPTV utilizado.\n\n**¿Se paga mensualmente?** :\nNo, es un pago único por dispositivo.",
+          "fr": ""
+        }
+      },
+      {
+        "id": "3clh760kbg9",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "✅ Conclusión",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "frzjzhsnjc4",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "Smart IPTV sigue siendo una de las mejores aplicaciones IPTV en 2026 por su compatibilidad, estabilidad y facilidad de uso. Si buscas una solución fiable para tu Smart TV con listas M3U, es una excelente opción, aunque alternativas como Flix IPTV o [IBO Player](https://iboplayer.com/) también merecen consideración.",
+          "fr": ""
+        }
       }
     ],
     "meta": {
