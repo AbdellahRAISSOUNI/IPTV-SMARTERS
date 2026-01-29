@@ -1,5 +1,69 @@
 [
   {
+    "id": "dmz2f28g0hn",
+    "slug": {
+      "en": "",
+      "es": "smart-iptv-como-funciona",
+      "fr": ""
+    },
+    "title": {
+      "en": "",
+      "es": "Smart IPTV: Cómo Funciona, Instalación y Mejores Alternativas en 2026",
+      "fr": ""
+    },
+    "excerpt": {
+      "en": "",
+      "es": "Descubre qué es Smart IPTV, cómo instalarla y activarla en Smart TV Samsung y LG. Guía completa 2026 con alternativas recomendadas.",
+      "fr": ""
+    },
+    "publishedAt": "2026-01-29T17:01:28.874Z",
+    "updatedAt": "2026-01-29T17:12:03.659Z",
+    "locale": "es",
+    "translations": [
+      "es"
+    ],
+    "blocks": [
+      {
+        "id": "yj4b3e2i55j",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "📺 Smart IPTV: Guía Completa y Funcionamiento en 2026",
+          "fr": ""
+        },
+        "level": 2
+      },
+      {
+        "id": "bdheua4t0v6",
+        "type": "image",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1769706711/blog-images/uvpawdosfjvuqjkerceu.jpg"
+      },
+      {
+        "id": "3s7ypnbrrlg",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "¿Qué es Smart IPTV?",
+          "fr": ""
+        },
+        "level": 3
+      }
+    ],
+    "meta": {
+      "keywords": {
+        "en": "",
+        "es": "smart iptv, smart iptv cómo funciona, instalar smart iptv, activar smart iptv, smart iptv samsung, smart iptv lg, alternativa smart iptv, iptv españa",
+        "fr": ""
+      }
+    },
+    "featuredImage": "https://res.cloudinary.com/df5we7yoo/image/upload/v1769706201/blog-images/dktj7b5bxgj7qklwcsna.jpg"
+  },
+  {
     "id": "n6wh1px1dyn",
     "slug": {
       "en": "",
