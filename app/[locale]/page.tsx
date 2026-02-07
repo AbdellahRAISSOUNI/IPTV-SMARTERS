@@ -3,12 +3,15 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Monitor } from "lucide-react";
+import Link from "next/link";
+import { Monitor, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
+import { getBlogUrl } from "@/lib/utils/blog-slugs";
+import type { BlogPost } from "@/lib/admin/blog";
 
 // Lazy load non-critical components - use dynamic imports with ssr: false for better performance
 const ContentCarousel = lazy(() => import("@/components/ContentCarousel"));
@@ -29,9 +32,10 @@ const ComponentLoader = () => (
 );
 
 export default function Home() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [reduceAnimations, setReduceAnimations] = useState(false);
+  const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([]);
 
   // Detect mobile and defer non-critical resources
   useEffect(() => {
@@ -71,6 +75,13 @@ export default function Home() {
         }, { timeout: 2000 });
       }
     }
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/blogs")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data: BlogPost[]) => setLatestBlogs(Array.isArray(data) ? data.slice(0, 3) : []))
+      .catch(() => setLatestBlogs([]));
   }, []);
 
   const pricingPlans = [
@@ -267,6 +278,86 @@ export default function Home() {
       <LogoCarousel images={streamingLogos} direction="left" speed={0.7} />
       <FeaturesSection />
       <DeviceCarousel />
+
+      {/* Latest from blog - drive traffic to blog and main pages */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50/50">
+        <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+          <motion.div
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-3">
+              {t("home.latestFromBlog")}
+            </h2>
+            <p className="text-base sm:text-lg text-[#1a1a1a]/70 max-w-xl mx-auto">
+              {t("home.latestFromBlogSubtitle")}
+            </p>
+          </motion.div>
+          {latestBlogs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+              {latestBlogs.map((blog, index) => {
+                const displayTitle = blog.title[locale] || blog.title[blog.locale] || "Untitled";
+                const displayExcerpt = blog.excerpt[locale] || blog.excerpt[blog.locale] || "";
+                return (
+                  <motion.div
+                    key={blog.id}
+                    initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
+                    whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Link
+                      href={getBlogUrl(blog, locale)}
+                      className="group block h-full bg-white border border-gray-200 rounded-xl p-5 sm:p-6 hover:border-[#2563eb]/30 hover:shadow-lg transition-all duration-300"
+                    >
+                      {blog.featuredImage && !blog.featuredImage.startsWith("blob:") && (
+                        <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-4 bg-gray-100">
+                          <Image
+                            src={blog.featuredImage}
+                            alt={displayTitle}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                          />
+                        </div>
+                      )}
+                      <h3 className="text-lg sm:text-xl font-bold text-[#1a1a1a] mb-2 group-hover:text-[#2563eb] transition-colors line-clamp-2">
+                        {displayTitle}
+                      </h3>
+                      <p className="text-sm text-[#1a1a1a]/70 line-clamp-2 mb-4">{displayExcerpt}</p>
+                      <span className="inline-flex items-center gap-2 text-[#2563eb] font-medium text-sm group-hover:gap-3 transition-all">
+                        {t("blog.readMore")}
+                        <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-[#1a1a1a]/60 text-sm">{t("blog.noPosts")}</p>
+            </div>
+          )}
+          <motion.div
+            initial={reduceAnimations ? { opacity: 1 } : { opacity: 0 }}
+            whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mt-8"
+          >
+            <Link
+              href={`/${locale}/blog/`}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#2563eb] text-white font-semibold text-sm hover:bg-[#1d4ed8] transition-colors shadow-md hover:shadow-lg"
+            >
+              {t("home.viewAllArticles")}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Pricing Section */}
       <section id="pricing" className="pt-8 pb-0 sm:pt-12 sm:pb-0 lg:pt-16 lg:pb-0 xl:pt-20 xl:pb-0 bg-white">

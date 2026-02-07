@@ -27,6 +27,11 @@
     "readMore": "Lire la suite",
     "backToBlog": "Retour au Blog"
   },
+  "home": {
+    "latestFromBlog": "Derniers articles du blog",
+    "latestFromBlogSubtitle": "Conseils, guides et actualités sur l'IPTV et le streaming",
+    "viewAllArticles": "Voir tous les articles"
+  },
   "hero": {
     "title": "Meilleur Abonnement IPTV ",
     "subtitlePart1": "",
@@ -224,6 +229,9 @@
     "downloadLink": "🔗 https://www.iptvsmarters.com/#downloads",
     "downloadApk": "Download APK",
     "buySubscription": "Acheter un abonnement IPTV Smarters Pro (Promo -30%)",
+    "exploreMoreTitle": "Explorer plus",
+    "readOurBlog": "Lire notre blog",
+    "becomeReseller": "Devenir revendeur",
     "smartersLiteTitle": "Smarters Player Lite – L'application gratuite pour votre Abonnement IPTV",
     "smartersLiteIntro": "Vous cherchez une Application 100 % gratuite pour profiter de votre Abonnement IPTV ? Ne cherchez plus ! Smarters Player Lite est la solution idéale. Cette version légère de l'application IPTV Smarters vous permet d'accéder à vos chaînes TV, films, séries et contenus à la demande facilement, sans frais supplémentaires.",
     "whyLiteTitle": "Pourquoi choisir Smarters Lite ?",

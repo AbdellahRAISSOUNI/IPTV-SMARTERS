@@ -6,7 +6,8 @@ import { Mail, MessageCircle, ArrowRight, Globe } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { locales, type Locale } from "@/lib/i18n";
-import { getLegalUrl } from "@/lib/utils/installation-slugs";
+import { getLegalUrl, getInstallationUrl } from "@/lib/utils/installation-slugs";
+import { usePathname } from "next/navigation";
 
 const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
   e.preventDefault();
@@ -24,15 +25,36 @@ const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) =>
 
 export default function Footer() {
   const { t, locale, setLocale } = useLanguage();
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
   const whatsappUrl = getWhatsAppUrl(t("whatsapp.contactQuestion"));
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@iptvsubscriptionpro.es";
+
+  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
   const languageNames: Record<Locale, string> = {
     en: "English",
     es: "Español",
     fr: "Français",
   };
+
+  const quickLinks = isHomePage
+    ? [
+        { href: "#home", label: t("common.home"), isExternal: false },
+        { href: "#pricing", label: t("common.pricing"), isExternal: false },
+        { href: "#features", label: t("common.features"), isExternal: false },
+        { href: "#faq", label: t("common.faq"), isExternal: false },
+        { href: "#contact", label: t("common.contact"), isExternal: false },
+      ]
+    : [
+        { href: `/${locale}/`, label: t("common.home"), isExternal: true },
+        { href: `/${locale}/#pricing`, label: t("common.pricing"), isExternal: true },
+        { href: `/${locale}/#features`, label: t("common.features"), isExternal: true },
+        { href: `/${locale}/#faq`, label: t("common.faq"), isExternal: true },
+        { href: `/${locale}/#cta`, label: t("common.contact"), isExternal: true },
+        { href: `/${locale}/blog/`, label: t("common.blog"), isExternal: true },
+        { href: getInstallationUrl("iptv-installation-guide", locale), label: t("common.installation"), isExternal: true },
+      ];
 
   return (
     <footer className="relative bg-[#0f172a] text-white overflow-hidden border-t border-white/5">
@@ -106,35 +128,41 @@ export default function Footer() {
               {t("footer.quickLinks")}
             </h2>
             <nav className="flex flex-col space-y-1.5" aria-label="Footer navigation">
-              {[
-                { href: "#home", label: t("common.home"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#home") },
-                { href: "#pricing", label: t("common.pricing"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#pricing") },
-                { href: "#features", label: t("common.features"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#features") },
-                { href: "#faq", label: t("common.faq"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#faq") },
-                { href: "#contact", label: t("common.contact"), onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
-                  e.preventDefault();
-                  const contactSection = document.querySelector("#contact") || document.querySelector("#faq");
-                  if (contactSection) {
-                    const headerHeight = 80;
-                    const elementPosition = contactSection.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-                    window.scrollTo({
-                      top: offsetPosition,
-                      behavior: "smooth",
-                    });
-                  }
-                }},
-              ].map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  onClick={link.onClick}
-                  className="text-white/70 hover:text-white transition-colors duration-200 text-sm group inline-flex items-center gap-2 w-fit"
-                >
-                  <span>{link.label}</span>
-                  <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                </a>
-              ))}
+              {quickLinks.map((link, index) =>
+                link.isExternal ? (
+                  <a
+                    key={index}
+                    href={link.href}
+                    className="text-white/70 hover:text-white transition-colors duration-200 text-sm group inline-flex items-center gap-2 w-fit"
+                  >
+                    <span>{link.label}</span>
+                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                  </a>
+                ) : (
+                  <a
+                    key={index}
+                    href={link.href}
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                      if (link.href === "#contact") {
+                        e.preventDefault();
+                        const contactSection = document.querySelector("#contact") || document.querySelector("#faq");
+                        if (contactSection) {
+                          const headerHeight = 80;
+                          const elementPosition = contactSection.getBoundingClientRect().top;
+                          const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+                          window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                        }
+                      } else {
+                        handleNavClick(e, link.href);
+                      }
+                    }}
+                    className="text-white/70 hover:text-white transition-colors duration-200 text-sm group inline-flex items-center gap-2 w-fit"
+                  >
+                    <span>{link.label}</span>
+                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                  </a>
+                )
+              )}
             </nav>
           </motion.div>
 

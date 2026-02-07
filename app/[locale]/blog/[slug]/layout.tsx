@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
+import { locales } from "@/lib/i18n";
 import { getBlogBySlug } from "@/lib/admin/blog";
+import { getBlogUrl } from "@/lib/utils/blog-slugs";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
@@ -40,19 +42,21 @@ export async function generateMetadata({
     const publishedTime = blog.publishedAt;
     const modifiedTime = blog.updatedAt;
 
+    // Build correct hreflang URLs using each locale's slug (slugs can differ per language)
+    const languageAlternates: Record<string, string> = {};
+    locales.forEach((loc) => {
+      languageAlternates[loc] = `${baseUrl}${getBlogUrl(blog, loc)}`;
+    });
+    languageAlternates["x-default"] = `${baseUrl}${getBlogUrl(blog, "en")}`;
+
     return {
       title: `${title} | StreamPro`,
       description,
       keywords: blog.meta?.keywords?.[locale] || blog.meta?.keywords?.[blog.locale] || [],
       metadataBase: new URL(baseUrl),
       alternates: {
-        canonical: `${baseUrl}/${locale}/blog/${slug}/`, // Include trailing slash for consistency
-        languages: {
-          en: `${baseUrl}/en/blog/${slug}/`,
-          es: `${baseUrl}/es/blog/${slug}/`,
-          fr: `${baseUrl}/fr/blog/${slug}/`,
-          "x-default": `${baseUrl}/en/blog/${slug}/`,
-        },
+        canonical: `${baseUrl}${getBlogUrl(blog, locale)}`,
+        languages: languageAlternates,
       },
       openGraph: {
         type: "article",

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
+import { getInstallationUrl } from "@/lib/utils/installation-slugs";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -219,6 +220,47 @@ export default function SmartTvInstallation() {
                   </div>
                 </div>
               </div>
+            </div>
+          </motion.div>
+
+          {/* Explore more - internal links to main site and blog */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            className="mt-10 pt-8 border-t border-gray-200"
+          >
+            <h2 className="text-xl sm:text-2xl font-semibold text-[#1a1a1a] mb-6">
+              {t("installation.exploreMoreTitle")}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <a
+                href={`/${locale}#pricing`}
+                className="group border-2 border-[#2563eb]/30 rounded-xl p-5 hover:border-[#2563eb] hover:bg-[#2563eb]/5 transition-all duration-200 text-center"
+              >
+                <span className="text-base font-semibold text-[#2563eb] group-hover:text-[#1d4ed8] block">
+                  {t("installation.buySubscription")}
+                </span>
+                <span className="text-sm text-[#1a1a1a]/70 mt-1 block">Get your subscription</span>
+              </a>
+              <a
+                href={`/${locale}/blog/`}
+                className="group border-2 border-gray-200 rounded-xl p-5 hover:border-[#2563eb] hover:bg-[#2563eb]/5 transition-all duration-200 text-center"
+              >
+                <span className="text-base font-semibold text-[#1a1a1a] group-hover:text-[#2563eb] block">
+                  {t("installation.readOurBlog")}
+                </span>
+                <span className="text-sm text-[#1a1a1a]/70 mt-1 block">Tips & guides</span>
+              </a>
+              <a
+                href={getInstallationUrl('iptv-reseller-program', locale)}
+                className="group border-2 border-gray-200 rounded-xl p-5 hover:border-[#2563eb] hover:bg-[#2563eb]/5 transition-all duration-200 text-center"
+              >
+                <span className="text-base font-semibold text-[#1a1a1a] group-hover:text-[#2563eb] block">
+                  {t("installation.becomeReseller")}
+                </span>
+                <span className="text-sm text-[#1a1a1a]/70 mt-1 block">Start your business</span>
+              </a>
             </div>
           </motion.div>
         </div>
