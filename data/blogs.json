@@ -1,5 +1,701 @@
 [
   {
+    "id": "pycgxgrkymm",
+    "slug": {
+      "en": "",
+      "es": "",
+      "fr": "playlist-m3u-tivimate-iptv-player"
+    },
+    "title": {
+      "en": "",
+      "es": "",
+      "fr": "Playlist M3U pour Tivimate iptv player : Guide Complet pour Configurer IPTV, VOD et Streaming Multi-Appareils"
+    },
+    "excerpt": {
+      "en": "",
+      "es": "",
+      "fr": "Guide complet pour configurer une playlist M3U sur TiviMate IPTV player : IPTV, VOD, EPG, rattrapage TV et streaming multi-appareils.#TiviMateiptvplayer#TiviMate"
+    },
+    "publishedAt": "2026-02-12T09:19:12.131Z",
+    "updatedAt": "2026-02-12T09:57:40.091Z",
+    "locale": "fr",
+    "translations": [
+      "fr"
+    ],
+    "blocks": [
+      {
+        "id": "ubgyyr6zhij",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Playlist M3U pour Tivimate iptv player : Guide Complet pour Configurer IPTV, VOD et Streaming Multi-Appareils"
+        },
+        "level": 3
+      },
+      {
+        "id": "hc8fcceizk",
+        "type": "image",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1770887993/blog-images/ftf36s1oqref9sljy59x.jpg",
+        "imageAlt": {
+          "en": "",
+          "es": "",
+          "fr": "tivimate iptv player :playlist M3U pour TiviMate"
+        }
+      },
+      {
+        "id": "dcjia5ywou",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "La [playlist M3U](https://www.pro-iptvsmarters.com/es/#pricing) pour [TiviMate iptv player](https://www.pro-iptvsmarters.com/es/#pricing) est aujourd’hui l’une des solutions les plus populaires pour profiter de la télévision IPTV, du contenu VOD et du streaming en haute qualité sur plusieurs appareils. Grâce à son interface fluide et à ses fonctionnalités avancées, TiviMate s’impose comme un lecteur IPTV de référence.TiviMate iptv player"
+        }
+      },
+      {
+        "id": "vha3ybee3rm",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Dans ce guide ultime, nous allons voir comment configurer une [playlist M3U](https://www.pro-iptvsmarters.com/es/#pricing) sur *[TiviMate iptv player](https://tivimate.com/)*, organiser les chaînes IPTV, gérer la VOD, activer le rattrapage TV et optimiser la diffusion multi-appareils."
+        }
+      },
+      {
+        "id": "54s9fenhqjg",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "📌 À retenir"
+        },
+        "level": 4
+      },
+      {
+        "id": "t9fyk1y4tp",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Playlist IPTV bien organisée : facilite la navigation et améliore l’expérience utilisateur",
+            "Compatibilité multi-appareils : idéal pour Smart TV, Android Box, Fire Stick",
+            "VOD et Catch-up TV : films, séries et replay à la demande",
+            "EPG intégré : guide TV clair et précis",
+            "Optimisation et dépannage : solutions simples aux problèmes courants"
+          ]
+        }
+      },
+      {
+        "id": "1bymj7n4sk6",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "1️⃣ Comprendre l’organisation des chaînes IPTV"
+        },
+        "level": 4
+      },
+      {
+        "id": "pnimfg4acon",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Une [playlist M3U IPTV](https://www.pro-iptvsmarters.com/es/#pricing) contient des liens de flux vidéo. Lorsqu’elle est bien structurée (catégories, pays, sports, films), elle permet :Tivimate iptv player:"
+        }
+      },
+      {
+        "id": "9wlbr8emhlg",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Accès rapide aux chaînes préférées",
+            "Navigation intuitive par genre ou région",
+            "Découverte de nouveaux contenus",
+            "Gestion simplifiée des chaînes"
+          ]
+        }
+      },
+      {
+        "id": "3kqy7n189h2",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "👉 Une bonne organisation améliore fortement l’expérience sur Tivimate IPTV Player."
+        }
+      },
+      {
+        "id": "4uy94k1tenu",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "2️⃣ Configuration de votre playlist M3U dans TiviMate"
+        },
+        "level": 4
+      },
+      {
+        "id": "cc3siryepab",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Étapes pour ajouter une playlist M3U sur TiviMate IPTV Player :"
+        },
+        "level": 5
+      },
+      {
+        "id": "s3c9dm3gi8s",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Ouvrez TiviMate",
+            "Accédez à Paramètres > Listes de lecture",
+            "Cliquez sur Ajouter une playlist",
+            "Choisissez :URL distante (M3U),ou fichier local",
+            "Entrez les informations de la playlist",
+            "Ajoutez l’URL EPG si disponible",
+            "Enregistrez et rechargez la playlist"
+          ]
+        }
+      },
+      {
+        "id": "pt16nezekq",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "✅ Votre IPTV est prête à l’emploi."
+        }
+      },
+      {
+        "id": "lobie8tx4vf",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "3️⃣ Portail IPTV vs accès direct M3U"
+        },
+        "level": 4
+      },
+      {
+        "id": "xcvhrlavm4r",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "🔹 Portail IPTV: TiviMate IPTV Player"
+        },
+        "level": 5
+      },
+      {
+        "id": "w3myadwui9b",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Mise à jour automatique",
+            "EPG intégré",
+            "Accès VOD et Catch-up",
+            "Interface centralisée"
+          ]
+        }
+      },
+      {
+        "id": "p566k96pebj",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "🔹 Playlist M3U"
+        },
+        "level": 5
+      },
+      {
+        "id": "0nx0t0lrzow",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Plus de contrôle",
+            "Compatible avec plusieurs lecteurs",
+            "Facile à sauvegarder"
+          ]
+        }
+      },
+      {
+        "id": "ynfi8mn0drc",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "👉 [TiviMate iptv player](https://www.pro-iptvsmarters.com/es/#pricing) supporte les deux méthodes, selon vos besoins."
+        }
+      },
+      {
+        "id": "7j8jt5llfqb",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "4️⃣ Gestion du contenu VOD (Films & Séries)"
+        },
+        "level": 4
+      },
+      {
+        "id": "2vaesrdopc5",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "La VOD IPTV permet d’accéder à un large catalogue :"
+        }
+      },
+      {
+        "id": "4zp0cbyi65j",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Films récents",
+            "Séries complètes",
+            "Contenus classés par genre"
+          ]
+        }
+      },
+      {
+        "id": "ox34gyvwsl",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Comment accéder à la VOD dans TiviMate :"
+        },
+        "level": 5
+      },
+      {
+        "id": "eea5matila",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Ouvrez la section VOD",
+            "Parcourez les catégories",
+            "Utilisez la recherche",
+            "Lancez la lecture instantanément"
+          ]
+        }
+      },
+      {
+        "id": "geidf041b18",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "5️⃣ Fonctionnalités de rattrapage TV (Catch-up)"
+        },
+        "level": 4
+      },
+      {
+        "id": "9qqv0zso4m",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Le Catch-up IPTV permet de revoir les programmes passés :"
+        }
+      },
+      {
+        "id": "kzg8lzxvte",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Replay sur 24 à 72 heures",
+            "Navigation par timeline",
+            "Intégration EPG",
+            "Enregistrement (selon fournisseur)"
+          ]
+        }
+      },
+      {
+        "id": "1j2vcnkp891",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Idéal pour ne plus rater vos émissions préférées."
+        }
+      },
+      {
+        "id": "cm9886yapc",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "6️⃣ Configuration du streaming IPTV multi-appareils"
+        },
+        "level": 4
+      },
+      {
+        "id": "o0s6w64y9q",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Pour utiliser l’IPTV sur plusieurs appareils :"
+        }
+      },
+      {
+        "id": "aq8dxlsr6w",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Vérifiez le nombre de connexions autorisées",
+            "Assurez une bonne bande passante",
+            "Ajustez la qualité vidéo",
+            "Utilisez un réseau stable (Ethernet ou Wi-Fi 5GHz)"
+          ]
+        }
+      },
+      {
+        "id": "rcwzutqp5rd",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "📺 Compatible avec :"
+        },
+        "level": 6
+      },
+      {
+        "id": "rhwd0f0km39",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Smart TV",
+            "Android TV / Box",
+            "Smartphone & tablette",
+            "Fire Stick"
+          ]
+        }
+      },
+      {
+        "id": "7yhj0s9cwrr",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "7️⃣ Intégration des chaînes locales"
+        },
+        "level": 4
+      },
+      {
+        "id": "d3627slygxh",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Les chaînes locales IPTV nécessitent :"
+        }
+      },
+      {
+        "id": "i5plk53kgu",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Flux régionaux fiables",
+            "EPG précis",
+            "Absence de restrictions géographiques",
+            "Bonne qualité HD / FHD"
+          ]
+        }
+      },
+      {
+        "id": "e9viomqb74s",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Cela permet de regarder les chaînes nationales sans antenne."
+        }
+      },
+      {
+        "id": "gzayh6b2ej",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "8️⃣ Résoudre les problèmes courants"
+        },
+        "level": 4
+      },
+      {
+        "id": "yiif8p0o8ca",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Problèmes fréquents & solutions :"
+        },
+        "level": 5
+      },
+      {
+        "id": "yerofqtg68n",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Buffering → Vérifiez la connexion Internet",
+            "Chaînes absentes → Rechargez la playlist",
+            "EPG ne fonctionne pas → Actualisez les données",
+            "Erreur de lecture → Redémarrez l’application"
+          ]
+        }
+      },
+      {
+        "id": "49wlxy0drio",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "9️⃣ Meilleures pratiques pour des performances optimales"
+        },
+        "level": 4
+      },
+      {
+        "id": "df4iyqwijw9",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "✔ Mettre à jour TiviMate",
+            "✔ Sauvegarder les playlists",
+            "✔ Surveiller la bande passante",
+            "✔ Utiliser des sources IPTV fiable",
+            "✔ Nettoyer le cache régulièrement"
+          ]
+        }
+      },
+      {
+        "id": "mmfkjxbl36",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "❓ Foire aux questions (FAQ)"
+        },
+        "level": 4
+      },
+      {
+        "id": "tstyofw1cs",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Qu’est-ce qu’une playlist M3U ?"
+        },
+        "level": 5
+      },
+      {
+        "id": "0zba4ttr7qop",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Un fichier contenant des liens de flux multimédia accessibles via Internet."
+        }
+      },
+      {
+        "id": "yqy6eg217rr",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "TiviMate supporte-t-il plusieurs playlists ?"
+        },
+        "level": 5
+      },
+      {
+        "id": "2cyoyw6vis6",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Oui, vous pouvez ajouter plusieurs listes M3U."
+        }
+      },
+      {
+        "id": "pf6tv3emvb",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Puis-je utiliser une playlist sur plusieurs appareils ?"
+        },
+        "level": 5
+      },
+      {
+        "id": "rprr58fcr1",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Oui, selon les limites de connexions du fournisseur IPTV."
+        }
+      }
+    ],
+    "meta": {
+      "keywords": {
+        "en": "",
+        "es": "",
+        "fr": "Tivimate iptv player,Playlist M3U,Tivimate,playlist M3U iptv,Playlist M3U pour Tivimate"
+      }
+    },
+    "featuredImage": "https://res.cloudinary.com/df5we7yoo/image/upload/v1770889477/blog-images/wncetakrkatdfyxhfxcp.jpg"
+  },
+  {
     "id": "ymhtymv24u",
     "slug": {
       "en": "m3u-list-iptv-playlists-guide",
