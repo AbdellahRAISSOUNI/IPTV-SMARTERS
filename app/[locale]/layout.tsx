@@ -31,6 +31,8 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     fr: "Service de streaming IPTV premium avec plus de 20,000 chaînes TV en direct, qualité 4K et support pour tous les appareils. Essai gratuit disponible.",
   };
 
+  const t = getTranslations(locale);
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -69,8 +71,8 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     offers: [
       {
         "@type": "Offer",
-        name: locale === "en" ? "3 Months Plan" : locale === "es" ? "Plan de 3 Meses" : "Plan de 3 Mois",
-        price: "19.99",
+        name: t.pricing?.plan3Months || "3 Months Plan",
+        price: (t.pricing?.plan3MonthsPrice || "€19.99").replace(/[^\d.]/g, ""),
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: `${baseUrl}/${locale}/#pricing`, // Include trailing slash before hash

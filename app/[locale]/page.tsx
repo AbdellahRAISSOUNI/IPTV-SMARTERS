@@ -86,8 +86,8 @@ export default function Home() {
 
   const pricingPlans = [
     {
-      name: "3 Months",
-      price: "€19.99",
+      name: t("pricing.plan3Months"),
+      price: t("pricing.plan3MonthsPrice"),
       period: "",
       features: [
         t("pricing.instantActivation"),
@@ -104,8 +104,8 @@ export default function Home() {
       ],
     },
     {
-      name: "6 Months",
-      price: "€24.99",
+      name: t("pricing.plan6Months"),
+      price: t("pricing.plan6MonthsPrice"),
       period: "",
       features: [
         t("pricing.instantActivation"),
@@ -122,8 +122,8 @@ export default function Home() {
       ],
     },
     {
-      name: "12 Months",
-      price: "€39.99",
+      name: t("pricing.plan12Months"),
+      price: t("pricing.plan12MonthsPrice"),
       period: "",
       features: [
         t("pricing.instantActivation"),
@@ -141,8 +141,8 @@ export default function Home() {
       popular: true,
     },
     {
-      name: "24 Months",
-      price: "€54.99",
+      name: t("pricing.plan24Months"),
+      price: t("pricing.plan24MonthsPrice"),
       period: "",
       features: [
         t("pricing.instantActivation"),
@@ -191,8 +191,8 @@ export default function Home() {
   // Premium plans
   const premiumPlans = [
     {
-      name: "3 Months",
-      price: "€29.99",
+      name: t("pricing.plan3MonthsPremium"),
+      price: t("pricing.plan3MonthsPremiumPrice"),
       period: "",
       features: [
         t("pricing.instantActivation"),
@@ -209,8 +209,8 @@ export default function Home() {
       ],
     },
     {
-      name: "6 Months",
-      price: "€39.99",
+      name: t("pricing.plan6MonthsPremium"),
+      price: t("pricing.plan6MonthsPremiumPrice"),
       period: "",
       features: [
         t("pricing.instantActivation"),
@@ -388,7 +388,7 @@ export default function Home() {
               <div className="relative px-6 py-2.5 rounded-lg border-[3px] border-gray-300 bg-gray-100">
                 <div className="absolute inset-0 bg-[#2563eb] rounded-lg"></div>
                 <span className="relative z-10 font-semibold text-base text-white uppercase tracking-wide">
-                  {t("pricing.oneConnection")}
+                  {t("pricing.standardPlansLabel") || t("pricing.oneConnection")}
                 </span>
               </div>
             </motion.div>
@@ -420,7 +420,7 @@ export default function Home() {
               <div className="relative px-6 py-2.5 rounded-lg border-[3px] border-gray-300 bg-gray-100">
                 <div className="absolute inset-0 bg-[#2563eb] rounded-lg"></div>
                 <span className="relative z-10 font-semibold text-base text-white uppercase tracking-wide">
-                  {t("pricing.twoConnectionsPremium")}
+                  {t("pricing.premiumPlansLabel") || t("pricing.twoConnectionsPremium")}
                 </span>
               </div>
             </motion.div>

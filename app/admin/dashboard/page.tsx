@@ -31,6 +31,7 @@ import {
   MoveUp,
   MoveDown,
 } from "lucide-react";
+import { translations as defaultTranslations } from "@/lib/i18n";
 import BlogsManager from "@/components/admin/BlogsManager";
 import DeploymentNotification from "@/components/admin/DeploymentNotification";
 
@@ -275,6 +276,22 @@ export default function AdminDashboard() {
     setTranslations(newTranslations);
   };
 
+  const getDefaultValue = (localeKey: string, path: string): string => {
+    const keys = path.split(".");
+    // Use static translation JSON shipped with the app as a fallback
+    let current: any = (defaultTranslations as any)[localeKey];
+
+    for (const key of keys) {
+      if (current && current[key] !== undefined) {
+        current = current[key];
+      } else {
+        return "";
+      }
+    }
+
+    return String(current);
+  };
+
   const getValue = (path: string): string => {
     const keys = path.split(".");
     let current: any = translations[activeLocale]?.content;
@@ -283,7 +300,13 @@ export default function AdminDashboard() {
       if (current && current[key] !== undefined) {
         current = current[key];
       } else {
-        return "";
+        // If the key isn't present in GitHub-backed translations,
+        // fall back to the built-in translation JSON (per locale, then EN)
+        return (
+          getDefaultValue(activeLocale, path) ||
+          getDefaultValue("en", path) ||
+          ""
+        );
       }
     }
     
@@ -600,43 +623,69 @@ export default function AdminDashboard() {
 
                     {/* Standard Plans - 4 Cards */}
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h3 className="text-lg font-medium text-black mb-4">Standard Plans (1 Connection)</h3>
+                      <h3 className="text-lg font-medium text-black mb-4">
+                        {getValue("pricing.standardPlansLabel") || "Standard Plans (1 Connection)"}
+                      </h3>
                       
                       <div className="grid grid-cols-2 gap-6">
                         {/* 3 Months Standard */}
                         <div className="border border-gray-200 rounded-lg p-4">
-                          <h4 className="font-medium text-gray-900 mb-3">3 Months Plan</h4>
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-gray-900">
+                              {getValue("pricing.plan3Months")}
+                            </h4>
+                          </div>
                           <div className="space-y-3">
                             <input
                               type="text"
+                              placeholder="Plan title (e.g., 3 Months Plan)"
+                              value={getValue("pricing.plan3Months")}
+                              onChange={(e) => updateValue("pricing.plan3Months", e.target.value)}
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <input
+                              type="text"
                               placeholder="Price (e.g., €19.99)"
-                              defaultValue="€19.99"
+                              value={getValue("pricing.plan3MonthsPrice")}
+                              onChange={(e) => updateValue("pricing.plan3MonthsPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                             />
                             <div className="text-xs text-gray-500 space-y-1">
-                              <p>✓ Instant Activation</p>
-                              <p>✓ Free Updates</p>
-                              <p>✓ 20,000+ Live Channels</p>
-                              <p className="text-gray-400">+ 8 more features...</p>
+                              <p>✓ {getValue("pricing.instantActivation") || "Instant Activation"}</p>
+                              <p>✓ {getValue("pricing.freeUpdates") || "Free Updates"}</p>
+                              <p>✓ {getValue("pricing.liveChannels") || "20,000+ Live Channels"}</p>
+                              <p className="text-gray-400">+ more shared features below</p>
                             </div>
                           </div>
                         </div>
 
                         {/* 6 Months Standard */}
                         <div className="border border-gray-200 rounded-lg p-4">
-                          <h4 className="font-medium text-gray-900 mb-3">6 Months Plan</h4>
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-gray-900">
+                              {getValue("pricing.plan6Months")}
+                            </h4>
+                          </div>
                           <div className="space-y-3">
                             <input
                               type="text"
-                              placeholder="Price (e.g., €29.99)"
-                              defaultValue="€29.99"
+                              placeholder="Plan title (e.g., 6 Months Plan)"
+                              value={getValue("pricing.plan6Months")}
+                              onChange={(e) => updateValue("pricing.plan6Months", e.target.value)}
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <input
+                              type="text"
+                              placeholder="Price (e.g., €24.99)"
+                              value={getValue("pricing.plan6MonthsPrice")}
+                              onChange={(e) => updateValue("pricing.plan6MonthsPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                             />
                             <div className="text-xs text-gray-500 space-y-1">
-                              <p>✓ Instant Activation</p>
-                              <p>✓ Free Updates</p>
-                              <p>✓ 20,000+ Live Channels</p>
-                              <p className="text-gray-400">+ 8 more features...</p>
+                              <p>✓ {getValue("pricing.instantActivation") || "Instant Activation"}</p>
+                              <p>✓ {getValue("pricing.freeUpdates") || "Free Updates"}</p>
+                              <p>✓ {getValue("pricing.liveChannels") || "20,000+ Live Channels"}</p>
+                              <p className="text-gray-400">+ more shared features below</p>
                             </div>
                           </div>
                         </div>
@@ -644,40 +693,62 @@ export default function AdminDashboard() {
                         {/* 12 Months Standard */}
                         <div className="border border-blue-500 rounded-lg p-4 bg-blue-50/50">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-gray-900">12 Months Plan</h4>
+                            <h4 className="font-medium text-gray-900">
+                              {getValue("pricing.plan12Months")}
+                            </h4>
                             <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded">Popular</span>
                           </div>
                           <div className="space-y-3">
                             <input
                               type="text"
+                              placeholder="Plan title (e.g., 12 Months Plan)"
+                              value={getValue("pricing.plan12Months")}
+                              onChange={(e) => updateValue("pricing.plan12Months", e.target.value)}
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <input
+                              type="text"
                               placeholder="Price (e.g., €39.99)"
-                              defaultValue="€39.99"
+                              value={getValue("pricing.plan12MonthsPrice")}
+                              onChange={(e) => updateValue("pricing.plan12MonthsPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                             />
                             <div className="text-xs text-gray-700 space-y-1">
-                              <p>✓ Instant Activation</p>
-                              <p>✓ Free Updates</p>
-                              <p>✓ 20,000+ Live Channels</p>
-                              <p className="text-gray-500">+ 8 more features...</p>
+                              <p>✓ {getValue("pricing.instantActivation") || "Instant Activation"}</p>
+                              <p>✓ {getValue("pricing.freeUpdates") || "Free Updates"}</p>
+                              <p>✓ {getValue("pricing.liveChannels") || "20,000+ Live Channels"}</p>
+                              <p className="text-gray-500">+ more shared features below</p>
                             </div>
                           </div>
                         </div>
 
                         {/* 24 Months Standard */}
                         <div className="border border-gray-200 rounded-lg p-4">
-                          <h4 className="font-medium text-gray-900 mb-3">24 Months Plan</h4>
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-gray-900">
+                              {getValue("pricing.plan24Months")}
+                            </h4>
+                          </div>
                           <div className="space-y-3">
                             <input
                               type="text"
+                              placeholder="Plan title (e.g., 24 Months Plan)"
+                              value={getValue("pricing.plan24Months")}
+                              onChange={(e) => updateValue("pricing.plan24Months", e.target.value)}
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <input
+                              type="text"
                               placeholder="Price (e.g., €54.99)"
-                              defaultValue="€54.99"
+                              value={getValue("pricing.plan24MonthsPrice")}
+                              onChange={(e) => updateValue("pricing.plan24MonthsPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                             />
                             <div className="text-xs text-gray-500 space-y-1">
-                              <p>✓ Instant Activation</p>
-                              <p>✓ Free Updates</p>
-                              <p>✓ 20,000+ Live Channels</p>
-                              <p className="text-gray-400">+ 8 more features...</p>
+                              <p>✓ {getValue("pricing.instantActivation") || "Instant Activation"}</p>
+                              <p>✓ {getValue("pricing.freeUpdates") || "Free Updates"}</p>
+                              <p>✓ {getValue("pricing.liveChannels") || "20,000+ Live Channels"}</p>
+                              <p className="text-gray-400">+ more shared features below</p>
                             </div>
                           </div>
                         </div>
@@ -686,43 +757,69 @@ export default function AdminDashboard() {
 
                     {/* Premium Plans - 4 Cards */}
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h3 className="text-lg font-medium text-black mb-4">Premium Plans (Multiple Connections)</h3>
+                      <h3 className="text-lg font-medium text-black mb-4">
+                        {getValue("pricing.premiumPlansLabel") || "Premium Plans (Multiple Connections)"}
+                      </h3>
                       
                       <div className="grid grid-cols-2 gap-6">
                         {/* 3 Months Premium */}
                         <div className="border border-gray-200 rounded-lg p-4">
-                          <h4 className="font-medium text-gray-900 mb-3">3 Months Premium</h4>
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-gray-900">
+                              {getValue("pricing.plan3MonthsPremium")}
+                            </h4>
+                          </div>
                           <div className="space-y-3">
                             <input
                               type="text"
+                              placeholder="Plan title (e.g., 3 Months Premium)"
+                              value={getValue("pricing.plan3MonthsPremium")}
+                              onChange={(e) => updateValue("pricing.plan3MonthsPremium", e.target.value)}
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <input
+                              type="text"
                               placeholder="Price (e.g., €29.99)"
-                              defaultValue="€29.99"
+                              value={getValue("pricing.plan3MonthsPremiumPrice")}
+                              onChange={(e) => updateValue("pricing.plan3MonthsPremiumPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                             />
                             <div className="text-xs text-gray-500 space-y-1">
-                              <p>✓ Adult Content</p>
-                              <p>✓ 20,000+ Live Channels</p>
-                              <p>✓ 4K & HD Quality</p>
-                              <p className="text-gray-400">+ 9 more features...</p>
+                              <p>✓ {getValue("pricing.adultContent") || "Adult Content"}</p>
+                              <p>✓ {getValue("pricing.liveChannels") || "20,000+ Live Channels"}</p>
+                              <p>✓ {getValue("pricing.quality") || "4K & HD Quality"}</p>
+                              <p className="text-gray-400">+ more shared features below</p>
                             </div>
                           </div>
                         </div>
 
                         {/* 6 Months Premium */}
                         <div className="border border-gray-200 rounded-lg p-4">
-                          <h4 className="font-medium text-gray-900 mb-3">6 Months Premium</h4>
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-gray-900">
+                              {getValue("pricing.plan6MonthsPremium")}
+                            </h4>
+                          </div>
                           <div className="space-y-3">
                             <input
                               type="text"
+                              placeholder="Plan title (e.g., 6 Months Premium)"
+                              value={getValue("pricing.plan6MonthsPremium")}
+                              onChange={(e) => updateValue("pricing.plan6MonthsPremium", e.target.value)}
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <input
+                              type="text"
                               placeholder="Price (e.g., €39.99)"
-                              defaultValue="€39.99"
+                              value={getValue("pricing.plan6MonthsPremiumPrice")}
+                              onChange={(e) => updateValue("pricing.plan6MonthsPremiumPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                             />
                             <div className="text-xs text-gray-500 space-y-1">
-                              <p>✓ Adult Content</p>
-                              <p>✓ 20,000+ Live Channels</p>
-                              <p>✓ 4K & HD Quality</p>
-                              <p className="text-gray-400">+ 9 more features...</p>
+                              <p>✓ {getValue("pricing.adultContent") || "Adult Content"}</p>
+                              <p>✓ {getValue("pricing.liveChannels") || "20,000+ Live Channels"}</p>
+                              <p>✓ {getValue("pricing.quality") || "4K & HD Quality"}</p>
+                              <p className="text-gray-400">+ more shared features below</p>
                             </div>
                           </div>
                         </div>
@@ -730,42 +827,196 @@ export default function AdminDashboard() {
                         {/* 12 Months Premium */}
                         <div className="border border-blue-500 rounded-lg p-4 bg-blue-50/50">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-gray-900">12 Months Premium</h4>
+                            <h4 className="font-medium text-gray-900">
+                              {getValue("pricing.plan12MonthsPremium")}
+                            </h4>
                             <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded">Popular</span>
                           </div>
                           <div className="space-y-3">
                             <input
                               type="text"
+                              placeholder="Plan title (e.g., 12 Months Premium)"
+                              value={getValue("pricing.plan12MonthsPremium")}
+                              onChange={(e) => updateValue("pricing.plan12MonthsPremium", e.target.value)}
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <input
+                              type="text"
                               placeholder="Price (e.g., €59.99)"
-                              defaultValue="€59.99"
+                              value={getValue("pricing.plan12MonthsPremiumPrice")}
+                              onChange={(e) => updateValue("pricing.plan12MonthsPremiumPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                             />
                             <div className="text-xs text-gray-700 space-y-1">
-                              <p>✓ Adult Content</p>
-                              <p>✓ 20,000+ Live Channels</p>
-                              <p>✓ 1 Month FREE Bonus</p>
-                              <p className="text-gray-500">+ 9 more features...</p>
+                              <p>✓ {getValue("pricing.adultContent") || "Adult Content"}</p>
+                              <p>✓ {getValue("pricing.liveChannels") || "20,000+ Live Channels"}</p>
+                              <p>✓ {getValue("pricing.freeMonth") || "1 Month FREE Bonus"}</p>
+                              <p className="text-gray-500">+ more shared features below</p>
                             </div>
                           </div>
                         </div>
 
                         {/* 24 Months Premium */}
                         <div className="border border-gray-200 rounded-lg p-4">
-                          <h4 className="font-medium text-gray-900 mb-3">24 Months Premium</h4>
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-gray-900">
+                              {getValue("pricing.plan24MonthsPremium")}
+                            </h4>
+                          </div>
                           <div className="space-y-3">
                             <input
                               type="text"
+                              placeholder="Plan title (e.g., 24 Months Premium)"
+                              value={getValue("pricing.plan24MonthsPremium")}
+                              onChange={(e) => updateValue("pricing.plan24MonthsPremium", e.target.value)}
+                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            <input
+                              type="text"
                               placeholder="Price (e.g., €89.99)"
-                              defaultValue="€89.99"
+                              value={getValue("pricing.plan24MonthsPremiumPrice")}
+                              onChange={(e) => updateValue("pricing.plan24MonthsPremiumPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                             />
                             <div className="text-xs text-gray-500 space-y-1">
-                              <p>✓ Adult Content</p>
-                              <p>✓ 20,000+ Live Channels</p>
-                              <p>✓ 3 Months FREE Bonus</p>
-                              <p className="text-gray-400">+ 9 more features...</p>
+                              <p>✓ {getValue("pricing.adultContent") || "Adult Content"}</p>
+                              <p>✓ {getValue("pricing.liveChannels") || "20,000+ Live Channels"}</p>
+                              <p>✓ {getValue("pricing.freeMonths") || "3 Months FREE Bonus"}</p>
+                              <p className="text-gray-400">+ more shared features below</p>
                             </div>
                           </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Shared feature texts used across plans */}
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h3 className="text-lg font-medium text-black mb-2">Shared Feature Texts</h3>
+                      <p className="text-gray-500 text-sm mb-4">
+                        These lines appear under all pricing cards. Edit them once and they update everywhere for this language.
+                      </p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Instant activation
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.instantActivation")}
+                            onChange={(e) => updateValue("pricing.instantActivation", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Free updates
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.freeUpdates")}
+                            onChange={(e) => updateValue("pricing.freeUpdates", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Live channels
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.liveChannels")}
+                            onChange={(e) => updateValue("pricing.liveChannels", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Movies & series
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.moviesSeries")}
+                            onChange={(e) => updateValue("pricing.moviesSeries", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Anti-freezing
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.antiFreezing")}
+                            onChange={(e) => updateValue("pricing.antiFreezing", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Quality text
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.quality")}
+                            onChange={(e) => updateValue("pricing.quality", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Formats
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.formats")}
+                            onChange={(e) => updateValue("pricing.formats", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Device compatibility
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.compatible")}
+                            onChange={(e) => updateValue("pricing.compatible", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Adult content (premium)
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.adultContent")}
+                            onChange={(e) => updateValue("pricing.adultContent", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Free month (12 months)
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.freeMonth")}
+                            onChange={(e) => updateValue("pricing.freeMonth", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Free months (24 months)
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("pricing.freeMonths")}
+                            onChange={(e) => updateValue("pricing.freeMonths", e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
                         </div>
                       </div>
                     </div>
