@@ -1,10 +1,11 @@
-"use client";
-
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
-
-const testimonials = [
+ "use client";
+ 
+ import React from 'react';
+ import { motion } from 'framer-motion';
+ import { Star } from 'lucide-react';
+ import { useLanguage } from '@/contexts/LanguageContext';
+ 
+ const testimonials = [
   {
     text: "Best IPTV service I've ever used! Crystal clear quality and never buffers. The support team is amazing too.",
     name: "Ahmed M.",
@@ -145,8 +146,10 @@ const TestimonialsColumn = ({ className, testimonials, duration = 10 }: Testimon
     </div>
   );
 };
-
+ 
 export default function TestimonialsSection() {
+  const { t } = useLanguage();
+
   return (
     <section id="testimonials" className="py-12 lg:py-20 xl:py-24 2xl:py-28 relative overflow-hidden bg-white">
       <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 relative">
@@ -164,7 +167,16 @@ export default function TestimonialsSection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1], delay: 0.05 }}
           >
-            What Our <span className="text-[#2563eb]">Customers</span> Say
+            {t("testimonials.titlePart1")}{" "}
+            <span className="text-[#2563eb]">
+              {t("testimonials.titleHighlight")}
+            </span>
+            {t("testimonials.titlePart2") && (
+              <>
+                {" "}
+                {t("testimonials.titlePart2")}
+              </>
+            )}
           </motion.h2>
           <motion.p 
             className="text-[#1a1a1a]/70 text-lg xl:text-xl 2xl:text-2xl max-w-3xl xl:max-w-4xl 2xl:max-w-5xl mx-auto leading-relaxed"
@@ -173,7 +185,7 @@ export default function TestimonialsSection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
           >
-            From crystal clear quality to incredible channel selection, discover how our IPTV service has transformed the viewing experience for customers worldwide.
+            {t("testimonials.description")}
           </motion.p>
         </motion.div>
 

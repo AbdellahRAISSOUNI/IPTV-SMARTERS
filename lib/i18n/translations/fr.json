@@ -32,6 +32,12 @@
     "latestFromBlogSubtitle": "Conseils, guides et actualités sur l'IPTV et le streaming",
     "viewAllArticles": "Voir tous les articles"
   },
+  "testimonials": {
+    "titlePart1": "Ce Que Disent",
+    "titleHighlight": "Nos Clients",
+    "titlePart2": "",
+    "description": "De la qualité d'image cristalline à une sélection de chaînes incroyable, découvrez comment notre service IPTV a transformé l'expérience télévisuelle de nos clients dans le monde entier."
+  },
   "hero": {
     "title": "Meilleur Abonnement IPTV ",
     "subtitlePart1": "",
