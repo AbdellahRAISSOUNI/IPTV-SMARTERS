@@ -227,8 +227,8 @@ export default function Home() {
       ],
     },
     {
-      name: "12 Months",
-      price: "€59.99",
+      name: t("pricing.plan12MonthsPremium"),
+      price: t("pricing.plan12MonthsPremiumPrice"),
       period: "",
       features: [
         t("pricing.instantActivation"),
@@ -248,8 +248,8 @@ export default function Home() {
       popular: true,
     },
     {
-      name: "24 Months",
-      price: "€89.99",
+      name: t("pricing.plan24MonthsPremium"),
+      price: t("pricing.plan24MonthsPremiumPrice"),
       period: "",
       features: [
         t("pricing.instantActivation"),
