@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/admin/auth';
 import { getAllMetadata, updateMetadataFile } from '@/lib/admin/metadata';
+import { buildIndexNowUrlListForMetadata, submitToIndexNow } from '@/lib/indexnow';
 
 // GET - Fetch all metadata
 export async function GET() {
@@ -48,6 +49,11 @@ export async function POST(request: NextRequest) {
 
     // Update metadata file on GitHub
     await updateMetadataFile(locale, content, sha || '');
+
+    // Best-effort IndexNow notification (do not block admin UX on failure)
+    submitToIndexNow(buildIndexNowUrlListForMetadata(locale)).catch((err) => {
+      console.error('IndexNow metadata notify failed:', err);
+    });
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

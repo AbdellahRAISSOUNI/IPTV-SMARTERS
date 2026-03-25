@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAdminSession } from "@/lib/admin/auth";
 import { getAllBlogs, getBlogBySlug, saveBlog, deleteBlog, type BlogPost } from "@/lib/admin/blog";
+import { buildIndexNowUrlListForBlog, submitToIndexNow } from "@/lib/indexnow";
 
 export async function GET(request: NextRequest) {
   try {
@@ -37,6 +38,11 @@ export async function POST(request: NextRequest) {
 
     const blog: BlogPost = await request.json();
     await saveBlog(blog);
+
+    // Best-effort IndexNow notification (do not block admin UX on failure)
+    submitToIndexNow(buildIndexNowUrlListForBlog(blog)).catch((err) => {
+      console.error("IndexNow blog notify failed:", err);
+    });
     
     return NextResponse.json({ success: true, blog });
   } catch (error: any) {
