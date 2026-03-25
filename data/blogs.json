@@ -1523,24 +1523,26 @@
     "id": "ymhtymv24u",
     "slug": {
       "en": "m3u-list-iptv-playlists-guide",
-      "es": "m3u-list-iptv-playlists-guide",
-      "fr": "m3u-list-iptv-playlists-guide"
+      "es": "lista-m3u-iptv-guia-playlists",
+      "fr": "liste-m3u-iptv-guide-playlists"
     },
     "title": {
       "en": "M3U List Explained: Best IPTV Playlists, Setup Guide & Streaming Tips (2026)",
-      "es": "",
-      "fr": ""
+      "es": "Lista M3U Explicada: Mejores Playlists IPTV, Guía de Configuración y Consejos de Streaming (2026)",
+      "fr": "Liste M3U expliquée : Meilleures Playlists IPTV, Guide d’Installation et Astuces Streaming (2026)"
     },
     "excerpt": {
       "en": "What is an M3U list? Learn how IPTV playlists work, how to use M3U links with VLC & IPTV apps, and find the best M3U lists for smooth streaming in 2026.",
-      "es": "",
-      "fr": ""
+      "es": "¿Qué es una lista M3U? Aprende cómo funcionan las playlists IPTV, cómo usar enlaces M3U con VLC y apps IPTV, y encuentra las mejores listas M3U para un streaming fluido en 2026.",
+      "fr": "Qu’est-ce qu’une liste M3U ? Découvrez comment fonctionnent les playlists IPTV, comment utiliser les liens M3U avec VLC et les applications IPTV, et trouvez les meilleures listes M3U pour un streaming fluide en 2026."
     },
     "publishedAt": "2026-02-11T21:44:59.821Z",
-    "updatedAt": "2026-02-11T22:17:40.210Z",
+    "updatedAt": "2026-03-25T10:31:57.736Z",
     "locale": "en",
     "translations": [
-      "en"
+      "en",
+      "es",
+      "fr"
     ],
     "blocks": [
       {
