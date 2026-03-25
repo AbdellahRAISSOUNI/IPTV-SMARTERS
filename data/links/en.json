@@ -1,0 +1,25 @@
+{
+  "links": [
+    {
+      "id": "fifa-world-cup",
+      "label": "FIFA World Cup 2026",
+      "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026",
+      "targetBlank": true,
+      "nofollow": false
+    },
+    {
+      "id": "fifa-match-centre",
+      "label": "FIFA Match Centre",
+      "url": "https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup",
+      "targetBlank": true,
+      "nofollow": false
+    },
+    {
+      "id": "fire-tv-help",
+      "label": "Amazon Fire TV Help",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=G6ZQJ2Y9N7K6E6R5",
+      "targetBlank": true,
+      "nofollow": true
+    }
+  ]
+}
