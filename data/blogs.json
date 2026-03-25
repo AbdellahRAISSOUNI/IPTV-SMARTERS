@@ -6201,21 +6201,27 @@
   },
   {
     "id": "ykvd0xjlbp",
-    "slug": "iptv-foot-ligue-1-ligue-des-champions-2026",
+    "slug": {
+      "en": "IPTV Football 2026: Watch Ligue 1 & the Champions League in 4K",
+      "es": "iptv-futbol-ligue-1-liga-de-campeones-2026",
+      "fr": "iptv-foot-ligue-1-ligue-des-champions-2026"
+    },
     "title": {
-      "en": "",
-      "es": "",
-      "fr": "IPTV Foot 2025 : Regarder la Ligue & la Ligue des Champions en 4K"
+      "en": "IPTV Football 2026: Watch Ligue 1 & the Champions League in 4K",
+      "es": "IPTV Fútbol 2026: Ver la Ligue 1 y la Liga de Campeones en 4K",
+      "fr": "IPTV Foot 2026 : Regarder la Ligue & la Ligue des Champions en 4K"
     },
     "excerpt": {
-      "en": "",
-      "es": "",
-      "fr": "Regardez la Ligue et la Ligue des Champions 2025 en 4K HDR grâce à l’IPTV. Guide complet par ville, comparatif des meilleurs abonnements IPTV foot, compatibilité Freebox, Smart TV et mobile."
+      "en": "Watch Ligue 1 and the Champions League 2026 in 4K HDR with IPTV. Complete guide by city, comparison of the best IPTV football subscriptions, and compatibility with Freebox, Smart TV, and mobile.",
+      "es": "Disfruta de la Ligue 1 y la Liga de Campeones 2026 en 4K HDR gracias al IPTV. Guía completa por ciudad, comparativa de las mejores suscripciones IPTV de fútbol y compatibilidad con Freebox, Smart TV y móvil.",
+      "fr": "Regardez la Ligue et la Ligue des Champions 2026 en 4K HDR grâce à l’IPTV. Guide complet par ville, comparatif des meilleurs abonnements IPTV foot, compatibilité Freebox, Smart TV et mobile."
     },
     "publishedAt": "2026-01-03T16:29:59.115Z",
-    "updatedAt": "2026-01-05T15:10:41.838Z",
+    "updatedAt": "2026-03-25T09:45:22.171Z",
     "locale": "fr",
     "translations": [
+      "en",
+      "es",
       "fr"
     ],
     "blocks": [
