@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Mail, MessageCircle, ArrowRight, Globe } from "lucide-react";
@@ -8,6 +9,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { locales, type Locale } from "@/lib/i18n";
 import { getLegalUrl, getInstallationUrl } from "@/lib/utils/installation-slugs";
 import { usePathname } from "next/navigation";
+
+interface ManagedLink {
+  id: string;
+  label: string;
+  url: string;
+  targetBlank: boolean;
+  nofollow: boolean;
+}
 
 const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
   e.preventDefault();
@@ -29,6 +38,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
   const whatsappUrl = getWhatsAppUrl(t("whatsapp.contactQuestion"));
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@iptvsubscriptionpro.es";
+  const [managedLinks, setManagedLinks] = useState<ManagedLink[]>([]);
 
   const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
@@ -56,6 +66,19 @@ export default function Footer() {
         { href: getInstallationUrl("iptv-installation-guide", locale), label: t("common.installation"), isExternal: true },
       ];
 
+  useEffect(() => {
+    fetch(`/api/links?locale=${locale}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data.links)) {
+          setManagedLinks(data.links);
+        }
+      })
+      .catch(() => {
+        setManagedLinks([]);
+      });
+  }, [locale]);
+
   return (
     <footer className="relative bg-[#0f172a] text-white overflow-hidden border-t border-white/5">
       {/* Modern gradient overlay */}
@@ -69,7 +92,7 @@ export default function Footer() {
 
       <div className="relative max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-3 lg:py-4 xl:py-6 2xl:py-8">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5 mb-2">
           {/* Brand Column */}
           <motion.div 
             className="lg:col-span-2"
@@ -163,6 +186,32 @@ export default function Footer() {
                   </a>
                 )
               )}
+            </nav>
+          </motion.div>
+
+          {/* Managed Links Column */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.3, delay: 0.08 }}
+          >
+            <h2 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
+              Useful Links
+            </h2>
+            <nav className="flex flex-col space-y-1.5" aria-label="Managed footer links">
+              {managedLinks.slice(0, 6).map((link) => (
+                <a
+                  key={link.id}
+                  href={link.url}
+                  target={link.targetBlank ? "_blank" : "_self"}
+                  rel={link.targetBlank ? (link.nofollow ? "noopener noreferrer nofollow" : "noopener noreferrer") : (link.nofollow ? "nofollow" : undefined)}
+                  className="text-white/70 hover:text-white transition-colors duration-200 text-sm group inline-flex items-center gap-2 w-fit"
+                >
+                  <span>{link.label}</span>
+                  <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                </a>
+              ))}
             </nav>
           </motion.div>
 
