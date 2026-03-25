@@ -401,6 +401,38 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
               text: "We provide detailed installation guides for all devices. Visit our installation guide page for step-by-step instructions for Windows, Android, iOS, Smart TV, and Firestick.",
             },
           },
+          {
+            "@type": "Question",
+            name: "Can I watch the 2026 FIFA World Cup with IPTV Smarters Pro?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "You can use IPTV Smarters Pro with our IPTV subscription to enjoy compatible football channels and match viewing. Channel availability depends on regional broadcasters and rights—request a free test first to confirm the lineup for your area.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Do you offer a free IPTV test before the World Cup starts?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes. We offer a free IPTV test so you can check streaming quality, device compatibility, and the channels you care about before the 2026 FIFA World Cup.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Which devices are best for World Cup streaming?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Our service works across Windows PC, Android phones and tablets, iOS devices, Mac computers, Smart TVs, Firestick, Roku, and Apple TV—so you can watch the 2026 World Cup on your preferred screen.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Will the World Cup stream in HD or 4K?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "We are built for stable HD/4K streaming. For best results during match days, use a stable internet connection and the device recommended for your plan.",
+            },
+          },
         ]
       : locale === "es"
       ? [
@@ -444,6 +476,38 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
               text: "Proporcionamos guías de instalación detalladas para todos los dispositivos. Visita nuestra página de guía de instalación para instrucciones paso a paso para Windows, Android, iOS, Smart TV y Firestick.",
             },
           },
+          {
+            "@type": "Question",
+            name: "¿Puedo ver la Copa Mundial FIFA 2026 con IPTV Smarters Pro?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Puedes usar IPTV Smarters Pro con nuestra suscripción IPTV para disfrutar canales de fútbol compatibles y ver los partidos. La disponibilidad de canales depende de los broadcasters regionales y los derechos—solicita primero una prueba gratuita para confirmar la lista en tu zona.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "¿Ofrecen una prueba gratuita de IPTV antes del Mundial?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Sí. Ofrecemos una prueba gratuita para que puedas comprobar la calidad del streaming, la compatibilidad con tu dispositivo y los canales que te interesan antes del Mundial FIFA 2026.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "¿En qué dispositivos puedo ver el Mundial por IPTV?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nuestro servicio funciona en PC Windows, teléfonos y tabletas Android, dispositivos iOS, Mac, Smart TV, Firestick, Roku y Apple TV—para que puedas ver el Mundial 2026 en la pantalla que prefieras.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "¿El Mundial se transmite en HD o 4K?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Estamos enfocados en un streaming estable en HD/4K. Para obtener mejores resultados durante los partidos, usa una conexión a internet estable y el dispositivo recomendado para tu plan.",
+            },
+          },
         ]
       : [
           {
@@ -484,6 +548,38 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             acceptedAnswer: {
               "@type": "Answer",
               text: "Nous fournissons des guides d'installation détaillés pour tous les appareils. Visitez notre page de guide d'installation pour des instructions étape par étape pour Windows, Android, iOS, Smart TV et Firestick.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Puis-je regarder la Coupe du Monde FIFA 2026 avec IPTV Smarters Pro ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Vous pouvez utiliser IPTV Smarters Pro avec notre abonnement IPTV pour profiter de chaînes de football compatibles et regarder les matchs. La disponibilité dépend des diffuseurs régionaux et des droits—demandez d’abord un essai gratuit pour confirmer la liste dans votre zone.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Proposez-vous un essai IPTV gratuit avant la Coupe du Monde ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Oui. Nous proposons un essai IPTV gratuit afin que vous puissiez vérifier la qualité du streaming, la compatibilité avec vos appareils et les chaînes qui vous intéressent avant la Coupe du Monde FIFA 2026.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Sur quels appareils puis-je regarder la Coupe du Monde en IPTV ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Notre service fonctionne sur PC Windows, téléphones et tablettes Android, appareils iOS, ordinateurs Mac, Smart TV, Firestick, Roku et Apple TV—pour que vous puissiez regarder la Coupe du Monde 2026 sur l’écran de votre choix.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Le streaming des matchs sera-t-il en HD ou 4K ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nous privilégions un streaming stable en HD/4K. Pour de meilleures performances pendant les jours de match, utilisez une connexion internet stable et l’appareil recommandé pour votre formule.",
             },
           },
         ],
@@ -640,6 +736,19 @@ export async function generateMetadata({
       "instant IPTV activation",
       "IPTV setup guide",
       "how to use IPTV",
+      // World Cup 2026 (USA) SEO intent
+      "2026 FIFA World Cup",
+      "FIFA World Cup 2026",
+      "USA 2026 World Cup",
+      "World Cup 2026 streaming",
+      "watch World Cup on IPTV",
+      "IPTV World Cup 2026",
+      "soccer streaming IPTV",
+      "football matches streaming",
+      "World Cup live TV",
+      "World Cup on Firestick",
+      "World Cup on Smart TV",
+      "IPTV Smarters Pro World Cup",
     ],
     es: [
       // User requested keywords
@@ -755,6 +864,19 @@ export async function generateMetadata({
       "comprar código IPTV",
       "vender IPTV",
       "revender IPTV",
+      // World Cup 2026 (USA) SEO intent
+      "Copa Mundial FIFA 2026",
+      "Mundial 2026 USA",
+      "streaming del Mundial 2026",
+      "ver el Mundial por IPTV",
+      "IPTV Mundial 2026",
+      "ver partidos de fútbol en IPTV",
+      "Mundial en Firestick",
+      "Mundial en Smart TV",
+      "IPTV Smarters Pro Mundial",
+      "Copa del Mundo 2026",
+      "Mundial de fútbol en vivo IPTV",
+      "partidos de fútbol streaming",
     ],
     fr: [
       // User requested keywords
@@ -867,6 +989,19 @@ export async function generateMetadata({
       "acheter code IPTV",
       "vendre IPTV",
       "revendre IPTV",
+      // World Cup 2026 (USA) SEO intent
+      "Coupe du Monde FIFA 2026",
+      "Coupe du Monde 2026 USA",
+      "streaming Coupe du Monde 2026",
+      "regarder la Coupe du Monde en IPTV",
+      "IPTV Coupe du Monde 2026",
+      "streaming matchs de football",
+      "voir les matchs en direct sur IPTV",
+      "Coupe du Monde sur Fire TV Stick",
+      "Coupe du Monde sur Smart TV",
+      "IPTV Smarters Pro Coupe du Monde",
+      "Coupe du Monde de football 2026",
+      "football streaming IPTV",
     ],
   };
 
