@@ -49,25 +49,7 @@ interface CarouselData {
   content: string[];
 }
 
-interface ManagedLink {
-  id: string;
-  label: string;
-  url: string;
-  targetBlank: boolean;
-  nofollow: boolean;
-}
-
-interface LinksData {
-  [locale: string]: {
-    content: {
-      links: ManagedLink[];
-    };
-    sha: string;
-    path: string;
-  };
-}
-
-type Section = "hero" | "pricing" | "carousel" | "reseller" | "settings" | "blogs" | "metadata" | "links";
+type Section = "hero" | "pricing" | "carousel" | "reseller" | "settings" | "blogs" | "metadata";
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -75,7 +57,7 @@ export default function AdminDashboard() {
   const [translations, setTranslations] = useState<Translations>({});
   const [carouselData, setCarouselData] = useState<CarouselData>({ channels: [], streaming: [], content: [] });
   const [metadata, setMetadata] = useState<Record<string, any>>({});
-  const [managedLinks, setManagedLinks] = useState<LinksData>({});
+  // Managed links removed (clients requested no outbound link editing)
   const [activeLocale, setActiveLocale] = useState("en");
   const [activeSection, setActiveSection] = useState<Section>("hero");
   const [activeCarouselTab, setActiveCarouselTab] = useState<"channels" | "streaming" | "content">("channels");
@@ -99,7 +81,7 @@ export default function AdminDashboard() {
         }
 
         setIsAuthenticated(true);
-        await Promise.all([loadTranslations(), loadCarouselData(), loadMetadata(), loadManagedLinks()]);
+        await Promise.all([loadTranslations(), loadCarouselData(), loadMetadata()]);
       } catch (error) {
         console.error("Auth verification failed:", error);
         router.push("/admin/login");
@@ -144,16 +126,7 @@ export default function AdminDashboard() {
     }
   };
 
-  // Load managed links
-  const loadManagedLinks = async () => {
-    try {
-      const response = await fetch("/api/admin/links");
-      const data = await response.json();
-      setManagedLinks(data);
-    } catch (error) {
-      console.error("Failed to load links:", error);
-    }
-  };
+  // (removed) loadManagedLinks
 
   // Handle logout
   const handleLogout = async () => {
@@ -237,40 +210,7 @@ export default function AdminDashboard() {
     }
   };
 
-  // Save managed links
-  const handleSaveLinks = async () => {
-    setIsSaving(true);
-    setSaveStatus("idle");
-
-    try {
-      const response = await fetch("/api/admin/links", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          locale: activeLocale,
-          content: managedLinks[activeLocale]?.content || { links: [] },
-          sha: managedLinks[activeLocale]?.sha || "",
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to save links");
-      }
-
-      setSaveStatus("success");
-      setShowDeploymentNotification(true);
-      await loadManagedLinks();
-      setTimeout(() => setSaveStatus("idle"), 3000);
-    } catch (error) {
-      console.error("Save links failed:", error);
-      setSaveStatus("error");
-      setTimeout(() => setSaveStatus("idle"), 3000);
-    } finally {
-      setIsSaving(false);
-    }
-  };
+  // (removed) handleSaveLinks
 
   // Upload image
   const handleImageUpload = async (file: File, folder: string) => {
@@ -432,11 +372,7 @@ export default function AdminDashboard() {
               {/* Save Button */}
               <button
                 onClick={
-                  activeSection === "metadata"
-                    ? handleSaveMetadata
-                    : activeSection === "links"
-                    ? handleSaveLinks
-                    : handleSave
+                  activeSection === "metadata" ? handleSaveMetadata : handleSave
                 }
                 disabled={isSaving}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-black hover:bg-gray-900 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
@@ -548,17 +484,6 @@ export default function AdminDashboard() {
                 >
                   <Type className="w-4 h-4" />
                   Page Metadata
-                </button>
-                <button
-                  onClick={() => setActiveSection("links")}
-                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
-                    activeSection === "links"
-                      ? "bg-black text-white"
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`}
-                >
-                  <List className="w-4 h-4" />
-                  Managed Links
                 </button>
                 <button
                   onClick={() => setActiveSection("settings")}
@@ -1894,188 +1819,6 @@ export default function AdminDashboard() {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Links Section Editor */}
-                {activeSection === "links" && (
-                  <div className="space-y-6">
-                    <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h2 className="text-2xl font-medium text-black mb-1">Managed Links</h2>
-                      <p className="text-gray-500 text-sm mb-6">
-                        Add and manage useful links shown in the footer. Changes are locale-specific.
-                      </p>
-
-                      <div className="space-y-4">
-                        {(managedLinks[activeLocale]?.content?.links || []).map((link, index) => (
-                          <div key={link.id} className="border border-gray-200 rounded-xl p-4 bg-gray-50/40">
-                            <div className="flex items-center justify-between mb-3">
-                              <p className="text-sm font-semibold text-gray-700">Link #{index + 1}</p>
-                              <div className="flex items-center gap-2">
-                                <button
-                                  onClick={() => {
-                                    if (index === 0) return;
-                                    const newLinks = [...(managedLinks[activeLocale]?.content?.links || [])];
-                                    [newLinks[index - 1], newLinks[index]] = [newLinks[index], newLinks[index - 1]];
-                                    setManagedLinks((prev) => ({
-                                      ...prev,
-                                      [activeLocale]: {
-                                        ...prev[activeLocale],
-                                        content: { links: newLinks },
-                                      },
-                                    }));
-                                  }}
-                                  className="p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-100 transition-all disabled:opacity-50"
-                                  disabled={index === 0}
-                                  title="Move up"
-                                >
-                                  <MoveUp className="w-4 h-4 text-gray-700" />
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    const links = managedLinks[activeLocale]?.content?.links || [];
-                                    if (index >= links.length - 1) return;
-                                    const newLinks = [...links];
-                                    [newLinks[index], newLinks[index + 1]] = [newLinks[index + 1], newLinks[index]];
-                                    setManagedLinks((prev) => ({
-                                      ...prev,
-                                      [activeLocale]: {
-                                        ...prev[activeLocale],
-                                        content: { links: newLinks },
-                                      },
-                                    }));
-                                  }}
-                                  className="p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-100 transition-all disabled:opacity-50"
-                                  disabled={index >= (managedLinks[activeLocale]?.content?.links || []).length - 1}
-                                  title="Move down"
-                                >
-                                  <MoveDown className="w-4 h-4 text-gray-700" />
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    const links = managedLinks[activeLocale]?.content?.links || [];
-                                    const newLinks = links.filter((l) => l.id !== link.id);
-                                    setManagedLinks((prev) => ({
-                                      ...prev,
-                                      [activeLocale]: {
-                                        ...prev[activeLocale],
-                                        content: { links: newLinks },
-                                      },
-                                    }));
-                                  }}
-                                  className="p-2 rounded-lg border border-red-200 bg-white hover:bg-red-50 transition-all"
-                                  title="Delete link"
-                                >
-                                  <Trash2 className="w-4 h-4 text-red-600" />
-                                </button>
-                              </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                              <input
-                                type="text"
-                                value={link.label}
-                                onChange={(e) => {
-                                  const newLinks = [...(managedLinks[activeLocale]?.content?.links || [])];
-                                  newLinks[index] = { ...newLinks[index], label: e.target.value };
-                                  setManagedLinks((prev) => ({
-                                    ...prev,
-                                    [activeLocale]: {
-                                      ...prev[activeLocale],
-                                      content: { links: newLinks },
-                                    },
-                                  }));
-                                }}
-                                placeholder="Link label"
-                                className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                              />
-                              <input
-                                type="url"
-                                value={link.url}
-                                onChange={(e) => {
-                                  const newLinks = [...(managedLinks[activeLocale]?.content?.links || [])];
-                                  newLinks[index] = { ...newLinks[index], url: e.target.value };
-                                  setManagedLinks((prev) => ({
-                                    ...prev,
-                                    [activeLocale]: {
-                                      ...prev[activeLocale],
-                                      content: { links: newLinks },
-                                    },
-                                  }));
-                                }}
-                                placeholder="https://example.com/page"
-                                className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                              />
-                            </div>
-
-                            <div className="flex flex-wrap items-center gap-4">
-                              <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                                <input
-                                  type="checkbox"
-                                  checked={link.targetBlank}
-                                  onChange={(e) => {
-                                    const newLinks = [...(managedLinks[activeLocale]?.content?.links || [])];
-                                    newLinks[index] = { ...newLinks[index], targetBlank: e.target.checked };
-                                    setManagedLinks((prev) => ({
-                                      ...prev,
-                                      [activeLocale]: {
-                                        ...prev[activeLocale],
-                                        content: { links: newLinks },
-                                      },
-                                    }));
-                                  }}
-                                  className="rounded border-gray-300"
-                                />
-                                Open in new tab
-                              </label>
-                              <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                                <input
-                                  type="checkbox"
-                                  checked={link.nofollow}
-                                  onChange={(e) => {
-                                    const newLinks = [...(managedLinks[activeLocale]?.content?.links || [])];
-                                    newLinks[index] = { ...newLinks[index], nofollow: e.target.checked };
-                                    setManagedLinks((prev) => ({
-                                      ...prev,
-                                      [activeLocale]: {
-                                        ...prev[activeLocale],
-                                        content: { links: newLinks },
-                                      },
-                                    }));
-                                  }}
-                                  className="rounded border-gray-300"
-                                />
-                                Add nofollow
-                              </label>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <button
-                        onClick={() => {
-                          const links = managedLinks[activeLocale]?.content?.links || [];
-                          const newLink = {
-                            id: `link-${Date.now()}`,
-                            label: "",
-                            url: "",
-                            targetBlank: true,
-                            nofollow: false,
-                          };
-                          setManagedLinks((prev) => ({
-                            ...prev,
-                            [activeLocale]: {
-                              ...(prev[activeLocale] || { sha: "", path: `data/links/${activeLocale}.json` }),
-                              content: { links: [...links, newLink] },
-                            },
-                          }));
-                        }}
-                        className="mt-5 inline-flex items-center gap-2 px-4 py-2 bg-black hover:bg-gray-900 text-white rounded-lg text-sm font-medium transition-all"
-                      >
-                        <Plus className="w-4 h-4" />
-                        Add Link
-                      </button>
                     </div>
                   </div>
                 )}
