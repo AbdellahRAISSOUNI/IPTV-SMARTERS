@@ -3816,25 +3816,27 @@
   {
     "id": "rikp3jx9gt",
     "slug": {
-      "en": "IPTV Smarters Pro – The Ultimate Streaming Media Player for All Devices",
-      "es": "IPTV Smarters Pro – The Ultimate Streaming Media Player for All Devices",
-      "fr": "IPTV Smarters Pro – The Ultimate Streaming Media Player for All Devices"
+      "en": "iptv-smarters-pro-streaming-media-player",
+      "es": "iptv-smarters-pro-reproductor-medios-streaming",
+      "fr": "iptv-smarters-pro-lecteur-multimedia-streaming"
     },
     "title": {
-      "en": "iptv-smarters-pro-streaming-media-player",
-      "es": "",
-      "fr": ""
+      "en": "IPTV Smarters Pro – The Ultimate Streaming Media Player for All Devices",
+      "es": "IPTV Smarters Pro – El Reproductor de Medios de Streaming Definitivo para Todos los Dispositivos",
+      "fr": "IPTV Smarters Pro – Le Lecteur Multimédia de Streaming Ultime pour Tous les Appareils"
     },
     "excerpt": {
       "en": "Discover IPTV Smarters Pro, a powerful and flexible streaming media player compatible with Android, iOS, Smart TVs, Windows, and macOS. Enjoy live TV, VOD, EPG, and multi-device streaming",
-      "es": "",
-      "fr": ""
+      "es": "Descubre IPTV Smarters Pro, un reproductor de medios de streaming potente y flexible, compatible con Android, iOS, Smart TVs, Windows y macOS. Disfruta de TV en vivo, VOD, EPG y streaming en múltiples dispositivos",
+      "fr": "Découvrez IPTV Smarters Pro, un lecteur multimédia de streaming puissant et flexible, compatible avec Android, iOS, Smart TV, Windows et macOS. Profitez de la TV en direct, VOD, EPG et du streaming sur plusieurs appareils."
     },
     "publishedAt": "2026-02-01T17:27:49.713Z",
-    "updatedAt": "2026-02-01T18:21:03.085Z",
+    "updatedAt": "2026-03-25T10:46:24.324Z",
     "locale": "en",
     "translations": [
-      "en"
+      "en",
+      "es",
+      "fr"
     ],
     "blocks": [
       {
