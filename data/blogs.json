@@ -2026,24 +2026,26 @@
     "id": "kr6i8ax5yol",
     "slug": {
       "en": "vlc-show-list-of-m3u-playlist",
-      "es": "vlc-show-list-of-m3u-playlist",
-      "fr": "vlc-show-list-of-m3u-playlist"
+      "es": "vlc-mostrar-lista-playlist-m3u",
+      "fr": "vlc-afficher-liste-playlist-m3u"
     },
     "title": {
       "en": "VLC Show List of M3U: Complete Guide to Watching IPTV Playlists in VLC",
-      "es": "",
-      "fr": ""
+      "es": "VLC Muestra la Lista de M3U: Guía Completa para Ver Playlists IPTV en VLC",
+      "fr": "VLC : Afficher la Liste des M3U – Guide Complet pour Regarder les Playlists IPTV dans VLC"
     },
     "excerpt": {
       "en": "Learn how VLC shows M3U playlists, how to load IPTV channels in VLC Media Player, fix common issues, and stream live TV using M3U links easily.",
-      "es": "",
-      "fr": ""
+      "es": "Aprende cómo VLC muestra las playlists M3U, cómo cargar canales IPTV en VLC Media Player, solucionar problemas comunes y transmitir TV en vivo fácilmente usando enlaces M3U.",
+      "fr": "Apprenez comment VLC affiche les playlists M3U, comment charger des chaînes IPTV dans VLC Media Player, résoudre les problèmes courants et diffuser la TV en direct facilement avec des liens M3U."
     },
     "publishedAt": "2026-02-11T14:10:50.757Z",
-    "updatedAt": "2026-02-11T14:51:18.947Z",
+    "updatedAt": "2026-03-25T10:37:31.626Z",
     "locale": "en",
     "translations": [
-      "en"
+      "en",
+      "es",
+      "fr"
     ],
     "blocks": [
       {
