@@ -6045,22 +6045,28 @@
   },
   {
     "id": "b40wqijyjnl",
-    "slug": "iptv-smarters-player-media-player",
+    "slug": {
+      "en": "iptv-smarters-player-media-player",
+      "es": "iptv-smarters-player-reproductor-multimedia",
+      "fr": "iptv-smarters-player-lecteur-multimedia"
+    },
     "title": {
       "en": "Everything You Need to Know About IPTV Smarters Player 2026",
-      "es": "",
-      "fr": ""
+      "es": "Todo lo que necesitas saber sobre IPTV Smarters Player 2026",
+      "fr": "Tout ce que vous devez savoir sur IPTV Smarters Player 2026"
     },
     "excerpt": {
       "en": "Discover everything about IPTV Smarters Player. Features, compatibility, playlist support, and why it’s the best IPTV media player in 2026.",
-      "es": "",
-      "fr": ""
+      "es": "Descubre todo sobre IPTV Smarters Player: sus características, compatibilidad, soporte de listas de reproducción y por qué es el mejor reproductor multimedia IPTV en 2026.",
+      "fr": "Découvrez tout sur IPTV Smarters Player : ses fonctionnalités, sa compatibilité, la prise en charge des playlists et pourquoi c’est le meilleur lecteur multimédia IPTV en 2026."
     },
     "publishedAt": "2026-01-05T15:56:04.204Z",
-    "updatedAt": "2026-01-05T16:29:27.951Z",
+    "updatedAt": "2026-03-25T09:53:18.215Z",
     "locale": "en",
     "translations": [
-      "en"
+      "en",
+      "es",
+      "fr"
     ],
     "blocks": [
       {
