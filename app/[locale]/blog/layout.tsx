@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
-import { getBlogListingMetadata } from "@/lib/utils/metadata-loader";
+import { getBlogListingMetadata, getBlogMetadata } from "@/lib/utils/metadata-loader";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
@@ -24,7 +24,9 @@ export async function generateMetadata({
   const { locale } = await params;
   
   // Load metadata from file
-  const pageMetadata = await getBlogListingMetadata(locale);
+  // Use the "blog" metadata for the /blog route itself.
+  // The listing component uses separate "blogListing" metadata for listing context and schema.
+  const pageMetadata = await getBlogMetadata(locale);
   const title = pageMetadata.title;
   const description = pageMetadata.description;
 

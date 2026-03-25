@@ -55,6 +55,25 @@ export async function getBlogListingMetadata(locale: Locale): Promise<{ title: s
 }
 
 /**
+ * Get blog page metadata (the "blog" section in metadata file)
+ */
+export async function getBlogMetadata(locale: Locale): Promise<{ title: string; description: string }> {
+  const metadata = await loadPageMetadata(locale);
+  return metadata.blog;
+}
+
+/**
+ * Get legal page metadata
+ */
+export async function getLegalMetadata(
+  locale: Locale,
+  page: "refundPolicy" | "privacyPolicy" | "termsOfService"
+): Promise<{ title: string; description: string }> {
+  const metadata = await loadPageMetadata(locale);
+  return metadata.legal[page];
+}
+
+/**
  * Get installation page metadata
  */
 export async function getInstallationMetadata(

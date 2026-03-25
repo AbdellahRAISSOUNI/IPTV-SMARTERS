@@ -9,7 +9,7 @@ import {
   getInstallationUrl,
   getLegalUrl,
 } from '@/lib/utils/installation-slugs';
-import { getInstallationMetadata, getResellerMetadata } from '@/lib/utils/metadata-loader';
+import { getInstallationMetadata, getResellerMetadata, getLegalMetadata } from '@/lib/utils/metadata-loader';
 import { locales } from '@/lib/i18n';
 import { notFound } from 'next/navigation';
 
@@ -130,59 +130,17 @@ export async function generateMetadata({
         ],
       }[locale];
     } else if (englishSlug === 'refund-policy') {
-      const titleMap: Record<Locale, string> = {
-        en: 'Refund Policy | Officiel IPTV Abonnement',
-        es: 'Política de Reembolso | Officiel IPTV Abonnement',
-        fr: 'Politique de Remboursement | Officiel IPTV Abonnement',
-      };
-      const descriptionMap: Record<Locale, string> = {
-        en: 'Learn about our 5-day money-back guarantee and how refunds are handled for your IPTV subscription with Officiel IPTV Abonnement.',
-        es: 'Conozca nuestra garantía de reembolso de 5 días y cómo se gestionan los reembolsos de su suscripción IPTV con Officiel IPTV Abonnement.',
-        fr: 'Découvrez notre garantie de remboursement de 5 jours et la manière dont les remboursements sont gérés pour votre abonnement IPTV avec Officiel IPTV Abonnement.',
-      };
-      title = titleMap[locale];
-      description = descriptionMap[locale];
-      keywords = {
-        en: ['iptv refund policy', 'money-back guarantee iptv', 'iptv subscription refund'],
-        es: ['política de reembolso iptv', 'garantía de reembolso iptv', 'reembolso suscripción iptv'],
-        fr: ['politique de remboursement iptv', 'garantie de remboursement iptv', 'remboursement abonnement iptv'],
-      }[locale];
+      const metadata = await getLegalMetadata(locale, 'refundPolicy');
+      title = metadata?.title || '';
+      description = metadata?.description || '';
     } else if (englishSlug === 'privacy-policy') {
-      const titleMap: Record<Locale, string> = {
-        en: 'Privacy Policy | Officiel IPTV Abonnement',
-        es: 'Política de Privacidad | Officiel IPTV Abonnement',
-        fr: 'Politique de Confidentialité | Officiel IPTV Abonnement',
-      };
-      const descriptionMap: Record<Locale, string> = {
-        en: 'Read how Officiel IPTV Abonnement collects, uses, and protects your personal data while you use our IPTV services and website.',
-        es: 'Conozca cómo Officiel IPTV Abonnement recopila, utiliza y protege sus datos personales mientras utiliza nuestros servicios IPTV y nuestro sitio web.',
-        fr: 'Découvrez comment Officiel IPTV Abonnement collecte, utilise et protège vos données personnelles lors de l’utilisation de nos services IPTV et de notre site web.',
-      };
-      title = titleMap[locale];
-      description = descriptionMap[locale];
-      keywords = {
-        en: ['iptv privacy policy', 'data protection iptv', 'iptv personal data'],
-        es: ['política de privacidad iptv', 'protección de datos iptv', 'datos personales iptv'],
-        fr: ['politique de confidentialité iptv', 'protection des données iptv', 'données personnelles iptv'],
-      }[locale];
+      const metadata = await getLegalMetadata(locale, 'privacyPolicy');
+      title = metadata?.title || '';
+      description = metadata?.description || '';
     } else if (englishSlug === 'terms-of-service') {
-      const titleMap: Record<Locale, string> = {
-        en: 'Terms of Service | Officiel IPTV Abonnement',
-        es: 'Términos de Servicio | Officiel IPTV Abonnement',
-        fr: "Conditions d'Utilisation | Officiel IPTV Abonnement",
-      };
-      const descriptionMap: Record<Locale, string> = {
-        en: 'Review the terms and conditions governing the use of the Officiel IPTV Abonnement website and IPTV subscription services.',
-        es: 'Revise los términos y condiciones que rigen el uso del sitio web y los servicios de suscripción IPTV de Officiel IPTV Abonnement.',
-        fr: "Consultez les termes et conditions régissant l'utilisation du site et des services d'abonnement IPTV d'Officiel IPTV Abonnement.",
-      };
-      title = titleMap[locale];
-      description = descriptionMap[locale];
-      keywords = {
-        en: ['iptv terms of service', 'iptv terms and conditions', 'iptv website terms'],
-        es: ['términos de servicio iptv', 'términos y condiciones iptv', 'condiciones sitio web iptv'],
-        fr: ["conditions d'utilisation iptv", 'termes et conditions iptv', 'conditions site web iptv'],
-      }[locale];
+      const metadata = await getLegalMetadata(locale, 'termsOfService');
+      title = metadata?.title || '';
+      description = metadata?.description || '';
     }
   } catch (error) {
     console.error('Error loading page metadata:', error);

@@ -1502,6 +1502,71 @@ export default function AdminDashboard() {
                         </div>
                       </div>
 
+                      {/* Blog Page */}
+                      <div className="bg-white rounded-xl border-2 border-fuchsia-200 shadow-sm overflow-hidden">
+                        <div className="bg-gradient-to-r from-fuchsia-600 to-fuchsia-700 px-6 py-4 border-b border-fuchsia-800">
+                          <div className="flex items-center gap-3">
+                            <Edit className="w-5 h-5 text-white" />
+                            <h3 className="text-lg font-semibold text-white">Blog Page</h3>
+                            <span className="ml-auto px-2.5 py-1 bg-fuchsia-500/30 text-white text-xs font-medium rounded-full">SEO</span>
+                          </div>
+                        </div>
+                        <div className="p-6 space-y-5">
+                          <div>
+                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2.5">
+                              <span className="w-1.5 h-1.5 bg-fuchsia-600 rounded-full"></span>
+                              Page Title
+                            </label>
+                            <input
+                              type="text"
+                              value={metadata[activeLocale]?.content?.blog?.title || ""}
+                              onChange={(e) => {
+                                const newMetadata = { ...metadata };
+                                if (!newMetadata[activeLocale]) {
+                                  newMetadata[activeLocale] = { content: {}, sha: "" };
+                                }
+                                newMetadata[activeLocale].content = {
+                                  ...newMetadata[activeLocale].content,
+                                  blog: {
+                                    ...newMetadata[activeLocale].content?.blog,
+                                    title: e.target.value,
+                                  },
+                                };
+                                setMetadata(newMetadata);
+                              }}
+                              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 transition-all"
+                              placeholder="Enter page title for SEO..."
+                            />
+                          </div>
+                          <div>
+                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2.5">
+                              <span className="w-1.5 h-1.5 bg-fuchsia-600 rounded-full"></span>
+                              Meta Description
+                            </label>
+                            <textarea
+                              value={metadata[activeLocale]?.content?.blog?.description || ""}
+                              onChange={(e) => {
+                                const newMetadata = { ...metadata };
+                                if (!newMetadata[activeLocale]) {
+                                  newMetadata[activeLocale] = { content: {}, sha: "" };
+                                }
+                                newMetadata[activeLocale].content = {
+                                  ...newMetadata[activeLocale].content,
+                                  blog: {
+                                    ...newMetadata[activeLocale].content?.blog,
+                                    description: e.target.value,
+                                  },
+                                };
+                                setMetadata(newMetadata);
+                              }}
+                              rows={4}
+                              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 resize-none transition-all"
+                              placeholder="Enter meta description for SEO..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+
                       {/* Installation Pages */}
                       <div className="bg-white rounded-xl border-2 border-green-200 shadow-sm overflow-hidden">
                         <div className="bg-gradient-to-r from-green-600 to-green-700 px-6 py-4 border-b border-green-800">
@@ -1652,6 +1717,96 @@ export default function AdminDashboard() {
                               className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none transition-all"
                               placeholder="Enter meta description for SEO..."
                             />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Legal Pages */}
+                      <div className="bg-white rounded-xl border-2 border-slate-200 shadow-sm overflow-hidden">
+                        <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 border-b border-slate-900">
+                          <div className="flex items-center gap-3">
+                            <AlignLeft className="w-5 h-5 text-white" />
+                            <h3 className="text-lg font-semibold text-white">Legal Pages</h3>
+                            <span className="ml-auto px-2.5 py-1 bg-white/15 text-white text-xs font-medium rounded-full">3 Pages</span>
+                          </div>
+                        </div>
+                        <div className="p-6">
+                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                            {[
+                              { key: "refundPolicy", label: "Refund Policy", accent: "bg-slate-700" },
+                              { key: "privacyPolicy", label: "Privacy Policy", accent: "bg-slate-700" },
+                              { key: "termsOfService", label: "Terms of Service", accent: "bg-slate-700" },
+                            ].map((page) => (
+                              <div
+                                key={page.key}
+                                className="bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 rounded-xl p-5 hover:border-slate-400 transition-all hover:shadow-md"
+                              >
+                                <div className="flex items-center gap-3 mb-4">
+                                  <span className={`w-2.5 h-2.5 rounded-full ${page.accent}`} />
+                                  <h4 className="font-semibold text-gray-900">{page.label}</h4>
+                                </div>
+                                <div className="space-y-4">
+                                  <div>
+                                    <label className="flex items-center gap-2 text-xs font-semibold text-gray-700 mb-2">
+                                      <span className="w-1 h-1 bg-slate-700 rounded-full"></span>
+                                      Page Title
+                                    </label>
+                                    <input
+                                      type="text"
+                                      value={metadata[activeLocale]?.content?.legal?.[page.key]?.title || ""}
+                                      onChange={(e) => {
+                                        const newMetadata = { ...metadata };
+                                        if (!newMetadata[activeLocale]) {
+                                          newMetadata[activeLocale] = { content: {}, sha: "" };
+                                        }
+                                        if (!newMetadata[activeLocale].content.legal) {
+                                          newMetadata[activeLocale].content.legal = {};
+                                        }
+                                        newMetadata[activeLocale].content.legal = {
+                                          ...newMetadata[activeLocale].content.legal,
+                                          [page.key]: {
+                                            ...newMetadata[activeLocale].content.legal[page.key],
+                                            title: e.target.value,
+                                          },
+                                        };
+                                        setMetadata(newMetadata);
+                                      }}
+                                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all"
+                                      placeholder="Enter page title..."
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="flex items-center gap-2 text-xs font-semibold text-gray-700 mb-2">
+                                      <span className="w-1 h-1 bg-slate-700 rounded-full"></span>
+                                      Meta Description
+                                    </label>
+                                    <textarea
+                                      value={metadata[activeLocale]?.content?.legal?.[page.key]?.description || ""}
+                                      onChange={(e) => {
+                                        const newMetadata = { ...metadata };
+                                        if (!newMetadata[activeLocale]) {
+                                          newMetadata[activeLocale] = { content: {}, sha: "" };
+                                        }
+                                        if (!newMetadata[activeLocale].content.legal) {
+                                          newMetadata[activeLocale].content.legal = {};
+                                        }
+                                        newMetadata[activeLocale].content.legal = {
+                                          ...newMetadata[activeLocale].content.legal,
+                                          [page.key]: {
+                                            ...newMetadata[activeLocale].content.legal[page.key],
+                                            description: e.target.value,
+                                          },
+                                        };
+                                        setMetadata(newMetadata);
+                                      }}
+                                      rows={4}
+                                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 resize-none transition-all"
+                                      placeholder="Enter meta description..."
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       </div>

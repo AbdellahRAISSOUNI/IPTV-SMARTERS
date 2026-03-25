@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { getInstallationUrl } from "@/lib/utils/installation-slugs";
 import { locales } from "@/lib/i18n";
+import { getInstallationMetadata } from "@/lib/utils/metadata-loader";
 
 export async function generateMetadata({
   params,
@@ -11,17 +12,9 @@ export async function generateMetadata({
   const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
-  const titleMap: Record<Locale, string> = {
-    en: "IPTV Installation Guide | How to Install IPTV Smarters Pro on All Devices | Step-by-Step Tutorial",
-    es: "Guía de Instalación IPTV | Cómo Instalar IPTV Smarters Pro en Todos los Dispositivos | Tutorial Paso a Paso",
-    fr: "Guide d'Installation IPTV | Comment Installer IPTV Smarters Pro sur Tous les Appareils | Tutoriel Étape par Étape",
-  };
-
-  const descriptionMap: Record<Locale, string> = {
-    en: "Complete IPTV installation guide for IPTV Smarters Pro. Learn how to install IPTV on Windows, Android, iOS, Mac, Smart TV, and Firestick. Step-by-step instructions with screenshots. Free installation support available.",
-    es: "Guía completa de instalación IPTV para IPTV Smarters Pro. Aprende cómo instalar IPTV en Windows, Android, iOS, Mac, Smart TV y Firestick. Instrucciones paso a paso con capturas de pantalla. Soporte de instalación gratuito disponible.",
-    fr: "Guide complet d'installation IPTV pour IPTV Smarters Pro. Apprenez comment installer IPTV sur Windows, Android, iOS, Mac, Smart TV et Firestick. Instructions étape par étape avec captures d'écran. Support d'installation gratuit disponible.",
-  };
+  const pageMetadata = await getInstallationMetadata(locale, "guide");
+  const title = pageMetadata.title;
+  const description = pageMetadata.description;
 
   const keywordsMap: Record<Locale, string[]> = {
     en: [
@@ -104,8 +97,8 @@ export async function generateMetadata({
   languageAlternates['x-default'] = `${baseUrl}${getInstallationUrl('iptv-installation-guide', 'en')}`;
 
   return {
-    title: titleMap[locale],
-    description: descriptionMap[locale],
+    title,
+    description,
     keywords: keywordsMap[locale],
     metadataBase: new URL(baseUrl),
     alternates: {
@@ -117,22 +110,22 @@ export async function generateMetadata({
       locale: localeMap[locale],
       url: canonicalUrl,
       siteName: siteNameMap[locale],
-      title: titleMap[locale],
-      description: descriptionMap[locale],
+      title,
+      description,
       images: [
         {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: titleMap[locale],
+          alt: title,
           type: "image/jpeg",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: titleMap[locale],
-      description: descriptionMap[locale],
+      title,
+      description,
       images: [ogImage],
       creator: "@streampro",
       site: "@streampro",
@@ -153,7 +146,7 @@ export async function generateMetadata({
       "og:image:type": "image/jpeg",
       "og:image:width": "1200",
       "og:image:height": "630",
-      "og:image:alt": titleMap[locale],
+      "og:image:alt": title,
       "article:author": "StreamPro",
     },
   };

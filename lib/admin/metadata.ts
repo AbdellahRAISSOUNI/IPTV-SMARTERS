@@ -14,6 +14,11 @@ export interface MetadataContent {
   homepage: PageMetadata;
   blog: PageMetadata;
   blogListing: PageMetadata;
+  legal: {
+    refundPolicy: PageMetadata;
+    privacyPolicy: PageMetadata;
+    termsOfService: PageMetadata;
+  };
   installation: {
     windows: PageMetadata;
     ios: PageMetadata;
@@ -120,6 +125,20 @@ export function getDefaultMetadata(locale: string): MetadataContent {
         title: "IPTV Blog | Latest Articles & Guides",
         description: "Browse our collection of IPTV articles, installation guides, tips, and industry news. Everything you need to know about IPTV streaming.",
       },
+      legal: {
+        refundPolicy: {
+          title: "Refund Policy | StreamPro IPTV",
+          description: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
+        },
+        privacyPolicy: {
+          title: "Privacy Policy | StreamPro IPTV",
+          description: "Learn how StreamPro IPTV collects, uses, and protects your personal data when you use our IPTV service and website.",
+        },
+        termsOfService: {
+          title: "Terms of Service | StreamPro IPTV",
+          description: "Review the terms and conditions for using StreamPro IPTV services, website, and IPTV subscriptions.",
+        },
+      },
       installation: {
         windows: {
           title: "How to Install IPTV Smarters Pro on Windows | Step-by-Step Guide",
@@ -160,6 +179,20 @@ export function getDefaultMetadata(locale: string): MetadataContent {
         title: "Blog IPTV | Últimos Artículos y Guías",
         description: "Explora nuestra colección de artículos IPTV, guías de instalación, consejos y noticias de la industria. Todo lo que necesitas saber sobre streaming IPTV.",
       },
+      legal: {
+        refundPolicy: {
+          title: "Política de Reembolso | StreamPro IPTV",
+          description: "Consulta la política de reembolso de StreamPro IPTV, incluyendo elegibilidad, plazos y cómo solicitar un reembolso de tu suscripción IPTV.",
+        },
+        privacyPolicy: {
+          title: "Política de Privacidad | StreamPro IPTV",
+          description: "Descubre cómo StreamPro IPTV recopila, utiliza y protege tus datos personales al usar nuestro servicio IPTV y el sitio web.",
+        },
+        termsOfService: {
+          title: "Términos de Servicio | StreamPro IPTV",
+          description: "Revisa los términos y condiciones para usar los servicios StreamPro IPTV, el sitio web y las suscripciones IPTV.",
+        },
+      },
       installation: {
         windows: {
           title: "Cómo Instalar IPTV Smarters Pro en Windows | Guía Paso a Paso",
@@ -199,6 +232,20 @@ export function getDefaultMetadata(locale: string): MetadataContent {
       blogListing: {
         title: "Blog IPTV | Derniers Articles et Guides",
         description: "Parcourez notre collection d'articles IPTV, guides d'installation, conseils et actualités de l'industrie. Tout ce que vous devez savoir sur le streaming IPTV.",
+      },
+      legal: {
+        refundPolicy: {
+          title: "Politique de Remboursement | StreamPro IPTV",
+          description: "Consultez la politique de remboursement StreamPro IPTV, l’éligibilité, les délais et comment demander un remboursement pour votre abonnement IPTV.",
+        },
+        privacyPolicy: {
+          title: "Politique de Confidentialité | StreamPro IPTV",
+          description: "Découvrez comment StreamPro IPTV collecte, utilise et protège vos données personnelles lorsque vous utilisez notre service IPTV et notre site web.",
+        },
+        termsOfService: {
+          title: "Conditions d'Utilisation | StreamPro IPTV",
+          description: "Consultez les conditions d’utilisation des services StreamPro IPTV, du site web et des abonnements IPTV.",
+        },
       },
       installation: {
         windows: {
