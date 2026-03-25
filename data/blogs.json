@@ -3359,24 +3359,26 @@
     "id": "3q2vg4ltwr",
     "slug": {
       "en": "top-ott-player-2026",
-      "es": "top-ott-player-2026",
-      "fr": "top-ott-player-2026"
+      "es": "mejor-reproductor-ott-2026",
+      "fr": "meilleur-lecteur-ott-2026"
     },
     "title": {
       "en": "Top OTT Player of 2026 – Next Generation Entertainment Experience",
-      "es": "",
-      "fr": ""
+      "es": "El mejor reproductor OTT de 2026 – Experiencia de entretenimiento de nueva generación",
+      "fr": "Meilleur lecteur OTT de 2026 – Une expérience de divertissement nouvelle génération"
     },
     "excerpt": {
       "en": "Discover the top OTT player of 2026. Explore key features like cross-platform compatibility, smooth playback, advanced tools, and next-generation streaming performance.",
-      "es": "",
-      "fr": ""
+      "es": "Descubre el mejor reproductor OTT de 2026. Explora características clave como la compatibilidad multiplataforma, reproducción fluida, herramientas avanzadas y un rendimiento de streaming de nueva generación.",
+      "fr": "Découvrez le meilleur lecteur OTT de 2026. Explorez des fonctionnalités clés telles que la compatibilité multiplateforme, une lecture fluide, des outils avancés et des performances de streaming de nouvelle génération."
     },
     "publishedAt": "2026-02-01T23:09:43.310Z",
-    "updatedAt": "2026-02-01T23:32:00.274Z",
+    "updatedAt": "2026-03-25T09:35:11.718Z",
     "locale": "en",
     "translations": [
-      "en"
+      "en",
+      "es",
+      "fr"
     ],
     "blocks": [
       {
