@@ -5805,25 +5805,27 @@
   {
     "id": "cp81u33s46l",
     "slug": {
-      "en": "suscripcion-iptv-espana",
+      "en": "iptv-subscription-spain",
       "es": "suscripcion-iptv-espana",
-      "fr": "suscripcion-iptv-espana"
+      "fr": "abonnement-iptv-espagne"
     },
     "title": {
-      "en": "",
+      "en": "Best IPTV Subscription Spain 2026",
       "es": "Suscripción IPTV espana 2026",
-      "fr": ""
+      "fr": "meilleure Abonnement IPTV Espagne 2026"
     },
     "excerpt": {
-      "en": "",
+      "en": "Discover the best IPTV Subscription Spain 2026: national and international channels in HD/4K, access on multiple devices (TV, mobile, PC), no contracts. Enjoy live TV, VOD, EPG, DVR, and 24/7 technical support with maximum reliability at a low price. #IPTVSubscription",
       "es": "Descubre la mejor Suscripción IPTV España 2026: canales nacionales e internacionales en HD/4K, acceso en múltiples dispositivos (TV, móvil, PC), sin contratos. Disfruta de TV en vivo, VOD, EPG, DVR y asistencia técnica 24/7 con máxima fiabilidad y bajo precio.#Suscripción IPTV",
-      "fr": ""
+      "fr": "Découvrez la meilleure Abonnement IPTV Espagne 2026 : chaînes nationales et internationales en HD/4K, accès sur plusieurs appareils (TV, mobile, PC), sans engagement. Profitez de la TV en direct, VOD, EPG, DVR et d’une assistance technique 24/7 avec une fiabilité maximale à petit prix. #AbonnementIPTV"
     },
     "publishedAt": "2026-01-08T20:25:13.889Z",
-    "updatedAt": "2026-01-08T23:09:58.557Z",
+    "updatedAt": "2026-03-25T09:30:26.413Z",
     "locale": "es",
     "translations": [
-      "es"
+      "en",
+      "es",
+      "fr"
     ],
     "blocks": [
       {
