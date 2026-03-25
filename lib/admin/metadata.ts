@@ -29,6 +29,36 @@ export interface MetadataContent {
   reseller: PageMetadata;
 }
 
+function mergePageMetadataDefaults<T>(defaults: T, incoming: any): T {
+  if (!incoming || typeof incoming !== 'object') return defaults;
+
+  // Shallow merge at each level is enough here because all leaves are PageMetadata objects
+  return {
+    ...(defaults as any),
+    ...(incoming as any),
+    homepage: { ...(defaults as any).homepage, ...(incoming as any).homepage },
+    blog: { ...(defaults as any).blog, ...(incoming as any).blog },
+    blogListing: { ...(defaults as any).blogListing, ...(incoming as any).blogListing },
+    reseller: { ...(defaults as any).reseller, ...(incoming as any).reseller },
+    legal: {
+      ...(defaults as any).legal,
+      ...(incoming as any).legal,
+      refundPolicy: { ...(defaults as any).legal?.refundPolicy, ...(incoming as any).legal?.refundPolicy },
+      privacyPolicy: { ...(defaults as any).legal?.privacyPolicy, ...(incoming as any).legal?.privacyPolicy },
+      termsOfService: { ...(defaults as any).legal?.termsOfService, ...(incoming as any).legal?.termsOfService },
+    },
+    installation: {
+      ...(defaults as any).installation,
+      ...(incoming as any).installation,
+      windows: { ...(defaults as any).installation?.windows, ...(incoming as any).installation?.windows },
+      ios: { ...(defaults as any).installation?.ios, ...(incoming as any).installation?.ios },
+      firestick: { ...(defaults as any).installation?.firestick, ...(incoming as any).installation?.firestick },
+      smartTv: { ...(defaults as any).installation?.smartTv, ...(incoming as any).installation?.smartTv },
+      guide: { ...(defaults as any).installation?.guide, ...(incoming as any).installation?.guide },
+    },
+  } as T;
+}
+
 /**
  * Get metadata file for a locale
  */
@@ -41,8 +71,10 @@ export async function getMetadataFile(locale: string): Promise<{
   
   try {
     const file = await getFileFromGitHub(filePath);
+    const defaults = getDefaultMetadata(locale);
+    const parsed = JSON.parse(file.content);
     return {
-      content: JSON.parse(file.content),
+      content: mergePageMetadataDefaults<MetadataContent>(defaults, parsed),
       sha: file.sha,
       path: file.path,
     };
@@ -68,7 +100,9 @@ export async function updateMetadataFile(
   sha: string
 ): Promise<void> {
   const filePath = `data/metadata/${locale}.json`;
-  const jsonContent = JSON.stringify(content, null, 2);
+  // Ensure we always write a complete schema (avoid missing keys when schema evolves)
+  const normalized = mergePageMetadataDefaults<MetadataContent>(getDefaultMetadata(locale), content);
+  const jsonContent = JSON.stringify(normalized, null, 2);
   
   await updateFileOnGitHub({
     path: filePath,

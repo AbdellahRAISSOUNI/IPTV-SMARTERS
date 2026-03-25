@@ -409,7 +409,8 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-12 gap-6">
           {/* Sidebar */}
           <div className="col-span-3">
-            <div className="bg-white rounded-xl border border-gray-200 p-2">
+            <div className="sticky top-24">
+              <div className="bg-white rounded-xl border border-gray-200 p-2">
               <nav className="space-y-1">
                 <button
                   onClick={() => setActiveSection("hero")}
@@ -489,6 +490,7 @@ export default function AdminDashboard() {
                   Settings
                 </button>
               </nav>
+            </div>
             </div>
           </div>
 
