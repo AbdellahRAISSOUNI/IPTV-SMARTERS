@@ -17,12 +17,28 @@
       "fr": "Découvrez Iron IPTV, une solution premium pour regarder des milliers de chaînes en HD et 4K. Installation facile, streaming fluide et accès immédiat."
     },
     "publishedAt": "2026-03-30T22:58:24.500Z",
-    "updatedAt": "2026-03-30T23:01:05.938Z",
+    "updatedAt": "2026-03-31T08:50:48.334Z",
     "locale": "fr",
     "translations": [
       "fr"
     ],
-    "blocks": [],
+    "blocks": [
+      {
+        "id": "515yiabtpow",
+        "type": "image",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1774946960/blog-images/nwr1v4qagw1r9gfzhxxp.jpg",
+        "imageAlt": {
+          "en": "",
+          "es": "",
+          "fr": "abonnement iron iptv"
+        }
+      }
+    ],
     "meta": {
       "keywords": {
         "en": "",
@@ -30,7 +46,8 @@
         "fr": "iron iptv,abonnement iron iptv, iron iptv avis, iptv premium france, acheter iptv"
       }
     },
-    "author": "David Loca"
+    "author": "David Loca",
+    "featuredImage": "https://res.cloudinary.com/df5we7yoo/image/upload/v1774947032/blog-images/za72m2ak9jfkv9wi0ocw.png"
   },
   {
     "id": "97yqs2im1nm",
