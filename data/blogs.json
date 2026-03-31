@@ -17,7 +17,7 @@
       "fr": "Découvrez Iron IPTV, une solution premium pour regarder des milliers de chaînes en HD et 4K. Installation facile, streaming fluide et accès immédiat."
     },
     "publishedAt": "2026-03-30T22:58:24.500Z",
-    "updatedAt": "2026-03-31T09:25:21.774Z",
+    "updatedAt": "2026-03-31T09:37:39.695Z",
     "locale": "fr",
     "translations": [
       "fr"
@@ -105,6 +105,169 @@
           "en": "",
           "es": "",
           "fr": "👉 C’est une solution idéale pour ceux qui recherchent une [IPTV fiable](https://www.pro-iptvsmarters.com/fr/#pricing) et performante."
+        }
+      },
+      {
+        "id": "hve3ht8tllu",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "⚙️ Comment installer Iron IPTV facilement ?"
+        },
+        "level": 4
+      },
+      {
+        "id": "6gum1o0e2ng",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "L’installation de [iron iptv](https://www.pro-iptvsmarters.com/fr/#pricing) est simple et rapide, même pour un débutant."
+        }
+      },
+      {
+        "id": "4kgvu1vmkh3",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "🔹 Étape 1 : Choisir une application IPTV"
+        },
+        "level": 6
+      },
+      {
+        "id": "k6o16wjiq9",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Utilisez une application ([IRON IPTV](https://iron-tv-max.fr.download.it/android/download),[IPTV Smarters Pro](https://www.iptvsmarters.com/),Tivimate,Smart IPTV, [IBO Player](https://iboplayer.com/)) comme :"
+        }
+      },
+      {
+        "id": "qu1g8qjkl5",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "IPTV Smarters Pro",
+            "Tivimate",
+            "Smart IPTV"
+          ]
+        }
+      },
+      {
+        "id": "o3mycievlt",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "🔹 Étape 2 : Recevoir vos identifiants"
+        },
+        "level": 6
+      },
+      {
+        "id": "tjnpcqhi3l8",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "Après votre [abonnement iptv](https://www.pro-iptvsmarters.com/fr/#pricing) , vous recevez :"
+        }
+      },
+      {
+        "id": "4disfoe7ihd",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "URL serveur",
+            "Nom d’utilisateur",
+            "Mot de passe"
+          ]
+        }
+      },
+      {
+        "id": "224s7nkgzyi",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "🔹 Étape 3 : Configurer votre accès"
+        },
+        "level": 6
+      },
+      {
+        "id": "sf32g2uotj",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Ouvrez l’application",
+            "Sélectionnez “Xtream Codes API”",
+            "Entrez vos informations"
+          ]
+        }
+      },
+      {
+        "id": "zimckl6hjgc",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": "🔹 Étape 4 : Profiter du contenu"
+        },
+        "level": 6
+      },
+      {
+        "id": "711la4ss4ej",
+        "type": "list",
+        "content": {
+          "en": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            "Accédez instantanément à vos chaînes ✔"
+          ]
         }
       }
     ],
