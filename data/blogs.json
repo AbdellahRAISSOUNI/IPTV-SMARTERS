@@ -5607,7 +5607,7 @@
       "fr": "Découvrez ce qu’est un serveur IPTV, comment il fonctionne et comment choisir un serveur IPTV fiable pour une expérience TV fluide en HD et 4K en 2026."
     },
     "publishedAt": "2026-01-28T19:26:32.556Z",
-    "updatedAt": "2026-01-28T20:01:48.816Z",
+    "updatedAt": "2026-04-01T10:19:16.030Z",
     "locale": "fr",
     "translations": [
       "fr"
@@ -5630,6 +5630,12 @@
           "en": "",
           "es": "",
           "fr": ""
+        },
+        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1775038738/blog-images/livxmvaqif5exoawjbz8.jpg",
+        "imageAlt": {
+          "en": "",
+          "es": "",
+          "fr": "Serveur IPTV"
         }
       },
       {
@@ -5801,7 +5807,8 @@
         "es": "",
         "fr": "serveur iptv, iptv serveur, meilleur serveur iptv, abonnement iptv, iptv 2025, iptv hd 4k, iptv smarters"
       }
-    }
+    },
+    "featuredImage": "https://res.cloudinary.com/df5we7yoo/image/upload/v1775038732/blog-images/j6nhjbwclobkakm09ddi.jpg"
   },
   {
     "id": "juy47i611gi",
