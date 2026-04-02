@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 import type { BlogPost } from "@/lib/admin/blog";
 import type { Locale } from "@/lib/i18n";
+import { resolveBlogSeo } from "@/lib/utils/blog-metadata";
 
 interface BlogPostContentProps {
   blog: BlogPost;
