@@ -1,7 +1,11 @@
 import { MetadataRoute } from 'next';
 import { locales, type Locale } from '@/lib/i18n';
 import { getAllBlogs } from '@/lib/admin/blog';
-import { getInstallationUrl } from '@/lib/utils/installation-slugs';
+import {
+  getInstallationUrl,
+  getResellerUrl,
+  getLegalUrl,
+} from '@/lib/utils/installation-slugs';
 import { getBlogUrl, getAllBlogSlugs } from '@/lib/utils/blog-slugs';
 
 export const dynamic = 'force-dynamic';
@@ -10,15 +14,21 @@ export const revalidate = 3600; // Revalidate every hour for fresh blog posts
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.pro-iptvsmarters.com';
 
-  // Pages with language-specific slugs (installation + reseller)
-  const localizedPages = [
+  // Installation guides (use getInstallationUrl for localized slugs)
+  const installationEnglishSlugs = [
     'iptv-installation-guide',
     'iptv-installation-ios',
     'iptv-installation-smart-tv',
     'iptv-installation-windows',
     'iptv-installation-firestick',
-    'iptv-reseller-program',
   ];
+
+  const resellerEnglishSlugs = ['iptv-reseller-program'] as const;
+  const legalEnglishSlugs = [
+    'refund-policy',
+    'privacy-policy',
+    'terms-of-service',
+  ] as const;
 
   // Other static routes
   const otherRoutes = [
@@ -28,36 +38,50 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   
   const sitemapEntries: MetadataRoute.Sitemap = [];
 
-  // Add pages with language-specific URLs (installation + reseller)
-  localizedPages.forEach((englishSlug) => {
-    locales.forEach((locale) => {
-      // getInstallationUrl returns full path with locale and trailing slash (e.g., /en/iptv-installation-guide/)
-      const localizedPath = getInstallationUrl(englishSlug, locale);
-      const url = `${baseUrl}${localizedPath}`;
-      
-      // Generate alternates with language-specific URLs (canonical localized slugs)
-      const alternates: Record<string, string> = {};
-      locales.forEach((loc) => {
-        const altPath = getInstallationUrl(englishSlug, loc);
-        alternates[loc] = `${baseUrl}${altPath}`;
-      });
-      
-      // Set priority based on page type
-      let priority = 0.85;
-      if (englishSlug === 'iptv-installation-guide' || englishSlug === 'iptv-reseller-program') {
-        priority = 0.9;
-      }
-      
-      sitemapEntries.push({
-        url,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority,
-        alternates: {
-          languages: alternates,
-        },
+  const pushLocalizedGroup = (opts: {
+    englishSlugs: readonly string[];
+    pathForLocale: (englishSlug: string, locale: Locale) => string;
+    priority: (englishSlug: string) => number;
+  }) => {
+    opts.englishSlugs.forEach((englishSlug) => {
+      locales.forEach((locale) => {
+        const localizedPath = opts.pathForLocale(englishSlug, locale);
+        const url = `${baseUrl}${localizedPath}`;
+
+        const alternates: Record<string, string> = {};
+        locales.forEach((loc) => {
+          alternates[loc] = `${baseUrl}${opts.pathForLocale(englishSlug, loc)}`;
+        });
+
+        sitemapEntries.push({
+          url,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: opts.priority(englishSlug),
+          alternates: {
+            languages: alternates,
+          },
+        });
       });
     });
+  };
+
+  pushLocalizedGroup({
+    englishSlugs: installationEnglishSlugs,
+    pathForLocale: getInstallationUrl,
+    priority: (slug) => (slug === 'iptv-installation-guide' ? 0.9 : 0.85),
+  });
+
+  pushLocalizedGroup({
+    englishSlugs: resellerEnglishSlugs,
+    pathForLocale: getResellerUrl,
+    priority: () => 0.9,
+  });
+
+  pushLocalizedGroup({
+    englishSlugs: legalEnglishSlugs,
+    pathForLocale: getLegalUrl,
+    priority: () => 0.55,
   });
 
   // Add other static routes
