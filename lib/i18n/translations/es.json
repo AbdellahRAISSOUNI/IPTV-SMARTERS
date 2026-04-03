@@ -21,15 +21,15 @@
     "viewOffers": "Ver Ofertas"
   },
   "blog": {
-    "title": "Blog",
-    "description": "Últimos artículos, guías y actualizaciones sobre IPTV y streaming",
+    "title": "Guías y blog IPTV",
+    "description": "Tutoriales IPTV Smarters Pro, M3U y Xtream Codes, Firestick y Smart TV, listas y consejos de suscripción.",
     "noPosts": "Aún no hay publicaciones en el blog.",
     "readMore": "Leer más",
     "backToBlog": "Volver al Blog"
   },
   "home": {
-    "latestFromBlog": "Últimos del blog",
-    "latestFromBlogSubtitle": "Consejos, guías y noticias sobre IPTV y streaming",
+    "latestFromBlog": "Últimas guías IPTV",
+    "latestFromBlogSubtitle": "Smarters Pro, Firestick, listas M3U, Smart TV y consejos de streaming",
     "viewAllArticles": "Ver todos los artículos"
   },
   "testimonials": {

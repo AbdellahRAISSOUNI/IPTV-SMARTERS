@@ -50,3 +50,6 @@ next-env.d.ts
 *.swp
 *.swo
 *~
+
+# Local docs (not tracked)
+/docs/SEMRUSH_SEO_PLAYBOOK.tex

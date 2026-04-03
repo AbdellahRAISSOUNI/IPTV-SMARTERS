@@ -1,40 +1,54 @@
 {
   "homepage": {
-    "title": "Best IPTV Smarters Pro Subscription Provider | IPTV Subscription (-40 % )",
-    "description": "Get the #1 IPTV subscription service with IPTV Smarters Pro. Access 50,000+ live TV channels, movies, and series in 4K quality. 99.9% uptime guarantee. Free test available. Works on Windows, Android, iOS, Mac, Smart TV, Firestick. Instant activation. Premium IPTV subscription plans starting from €19.99. IPTV Smarters Pro or ibo players codes and accounts available."
+    "title": "IPTV Smarters Pro Subscription | Best IPTV Service 2026 | M3U & Xtream Codes",
+    "description": "Premium IPTV subscription with IPTV Smarters Pro: 50,000+ live channels, VOD, 4K, anti-freeze servers, free trial. Works on Firestick, Smart TV, Android, iOS, Windows & Mac. M3U playlist & Xtream Codes login. Instant activation."
   },
   "blog": {
-    "title": "IPTV Blog | Latest News, Guides & Tips",
-    "description": "Stay updated with the latest IPTV news, installation guides, tips, and best practices. Learn how to get the most out of your IPTV subscription."
+    "title": "IPTV Blog | Smarters Pro, M3U, Firestick & Smart TV Guides",
+    "description": "Expert IPTV guides: IPTV Smarters Pro setup, M3U & Xtream Codes, Firestick & Smart TV installation, playlists, IPTV players, subscriptions & streaming tips."
   },
   "blogListing": {
-    "title": "IPTV Blog | Latest Articles & Guides",
-    "description": "Browse our collection of IPTV articles, installation guides, tips, and industry news. Everything you need to know about IPTV streaming."
+    "title": "IPTV Guides & Tutorials | Firestick, M3U, Smarters Pro",
+    "description": "Browse IPTV Smarters Pro tutorials, M3U playlist guides, Firestick & Android TV setup, Smart TV apps, reseller tips, and subscription advice—all in one blog."
   },
   "installation": {
     "windows": {
-      "title": "How to Install IPTV Smarters Pro on Windows | Step-by-Step Guide",
-      "description": "Complete step-by-step guide to install IPTV Smarters Pro on Windows PC. Download, install, and configure IPTV Smarters Pro on Windows. Free installation support available."
+      "title": "Install IPTV Smarters Pro on Windows PC | Xtream Codes & M3U Guide",
+      "description": "Step-by-step: download IPTV Smarters Pro for Windows, add Xtream Codes API or M3U URL, fix common errors. Official-style setup for stable IPTV on PC."
     },
     "ios": {
-      "title": "How to Install IPTV Smarters Pro on iOS | iPhone & iPad Guide",
-      "description": "Complete guide to install IPTV Smarters Pro on iPhone and iPad. Step-by-step instructions for iOS installation. Free support available."
+      "title": "IPTV Smarters Pro on iPhone & iPad | iOS Install & Login Guide",
+      "description": "Install Smarters Player Lite / IPTV Smarters on iOS, enter portal URL, username & password or M3U. Complete iPhone & iPad IPTV configuration guide."
     },
     "firestick": {
-      "title": "How to Install IPTV Smarters Pro on Firestick | Amazon Fire TV Guide",
-      "description": "Complete guide to install IPTV Smarters Pro on Amazon Firestick and Fire TV. Easy step-by-step instructions. Free installation support."
+      "title": "IPTV Smarters Pro on Firestick & Fire TV | Downloader APK Guide 2026",
+      "description": "Sideload IPTV Smarters Pro on Amazon Firestick & Fire TV: Downloader app, unknown sources, APK install, Xtream Codes & M3U setup for smooth streaming."
     },
     "smartTv": {
-      "title": "How to Install IPTV Smarters Pro on Smart TV | Complete Guide",
-      "description": "Complete guide to install IPTV Smarters Pro on Smart TV. Works with Samsung, LG, Android TV, and more. Step-by-step instructions."
+      "title": "IPTV Smarters Pro on Smart TV | Samsung, LG, Android TV Setup",
+      "description": "Install and configure IPTV Smarters Pro on Samsung, LG, Android TV & Google TV. Portal, EPG, M3U & Xtream Codes steps for big-screen IPTV."
     },
     "guide": {
-      "title": "IPTV Installation Guide | Complete Setup Instructions",
-      "description": "Complete IPTV installation guide for all devices. Learn how to install IPTV Smarters Pro on Windows, Android, iOS, Smart TV, and Firestick."
+      "title": "Complete IPTV Installation Guide | All Devices & Apps",
+      "description": "Master IPTV setup: choose a subscription, use M3U or Xtream Codes, install IPTV Smarters Pro on Firestick, Smart TV, mobile & PC—one hub for every device."
     }
   },
   "reseller": {
-    "title": "IPTV Reseller Program | Start Your IPTV Business",
-    "description": "Join our IPTV reseller program and start your own IPTV business. Competitive prices, white-label solutions, and dedicated support. Become an IPTV reseller today."
+    "title": "IPTV Reseller Program | Panel, Credits & White-Label IPTV Business",
+    "description": "Start an IPTV reseller business: credits, customer panels, competitive pricing, Smarters-compatible lines, 24/7 support. Scale your IPTV sales in 2026."
+  },
+  "legal": {
+    "refundPolicy": {
+      "title": "Refund Policy | IPTV Subscription & Money-Back Terms | StreamPro",
+      "description": "StreamPro IPTV refund policy: eligibility, 5-day guarantee, how to request a refund for your IPTV subscription, and support contact."
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy | How We Protect Your IPTV Account Data | StreamPro",
+      "description": "How StreamPro collects, uses, and secures personal data when you buy an IPTV subscription or use our website and apps."
+    },
+    "termsOfService": {
+      "title": "Terms of Service | IPTV Subscription & Website Use | StreamPro",
+      "description": "Terms and conditions for StreamPro IPTV services, subscriptions, website use, acceptable use, and legal limitations."
+    }
   }
 }
