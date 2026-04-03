@@ -1,13 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import type { BlogPost } from "@/lib/admin/blog";
+import type { BlogBlock, BlogPost } from "@/lib/admin/blog";
 import type { Locale } from "@/lib/i18n";
-import { resolveBlogSeo } from "@/lib/utils/blog-metadata";
 
 interface BlogPostContentProps {
   blog: BlogPost;
@@ -16,8 +14,7 @@ interface BlogPostContentProps {
 
 export default function BlogPostContent({ blog, locale: serverLocale }: BlogPostContentProps) {
   const { t, locale } = useLanguage();
-  const router = useRouter();
-  
+
   // Use client locale if available, otherwise fallback to server locale
   const activeLocale = locale || serverLocale;
   
@@ -26,7 +23,7 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
     blog.excerpt[activeLocale] || blog.excerpt[blog.locale] || "";
 
   // Helper to get content for current locale
-  const getBlockContent = (block: any): string => {
+  const getBlockContent = (block: BlogBlock): string => {
     if (typeof block.content === 'string') {
       return block.content;
     }
@@ -52,7 +49,7 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
     return text;
   };
 
-  const renderBlock = (block: any, index: number) => {
+  const renderBlock = (block: BlogBlock) => {
     const blockContent = getBlockContent(block);
     
     switch (block.type) {
@@ -218,7 +215,7 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
 
           {/* Content */}
           <div className="prose prose-lg max-w-none">
-            {blog.blocks.map((block, index) => renderBlock(block, index))}
+            {blog.blocks.map((block) => renderBlock(block))}
           </div>
         </article>
       </main>

@@ -4,10 +4,7 @@ import { getHomepageMetadata } from "@/lib/utils/metadata-loader";
 
 export async function buildLocaleHomepageMetadata(locale: Locale): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
-  const locale = localeParam as Locale;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
-  const translations = getTranslations(locale);
-  
+
   const localeMap: Record<Locale, string> = {
     en: "en_US",
     es: "es_ES",
