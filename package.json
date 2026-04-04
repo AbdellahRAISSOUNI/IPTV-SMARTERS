@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seo:keywords": "node scripts/generate-seo-keyword-corpus.mjs"
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1",

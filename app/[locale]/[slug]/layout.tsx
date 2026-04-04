@@ -12,17 +12,59 @@ import {
 import { getInstallationMetadata, getResellerMetadata, getLegalMetadata } from '@/lib/utils/metadata-loader';
 import { locales } from '@/lib/i18n';
 import { notFound } from 'next/navigation';
+import { getRouteMetaKeywords } from '@/lib/seo/corpus-route-keywords';
+import { localizedSlugSeoConfig } from '@/lib/seo/route-seed-keywords';
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 
 // Import layout components
 import InstallationGuideLayout from '../iptv-installation-guide/layout';
 import WindowsInstallationLayout from '../iptv-installation-windows/layout';
 import ResellerLayout from '../iptv-reseller-program/layout';
 
-const layoutMap: Record<string, React.ComponentType<{ children: React.ReactNode }>> = {
+type NestedLayoutProps = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+const layoutMap: Record<string, React.ComponentType<NestedLayoutProps>> = {
   'iptv-installation-guide': InstallationGuideLayout,
   'iptv-installation-windows': WindowsInstallationLayout,
   'iptv-reseller-program': ResellerLayout,
 };
+
+async function loadSlugMetadata(
+  englishSlug: string,
+  locale: Locale
+): Promise<{ title: string; description: string }> {
+  if (englishSlug === 'iptv-installation-guide') {
+    return getInstallationMetadata(locale, 'guide');
+  }
+  if (englishSlug === 'iptv-installation-windows') {
+    return getInstallationMetadata(locale, 'windows');
+  }
+  if (englishSlug === 'iptv-installation-ios') {
+    return getInstallationMetadata(locale, 'ios');
+  }
+  if (englishSlug === 'iptv-installation-smart-tv') {
+    return getInstallationMetadata(locale, 'smartTv');
+  }
+  if (englishSlug === 'iptv-installation-firestick') {
+    return getInstallationMetadata(locale, 'firestick');
+  }
+  if (englishSlug === 'iptv-reseller-program') {
+    return getResellerMetadata(locale);
+  }
+  if (englishSlug === 'refund-policy') {
+    return getLegalMetadata(locale, 'refundPolicy');
+  }
+  if (englishSlug === 'privacy-policy') {
+    return getLegalMetadata(locale, 'privacyPolicy');
+  }
+  if (englishSlug === 'terms-of-service') {
+    return getLegalMetadata(locale, 'termsOfService');
+  }
+  return { title: '', description: '' };
+}
 
 export async function generateMetadata({
   params,
@@ -79,69 +121,14 @@ export async function generateMetadata({
     : getLegalUrl(englishSlug, 'en');
   languageAlternates['x-default'] = `${baseUrl}${defaultUrl}`;
   
-  // Load metadata based on page type
   let title = '';
   let description = '';
   let keywords: string[] = [];
-  
+
   try {
-    if (englishSlug === 'iptv-installation-guide') {
-      const metadata = await getInstallationMetadata(locale, 'guide');
-      title = metadata?.title || '';
-      description = metadata?.description || '';
-    } else if (englishSlug === 'iptv-installation-windows') {
-      const metadata = await getInstallationMetadata(locale, 'windows');
-      title = metadata?.title || '';
-      description = metadata?.description || '';
-    } else if (englishSlug === 'iptv-installation-ios') {
-      const metadata = await getInstallationMetadata(locale, 'ios');
-      title = metadata?.title || '';
-      description = metadata?.description || '';
-    } else if (englishSlug === 'iptv-installation-smart-tv') {
-      const metadata = await getInstallationMetadata(locale, 'smartTv');
-      title = metadata?.title || '';
-      description = metadata?.description || '';
-    } else if (englishSlug === 'iptv-installation-firestick') {
-      const metadata = await getInstallationMetadata(locale, 'firestick');
-      title = metadata?.title || '';
-      description = metadata?.description || '';
-    } else if (englishSlug === 'iptv-reseller-program') {
-      const metadata = await getResellerMetadata(locale);
-      title = metadata?.title || '';
-      description = metadata?.description || '';
-      keywords = {
-        en: [
-          "iptv reseller program", "become iptv reseller", "iptv reseller", "white label iptv", "iptv reseller panel",
-          "iptv business", "start iptv business", "iptv reseller account", "iptv reseller pricing", "iptv reseller support",
-          "iptv reseller platform", "iptv reseller credits", "iptv reseller program benefits", "iptv reseller opportunity",
-          "iptv reseller white label",
-        ],
-        es: [
-          "programa revendedor iptv", "convertirse revendedor iptv", "revendedor iptv", "iptv white label", "panel revendedor iptv",
-          "negocio iptv", "iniciar negocio iptv", "cuenta revendedor iptv", "precios revendedor iptv", "soporte revendedor iptv",
-          "plataforma revendedor iptv", "créditos revendedor iptv", "beneficios programa revendedor iptv", "oportunidad revendedor iptv",
-          "revendedor iptv white label",
-        ],
-        fr: [
-          "programme revendeur iptv", "devenir revendeur iptv", "revendeur iptv", "iptv white label", "panneau revendeur iptv",
-          "business iptv", "démarrer business iptv", "compte revendeur iptv", "tarifs revendeur iptv", "support revendeur iptv",
-          "plateforme revendeur iptv", "crédits revendeur iptv", "avantages programme revendeur iptv", "opportunité revendeur iptv",
-          "revendeur iptv white label",
-        ],
-      }[locale];
-    } else if (englishSlug === 'refund-policy') {
-      const metadata = await getLegalMetadata(locale, 'refundPolicy');
-      title = metadata?.title || '';
-      description = metadata?.description || '';
-    } else if (englishSlug === 'privacy-policy') {
-      const metadata = await getLegalMetadata(locale, 'privacyPolicy');
-      title = metadata?.title || '';
-      description = metadata?.description || '';
-    } else if (englishSlug === 'terms-of-service') {
-      const metadata = await getLegalMetadata(locale, 'termsOfService');
-      title = metadata?.title || '';
-      description = metadata?.description || '';
-    }
+    const metadata = await loadSlugMetadata(englishSlug, locale);
+    title = metadata?.title || '';
+    description = metadata?.description || '';
   } catch (error) {
     console.error('Error loading page metadata:', error);
     // Fallback titles
@@ -195,7 +182,12 @@ export async function generateMetadata({
     title = fallbackTitles[englishSlug]?.[locale] || 'Page';
     description = `Complete guide for ${englishSlug}`;
   }
-  
+
+  const seoCfg = localizedSlugSeoConfig[englishSlug];
+  if (seoCfg) {
+    keywords = getRouteMetaKeywords(locale, seoCfg.profile, seoCfg.seeds[locale]);
+  }
+
   const localeMap: Record<Locale, string> = {
     en: 'en_US',
     es: 'es_ES',
@@ -277,18 +269,69 @@ export default async function InstallationSlugLayout({
   // Check if this is a localized installation or reseller slug
   const englishSlug = getEnglishSlugFromLocalized(slug, locale);
   
-  // If it's not an installation or reseller page, just return children
-  if (!englishSlug || (!isInstallationSlug(englishSlug) && !isResellerSlug(englishSlug))) {
+  if (
+    !englishSlug ||
+    (!isInstallationSlug(englishSlug) && !isResellerSlug(englishSlug) && !isLegalSlug(englishSlug))
+  ) {
     return <>{children}</>;
   }
-  
-  // Get the appropriate layout component if it exists
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.pro-iptvsmarters.com';
+  const currentUrl = isInstallationSlug(englishSlug)
+    ? getInstallationUrl(englishSlug, locale)
+    : isResellerSlug(englishSlug)
+      ? getResellerUrl(englishSlug, locale)
+      : getLegalUrl(englishSlug, locale);
+  const canonicalUrl = `${baseUrl}${currentUrl}`;
+
   const LayoutComponent = layoutMap[englishSlug];
-  
+  const seoCfg = localizedSlugSeoConfig[englishSlug];
+  const needsJsonLd = !LayoutComponent && seoCfg;
+
+  const jsonLdBlock = needsJsonLd
+    ? await renderSlugWebPageJsonLd(englishSlug, locale, canonicalUrl, baseUrl)
+    : null;
+
   if (LayoutComponent) {
-    return <LayoutComponent>{children}</LayoutComponent>;
+    return (
+      <LayoutComponent params={Promise.resolve({ locale })}>{children}</LayoutComponent>
+    );
   }
-  
-  // Default layout
-  return <>{children}</>;
+
+  return (
+    <>
+      {jsonLdBlock}
+      {children}
+    </>
+  );
+}
+
+async function renderSlugWebPageJsonLd(
+  englishSlug: string,
+  locale: Locale,
+  canonicalUrl: string,
+  baseUrl: string
+) {
+  const seoCfg = localizedSlugSeoConfig[englishSlug];
+  if (!seoCfg) return null;
+  let title = '';
+  let description = '';
+  try {
+    const m = await loadSlugMetadata(englishSlug, locale);
+    title = m.title;
+    description = m.description;
+  } catch {
+    return null;
+  }
+  const keywords = getRouteMetaKeywords(locale, seoCfg.profile, seoCfg.seeds[locale]);
+  return (
+    <WebPageJsonLd
+      url={canonicalUrl}
+      name={title}
+      description={description}
+      locale={locale}
+      keywords={keywords}
+      siteUrl={`${baseUrl}/${locale}/`}
+    />
+  );
 }

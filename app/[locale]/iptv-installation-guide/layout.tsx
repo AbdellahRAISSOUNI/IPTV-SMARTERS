@@ -3,6 +3,9 @@ import type { Locale } from "@/lib/i18n";
 import { getInstallationUrl } from "@/lib/utils/installation-slugs";
 import { locales } from "@/lib/i18n";
 import { getInstallationMetadata } from "@/lib/utils/metadata-loader";
+import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
+import { installationGuideSeeds } from "@/lib/seo/route-seed-keywords";
+import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 
 export async function generateMetadata({
   params,
@@ -16,59 +19,7 @@ export async function generateMetadata({
   const title = pageMetadata.title;
   const description = pageMetadata.description;
 
-  const keywordsMap: Record<Locale, string[]> = {
-    en: [
-      "iptv installation guide",
-      "how to install iptv",
-      "iptv smarters pro installation",
-      "iptv installation windows",
-      "iptv installation android",
-      "iptv installation ios",
-      "iptv installation smart tv",
-      "iptv installation firestick",
-      "iptv setup guide",
-      "iptv installation tutorial",
-      "install iptv smarters pro",
-      "iptv installation steps",
-      "iptv installation instructions",
-      "iptv installation help",
-      "iptv installation support",
-    ],
-    es: [
-      "guía instalación iptv",
-      "cómo instalar iptv",
-      "instalación iptv smarters pro",
-      "instalación iptv windows",
-      "instalación iptv android",
-      "instalación iptv ios",
-      "instalación iptv smart tv",
-      "instalación iptv firestick",
-      "guía configuración iptv",
-      "tutorial instalación iptv",
-      "instalar iptv smarters pro",
-      "pasos instalación iptv",
-      "instrucciones instalación iptv",
-      "ayuda instalación iptv",
-      "soporte instalación iptv",
-    ],
-    fr: [
-      "guide installation iptv",
-      "comment installer iptv",
-      "installation iptv smarters pro",
-      "installation iptv windows",
-      "installation iptv android",
-      "installation iptv ios",
-      "installation iptv smart tv",
-      "installation iptv firestick",
-      "guide configuration iptv",
-      "tutoriel installation iptv",
-      "installer iptv smarters pro",
-      "étapes installation iptv",
-      "instructions installation iptv",
-      "aide installation iptv",
-      "support installation iptv",
-    ],
-  };
+  const keywords = getRouteMetaKeywords(locale, "guide", installationGuideSeeds[locale]);
 
   const localeMap: Record<Locale, string> = {
     en: "en_US",
@@ -99,7 +50,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    keywords: keywordsMap[locale],
+    keywords,
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: canonicalUrl,
@@ -152,10 +103,34 @@ export async function generateMetadata({
   };
 }
 
-export default function InstallationGuideLayout({
+export default async function InstallationGuideLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-  return <>{children}</>;
+  const { locale: localeParam } = await params;
+  if (!locales.includes(localeParam as Locale)) {
+    return <>{children}</>;
+  }
+  const locale = localeParam as Locale;
+  const pageMetadata = await getInstallationMetadata(locale, "guide");
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
+  const canonicalUrl = `${base}${getInstallationUrl("iptv-installation-guide", locale)}`;
+  const keywords = getRouteMetaKeywords(locale, "guide", installationGuideSeeds[locale]);
+
+  return (
+    <>
+      <WebPageJsonLd
+        url={canonicalUrl}
+        name={pageMetadata.title}
+        description={pageMetadata.description}
+        locale={locale}
+        keywords={keywords}
+        siteUrl={`${base}/${locale}/`}
+      />
+      {children}
+    </>
+  );
 }

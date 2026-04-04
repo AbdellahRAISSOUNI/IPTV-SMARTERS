@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
+import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
+import { legalPrivacySeeds } from "@/lib/seo/route-seed-keywords";
+import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
@@ -32,32 +35,7 @@ export async function generateMetadata({
     fr: "Découvrez comment StreamPro IPTV Smarters Pro collecte, utilise et protège vos données personnelles lorsque vous utilisez notre service IPTV et notre site web.",
   };
 
-  const keywordsMap: Record<Locale, string[]> = {
-    en: [
-      "IPTV privacy policy",
-      "privacy policy IPTV",
-      "IPTV data protection",
-      "personal data IPTV",
-      "StreamPro privacy policy",
-      "IPTV Smarters Pro privacy",
-    ],
-    es: [
-      "política de privacidad iptv",
-      "privacidad iptv",
-      "protección de datos iptv",
-      "datos personales iptv",
-      "política de privacidad StreamPro",
-      "privacidad IPTV Smarters Pro",
-    ],
-    fr: [
-      "politique de confidentialité iptv",
-      "confidentialité iptv",
-      "protection des données iptv",
-      "données personnelles iptv",
-      "politique de confidentialité StreamPro",
-      "confidentialité IPTV Smarters Pro",
-    ],
-  };
+  const keywords = getRouteMetaKeywords(locale, "legal", legalPrivacySeeds[locale]);
 
   const currentUrl = `/${locale}/privacy-policy/`;
   const canonicalUrl = `${baseUrl}${currentUrl}`;
@@ -74,7 +52,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    keywords: keywordsMap[locale],
+    keywords,
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: canonicalUrl,
@@ -103,7 +81,43 @@ export async function generateMetadata({
   };
 }
 
-export default function PrivacyPolicyLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default async function PrivacyPolicyLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  if (!locales.includes(localeParam as Locale)) {
+    return <>{children}</>;
+  }
+  const locale = localeParam as Locale;
+  const titleMap: Record<Locale, string> = {
+    en: "Privacy Policy | StreamPro IPTV Smarters Pro",
+    es: "Política de Privacidad | StreamPro IPTV Smarters Pro",
+    fr: "Politique de Confidentialité | StreamPro IPTV Smarters Pro",
+  };
+  const descriptionMap: Record<Locale, string> = {
+    en: "Learn how StreamPro IPTV Smarters Pro collects, uses, and protects your personal data when you use our IPTV service and website.",
+    es: "Descubre cómo StreamPro IPTV Smarters Pro recopila, utiliza y protege tus datos personales al usar nuestro servicio IPTV y el sitio web.",
+    fr: "Découvrez comment StreamPro IPTV Smarters Pro collecte, utilise et protège vos données personnelles lorsque vous utilisez notre service IPTV et notre site web.",
+  };
+  const canonicalUrl = `${baseUrl}/${locale}/privacy-policy/`;
+  const keywords = getRouteMetaKeywords(locale, "legal", legalPrivacySeeds[locale]);
+
+  return (
+    <>
+      <WebPageJsonLd
+        url={canonicalUrl}
+        name={titleMap[locale]}
+        description={descriptionMap[locale]}
+        locale={locale}
+        keywords={keywords}
+        siteUrl={`${baseUrl}/${locale}/`}
+      />
+      {children}
+    </>
+  );
 }
 

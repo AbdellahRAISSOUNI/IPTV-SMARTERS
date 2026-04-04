@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
+import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
+import { legalRefundSeeds } from "@/lib/seo/route-seed-keywords";
+import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
@@ -32,11 +35,7 @@ export async function generateMetadata({
     fr: "Consultez la politique de remboursement de StreamPro IPTV, y découvrez l’éligibilité, les délais et comment demander un remboursement pour votre abonnement IPTV.",
   };
 
-  const keywordsMap: Record<Locale, string[]> = {
-    en: ["iptv refund policy", "iptv subscription refund", "money back iptv", "refund iptv"],
-    es: ["política de reembolso iptv", "reembolso suscripción iptv", "garantía reembolso iptv", "reembolso iptv"],
-    fr: ["politique de remboursement iptv", "remboursement abonnement iptv", "garantie remboursement iptv", "remboursement iptv"],
-  };
+  const keywords = getRouteMetaKeywords(locale, "legal", legalRefundSeeds[locale]);
 
   const canonicalUrl = `${baseUrl}/${locale}/refund-policy/`;
   const languageAlternates: Record<string, string> = {
@@ -52,7 +51,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    keywords: keywordsMap[locale],
+    keywords,
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: canonicalUrl,
@@ -88,7 +87,43 @@ export async function generateMetadata({
   };
 }
 
-export default function RefundPolicyLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default async function RefundPolicyLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  if (!locales.includes(localeParam as Locale)) {
+    return <>{children}</>;
+  }
+  const locale = localeParam as Locale;
+  const titleMap: Record<Locale, string> = {
+    en: "Refund Policy | StreamPro IPTV",
+    es: "Política de Reembolso | StreamPro IPTV",
+    fr: "Politique de Remboursement | StreamPro IPTV",
+  };
+  const descriptionMap: Record<Locale, string> = {
+    en: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
+    es: "Consulta la política de reembolso de StreamPro IPTV, incluyendo elegibilidad, plazos y cómo solicitar un reembolso de tu suscripción IPTV.",
+    fr: "Consultez la politique de remboursement de StreamPro IPTV, y découvrez l’éligibilité, les délais et comment demander un remboursement pour votre abonnement IPTV.",
+  };
+  const canonicalUrl = `${baseUrl}/${locale}/refund-policy/`;
+  const keywords = getRouteMetaKeywords(locale, "legal", legalRefundSeeds[locale]);
+
+  return (
+    <>
+      <WebPageJsonLd
+        url={canonicalUrl}
+        name={titleMap[locale]}
+        description={descriptionMap[locale]}
+        locale={locale}
+        keywords={keywords}
+        siteUrl={`${baseUrl}/${locale}/`}
+      />
+      {children}
+    </>
+  );
 }
 

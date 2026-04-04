@@ -8,11 +8,12 @@ import { getDefaultMetadata } from '@/lib/admin/metadata';
 import type { MetadataContent } from '@/lib/admin/metadata';
 import fs from 'fs';
 import path from 'path';
+import { cache } from 'react';
 
 /**
- * Load metadata for a locale
+ * Load metadata for a locale (deduped per request when called from layout + generateMetadata)
  */
-export async function loadPageMetadata(locale: Locale): Promise<MetadataContent> {
+export const loadPageMetadata = cache(async function loadPageMetadata(locale: Locale): Promise<MetadataContent> {
   // Validate locale first - only valid locales should reach here
   const validLocales: Locale[] = ['en', 'es', 'fr'];
   if (!validLocales.includes(locale)) {
@@ -36,7 +37,7 @@ export async function loadPageMetadata(locale: Locale): Promise<MetadataContent>
 
   // Fallback to default
   return getDefaultMetadata(locale);
-}
+});
 
 /**
  * Get homepage metadata

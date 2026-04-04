@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
-import { getBlogListingMetadata, getBlogMetadata } from "@/lib/utils/metadata-loader";
+import { locales } from "@/lib/i18n";
+import { getBlogMetadata } from "@/lib/utils/metadata-loader";
+import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
+import { blogListingSeeds } from "@/lib/seo/route-seed-keywords";
+import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
@@ -29,10 +33,12 @@ export async function generateMetadata({
   const pageMetadata = await getBlogMetadata(locale);
   const title = pageMetadata.title;
   const description = pageMetadata.description;
+  const keywords = getRouteMetaKeywords(locale, "blog", blogListingSeeds[locale]);
 
   return {
     title,
     description,
+    keywords,
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `${baseUrl}/${locale}/blog/`, // Include trailing slash for consistency
@@ -89,10 +95,33 @@ export async function generateMetadata({
   };
 }
 
-export default function BlogLayout({
+export default async function BlogLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-  return <>{children}</>;
+  const { locale: localeParam } = await params;
+  if (!locales.includes(localeParam as Locale)) {
+    return <>{children}</>;
+  }
+  const locale = localeParam as Locale;
+  const pageMetadata = await getBlogMetadata(locale);
+  const canonicalUrl = `${baseUrl}/${locale}/blog/`;
+  const keywords = getRouteMetaKeywords(locale, "blog", blogListingSeeds[locale]);
+
+  return (
+    <>
+      <WebPageJsonLd
+        url={canonicalUrl}
+        name={pageMetadata.title}
+        description={pageMetadata.description}
+        locale={locale}
+        keywords={keywords}
+        siteUrl={`${baseUrl}/${locale}/`}
+      />
+      {children}
+    </>
+  );
 }

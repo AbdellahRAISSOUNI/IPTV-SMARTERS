@@ -3,6 +3,9 @@ import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
 import { getInstallationMetadata } from "@/lib/utils/metadata-loader";
 import { getInstallationUrl } from "@/lib/utils/installation-slugs";
+import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
+import { smartTvInstallationSeeds } from "@/lib/seo/route-seed-keywords";
+import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 
 export async function generateMetadata({
   params,
@@ -23,35 +26,7 @@ export async function generateMetadata({
   const title = pageMetadata.title;
   const description = pageMetadata.description;
 
-  const keywordsMap: Record<Locale, string[]> = {
-    en: [
-      "iptv smarters pro smart tv",
-      "install iptv smart tv",
-      "iptv smart tv setup",
-      "iptv on samsung smart tv",
-      "iptv on lg smart tv",
-      "smart tv iptv app",
-      "iptv smarters smart tv guide",
-    ],
-    es: [
-      "iptv smarters pro smart tv",
-      "instalar iptv smart tv",
-      "configurar iptv smart tv",
-      "iptv en smart tv samsung",
-      "iptv en smart tv lg",
-      "app iptv smart tv",
-      "guía iptv smarters smart tv",
-    ],
-    fr: [
-      "iptv smarters pro smart tv",
-      "installer iptv smart tv",
-      "configuration iptv smart tv",
-      "iptv sur smart tv samsung",
-      "iptv sur smart tv lg",
-      "application iptv smart tv",
-      "guide iptv smarters smart tv",
-    ],
-  };
+  const keywords = getRouteMetaKeywords(locale, "smartTv", smartTvInstallationSeeds[locale]);
 
   const localeMap: Record<Locale, string> = { en: "en_US", es: "es_ES", fr: "fr_FR" };
   const siteNameMap: Record<Locale, string> = {
@@ -74,7 +49,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    keywords: keywordsMap[locale],
+    keywords,
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: canonicalUrl,
@@ -127,7 +102,35 @@ export async function generateMetadata({
   };
 }
 
-export default function SmartTvInstallationLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default async function SmartTvInstallationLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  if (!locales.includes(localeParam as Locale)) {
+    return <>{children}</>;
+  }
+  const locale = localeParam as Locale;
+  const pageMetadata = await getInstallationMetadata(locale, "smartTv");
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
+  const canonicalUrl = `${base}${getInstallationUrl("iptv-installation-smart-tv", locale)}`;
+  const keywords = getRouteMetaKeywords(locale, "smartTv", smartTvInstallationSeeds[locale]);
+
+  return (
+    <>
+      <WebPageJsonLd
+        url={canonicalUrl}
+        name={pageMetadata.title}
+        description={pageMetadata.description}
+        locale={locale}
+        keywords={keywords}
+        siteUrl={`${base}/${locale}/`}
+      />
+      {children}
+    </>
+  );
 }
 

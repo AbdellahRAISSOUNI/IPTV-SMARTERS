@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
+import { locales } from "@/lib/i18n";
 import { getInstallationMetadata } from "@/lib/utils/metadata-loader";
 import { getInstallationUrl } from "@/lib/utils/installation-slugs";
-import { locales } from "@/lib/i18n";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
-import { windowsInstallationSeeds } from "@/lib/seo/route-seed-keywords";
+import { iosInstallationSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
 export async function generateMetadata({
   params,
@@ -13,14 +15,11 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
-  // Load metadata from file
-  const pageMetadata = await getInstallationMetadata(locale, 'windows');
+  const pageMetadata = await getInstallationMetadata(locale, "ios");
   const title = pageMetadata.title;
   const description = pageMetadata.description;
-
-  const keywords = getRouteMetaKeywords(locale, "windows", windowsInstallationSeeds[locale]);
+  const keywords = getRouteMetaKeywords(locale, "ios", iosInstallationSeeds[locale]);
 
   const localeMap: Record<Locale, string> = {
     en: "en_US",
@@ -35,18 +34,14 @@ export async function generateMetadata({
   };
 
   const ogImage = `${baseUrl}/images/hero.png`;
-  
-  // Get language-specific URL for this page
-  const currentUrl = getInstallationUrl('iptv-installation-windows', locale);
+  const currentUrl = getInstallationUrl("iptv-installation-ios", locale);
   const canonicalUrl = `${baseUrl}${currentUrl}`;
-  
-  // Generate alternates with language-specific URLs
+
   const languageAlternates: Record<string, string> = {};
   locales.forEach((loc) => {
-    const altUrl = getInstallationUrl('iptv-installation-windows', loc);
-    languageAlternates[loc] = `${baseUrl}${altUrl}`;
+    languageAlternates[loc] = `${baseUrl}${getInstallationUrl("iptv-installation-ios", loc)}`;
   });
-  languageAlternates['x-default'] = `${baseUrl}${getInstallationUrl('iptv-installation-windows', 'en')}`;
+  languageAlternates["x-default"] = `${baseUrl}${getInstallationUrl("iptv-installation-ios", "en")}`;
 
   return {
     title,
@@ -104,7 +99,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function WindowsInstallationLayout({
+export default async function IosInstallationLayout({
   children,
   params,
 }: {
@@ -116,10 +111,11 @@ export default async function WindowsInstallationLayout({
     return <>{children}</>;
   }
   const locale = localeParam as Locale;
-  const pageMetadata = await getInstallationMetadata(locale, "windows");
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
-  const canonicalUrl = `${base}${getInstallationUrl("iptv-installation-windows", locale)}`;
-  const keywords = getRouteMetaKeywords(locale, "windows", windowsInstallationSeeds[locale]);
+  const pageMetadata = await getInstallationMetadata(locale, "ios");
+  const currentUrl = getInstallationUrl("iptv-installation-ios", locale);
+  const canonicalUrl = `${baseUrl}${currentUrl}`;
+  const siteUrl = `${baseUrl}/${locale}/`;
+  const keywords = getRouteMetaKeywords(locale, "ios", iosInstallationSeeds[locale]);
 
   return (
     <>
@@ -129,7 +125,7 @@ export default async function WindowsInstallationLayout({
         description={pageMetadata.description}
         locale={locale}
         keywords={keywords}
-        siteUrl={`${base}/${locale}/`}
+        siteUrl={siteUrl}
       />
       {children}
     </>

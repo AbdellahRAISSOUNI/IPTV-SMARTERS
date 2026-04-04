@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { getResellerMetadata } from "@/lib/utils/metadata-loader";
-import { getInstallationUrl } from "@/lib/utils/installation-slugs";
+import { getResellerUrl } from "@/lib/utils/installation-slugs";
 import { locales } from "@/lib/i18n";
+import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
+import { resellerSeeds } from "@/lib/seo/route-seed-keywords";
+import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 
 export async function generateMetadata({
   params,
@@ -17,59 +20,7 @@ export async function generateMetadata({
   const title = pageMetadata.title;
   const description = pageMetadata.description;
 
-  const keywordsMap: Record<Locale, string[]> = {
-    en: [
-      "iptv reseller program",
-      "become iptv reseller",
-      "iptv reseller",
-      "white label iptv",
-      "iptv reseller panel",
-      "iptv business",
-      "start iptv business",
-      "iptv reseller account",
-      "iptv reseller pricing",
-      "iptv reseller support",
-      "iptv reseller platform",
-      "iptv reseller credits",
-      "iptv reseller program benefits",
-      "iptv reseller opportunity",
-      "iptv reseller white label",
-    ],
-    es: [
-      "programa revendedor iptv",
-      "convertirse revendedor iptv",
-      "revendedor iptv",
-      "iptv white label",
-      "panel revendedor iptv",
-      "negocio iptv",
-      "iniciar negocio iptv",
-      "cuenta revendedor iptv",
-      "precios revendedor iptv",
-      "soporte revendedor iptv",
-      "plataforma revendedor iptv",
-      "créditos revendedor iptv",
-      "beneficios programa revendedor iptv",
-      "oportunidad revendedor iptv",
-      "revendedor iptv white label",
-    ],
-    fr: [
-      "programme revendeur iptv",
-      "devenir revendeur iptv",
-      "revendeur iptv",
-      "iptv white label",
-      "panneau revendeur iptv",
-      "business iptv",
-      "démarrer business iptv",
-      "compte revendeur iptv",
-      "tarifs revendeur iptv",
-      "support revendeur iptv",
-      "plateforme revendeur iptv",
-      "crédits revendeur iptv",
-      "avantages programme revendeur iptv",
-      "opportunité revendeur iptv",
-      "revendeur iptv white label",
-    ],
-  };
+  const keywords = getRouteMetaKeywords(locale, "reseller", resellerSeeds[locale]);
 
   const localeMap: Record<Locale, string> = {
     en: "en_US",
@@ -86,21 +37,20 @@ export async function generateMetadata({
   const ogImage = `${baseUrl}/images/hero.png`;
   
   // Get language-specific URL for this page
-  const currentUrl = getInstallationUrl('iptv-reseller-program', locale);
+  const currentUrl = getResellerUrl("iptv-reseller-program", locale);
   const canonicalUrl = `${baseUrl}${currentUrl}`;
-  
-  // Generate alternates with language-specific URLs
+
   const languageAlternates: Record<string, string> = {};
   locales.forEach((loc) => {
-    const altUrl = getInstallationUrl('iptv-reseller-program', loc);
+    const altUrl = getResellerUrl("iptv-reseller-program", loc);
     languageAlternates[loc] = `${baseUrl}${altUrl}`;
   });
-  languageAlternates['x-default'] = `${baseUrl}${getInstallationUrl('iptv-reseller-program', 'en')}`;
+  languageAlternates["x-default"] = `${baseUrl}${getResellerUrl("iptv-reseller-program", "en")}`;
 
   return {
     title,
     description,
-    keywords: keywordsMap[locale],
+    keywords,
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: canonicalUrl,
@@ -152,10 +102,34 @@ export async function generateMetadata({
   };
 }
 
-export default function ResellerLayout({
+export default async function ResellerLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-  return <>{children}</>;
+  const { locale: localeParam } = await params;
+  if (!locales.includes(localeParam as Locale)) {
+    return <>{children}</>;
+  }
+  const locale = localeParam as Locale;
+  const pageMetadata = await getResellerMetadata(locale);
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
+  const canonicalUrl = `${base}${getResellerUrl("iptv-reseller-program", locale)}`;
+  const keywords = getRouteMetaKeywords(locale, "reseller", resellerSeeds[locale]);
+
+  return (
+    <>
+      <WebPageJsonLd
+        url={canonicalUrl}
+        name={pageMetadata.title}
+        description={pageMetadata.description}
+        locale={locale}
+        keywords={keywords}
+        siteUrl={`${base}/${locale}/`}
+      />
+      {children}
+    </>
+  );
 }
