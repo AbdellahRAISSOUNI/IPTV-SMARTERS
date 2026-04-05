@@ -1,19 +1,50 @@
 import { Octokit } from "@octokit/rest";
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_REPO_OWNER = process.env.GITHUB_REPO?.split("/")[0];
-const GITHUB_REPO_NAME = process.env.GITHUB_REPO?.split("/")[1];
-const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
-const GITHUB_EMAIL = process.env.GITHUB_EMAIL;
-const GITHUB_NAME = process.env.GITHUB_NAME;
-
-if (!GITHUB_TOKEN || !GITHUB_REPO_OWNER || !GITHUB_REPO_NAME || !GITHUB_EMAIL || !GITHUB_NAME) {
-  throw new Error("Missing GitHub environment variables for blog system.");
+/** GitHub is only required when calling blog persistence APIs — not when importing types/helpers. */
+function getGithubBlogContext() {
+  const token = process.env.GITHUB_TOKEN;
+  const repoFull = process.env.GITHUB_REPO;
+  const owner = repoFull?.split("/")[0];
+  const repo = repoFull?.split("/")[1];
+  const branch = process.env.GITHUB_BRANCH || "main";
+  const email = process.env.GITHUB_EMAIL;
+  const name = process.env.GITHUB_NAME;
+  if (!token || !owner || !repo || !email || !name) {
+    throw new Error("Missing GitHub environment variables for blog system.");
+  }
+  return {
+    octokit: new Octokit({ auth: token }),
+    owner,
+    repo,
+    branch,
+    email,
+    name,
+  };
 }
 
-const octokit = new Octokit({
-  auth: GITHUB_TOKEN,
-});
+export const BLOG_CONTENT_LOCALES = ["en", "es", "fr"] as const;
+export type BlogContentLocale = (typeof BLOG_CONTENT_LOCALES)[number];
+
+/** Ensures every supported locale key exists on stored `htmlBody` (default empty string). */
+export function normalizeHtmlBody(
+  htmlBody?: Record<string, string> | null
+): Record<BlogContentLocale, string> {
+  if (!htmlBody || typeof htmlBody !== "object") {
+    return { en: "", es: "", fr: "" };
+  }
+  return {
+    en: typeof htmlBody.en === "string" ? htmlBody.en : "",
+    es: typeof htmlBody.es === "string" ? htmlBody.es : "",
+    fr: typeof htmlBody.fr === "string" ? htmlBody.fr : "",
+  };
+}
+
+function normalizeBlogPost(blog: BlogPost): BlogPost {
+  return {
+    ...blog,
+    htmlBody: normalizeHtmlBody(blog.htmlBody),
+  };
+}
 
 export interface BlogBlock {
   id: string;
@@ -47,6 +78,8 @@ export interface BlogPost {
   updatedAt: string;
   locale: string; // Primary language
   translations?: string[]; // Array of locale codes that have translations
+  /** Per-locale rich HTML; when non-empty for the resolved locale, public pages prefer this over `blocks`. */
+  htmlBody?: Record<string, string>;
   blocks: BlogBlock[];
   meta?: {
     description?: Record<string, string>;
@@ -58,16 +91,18 @@ const BLOG_DATA_PATH = "data/blogs.json";
 
 export async function getAllBlogs(): Promise<BlogPost[]> {
   try {
+    const { octokit, owner, repo, branch } = getGithubBlogContext();
     const response = await octokit.repos.getContent({
-      owner: GITHUB_REPO_OWNER!,
-      repo: GITHUB_REPO_NAME!,
+      owner,
+      repo,
       path: BLOG_DATA_PATH,
-      ref: GITHUB_BRANCH,
+      ref: branch,
     });
 
     if (response.status === 200 && "content" in response.data) {
       const content = Buffer.from(response.data.content, "base64").toString("utf8");
-      return JSON.parse(content);
+      const parsed = JSON.parse(content) as BlogPost[];
+      return Array.isArray(parsed) ? parsed.map(normalizeBlogPost) : [];
     }
     return [];
   } catch (error: any) {
@@ -110,6 +145,7 @@ export async function getBlogBySlug(slug: string, locale?: string): Promise<Blog
 
 export async function saveBlog(blog: BlogPost): Promise<void> {
   try {
+    const { octokit, owner, repo, branch, email, name } = getGithubBlogContext();
     const blogs = await getAllBlogs();
     const existingIndex = blogs.findIndex((b) => b.id === blog.id);
     
@@ -128,10 +164,10 @@ export async function saveBlog(blog: BlogPost): Promise<void> {
     let sha: string | undefined;
     try {
       const response = await octokit.repos.getContent({
-        owner: GITHUB_REPO_OWNER!,
-        repo: GITHUB_REPO_NAME!,
+        owner,
+        repo,
         path: BLOG_DATA_PATH,
-        ref: GITHUB_BRANCH,
+        ref: branch,
       });
       if (response.status === 200 && "sha" in response.data) {
         sha = response.data.sha;
@@ -147,18 +183,18 @@ export async function saveBlog(blog: BlogPost): Promise<void> {
       : (blog.slug[blog.locale] || blog.slug['en'] || Object.values(blog.slug)[0] || 'blog');
     
     await octokit.repos.createOrUpdateFileContents({
-      owner: GITHUB_REPO_OWNER!,
-      repo: GITHUB_REPO_NAME!,
+      owner,
+      repo,
       path: BLOG_DATA_PATH,
       message: sha 
         ? `Update blog: ${blog.title[blog.locale] || slugDisplay}`
         : `Create blog: ${blog.title[blog.locale] || slugDisplay}`,
       content: Buffer.from(content).toString("base64"),
       sha: sha, // Include SHA if updating existing file
-      branch: GITHUB_BRANCH,
+      branch,
       committer: {
-        name: GITHUB_NAME!,
-        email: GITHUB_EMAIL!,
+        name,
+        email,
       },
     });
   } catch (error) {
@@ -169,30 +205,31 @@ export async function saveBlog(blog: BlogPost): Promise<void> {
 
 export async function deleteBlog(blogId: string): Promise<void> {
   try {
+    const { octokit, owner, repo, branch, email, name } = getGithubBlogContext();
     const blogs = await getAllBlogs();
     const filtered = blogs.filter((b) => b.id !== blogId);
     
     const content = JSON.stringify(filtered, null, 2);
     
     const response = await octokit.repos.getContent({
-      owner: GITHUB_REPO_OWNER!,
-      repo: GITHUB_REPO_NAME!,
+      owner,
+      repo,
       path: BLOG_DATA_PATH,
-      ref: GITHUB_BRANCH,
+      ref: branch,
     });
     
     if (response.status === 200 && "sha" in response.data) {
       await octokit.repos.createOrUpdateFileContents({
-        owner: GITHUB_REPO_OWNER!,
-        repo: GITHUB_REPO_NAME!,
+        owner,
+        repo,
         path: BLOG_DATA_PATH,
         message: `Delete blog: ${blogId}`,
         content: Buffer.from(content).toString("base64"),
         sha: response.data.sha,
-        branch: GITHUB_BRANCH,
+        branch,
         committer: {
-          name: GITHUB_NAME!,
-          email: GITHUB_EMAIL!,
+          name,
+          email,
         },
       });
     }

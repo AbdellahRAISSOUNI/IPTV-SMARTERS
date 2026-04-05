@@ -1,0 +1,29 @@
+.blog-rich-editor-root .ProseMirror {
+  min-height: 280px;
+  outline: none;
+}
+
+.blog-rich-editor-root .ProseMirror:focus-visible {
+  outline: 2px solid rgb(37 99 235 / 0.35);
+  outline-offset: 2px;
+}
+
+.blog-rich-editor-root .ProseMirror a {
+  color: rgb(109 40 217);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.blog-rich-editor-root [data-resize-container][data-node="image"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.blog-rich-editor-root [data-resize-container][data-node="image"] img {
+  max-width: 100%;
+}
+
+.blog-rich-editor-root img[data-uploading="true"] {
+  outline: 2px dashed rgb(37 99 235);
+  outline-offset: 2px;
+}
