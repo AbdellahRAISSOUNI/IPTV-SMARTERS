@@ -8,6 +8,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { locales, type Locale } from "@/lib/i18n";
 import { getLegalUrl, getInstallationUrl } from "@/lib/utils/installation-slugs";
 import { usePathname } from "next/navigation";
+import KeywordHubSection from "@/components/KeywordHubSection";
 
 const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
   e.preventDefault();
@@ -57,6 +58,8 @@ export default function Footer() {
       ];
 
   return (
+    <>
+      <KeywordHubSection />
     <footer className="relative bg-[#0f172a] text-white overflow-hidden border-t border-white/5">
       {/* Modern gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a]/50 via-transparent to-[#1e3a8a]/30 pointer-events-none" />
@@ -245,5 +248,6 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }

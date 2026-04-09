@@ -9,6 +9,7 @@ import { Calendar, ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/lib/admin/blog";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
 import { useLanguage } from "@/contexts/LanguageContext";
+import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 import type { Locale } from "@/lib/i18n";
 
 interface BlogListingClientProps {
@@ -45,6 +46,11 @@ export default function BlogListingClient({ initialBlogs, locale }: BlogListingC
               <p className="text-base sm:text-lg md:text-xl text-[#1a1a1a]/70 max-w-2xl mx-auto leading-relaxed">
                 {t("blog.description")}
               </p>
+              <RelatedPagesStrip
+                showTitle
+                className="mt-8 max-w-3xl mx-auto"
+                navClassName="justify-center"
+              />
             </motion.div>
           </section>
 

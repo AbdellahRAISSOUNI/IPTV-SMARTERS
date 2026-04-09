@@ -8,6 +8,7 @@ import { openWhatsApp } from "@/lib/whatsapp";
 import Image from "next/image";
 import { parseUrlsToLinks } from "@/lib/utils/urlParser";
 import { getInstallationUrl } from "@/lib/utils/installation-slugs";
+import InstallationExploreMoreSection from "@/components/InstallationExploreMoreSection";
 import {
   Check,
   Download,
@@ -158,6 +159,7 @@ export default function InstallationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 }}
             className="mb-12"
+            id="compatible-devices"
           >
             <h2 className="text-xl sm:text-2xl font-semibold text-[#1a1a1a] mb-6">
               {t("installation.compatibleTitle")}
@@ -212,6 +214,7 @@ export default function InstallationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.5 }}
             className="mb-12"
+            id="download-iptv-smarters"
           >
           <h2 className="text-xl sm:text-2xl font-semibold text-[#1a1a1a] mb-3">
             {t("installation.downloadTitle")}
@@ -337,6 +340,7 @@ export default function InstallationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.7 }}
             className="mb-12"
+            id="installation-options"
           >
             <h2 className="text-xl sm:text-2xl font-semibold text-[#1a1a1a] mb-8">
               {t("installation.howToInstall")}
@@ -364,6 +368,7 @@ export default function InstallationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.8 }}
             className="mb-12"
+            id="smarters-lite"
           >
         <h2 className="text-xl sm:text-2xl font-semibold text-[#1a1a1a] mb-4">
           {t("installation.smartersLiteTitle")}
@@ -413,46 +418,9 @@ export default function InstallationPage() {
         </p>
           </motion.div>
 
-          {/* Explore more - internal links to main site and blog */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.85 }}
-            className="mb-12"
-          >
-            <h2 className="text-xl sm:text-2xl font-semibold text-[#1a1a1a] mb-6">
-              {t("installation.exploreMoreTitle")}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <a
-                href={`/${locale}#pricing`}
-                className="group border-2 border-[#2563eb]/30 rounded-xl p-5 hover:border-[#2563eb] hover:bg-[#2563eb]/5 transition-all duration-200 text-center"
-              >
-                <span className="text-base font-semibold text-[#2563eb] group-hover:text-[#1d4ed8] block">
-                  {t("installation.buySubscription")}
-                </span>
-                <span className="text-sm text-[#1a1a1a]/70 mt-1 block">Get your subscription</span>
-              </a>
-              <a
-                href={`/${locale}/blog/`}
-                className="group border-2 border-gray-200 rounded-xl p-5 hover:border-[#2563eb] hover:bg-[#2563eb]/5 transition-all duration-200 text-center"
-              >
-                <span className="text-base font-semibold text-[#1a1a1a] group-hover:text-[#2563eb] block">
-                  {t("installation.readOurBlog")}
-                </span>
-                <span className="text-sm text-[#1a1a1a]/70 mt-1 block">Tips & guides</span>
-              </a>
-              <a
-                href={getInstallationUrl('iptv-reseller-program', locale)}
-                className="group border-2 border-gray-200 rounded-xl p-5 hover:border-[#2563eb] hover:bg-[#2563eb]/5 transition-all duration-200 text-center"
-              >
-                <span className="text-base font-semibold text-[#1a1a1a] group-hover:text-[#2563eb] block">
-                  {t("installation.becomeReseller")}
-                </span>
-                <span className="text-sm text-[#1a1a1a]/70 mt-1 block">Start your business</span>
-              </a>
-            </div>
-          </motion.div>
+          <div className="mb-12">
+            <InstallationExploreMoreSection />
+          </div>
 
           {/* Contact */}
           <motion.div

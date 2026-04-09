@@ -7,6 +7,7 @@ import Image from "next/image";
 import type { BlogBlock, BlogPost } from "@/lib/admin/blog";
 import type { Locale } from "@/lib/i18n";
 import { getSanitizedBlogHtmlForDisplay } from "@/lib/utils/blog-html";
+import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 
 interface BlogPostContentProps {
   blog: BlogPost;
@@ -203,6 +204,7 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
                 })}
               </span>
             </div>
+            <RelatedPagesStrip showTitle className="mt-6 pt-6 border-t border-gray-100" />
           </header>
 
           {/* Featured Image */}

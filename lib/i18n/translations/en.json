@@ -32,6 +32,38 @@
     "latestFromBlogSubtitle": "Smarters Pro, Firestick, M3U playlists, Smart TV setup & streaming tips",
     "viewAllArticles": "View all articles"
   },
+  "keywordHub": {
+    "title": "Popular IPTV topics",
+    "subtitle": "Explore key pages and jump to useful sections.",
+    "linkPricing": "IPTV subscription plans",
+    "linkFeatures": "Premium IPTV features",
+    "linkFaq": "IPTV FAQ and troubleshooting",
+    "linkInstallGuide": "IPTV Smarters installation guide",
+    "linkCompatibleDevices": "Compatible IPTV devices list",
+    "linkFirestick": "Install IPTV on Firestick",
+    "linkSmartTv": "Install IPTV on Smart TV",
+    "linkWindows": "Install IPTV on Windows",
+    "linkIos": "Install IPTV on iOS",
+    "linkBlog": "IPTV setup tips and blog guides",
+    "linkReseller": "IPTV reseller program",
+    "linkHome": "IPTV home",
+    "linkLatestBlog": "Latest IPTV guides on homepage",
+    "linkChannels": "Worldwide TV channels",
+    "linkContact": "Contact & WhatsApp",
+    "linkTestimonials": "Customer testimonials",
+    "linkDownloadSection": "Download IPTV Smarters",
+    "linkInstallOptions": "Choose your device setup",
+    "linkSmartersLite": "Smarters Player Lite (free app)",
+    "linkPrivacy": "Privacy policy",
+    "linkTerms": "Terms of service",
+    "linkRefund": "Refund policy",
+    "linkM3uXtream": "M3U playlist & Xtream Codes FAQ"
+  },
+  "relatedPages": {
+    "title": "Related pages",
+    "navLabel": "Related site pages",
+    "policiesShort": "Privacy, terms & refunds"
+  },
   "testimonials": {
     "titlePart1": "What Our",
     "titleHighlight": "Customers",

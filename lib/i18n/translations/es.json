@@ -32,6 +32,38 @@
     "latestFromBlogSubtitle": "Smarters Pro, Firestick, listas M3U, Smart TV y consejos de streaming",
     "viewAllArticles": "Ver todos los artículos"
   },
+  "keywordHub": {
+    "title": "Temas IPTV populares",
+    "subtitle": "Explora páginas clave y salta a secciones útiles.",
+    "linkPricing": "Planes de suscripción IPTV",
+    "linkFeatures": "Funciones IPTV premium",
+    "linkFaq": "FAQ IPTV y solución de problemas",
+    "linkInstallGuide": "Guía de instalación IPTV Smarters",
+    "linkCompatibleDevices": "Lista de dispositivos compatibles IPTV",
+    "linkFirestick": "Instalar IPTV en Firestick",
+    "linkSmartTv": "Instalar IPTV en Smart TV",
+    "linkWindows": "Instalar IPTV en Windows",
+    "linkIos": "Instalar IPTV en iOS",
+    "linkBlog": "Consejos IPTV y guías del blog",
+    "linkReseller": "Programa de revendedor IPTV",
+    "linkHome": "Inicio IPTV",
+    "linkLatestBlog": "Últimas guías IPTV (inicio)",
+    "linkChannels": "Canales de TV de todo el mundo",
+    "linkContact": "Contacto y WhatsApp",
+    "linkTestimonials": "Opiniones de clientes",
+    "linkDownloadSection": "Descargar IPTV Smarters",
+    "linkInstallOptions": "Elige la instalación por dispositivo",
+    "linkSmartersLite": "Smarters Player Lite (app gratis)",
+    "linkPrivacy": "Política de privacidad",
+    "linkTerms": "Términos de servicio",
+    "linkRefund": "Política de reembolso",
+    "linkM3uXtream": "FAQ listas M3U y Xtream Codes"
+  },
+  "relatedPages": {
+    "title": "Páginas relacionadas",
+    "navLabel": "Páginas relacionadas del sitio",
+    "policiesShort": "Privacidad, términos y reembolsos"
+  },
   "testimonials": {
     "titlePart1": "Lo Que Dicen",
     "titleHighlight": "Nuestros Clientes",

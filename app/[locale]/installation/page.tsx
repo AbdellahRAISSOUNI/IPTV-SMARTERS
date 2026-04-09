@@ -18,6 +18,7 @@ import {
   Users,
   PlayCircle,
 } from "lucide-react";
+import InstallationExploreMoreSection from "@/components/InstallationExploreMoreSection";
 
 // Lazy load non-critical components
 const Footer = lazy(() => import("@/components/Footer"));
@@ -411,6 +412,10 @@ export default function InstallationPage() {
           </a>
         </p>
           </motion.div>
+
+          <div className="mb-12">
+            <InstallationExploreMoreSection />
+          </div>
 
           {/* Contact */}
           <motion.div

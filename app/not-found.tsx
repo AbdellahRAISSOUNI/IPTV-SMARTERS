@@ -6,6 +6,7 @@ import Link from "next/link";
 import { openWhatsApp } from "@/lib/whatsapp";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
 
 function NotFoundContent() {
@@ -140,35 +141,11 @@ function NotFoundContent() {
             transition={{ delay: 0.6, duration: 0.5 }}
             className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-[#e5e7eb]"
           >
-            <p className="text-sm sm:text-base text-[#1a1a1a]/60 mb-6">
-              Popular Pages:
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-              <Link
-                href="/#features"
-                className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium text-sm sm:text-base transition-colors"
-              >
-                Features
-              </Link>
-              <Link
-                href="/#faq"
-                className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium text-sm sm:text-base transition-colors"
-              >
-                FAQ
-              </Link>
-              <Link
-                href="/iptv-installation-guide"
-                className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium text-sm sm:text-base transition-colors"
-              >
-                Installation
-              </Link>
-              <Link
-                href="/blog"
-                className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium text-sm sm:text-base transition-colors"
-              >
-                Blog
-              </Link>
-            </div>
+            <RelatedPagesStrip
+              showTitle
+              className="flex flex-col items-center"
+              navClassName="justify-center"
+            />
           </motion.div>
         </div>
         </main>

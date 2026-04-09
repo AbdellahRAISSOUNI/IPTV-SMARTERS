@@ -280,7 +280,7 @@ export default function Home() {
       <DeviceCarousel />
 
       {/* Latest from blog - drive traffic to blog and main pages */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50/50">
+      <section id="latest-blog" className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50/50">
         <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
             initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
@@ -443,7 +443,7 @@ export default function Home() {
       </section>
 
       {/* Payment Methods Section */}
-      <section className="pt-2 pb-0 bg-white">
+      <section id="payment-methods" className="pt-2 pb-0 bg-white">
         <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -468,12 +468,14 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <Suspense fallback={<ComponentLoader />}>
-        <TestimonialsSection />
-      </Suspense>
+      <section id="testimonials">
+        <Suspense fallback={<ComponentLoader />}>
+          <TestimonialsSection />
+        </Suspense>
+      </section>
 
       {/* Channels Section */}
-      <section className="pt-2 pb-12 lg:pt-4 lg:pb-16 xl:pt-6 xl:pb-20 2xl:pt-8 2xl:pb-24 bg-white">
+      <section id="channels" className="pt-2 pb-12 lg:pt-4 lg:pb-16 xl:pt-6 xl:pb-20 2xl:pt-8 2xl:pb-24 bg-white">
         <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

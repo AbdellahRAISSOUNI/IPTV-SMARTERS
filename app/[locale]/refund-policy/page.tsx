@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Link from "next/link";
+import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -43,6 +44,7 @@ export default function RefundPolicyPage() {
             <p className="text-base sm:text-lg text-[#1a1a1a]/70 leading-relaxed">
               {t("legal.refundPolicy.intro2")}
             </p>
+            <RelatedPagesStrip showTitle className="mt-8 p-4 rounded-xl border border-gray-100 bg-gray-50/60" />
           </motion.div>
 
           <div className="h-px bg-gray-200 my-8" />

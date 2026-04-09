@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
 import { parseUrlsToLinks } from "@/lib/utils/urlParser";
+import InstallationExploreMoreSection from "@/components/InstallationExploreMoreSection";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -349,6 +350,8 @@ export default function WindowsInstallation() {
               </div>
             </div>
           </motion.div>
+
+          <InstallationExploreMoreSection />
         </div>
       </main>
 
