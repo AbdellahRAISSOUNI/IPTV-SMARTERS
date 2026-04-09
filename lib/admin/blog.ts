@@ -1,4 +1,6 @@
 import { Octokit } from "@octokit/rest";
+import { promises as fs } from "fs";
+import path from "path";
 
 /** GitHub is only required when calling blog persistence APIs — not when importing types/helpers. */
 function getGithubBlogContext() {
@@ -20,6 +22,14 @@ function getGithubBlogContext() {
     email,
     name,
   };
+}
+
+function hasGithubBlogContext(): boolean {
+  const token = process.env.GITHUB_TOKEN;
+  const repoFull = process.env.GITHUB_REPO;
+  const email = process.env.GITHUB_EMAIL;
+  const name = process.env.GITHUB_NAME;
+  return Boolean(token && repoFull?.includes("/") && email && name);
 }
 
 export const BLOG_CONTENT_LOCALES = ["en", "es", "fr"] as const;
@@ -89,7 +99,26 @@ export interface BlogPost {
 
 const BLOG_DATA_PATH = "data/blogs.json";
 
+async function getLocalBlogs(): Promise<BlogPost[]> {
+  try {
+    const filePath = path.join(process.cwd(), BLOG_DATA_PATH);
+    const content = await fs.readFile(filePath, "utf8");
+    const parsed = JSON.parse(content) as BlogPost[];
+    return Array.isArray(parsed) ? parsed.map(normalizeBlogPost) : [];
+  } catch (error: unknown) {
+    if ((error as { code?: string })?.code !== "ENOENT") {
+      console.error("Error reading local blogs:", error);
+    }
+    return [];
+  }
+}
+
 export async function getAllBlogs(): Promise<BlogPost[]> {
+  // Public read-path must keep working even when GitHub env vars are missing.
+  if (!hasGithubBlogContext()) {
+    return getLocalBlogs();
+  }
+
   try {
     const { octokit, owner, repo, branch } = getGithubBlogContext();
     const response = await octokit.repos.getContent({
@@ -105,13 +134,14 @@ export async function getAllBlogs(): Promise<BlogPost[]> {
       return Array.isArray(parsed) ? parsed.map(normalizeBlogPost) : [];
     }
     return [];
-  } catch (error: any) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if ((error as { status?: number })?.status === 404) {
       // File doesn't exist yet, return empty array
       return [];
     }
-    console.error("Error fetching blogs:", error);
-    return [];
+    console.error("Error fetching blogs from GitHub:", error);
+    // Fallback prevents crawl-time 5xx when GitHub API is unavailable/rate-limited.
+    return getLocalBlogs();
   }
 }
 
@@ -172,9 +202,9 @@ export async function saveBlog(blog: BlogPost): Promise<void> {
       if (response.status === 200 && "sha" in response.data) {
         sha = response.data.sha;
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // File doesn't exist, will create new
-      if (error.status !== 404) throw error;
+      if ((error as { status?: number })?.status !== 404) throw error;
     }
 
     // Use createOrUpdateFileContents which works for both create and update

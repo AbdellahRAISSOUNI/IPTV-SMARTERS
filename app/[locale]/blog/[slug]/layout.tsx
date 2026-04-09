@@ -45,9 +45,16 @@ export async function generateMetadata({
     // Build correct hreflang URLs using each locale's slug (slugs can differ per language)
     const languageAlternates: Record<string, string> = {};
     locales.forEach((loc) => {
-      languageAlternates[loc] = `${baseUrl}${getBlogUrl(blog, loc)}`;
+      const localizedUrl = getBlogUrl(blog, loc);
+      if (localizedUrl !== `/${loc}/blog//`) {
+        languageAlternates[loc] = `${baseUrl}${localizedUrl}`;
+      }
     });
-    languageAlternates["x-default"] = `${baseUrl}${getBlogUrl(blog, "en")}`;
+    const xDefaultUrl = getBlogUrl(blog, "en");
+    languageAlternates["x-default"] =
+      xDefaultUrl !== "/en/blog//"
+        ? `${baseUrl}${xDefaultUrl}`
+        : `${baseUrl}${getBlogUrl(blog, locale)}`;
 
     return {
       title: `${title} | StreamPro`,

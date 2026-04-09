@@ -69,7 +69,8 @@ export default function BlogsManager() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to save blog");
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload?.error || "Failed to save blog");
       }
 
       await loadBlogs();
@@ -80,7 +81,7 @@ export default function BlogsManager() {
       console.error("Error saving blog:", error);
       setSaveStatus("error");
       setShowDeploymentNotification(true);
-      throw error;
+      throw error instanceof Error ? error : new Error("Failed to save blog");
     }
   };
 

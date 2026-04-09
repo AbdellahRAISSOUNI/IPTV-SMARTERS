@@ -190,6 +190,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     } catch (error) {
       console.error("Error saving blog:", error);
       setSaveStatus("error");
+      alert(error instanceof Error ? error.message : "Failed to save blog.");
       setTimeout(() => setSaveStatus("idle"), 3000);
     } finally {
       setIsSaving(false);

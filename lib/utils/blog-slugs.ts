@@ -12,8 +12,9 @@ export function getBlogSlug(blog: BlogPost, locale: Locale): string {
   }
   
   const slugRecord = blog.slug as Record<string, string>;
-  // Return locale-specific slug, or fallback to English, or empty string
-  return slugRecord[locale] || slugRecord['en'] || '';
+  // Return locale-specific slug, then primary locale, then English.
+  const primaryLocale = blog.locale;
+  return slugRecord[locale] || slugRecord[primaryLocale] || slugRecord['en'] || '';
 }
 
 /**

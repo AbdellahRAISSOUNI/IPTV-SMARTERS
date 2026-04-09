@@ -23,6 +23,8 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
   const displayTitle = blog.title[activeLocale] || blog.title[blog.locale] || "Untitled";
   const displayExcerpt =
     blog.excerpt[activeLocale] || blog.excerpt[blog.locale] || "";
+  const publishedDate = new Date(blog.publishedAt);
+  const hasValidPublishedDate = !Number.isNaN(publishedDate.getTime());
 
   const sanitizedArticleHtml = getSanitizedBlogHtmlForDisplay(
     blog.htmlBody,
@@ -196,13 +198,15 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
             <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
               {blog.author && <span>By {blog.author}</span>}
               {blog.author && <span className="hidden sm:inline">•</span>}
-              <span>
-                {new Date(blog.publishedAt).toLocaleDateString(activeLocale, {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
+              {hasValidPublishedDate ? (
+                <span>
+                  {publishedDate.toLocaleDateString(activeLocale, {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </span>
+              ) : null}
             </div>
             <RelatedPagesStrip showTitle className="mt-6 pt-6 border-t border-gray-100" />
           </header>
@@ -231,7 +235,7 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
             </div>
           ) : (
             <div className="prose prose-lg max-w-none">
-              {blog.blocks.map((block) => renderBlock(block))}
+              {(Array.isArray(blog.blocks) ? blog.blocks : []).map((block) => renderBlock(block))}
             </div>
           )}
         </article>
