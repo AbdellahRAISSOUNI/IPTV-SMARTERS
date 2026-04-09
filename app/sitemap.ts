@@ -6,13 +6,29 @@ import {
   getResellerUrl,
   getLegalUrl,
 } from '@/lib/utils/installation-slugs';
-import { getBlogUrl, getAllBlogSlugs } from '@/lib/utils/blog-slugs';
+import { getAllBlogSlugs } from '@/lib/utils/blog-slugs';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour for fresh blog posts
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.pro-iptvsmarters.com';
+  const toAbsoluteUrl = (pathOrUrl: string): string | null => {
+    try {
+      if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) {
+        return new URL(pathOrUrl).toString();
+      }
+      return new URL(pathOrUrl, baseUrl).toString();
+    } catch {
+      return null;
+    }
+  };
+  const getSafeBlogPath = (blog: Awaited<ReturnType<typeof getAllBlogs>>[number], locale: Locale): string | null => {
+    const slugMap = getAllBlogSlugs(blog);
+    const rawSlug = (slugMap[locale] || '').trim();
+    if (!rawSlug) return null;
+    return `/${locale}/blog/${encodeURIComponent(rawSlug)}/`;
+  };
 
   // Installation guides (use getInstallationUrl for localized slugs)
   const installationEnglishSlugs = [
@@ -46,11 +62,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     opts.englishSlugs.forEach((englishSlug) => {
       locales.forEach((locale) => {
         const localizedPath = opts.pathForLocale(englishSlug, locale);
-        const url = `${baseUrl}${localizedPath}`;
+        const url = toAbsoluteUrl(localizedPath);
+        if (!url) return;
 
         const alternates: Record<string, string> = {};
         locales.forEach((loc) => {
-          alternates[loc] = `${baseUrl}${opts.pathForLocale(englishSlug, loc)}`;
+          const alt = toAbsoluteUrl(opts.pathForLocale(englishSlug, loc));
+          if (alt) alternates[loc] = alt;
         });
 
         sitemapEntries.push({
@@ -89,7 +107,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     otherRoutes.forEach((route) => {
       // Ensure trailing slash for consistency with next.config trailingSlash: true
       const pathWithSlash = route.path === '' ? '/' : route.path.endsWith('/') ? route.path : `${route.path}/`;
-      const url = `${baseUrl}/${locale}${pathWithSlash}`;
+      const url = toAbsoluteUrl(`/${locale}${pathWithSlash}`);
+      if (!url) return;
       sitemapEntries.push({
         url,
         lastModified: new Date(),
@@ -99,8 +118,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           languages: Object.fromEntries(
             locales.map((loc) => {
               const altPathWithSlash = route.path === '' ? '/' : route.path.endsWith('/') ? route.path : `${route.path}/`;
-              return [loc, `${baseUrl}/${loc}${altPathWithSlash}`];
+              return [loc, toAbsoluteUrl(`/${loc}${altPathWithSlash}`)];
             })
+            .filter(([, v]) => Boolean(v)) as [string, string][]
           ),
         },
       });
@@ -135,14 +155,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Generate alternates map for all valid locales
       const alternates: Record<string, string> = {};
       blogLocales.forEach((loc) => {
-        const altBlogUrl = getBlogUrl(blog, loc);
-        alternates[loc] = `${baseUrl}${altBlogUrl}`;
+        const altBlogUrl = getSafeBlogPath(blog, loc);
+        if (!altBlogUrl) return;
+        const absoluteAlt = toAbsoluteUrl(altBlogUrl);
+        if (absoluteAlt) alternates[loc] = absoluteAlt;
       });
       
       // Add sitemap entry for each valid locale
       finalLocales.forEach((blogLocale) => {
-        const blogUrl = getBlogUrl(blog, blogLocale);
-        const url = `${baseUrl}${blogUrl}`; // getBlogUrl now includes trailing slash
+        const blogUrl = getSafeBlogPath(blog, blogLocale);
+        if (!blogUrl) return;
+        const url = toAbsoluteUrl(blogUrl); // getBlogUrl now includes trailing slash
+        if (!url) return;
         
         sitemapEntries.push({
           url,
