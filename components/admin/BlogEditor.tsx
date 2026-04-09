@@ -29,11 +29,9 @@ import {
   Link as LinkIcon,
 } from "lucide-react";
 import {
-  normalizeHtmlBody,
   type BlogPost,
   type BlogBlock,
 } from "@/lib/admin/blog-shared";
-import BlogRichTextEditor from "@/components/admin/BlogRichTextEditor";
 
 interface BlogEditorProps {
   onSave: (blog: BlogPost) => Promise<void>;
@@ -52,7 +50,6 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
       updatedAt: new Date().toISOString(),
       locale: "en",
       translations: [],
-      htmlBody: { en: "", es: "", fr: "" },
       blocks: [],
       meta: {
         keywords: { en: "", es: "", fr: "" },
@@ -68,8 +65,6 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   const [imagePreviewUrls, setImagePreviewUrls] = useState<Record<string, string>>({}); // For immediate previews
   const [pendingUploads, setPendingUploads] = useState<Set<string>>(new Set()); // Track blocks/images being uploaded
   const [blockLocales, setBlockLocales] = useState<Record<string, "en" | "es" | "fr">>({}); // Track locale per block
-  const [mirrorHtmlLocales, setMirrorHtmlLocales] = useState(false);
-  const [richEditorUploadBusy, setRichEditorUploadBusy] = useState(false);
 
   useEffect(() => {
     if (initialBlog) {
@@ -80,7 +75,6 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
         slug: typeof initialBlog.slug === 'string' 
           ? { en: initialBlog.slug, es: initialBlog.slug, fr: initialBlog.slug }
           : { en: "", es: "", fr: "", ...initialBlog.slug },
-        htmlBody: normalizeHtmlBody(initialBlog.htmlBody),
         meta: {
           ...initialBlog.meta,
           keywords: {
@@ -125,17 +119,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
   const handleSave = async () => {
     // Check if there are any pending uploads
-    if (pendingUploads.size > 0 || isUploading || richEditorUploadBusy) {
+    if (pendingUploads.size > 0 || isUploading) {
       alert("Please wait for image uploads to complete before saving.");
       return;
-    }
-
-    const htmlNormalized = normalizeHtmlBody(blog.htmlBody);
-    for (const loc of ["en", "es", "fr"] as const) {
-      if (htmlNormalized[loc].includes("blob:")) {
-        alert("Please wait for images in the article editor to finish uploading.");
-        return;
-      }
     }
 
     setIsSaving(true);
@@ -185,7 +171,6 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
           }
           return block;
         }),
-        htmlBody: htmlNormalized,
       };
       
       await onSave(cleanedBlog);
@@ -649,52 +634,6 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Rich article body (HTML per locale) */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <div className="mb-4">
-          <h3 className="text-lg font-medium text-black mb-1">Article content (visual editor)</h3>
-          <p className="text-gray-500 text-sm">
-            When this section has content for the language a visitor uses, it is shown on the public post
-            instead of content blocks below. Leave empty to use only blocks.
-          </p>
-        </div>
-        <label className="flex items-center gap-2 text-sm text-gray-700 mb-3 cursor-pointer select-none">
-          <input
-            type="checkbox"
-            checked={mirrorHtmlLocales}
-            onChange={(e) => {
-              const checked = e.target.checked;
-              setMirrorHtmlLocales(checked);
-              if (checked) {
-                const h = normalizeHtmlBody(blog.htmlBody)[activeLocale];
-                setBlog({
-                  ...blog,
-                  htmlBody: { en: h, es: h, fr: h },
-                });
-              }
-            }}
-            className="rounded border-gray-300"
-          />
-          <span>Mirror HTML to all languages (same article for EN, ES, FR)</span>
-        </label>
-        <BlogRichTextEditor
-          key={mirrorHtmlLocales ? "html-mirror-all" : activeLocale}
-          html={normalizeHtmlBody(blog.htmlBody)[activeLocale]}
-          onHtmlChange={(html) => {
-            setBlog((prev) => {
-              const base = normalizeHtmlBody(prev.htmlBody);
-              if (mirrorHtmlLocales) {
-                return { ...prev, htmlBody: { en: html, es: html, fr: html } };
-              }
-              return { ...prev, htmlBody: { ...base, [activeLocale]: html } };
-            });
-          }}
-          uploadImage={handleImageUpload}
-          onUploadBusyChange={setRichEditorUploadBusy}
-          placeholder={`Article body (${activeLocale.toUpperCase()})…`}
-        />
       </div>
 
       {/* Content Blocks */}

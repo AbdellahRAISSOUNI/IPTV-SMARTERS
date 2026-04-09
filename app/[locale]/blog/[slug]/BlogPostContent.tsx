@@ -5,7 +5,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import type { BlogBlock, BlogPost } from "@/lib/admin/blog-shared";
 import type { Locale } from "@/lib/i18n";
-import { getSanitizedBlogHtmlForDisplay } from "@/lib/utils/blog-html";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 
 interface BlogPostContentProps {
@@ -35,12 +34,6 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
     blog.excerpt[activeLocale] || blog.excerpt[blog.locale] || "";
   const publishedDate = new Date(blog.publishedAt);
   const hasValidPublishedDate = !Number.isNaN(publishedDate.getTime());
-
-  const sanitizedArticleHtml = getSanitizedBlogHtmlForDisplay(
-    blog.htmlBody,
-    activeLocale,
-    blog.locale
-  );
 
   // Helper to get content for current locale
   const getBlockContent = (block: BlogBlock): string => {
@@ -232,18 +225,10 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
             </div>
           )}
 
-          {/* Content: prefer sanitized rich HTML when present; otherwise legacy blocks */}
-          {sanitizedArticleHtml ? (
-            <div
-              className="blog-html-content prose prose-slate max-w-none prose-p:text-[15px] prose-p:leading-7 prose-a:text-violet-700 prose-img:rounded-lg"
-            >
-              <div dangerouslySetInnerHTML={{ __html: sanitizedArticleHtml }} />
-            </div>
-          ) : (
-            <div className="prose prose-lg max-w-none">
-              {(Array.isArray(blog.blocks) ? blog.blocks : []).map((block) => renderBlock(block))}
-            </div>
-          )}
+          {/* Content (blocks-only rendering) */}
+          <div className="prose prose-lg max-w-none">
+            {(Array.isArray(blog.blocks) ? blog.blocks : []).map((block) => renderBlock(block))}
+          </div>
         </article>
       </main>
       <Footer />

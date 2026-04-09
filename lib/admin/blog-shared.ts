@@ -1,6 +1,3 @@
-export const BLOG_CONTENT_LOCALES = ["en", "es", "fr"] as const;
-export type BlogContentLocale = (typeof BLOG_CONTENT_LOCALES)[number];
-
 export interface BlogBlock {
   id: string;
   type: "heading" | "paragraph" | "image" | "quote" | "list";
@@ -33,23 +30,9 @@ export interface BlogPost {
   updatedAt: string;
   locale: string;
   translations?: string[];
-  htmlBody?: Record<string, string>;
   blocks: BlogBlock[];
   meta?: {
     description?: Record<string, string>;
     keywords?: Record<string, string>;
-  };
-}
-
-export function normalizeHtmlBody(
-  htmlBody?: Record<string, string> | null
-): Record<BlogContentLocale, string> {
-  if (!htmlBody || typeof htmlBody !== "object") {
-    return { en: "", es: "", fr: "" };
-  }
-  return {
-    en: typeof htmlBody.en === "string" ? htmlBody.en : "",
-    es: typeof htmlBody.es === "string" ? htmlBody.es : "",
-    fr: typeof htmlBody.fr === "string" ? htmlBody.fr : "",
   };
 }

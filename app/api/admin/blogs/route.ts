@@ -42,9 +42,6 @@ function getTextByLocale(
 }
 
 function hasRenderableContentForLocale(blog: BlogPost, locale: SupportedLocale): boolean {
-  const htmlBody = blog.htmlBody?.[locale] || "";
-  if (htmlBody.trim()) return true;
-
   const blocks = Array.isArray(blog.blocks) ? blog.blocks : [];
   return blocks.some((block) => {
     if (block.type === "image") return Boolean(block.imageUrl && !block.imageUrl.startsWith("blob:"));

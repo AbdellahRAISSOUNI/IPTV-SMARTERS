@@ -2,14 +2,10 @@ import { Octokit } from "@octokit/rest";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import {
-  normalizeHtmlBody,
   type BlogPost,
 } from "@/lib/admin/blog-shared";
 
 export {
-  BLOG_CONTENT_LOCALES,
-  normalizeHtmlBody,
-  type BlogContentLocale,
   type BlogBlock,
   type BlogPost,
 } from "@/lib/admin/blog-shared";
@@ -92,7 +88,6 @@ function normalizeBlogPost(blog: BlogPost): BlogPost {
       : [safeLocale],
     publishedAt: toIsoOrNow(blog.publishedAt),
     updatedAt: toIsoOrNow(blog.updatedAt),
-    htmlBody: normalizeHtmlBody(blog.htmlBody),
     blocks: Array.isArray(blog.blocks) ? blog.blocks : [],
     meta: {
       ...blog.meta,
