@@ -61,6 +61,14 @@ function toIsoOrNow(input: unknown): string {
   return new Date().toISOString();
 }
 
+function safeDecode(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
 function normalizeBlogPost(blog: BlogPost): BlogPost {
   const safeLocale = typeof blog.locale === "string" && blog.locale ? blog.locale : "en";
   const normalizedSlug =
@@ -144,21 +152,22 @@ export async function getAllBlogs(): Promise<BlogPost[]> {
 
 export async function getBlogBySlug(slug: string, locale?: string): Promise<BlogPost | null> {
   const blogs = await getAllBlogs();
+  const targetSlug = safeDecode(slug).trim();
   
   // Find blog by slug - support both old format (string) and new format (Record<string, string>)
   const blog = blogs.find((b) => {
     if (typeof b.slug === 'string') {
       // Old format: direct match
-      return b.slug === slug;
+      return safeDecode(b.slug).trim() === targetSlug;
     } else if (typeof b.slug === 'object' && b.slug !== null) {
       // New format: check all locales
       const slugRecord = b.slug as Record<string, string>;
       // If locale is specified, check that locale first, then fallback to all
-      if (locale && slugRecord[locale] === slug) {
+      if (locale && safeDecode(slugRecord[locale] || '').trim() === targetSlug) {
         return true;
       }
       // Check all locales
-      return Object.values(slugRecord).includes(slug);
+      return Object.values(slugRecord).some((s) => safeDecode(s).trim() === targetSlug);
     }
     return false;
   });

@@ -1,6 +1,14 @@
 import type { Locale } from '@/lib/i18n';
 import type { BlogPost } from '@/lib/admin/blog-shared';
 
+function safeEncodeSlug(slug: string): string {
+  try {
+    return encodeURIComponent(slug);
+  } catch {
+    return slug;
+  }
+}
+
 /**
  * Get the blog slug for a specific locale
  * If the slug is a string (old format), return it as-is
@@ -23,7 +31,7 @@ export function getBlogSlug(blog: BlogPost, locale: Locale): string {
  */
 export function getBlogUrl(blog: BlogPost, locale: Locale): string {
   const slug = getBlogSlug(blog, locale);
-  return `/${locale}/blog/${slug}/`;
+  return `/${locale}/blog/${safeEncodeSlug(slug)}/`;
 }
 
 /**
