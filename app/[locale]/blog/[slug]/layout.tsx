@@ -18,6 +18,26 @@ const siteNameMap: Record<Locale, string> = {
   fr: "StreamPro - Service IPTV Premium",
 };
 
+function toKeywordArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.map((v) => String(v).trim()).filter(Boolean);
+  }
+  if (typeof value === "string") {
+    return value
+      .split(",")
+      .map((v) => v.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+function toValidIsoOrUndefined(value: unknown): string | undefined {
+  if (typeof value !== "string" || !value.trim()) return undefined;
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return undefined;
+  return parsed.toISOString();
+}
+
 function getSafeMetadataBase(): URL | undefined {
   try {
     return new URL(baseUrl);
@@ -59,8 +79,9 @@ export async function generateMetadata({
     const description = blog.excerpt[locale] || blog.excerpt[blog.locale] || "Read our latest blog post about IPTV services.";
     const image = getSafeImageUrl(blog.featuredImage);
     
-    const publishedTime = blog.publishedAt;
-    const modifiedTime = blog.updatedAt;
+    const publishedTime = toValidIsoOrUndefined(blog.publishedAt);
+    const modifiedTime = toValidIsoOrUndefined(blog.updatedAt);
+    const keywordList = toKeywordArray(blog.meta?.keywords?.[locale] || blog.meta?.keywords?.[blog.locale]);
 
     // Build correct hreflang URLs using each locale's slug (slugs can differ per language)
     const languageAlternates: Record<string, string> = {};
@@ -79,7 +100,7 @@ export async function generateMetadata({
     return {
       title: `${title} | StreamPro`,
       description,
-      keywords: blog.meta?.keywords?.[locale] || blog.meta?.keywords?.[blog.locale] || [],
+      keywords: keywordList,
       metadataBase: getSafeMetadataBase(),
       alternates: {
         canonical: `${baseUrl}${getBlogUrl(blog, locale)}`,
@@ -105,7 +126,7 @@ export async function generateMetadata({
         modifiedTime,
         authors: ["StreamPro"],
         section: "IPTV Blog",
-        tags: blog.meta?.keywords?.[locale] || [],
+        tags: keywordList,
       },
       twitter: {
         card: "summary_large_image",
@@ -133,8 +154,8 @@ export async function generateMetadata({
         "og:image:height": "630",
         "og:image:alt": title,
         "article:author": "StreamPro",
-        "article:published_time": publishedTime,
-        "article:modified_time": modifiedTime,
+        ...(publishedTime ? { "article:published_time": publishedTime } : {}),
+        ...(modifiedTime ? { "article:modified_time": modifiedTime } : {}),
       },
     };
   } catch {
