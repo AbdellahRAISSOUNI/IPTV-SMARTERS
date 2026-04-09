@@ -18,6 +18,28 @@ const siteNameMap: Record<Locale, string> = {
   fr: "StreamPro - Service IPTV Premium",
 };
 
+function getSafeMetadataBase(): URL | undefined {
+  try {
+    return new URL(baseUrl);
+  } catch {
+    return undefined;
+  }
+}
+
+function getSafeImageUrl(value: string | undefined): string {
+  if (!value || value.startsWith("blob:")) return `${baseUrl}/images/hero.png`;
+  if (value.startsWith("/")) return `${baseUrl}${value}`;
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      return value;
+    }
+  } catch {
+    // Ignore and fallback below.
+  }
+  return `${baseUrl}/images/hero.png`;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -35,9 +57,7 @@ export async function generateMetadata({
 
     const title = blog.title[locale] || blog.title[blog.locale] || "Blog Post";
     const description = blog.excerpt[locale] || blog.excerpt[blog.locale] || "Read our latest blog post about IPTV services.";
-    const image = blog.featuredImage 
-      ? (blog.featuredImage.startsWith("http") ? blog.featuredImage : `${baseUrl}${blog.featuredImage}`)
-      : `${baseUrl}/images/hero.png`;
+    const image = getSafeImageUrl(blog.featuredImage);
     
     const publishedTime = blog.publishedAt;
     const modifiedTime = blog.updatedAt;
@@ -60,7 +80,7 @@ export async function generateMetadata({
       title: `${title} | StreamPro`,
       description,
       keywords: blog.meta?.keywords?.[locale] || blog.meta?.keywords?.[blog.locale] || [],
-      metadataBase: new URL(baseUrl),
+      metadataBase: getSafeMetadataBase(),
       alternates: {
         canonical: `${baseUrl}${getBlogUrl(blog, locale)}`,
         languages: languageAlternates,
@@ -117,7 +137,7 @@ export async function generateMetadata({
         "article:modified_time": modifiedTime,
       },
     };
-  } catch (error) {
+  } catch {
     return getDefaultMetadata(locale, slug);
   }
 }
@@ -129,7 +149,7 @@ function getDefaultMetadata(locale: Locale, slug: string): Metadata {
   return {
     title,
     description,
-    metadataBase: new URL(baseUrl),
+    metadataBase: getSafeMetadataBase(),
     alternates: {
       canonical: `${baseUrl}/${locale}/blog/${slug}/`, // Include trailing slash for consistency
     },
