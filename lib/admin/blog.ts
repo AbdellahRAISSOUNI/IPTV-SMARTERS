@@ -44,10 +44,53 @@ function hasGithubBlogContext(): boolean {
   return Boolean(token && repoFull?.includes("/") && email && name);
 }
 
+function normalizeLocaleTextMap(input: unknown): Record<string, string> {
+  const raw = typeof input === "object" && input !== null ? (input as Record<string, unknown>) : {};
+  return {
+    en: typeof raw.en === "string" ? raw.en : "",
+    es: typeof raw.es === "string" ? raw.es : "",
+    fr: typeof raw.fr === "string" ? raw.fr : "",
+  };
+}
+
+function toIsoOrNow(input: unknown): string {
+  if (typeof input === "string") {
+    const parsed = new Date(input);
+    if (!Number.isNaN(parsed.getTime())) return parsed.toISOString();
+  }
+  return new Date().toISOString();
+}
+
 function normalizeBlogPost(blog: BlogPost): BlogPost {
+  const safeLocale = typeof blog.locale === "string" && blog.locale ? blog.locale : "en";
+  const normalizedSlug =
+    typeof blog.slug === "string"
+      ? blog.slug
+      : {
+          en: typeof blog.slug?.en === "string" ? blog.slug.en : "",
+          es: typeof blog.slug?.es === "string" ? blog.slug.es : "",
+          fr: typeof blog.slug?.fr === "string" ? blog.slug.fr : "",
+        };
+
   return {
     ...blog,
+    id: typeof blog.id === "string" && blog.id.trim() ? blog.id : `blog-${Date.now()}`,
+    slug: normalizedSlug,
+    title: normalizeLocaleTextMap(blog.title),
+    excerpt: normalizeLocaleTextMap(blog.excerpt),
+    locale: safeLocale,
+    translations: Array.isArray(blog.translations)
+      ? blog.translations.filter((v) => typeof v === "string" && v.trim())
+      : [safeLocale],
+    publishedAt: toIsoOrNow(blog.publishedAt),
+    updatedAt: toIsoOrNow(blog.updatedAt),
     htmlBody: normalizeHtmlBody(blog.htmlBody),
+    blocks: Array.isArray(blog.blocks) ? blog.blocks : [],
+    meta: {
+      ...blog.meta,
+      description: normalizeLocaleTextMap(blog.meta?.description),
+      keywords: normalizeLocaleTextMap(blog.meta?.keywords),
+    },
   };
 }
 
