@@ -1,5 +1,5 @@
 import type { Locale } from '@/lib/i18n';
-import type { BlogPost } from '@/lib/admin/blog';
+import type { BlogPost } from '@/lib/admin/blog-shared';
 
 /**
  * Get the blog slug for a specific locale

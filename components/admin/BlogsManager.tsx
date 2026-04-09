@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Plus, Edit, Trash2, Eye, Loader2, AlertTriangle, X } from "lucide-react";
 import BlogEditor from "./BlogEditor";
 import DeploymentNotification from "./DeploymentNotification";
-import type { BlogPost } from "@/lib/admin/blog";
+import type { BlogPost } from "@/lib/admin/blog-shared";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
 
 export default function BlogsManager() {

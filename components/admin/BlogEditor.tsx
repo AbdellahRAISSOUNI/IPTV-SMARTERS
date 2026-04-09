@@ -28,7 +28,11 @@ import {
   Italic,
   Link as LinkIcon,
 } from "lucide-react";
-import { normalizeHtmlBody, type BlogPost, type BlogBlock } from "@/lib/admin/blog";
+import {
+  normalizeHtmlBody,
+  type BlogPost,
+  type BlogBlock,
+} from "@/lib/admin/blog-shared";
 import BlogRichTextEditor from "@/components/admin/BlogRichTextEditor";
 
 interface BlogEditorProps {

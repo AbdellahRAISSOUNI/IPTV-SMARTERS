@@ -11,7 +11,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
-import type { BlogPost } from "@/lib/admin/blog";
+import type { BlogPost } from "@/lib/admin/blog-shared";
 
 // Lazy load non-critical components - use dynamic imports with ssr: false for better performance
 const ContentCarousel = lazy(() => import("@/components/ContentCarousel"));

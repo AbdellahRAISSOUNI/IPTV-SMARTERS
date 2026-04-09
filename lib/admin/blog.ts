@@ -1,6 +1,18 @@
 import { Octokit } from "@octokit/rest";
-import { promises as fs } from "fs";
-import path from "path";
+import { promises as fs } from "node:fs";
+import path from "node:path";
+import {
+  normalizeHtmlBody,
+  type BlogPost,
+} from "@/lib/admin/blog-shared";
+
+export {
+  BLOG_CONTENT_LOCALES,
+  normalizeHtmlBody,
+  type BlogContentLocale,
+  type BlogBlock,
+  type BlogPost,
+} from "@/lib/admin/blog-shared";
 
 /** GitHub is only required when calling blog persistence APIs — not when importing types/helpers. */
 function getGithubBlogContext() {
@@ -32,68 +44,10 @@ function hasGithubBlogContext(): boolean {
   return Boolean(token && repoFull?.includes("/") && email && name);
 }
 
-export const BLOG_CONTENT_LOCALES = ["en", "es", "fr"] as const;
-export type BlogContentLocale = (typeof BLOG_CONTENT_LOCALES)[number];
-
-/** Ensures every supported locale key exists on stored `htmlBody` (default empty string). */
-export function normalizeHtmlBody(
-  htmlBody?: Record<string, string> | null
-): Record<BlogContentLocale, string> {
-  if (!htmlBody || typeof htmlBody !== "object") {
-    return { en: "", es: "", fr: "" };
-  }
-  return {
-    en: typeof htmlBody.en === "string" ? htmlBody.en : "",
-    es: typeof htmlBody.es === "string" ? htmlBody.es : "",
-    fr: typeof htmlBody.fr === "string" ? htmlBody.fr : "",
-  };
-}
-
 function normalizeBlogPost(blog: BlogPost): BlogPost {
   return {
     ...blog,
     htmlBody: normalizeHtmlBody(blog.htmlBody),
-  };
-}
-
-export interface BlogBlock {
-  id: string;
-  type: "heading" | "paragraph" | "image" | "quote" | "list";
-  content: string | Record<string, string>; // Support both old format (string) and new format (multi-language)
-  level?: number; // For headings (1-6)
-  imageUrl?: string;
-  imageAlt?: string | Record<string, string>; // Support multi-language alt text
-  imageWidth?: "full" | "half" | "third" | "quarter";
-  imageAlign?: "left" | "center" | "right";
-  listItems?: string[] | Record<string, string[]>; // Support multi-language lists
-  style?: {
-    textAlign?: "left" | "center" | "right";
-    fontSize?: string;
-    fontWeight?: string;
-    color?: string;
-    backgroundColor?: string;
-    padding?: string;
-    margin?: string;
-  };
-}
-
-export interface BlogPost {
-  id: string;
-  slug: string | Record<string, string>; // Support both old format (string) and new format (Record<string, string>)
-  title: Record<string, string>; // { en: "Title", es: "Título", fr: "Titre" }
-  excerpt: Record<string, string>;
-  featuredImage?: string;
-  author?: string;
-  publishedAt: string;
-  updatedAt: string;
-  locale: string; // Primary language
-  translations?: string[]; // Array of locale codes that have translations
-  /** Per-locale rich HTML; when non-empty for the resolved locale, public pages prefer this over `blocks`. */
-  htmlBody?: Record<string, string>;
-  blocks: BlogBlock[];
-  meta?: {
-    description?: Record<string, string>;
-    keywords?: Record<string, string>;
   };
 }
 

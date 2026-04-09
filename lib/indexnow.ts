@@ -2,7 +2,7 @@ import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
 import { getInstallationUrl, getResellerUrl, getLegalUrl } from "@/lib/utils/installation-slugs";
-import type { BlogPost } from "@/lib/admin/blog";
+import type { BlogPost } from "@/lib/admin/blog-shared";
 
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/IndexNow";
 

@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
-import type { BlogPost } from "@/lib/admin/blog";
+import type { BlogPost } from "@/lib/admin/blog-shared";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";

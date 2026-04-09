@@ -3,8 +3,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Image from "next/image";
-import type { BlogBlock, BlogPost } from "@/lib/admin/blog";
+import type { BlogBlock, BlogPost } from "@/lib/admin/blog-shared";
 import type { Locale } from "@/lib/i18n";
 import { getSanitizedBlogHtmlForDisplay } from "@/lib/utils/blog-html";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
@@ -12,6 +11,17 @@ import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 interface BlogPostContentProps {
   blog: BlogPost;
   locale: Locale;
+}
+
+function isRenderableImageUrl(url: string | undefined): boolean {
+  if (!url || url.startsWith("blob:")) return false;
+  if (url.startsWith("/")) return true;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "https:" || parsed.protocol === "http:";
+  } catch {
+    return false;
+  }
 }
 
 export default function BlogPostContent({ blog, locale: serverLocale }: BlogPostContentProps) {
@@ -95,7 +105,7 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
         );
 
       case "image":
-        if (!block.imageUrl || block.imageUrl.startsWith('blob:')) return null; // Don't render blob URLs in public pages
+        if (!isRenderableImageUrl(block.imageUrl)) return null;
         
         // Determine max width based on imageWidth setting
         const getImageMaxWidth = () => {
@@ -125,14 +135,12 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
             }`}
           >
             <div className={`relative ${getImageMaxWidth()}`}>
-              <Image
+              <img
                 src={block.imageUrl}
                 alt={typeof block.imageAlt === 'string' ? block.imageAlt : (block.imageAlt?.[activeLocale] || block.imageAlt?.[blog.locale] || displayTitle)}
-                width={800}
-                height={600}
                 className="w-full h-auto rounded-lg"
-                unoptimized={false}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -212,16 +220,14 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
           </header>
 
           {/* Featured Image */}
-          {blog.featuredImage && !blog.featuredImage.startsWith('blob:') && (
+          {isRenderableImageUrl(blog.featuredImage) && (
             <div className="relative w-full h-40 sm:h-56 md:h-64 lg:h-72 mb-6 sm:mb-8 md:mb-10 rounded-lg overflow-hidden bg-gray-100">
-              <Image
+              <img
                 src={blog.featuredImage}
                 alt={displayTitle}
-                fill
-                className="object-cover"
-                priority
-                unoptimized={false}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 896px"
+                className="w-full h-full object-cover"
+                loading="eager"
+                decoding="async"
               />
             </div>
           )}

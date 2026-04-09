@@ -1,5 +1,5 @@
-import type { BlogPost } from "@/lib/admin/blog";
-import { normalizeHtmlBody, type BlogContentLocale } from "@/lib/admin/blog";
+import type { BlogPost, BlogContentLocale } from "@/lib/admin/blog-shared";
+import { normalizeHtmlBody } from "@/lib/admin/blog-shared";
 import { sanitizeBlogHtml } from "@/lib/utils/sanitize-blog-html";
 
 const LOCALE_ORDER: BlogContentLocale[] = ["en", "es", "fr"];

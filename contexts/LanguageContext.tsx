@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { getTranslations, type Locale, locales, defaultLocale, detectLocaleFromCountry } from '@/lib/i18n';
 import { getEnglishSlugFromLocalized, getInstallationSlug, isInstallationSlug, isResellerSlug, getResellerSlug, isLegalSlug, getLegalSlug } from '@/lib/utils/installation-slugs';
 import { getBlogUrl, findBlogByAnySlug } from '@/lib/utils/blog-slugs';
-import type { BlogPost } from '@/lib/admin/blog';
+import type { BlogPost } from '@/lib/admin/blog-shared';
 
 type Translations = ReturnType<typeof getTranslations>;
 
