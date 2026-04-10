@@ -4,6 +4,10 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { isMobile } from "@/lib/utils/performance";
+import {
+  OFFICIAL_IBO_PLAYER_URL,
+  OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
+} from "@/lib/constants/official-player-links";
 
 export default function HeroSection() {
   const { t } = useLanguage();
@@ -36,8 +40,24 @@ export default function HeroSection() {
                 {t("hero.channelsLink")}
               </a>
               {t("hero.description2")}{" "}
-              <span className="font-semibold text-[#1a1a1a]">
-                {t("hero.compatibleDevices")}
+              <span className="font-semibold">
+                <a
+                  href={OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#2563eb] hover:underline font-semibold"
+                >
+                  {t("hero.officialSmartersLinkText")}
+                </a>
+                {", "}
+                <a
+                  href={OFFICIAL_IBO_PLAYER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#2563eb] hover:underline font-semibold"
+                >
+                  {t("hero.officialIboLinkText")}
+                </a>
               </span>
               {t("hero.description3")}{" "}
               <a href="#features" className="text-[#2563eb] hover:underline font-semibold">

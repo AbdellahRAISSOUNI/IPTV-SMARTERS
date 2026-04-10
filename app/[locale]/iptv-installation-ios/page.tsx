@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
 import InstallationExploreMoreSection from "@/components/InstallationExploreMoreSection";
+import SeoLinksPanel from "@/components/SeoLinksPanel";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -256,6 +257,7 @@ export default function AppleIosInstallation() {
             </div>
           </motion.div>
 
+          <SeoLinksPanel variant="installation" className="mb-6" />
           <InstallationExploreMoreSection />
         </div>
       </main>

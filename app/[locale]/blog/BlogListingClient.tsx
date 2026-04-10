@@ -11,6 +11,7 @@ import { getBlogUrl } from "@/lib/utils/blog-slugs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 import type { Locale } from "@/lib/i18n";
+import { getInstallationUrl, getResellerUrl } from "@/lib/utils/installation-slugs";
 
 interface BlogListingClientProps {
   initialBlogs: BlogPost[];
@@ -20,6 +21,16 @@ interface BlogListingClientProps {
 export default function BlogListingClient({ initialBlogs, locale }: BlogListingClientProps) {
   const { t } = useLanguage();
   const blogs = initialBlogs;
+  const keywordTargets = [
+    { id: "pricing", href: `/${locale}/#pricing`, label: t("keywordHub.linkPricing") },
+    { id: "faq", href: `/${locale}/#faq`, label: t("keywordHub.linkFaq") },
+    { id: "features", href: `/${locale}/#features`, label: t("keywordHub.linkFeatures") },
+    { id: "channels", href: `/${locale}/#channels`, label: t("keywordHub.linkChannels") },
+    { id: "guide", href: getInstallationUrl("iptv-installation-guide", locale), label: t("keywordHub.linkInstallGuide") },
+    { id: "hub", href: `/${locale}/installation/`, label: t("keywordHub.linkInstallationHub") },
+    { id: "firestick", href: getInstallationUrl("iptv-installation-firestick", locale), label: t("keywordHub.linkFirestick") },
+    { id: "reseller", href: getResellerUrl("iptv-reseller-program", locale), label: t("keywordHub.linkReseller") },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -45,6 +56,16 @@ export default function BlogListingClient({ initialBlogs, locale }: BlogListingC
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-[#1a1a1a]/70 max-w-2xl mx-auto leading-relaxed">
                 {t("blog.description")}
+              </p>
+              <p className="mt-4 text-sm text-[#1a1a1a]/70">
+                {keywordTargets.map((item, index) => (
+                  <span key={item.id}>
+                    {index > 0 ? " • " : ""}
+                    <Link href={item.href} className="text-[#2563eb] hover:underline underline-offset-2">
+                      {item.label}
+                    </Link>
+                  </span>
+                ))}
               </p>
               <RelatedPagesStrip
                 showTitle

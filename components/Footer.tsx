@@ -7,6 +7,12 @@ import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { locales, type Locale } from "@/lib/i18n";
 import { getLegalUrl, getInstallationUrl } from "@/lib/utils/installation-slugs";
+import {
+  GOOGLE_PLAY_STORE_URL,
+  OFFICIAL_IBO_PLAYER_URL,
+  OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
+  VLC_OFFICIAL_URL,
+} from "@/lib/constants/official-player-links";
 import { usePathname } from "next/navigation";
 import KeywordHubSection from "@/components/KeywordHubSection";
 
@@ -57,6 +63,13 @@ export default function Footer() {
         { href: getInstallationUrl("iptv-installation-guide", locale), label: t("common.installation"), isExternal: true },
       ];
 
+  const trustedResources = [
+    { href: OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL, label: t("footer.trustedSmarters") },
+    { href: OFFICIAL_IBO_PLAYER_URL, label: t("footer.trustedIbo") },
+    { href: VLC_OFFICIAL_URL, label: t("footer.trustedVlc") },
+    { href: GOOGLE_PLAY_STORE_URL, label: t("footer.trustedPlayApps") },
+  ];
+
   return (
     <>
       <KeywordHubSection />
@@ -97,6 +110,19 @@ export default function Footer() {
             </div>
             <p className="text-white/70 leading-relaxed text-sm sm:text-base max-w-md mb-2.5">
               {t("footer.description")}
+            </p>
+            <p className="text-white/60 text-xs sm:text-sm max-w-xl mb-3 leading-relaxed">
+              <a href={`/${locale}/#pricing`} className="text-white hover:text-[#93c5fd] underline underline-offset-2">
+                IPTV subscription pricing
+              </a>
+              {" • "}
+              <a href={getInstallationUrl("iptv-installation-guide", locale)} className="text-white hover:text-[#93c5fd] underline underline-offset-2">
+                IPTV Smarters installation guide
+              </a>
+              {" • "}
+              <a href={`/${locale}/blog/`} className="text-white hover:text-[#93c5fd] underline underline-offset-2">
+                IPTV setup blog
+              </a>
             </p>
             
             {/* Contact Buttons */}
@@ -212,6 +238,25 @@ export default function Footer() {
                   loading="lazy"
                 />
               </div>
+            </div>
+            <div className="mt-4">
+              <h2 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
+                {t("footer.trustedResourcesTitle")}
+              </h2>
+              <nav className="flex flex-col space-y-1.5" aria-label="Trusted resources">
+                {trustedResources.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/70 hover:text-white transition-colors duration-200 text-sm group inline-flex items-center gap-2 w-fit"
+                  >
+                    <span>{item.label}</span>
+                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                  </a>
+                ))}
+              </nav>
             </div>
           </motion.div>
         </div>

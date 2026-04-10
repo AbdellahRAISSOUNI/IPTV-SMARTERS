@@ -57,12 +57,41 @@
     "linkPrivacy": "Política de privacidad",
     "linkTerms": "Términos de servicio",
     "linkRefund": "Política de reembolso",
-    "linkM3uXtream": "FAQ listas M3U y Xtream Codes"
+    "linkM3uXtream": "FAQ listas M3U y Xtream Codes",
+    "linkInstallationHub": "Centro de instalación IPTV (todos los dispositivos)",
+    "linkSmartersProPricing": "Precios IPTV Smarters Pro",
+    "linkFreeTrial": "Prueba gratis IPTV y tests",
+    "link4kSports": "Deportes 4K y VOD en streaming",
+    "linkM3uSetup": "Ayuda lista de reproducción M3U",
+    "linkXtreamLogin": "Ayuda inicio sesión Xtream Codes API",
+    "linkAndroidTv": "Configuración IPTV Android TV"
   },
   "relatedPages": {
     "title": "Páginas relacionadas",
     "navLabel": "Páginas relacionadas del sitio",
-    "policiesShort": "Privacidad, términos y reembolsos"
+    "policiesShort": "Privacidad, términos y reembolsos",
+    "linkInstallationHub": "Centro de instalación",
+    "linkM3uXtream": "FAQ M3U y Xtream",
+    "linkFreeTrialPricing": "Prueba gratis y precios",
+    "linkWindowsPc": "IPTV en Windows",
+    "linkIosApp": "IPTV en iOS",
+    "linkFirestickPage": "Guía Firestick",
+    "linkResellerProgram": "Programa revendedor"
+  },
+  "officialPlayerApps": {
+    "title": "Aplicaciones IPTV recomendadas",
+    "subtitle": "Tu suscripción se entrega como M3U o Xtream Codes. Instala un reproductor de confianza — usa solo las páginas oficiales de descarga (no estamos afiliados a estas apps; son las herramientas que reproducen tu suscripción).",
+    "smartersTitle": "IPTV Smarters Pro",
+    "smartersBody": "App oficial para API Xtream Codes y listas M3U. La mayoría de nuestras guías usan Smarters.",
+    "smartersCta": "Descargas oficiales Smarters",
+    "iboTitle": "IBO Player",
+    "iboBody": "Reproductor IPTV alternativo muy usado y compatible con muchos dispositivos. Instala solo desde el sitio oficial.",
+    "iboCta": "Sitio oficial IBO Player"
+  },
+  "officialOutbound": {
+    "smartersDownloads": "IPTV Smarters Pro — descargas oficiales",
+    "iboPlayerSite": "IBO Player — sitio oficial",
+    "vlcPlayer": "Reproductor VLC"
   },
   "testimonials": {
     "titlePart1": "Lo Que Dicen",
@@ -78,6 +107,8 @@
     "channelsLink": "10,000 canales de TV",
     "description2": ", películas, series y eventos deportivos en HD y 4K. Compatible con",
     "compatibleDevices": "IPTV Smarters Pro, ibo players",
+    "officialSmartersLinkText": "IPTV Smarters Pro",
+    "officialIboLinkText": "reproductores ibo",
     "description3": ", etc. (Smart TV, Android, iOS, PC y Mac), nuestro servicio IPTV premium funciona mediante",
     "m3uLink": "lista de reproducción M3U o Códigos Xtream",
     "description4": ".",
@@ -235,7 +266,12 @@
     "quickLinks": "Enlaces Rápidos",
     "legal": "Legal",
     "paymentMethods": "Métodos de Pago",
-    "copyright": "© {year} Mejor Suscripción IPTV. Todos los derechos reservados."
+    "copyright": "© {year} Mejor Suscripción IPTV. Todos los derechos reservados.",
+    "trustedResourcesTitle": "Recursos de confianza",
+    "trustedSmarters": "IPTV Smarters Pro (descargas oficiales)",
+    "trustedIbo": "IBO Player (sitio oficial)",
+    "trustedVlc": "Reproductor VLC",
+    "trustedPlayApps": "Google Play"
   },
   "installation": {
     "title": "Guía de Instalación de la Aplicación IPTV Smarters Pro APK / Smarters Player Lite",
@@ -272,6 +308,9 @@
     "downloadSectionDescription": "IPTV Smarters es compatible con todos los tipos de dispositivos:",
     "downloadSectionDevices": "📱 Smartphones (Android e iOS) 💻 Ordenadores (Windows y macOS) 📺 Smart TVs (LG, Samsung, Android TV, Fire TV) 🌐 Navegadores web vía WebTV",
     "downloadAvailable": "Descarga disponible aquí:",
+    "iboPlayerSectionTitle": "IBO Player (aplicación IPTV alternativa)",
+    "iboPlayerSectionDescription": "IBO Player es otro reproductor IPTV popular compatible con listas M3U y credenciales tipo Xtream. Descárgalo solo desde el sitio web oficial. No operamos estas aplicaciones; ofrecemos la suscripción que funciona con ellas.",
+    "iboPlayerOfficialCta": "Abrir sitio oficial de IBO Player",
     "newVersionTitle": "Nueva Versión",
     "newVersionSubtitle": "DESCARGA LA NUEVA VERSIÓN DE IPTV SMARTERS – VERSIÓN {year} 4.0",
     "compatibleWithAll": "IPTV Smarters es compatible con todos los tipos de dispositivos:",

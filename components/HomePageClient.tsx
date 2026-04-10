@@ -1,16 +1,18 @@
 ﻿"use client";
 
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Monitor, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import OfficialPlayerAppsSection from "@/components/OfficialPlayerAppsSection";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
+import { getInstallationUrl, getResellerUrl } from "@/lib/utils/installation-slugs";
 import type { BlogPost } from "@/lib/admin/blog-shared";
 
 // Lazy load non-critical components - use dynamic imports with ssr: false for better performance
@@ -269,10 +271,52 @@ export default function Home() {
     },
   ];
 
+  const seoKeywordLinksRow = useMemo(() => {
+    const guide = getInstallationUrl("iptv-installation-guide", locale);
+    const firestick = getInstallationUrl("iptv-installation-firestick", locale);
+    const reseller = getResellerUrl("iptv-reseller-program", locale);
+    const hub = `/${locale}/installation/`;
+    if (locale === "es") {
+      return [
+        { href: `/${locale}/#pricing`, label: "planes de suscripcion IPTV" },
+        { href: `/${locale}/#features`, label: "funciones IPTV premium" },
+        { href: `/${locale}/#faq`, label: "FAQ listas M3U y Xtream" },
+        { href: `/${locale}/blog/`, label: "guias de configuracion IPTV" },
+        { href: guide, label: "tutorial IPTV Smarters" },
+        { href: hub, label: "centro de instalacion IPTV" },
+        { href: firestick, label: "IPTV en Firestick" },
+        { href: reseller, label: "programa revendedor IPTV" },
+      ];
+    }
+    if (locale === "fr") {
+      return [
+        { href: `/${locale}/#pricing`, label: "forfaits abonnement IPTV" },
+        { href: `/${locale}/#features`, label: "fonctionnalites IPTV premium" },
+        { href: `/${locale}/#faq`, label: "FAQ M3U et Xtream Codes" },
+        { href: `/${locale}/blog/`, label: "guides configuration IPTV" },
+        { href: guide, label: "tutoriel IPTV Smarters" },
+        { href: hub, label: "hub installation IPTV" },
+        { href: firestick, label: "IPTV sur Firestick" },
+        { href: reseller, label: "programme revendeur IPTV" },
+      ];
+    }
+    return [
+      { href: `/${locale}/#pricing`, label: "IPTV subscription plans" },
+      { href: `/${locale}/#features`, label: "premium IPTV features" },
+      { href: `/${locale}/#faq`, label: "M3U playlist & Xtream Codes FAQ" },
+      { href: `/${locale}/blog/`, label: "IPTV setup guides" },
+      { href: guide, label: "IPTV Smarters installation tutorial" },
+      { href: hub, label: "IPTV installation hub" },
+      { href: firestick, label: "Firestick IPTV guide" },
+      { href: reseller, label: "IPTV reseller program" },
+    ];
+  }, [locale]);
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
       <HeroSection />
+      <OfficialPlayerAppsSection />
       <ContentCarousel />
       <LogoCarousel images={channelLogos} size="large" direction="right" speed={0.4} />
       <LogoCarousel images={streamingLogos} direction="left" speed={0.7} />
@@ -280,7 +324,7 @@ export default function Home() {
       <DeviceCarousel />
 
       {/* Latest from blog - drive traffic to blog and main pages */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50/50">
+      <section id="latest-blog" className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50/50">
         <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
             initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
@@ -374,6 +418,16 @@ export default function Home() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold mb-8 xl:mb-12 2xl:mb-16 text-[#1a1a1a]">
               {t("pricing.title")}
             </h2>
+            <p className="mx-auto max-w-3xl text-sm sm:text-base text-[#1a1a1a]/70 leading-relaxed">
+              {seoKeywordLinksRow.map((item, index) => (
+                <span key={`${item.href}-${item.label}`}>
+                  {index > 0 ? " • " : ""}
+                  <Link href={item.href} className="text-[#2563eb] hover:underline underline-offset-2">
+                    {item.label}
+                  </Link>
+                </span>
+              ))}
+            </p>
           </motion.div>
 
           {/* 1 Connection Plans */}
@@ -468,12 +522,14 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <Suspense fallback={<ComponentLoader />}>
-        <TestimonialsSection />
-      </Suspense>
+      <section id="testimonials">
+        <Suspense fallback={<ComponentLoader />}>
+          <TestimonialsSection />
+        </Suspense>
+      </section>
 
       {/* Channels Section */}
-      <section className="pt-2 pb-12 lg:pt-4 lg:pb-16 xl:pt-6 xl:pb-20 2xl:pt-8 2xl:pb-24 bg-white">
+      <section id="channels" className="pt-2 pb-12 lg:pt-4 lg:pb-16 xl:pt-6 xl:pb-20 2xl:pt-8 2xl:pb-24 bg-white">
         <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -531,9 +587,11 @@ export default function Home() {
       <Suspense fallback={<ComponentLoader />}>
         <FAQSection />
       </Suspense>
-      <Suspense fallback={<ComponentLoader />}>
-        <CTASection />
-      </Suspense>
+      <section id="cta">
+        <Suspense fallback={<ComponentLoader />}>
+          <CTASection />
+        </Suspense>
+      </section>
       <Suspense fallback={<ComponentLoader />}>
         <Footer />
       </Suspense>

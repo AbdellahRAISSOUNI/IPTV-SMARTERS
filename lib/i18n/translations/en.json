@@ -57,12 +57,41 @@
     "linkPrivacy": "Privacy policy",
     "linkTerms": "Terms of service",
     "linkRefund": "Refund policy",
-    "linkM3uXtream": "M3U playlist & Xtream Codes FAQ"
+    "linkM3uXtream": "M3U playlist & Xtream Codes FAQ",
+    "linkInstallationHub": "IPTV installation hub (all devices)",
+    "linkSmartersProPricing": "IPTV Smarters Pro pricing",
+    "linkFreeTrial": "free IPTV trial & tests",
+    "link4kSports": "4K sports & VOD streaming",
+    "linkM3uSetup": "M3U playlist setup help",
+    "linkXtreamLogin": "Xtream Codes API login help",
+    "linkAndroidTv": "Android TV IPTV setup"
   },
   "relatedPages": {
     "title": "Related pages",
     "navLabel": "Related site pages",
-    "policiesShort": "Privacy, terms & refunds"
+    "policiesShort": "Privacy, terms & refunds",
+    "linkInstallationHub": "Installation hub",
+    "linkM3uXtream": "M3U & Xtream FAQ",
+    "linkFreeTrialPricing": "Free trial & pricing",
+    "linkWindowsPc": "Windows IPTV",
+    "linkIosApp": "iOS IPTV",
+    "linkFirestickPage": "Firestick guide",
+    "linkResellerProgram": "Reseller program"
+  },
+  "officialPlayerApps": {
+    "title": "Recommended IPTV player apps",
+    "subtitle": "Your subscription is delivered as M3U or Xtream Codes. Install a trusted player — use only the official download pages below (we are not affiliated with these apps; they are the tools that play your subscription).",
+    "smartersTitle": "IPTV Smarters Pro",
+    "smartersBody": "Official app for Xtream Codes API and M3U playlists. Most of our guides use Smarters.",
+    "smartersCta": "Official Smarters downloads",
+    "iboTitle": "IBO Player",
+    "iboBody": "Popular alternative IPTV player with wide device support. Install from the official site only.",
+    "iboCta": "Official IBO Player site"
+  },
+  "officialOutbound": {
+    "smartersDownloads": "IPTV Smarters Pro — official downloads",
+    "iboPlayerSite": "IBO Player — official website",
+    "vlcPlayer": "VLC media player"
   },
   "testimonials": {
     "titlePart1": "What Our",
@@ -78,6 +107,8 @@
     "channelsLink": "10,000 TV channels",
     "description2": ", movies, series and sports events in HD and 4K. Compatible with",
     "compatibleDevices": "IPTV Smarters Pro, ibo players",
+    "officialSmartersLinkText": "IPTV Smarters Pro",
+    "officialIboLinkText": "ibo players",
     "description3": ", etc. (Smart TV, Android, iOS, PC and Mac), our premium IPTV service works via",
     "m3uLink": "M3U playlist or Xtream Codes",
     "description4": ".",
@@ -235,7 +266,12 @@
     "quickLinks": "Quick Links",
     "legal": "Legal",
     "paymentMethods": "Payment Methods",
-    "copyright": "© {year} Best IPTV Subscription. All rights reserved."
+    "copyright": "© {year} Best IPTV Subscription. All rights reserved.",
+    "trustedResourcesTitle": "Trusted resources",
+    "trustedSmarters": "IPTV Smarters Pro (official downloads)",
+    "trustedIbo": "IBO Player (official site)",
+    "trustedVlc": "VLC media player",
+    "trustedPlayApps": "Google Play apps"
   },
   "installation": {
     "title": "IPTV Smarters Pro APK / Smarters Player Lite App Installation Guide",
@@ -272,6 +308,9 @@
     "downloadSectionDescription": "IPTV Smarters is compatible with all types of devices:",
     "downloadSectionDevices": "📱 Smartphones (Android & iOS) 💻 Computers (Windows & macOS) 📺 Smart TVs (LG, Samsung, Android TV, Fire TV) 🌐 Web browsers via WebTV",
     "downloadAvailable": "Download available here:",
+    "iboPlayerSectionTitle": "IBO Player (alternative IPTV app)",
+    "iboPlayerSectionDescription": "IBO Player is another popular IPTV player that works with M3U playlists and Xtream-style credentials. Download it only from the official website. We do not operate these apps — we supply the subscription that works with them.",
+    "iboPlayerOfficialCta": "Open official IBO Player website",
     "newVersionTitle": "New Version",
     "newVersionSubtitle": "DOWNLOAD THE NEW VERSION OF IPTV SMARTERS – VERSION {year} 4.0",
     "compatibleWithAll": "IPTV Smarters is compatible with all types of devices:",

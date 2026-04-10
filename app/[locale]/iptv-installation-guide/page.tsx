@@ -8,6 +8,10 @@ import { openWhatsApp } from "@/lib/whatsapp";
 import Image from "next/image";
 import { parseUrlsToLinks } from "@/lib/utils/urlParser";
 import { getInstallationUrl } from "@/lib/utils/installation-slugs";
+import {
+  OFFICIAL_IBO_PLAYER_URL,
+  OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
+} from "@/lib/constants/official-player-links";
 import InstallationExploreMoreSection from "@/components/InstallationExploreMoreSection";
 import {
   Check,
@@ -20,6 +24,8 @@ import {
   Users,
   PlayCircle,
 } from "lucide-react";
+import Link from "next/link";
+import SeoLinksPanel from "@/components/SeoLinksPanel";
 
 // Lazy load non-critical components
 const Footer = lazy(() => import("@/components/Footer"));
@@ -94,6 +100,12 @@ export default function InstallationPage() {
       label: t("installation.firestickAndroid"),
     },
   ];
+  const seoAnchorLinks = [
+    { href: `/${locale}/#pricing`, label: "IPTV subscription pricing" },
+    { href: `/${locale}/#faq`, label: "IPTV FAQ" },
+    { href: `/${locale}/blog/`, label: "IPTV setup blog" },
+    { href: getInstallationUrl("iptv-installation-firestick", locale), label: "Firestick installation" },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -115,6 +127,16 @@ export default function InstallationPage() {
             <p className="text-base text-[#1a1a1a]/80 leading-relaxed">
               {t("installation.introTitle")}
             </p>
+            <p className="mt-4 text-sm text-[#1a1a1a]/70 leading-relaxed">
+              {seoAnchorLinks.map((item, index) => (
+                <span key={item.href}>
+                  {index > 0 ? " • " : ""}
+                  <Link href={item.href} className="text-[#2563eb] hover:underline underline-offset-2">
+                    {item.label}
+                  </Link>
+                </span>
+              ))}
+            </p>
           </motion.div>
 
       <div className="h-px bg-gray-200 my-6" />
@@ -132,6 +154,7 @@ export default function InstallationPage() {
             <p className="text-base text-[#2563eb] font-medium">
               {t("installation.introTagline")}
             </p>
+            <SeoLinksPanel variant="installation" className="mt-4" />
           </motion.div>
 
       <div className="h-px bg-gray-200 my-6" />
@@ -280,15 +303,33 @@ export default function InstallationPage() {
               <div className="pt-4 border-t border-gray-200">
                 <p className="text-sm text-[#1a1a1a]/70 mb-3">{t("installation.downloadAvailable")}</p>
                 <a
-                  href="https://www.iptvsmarters.com/#downloads"
+                  href={OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-base text-[#2563eb] hover:text-[#1d4ed8] font-medium hover:underline"
                 >
                   <Download className="w-5 h-5" />
-                  https://www.iptvsmarters.com/#downloads
+                  {OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL}
                 </a>
               </div>
+            </div>
+
+            <div className="border border-gray-200 rounded-lg p-6">
+              <h3 className="text-base font-semibold text-[#1a1a1a] mb-3">
+                {t("installation.iboPlayerSectionTitle")}
+              </h3>
+              <p className="text-base text-[#1a1a1a]/80 mb-5 leading-relaxed">
+                {t("installation.iboPlayerSectionDescription")}
+              </p>
+              <a
+                href={OFFICIAL_IBO_PLAYER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-[#2563eb] text-[#2563eb] rounded-lg hover:bg-[#2563eb]/5 transition-colors text-sm font-medium"
+              >
+                <Download className="w-4 h-4" />
+                {t("installation.iboPlayerOfficialCta")}
+              </a>
             </div>
 
             {/* Old Version */}

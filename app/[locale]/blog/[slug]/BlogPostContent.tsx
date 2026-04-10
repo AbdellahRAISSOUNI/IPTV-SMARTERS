@@ -1,11 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import type { BlogBlock, BlogPost } from "@/lib/admin/blog-shared";
 import type { Locale } from "@/lib/i18n";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
+import { getInstallationUrl, getResellerUrl } from "@/lib/utils/installation-slugs";
+import {
+  OFFICIAL_IBO_PLAYER_URL,
+  OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
+  VLC_OFFICIAL_URL,
+} from "@/lib/constants/official-player-links";
 
 interface BlogPostContentProps {
   blog: BlogPost;
@@ -34,6 +41,21 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
     blog.excerpt[activeLocale] || blog.excerpt[blog.locale] || "";
   const publishedDate = new Date(blog.publishedAt);
   const hasValidPublishedDate = !Number.isNaN(publishedDate.getTime());
+  const postLinks = [
+    { id: "pricing", href: `/${activeLocale}/#pricing`, label: t("keywordHub.linkPricing") },
+    { id: "faq", href: `/${activeLocale}/#faq`, label: t("keywordHub.linkFaq") },
+    { id: "features", href: `/${activeLocale}/#features`, label: t("keywordHub.linkFeatures") },
+    { id: "guide", href: getInstallationUrl("iptv-installation-guide", activeLocale), label: t("keywordHub.linkInstallGuide") },
+    { id: "hub", href: `/${activeLocale}/installation/`, label: t("keywordHub.linkInstallationHub") },
+    { id: "firestick", href: getInstallationUrl("iptv-installation-firestick", activeLocale), label: t("keywordHub.linkFirestick") },
+    { id: "reseller", href: getResellerUrl("iptv-reseller-program", activeLocale), label: t("keywordHub.linkReseller") },
+    { id: "blog", href: `/${activeLocale}/blog/`, label: t("keywordHub.linkBlog") },
+  ];
+  const externalLinks = [
+    { id: "smarters", href: OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL, label: t("officialOutbound.smartersDownloads") },
+    { id: "ibo", href: OFFICIAL_IBO_PLAYER_URL, label: t("officialOutbound.iboPlayerSite") },
+    { id: "vlc", href: VLC_OFFICIAL_URL, label: t("officialOutbound.vlcPlayer") },
+  ];
 
   // Helper to get content for current locale
   const getBlockContent = (block: BlogBlock): string => {
@@ -229,6 +251,29 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
           <div className="prose prose-lg max-w-none">
             {(Array.isArray(blog.blocks) ? blog.blocks : []).map((block) => renderBlock(block))}
           </div>
+          <section className="mt-10 border-t border-gray-100 pt-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-[#1a1a1a] mb-3">Helpful IPTV links</h2>
+            <p className="text-sm sm:text-base text-[#1a1a1a]/75 leading-relaxed mb-3">
+              {postLinks.map((item, index) => (
+                <span key={item.id}>
+                  {index > 0 ? " • " : ""}
+                  <Link href={item.href} className="text-[#2563eb] hover:underline underline-offset-2">
+                    {item.label}
+                  </Link>
+                </span>
+              ))}
+            </p>
+            <p className="text-xs sm:text-sm text-[#1a1a1a]/60 leading-relaxed">
+              {externalLinks.map((item, index) => (
+                <span key={item.id}>
+                  {index > 0 ? " • " : ""}
+                  <a href={item.href} target="_blank" rel="noopener noreferrer" className="text-[#2563eb] hover:underline underline-offset-2">
+                    {item.label}
+                  </a>
+                </span>
+              ))}
+            </p>
+          </section>
         </article>
       </main>
       <Footer />

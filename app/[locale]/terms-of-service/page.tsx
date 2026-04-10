@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Link from "next/link";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
+import SeoLinksPanel from "@/components/SeoLinksPanel";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -42,6 +43,7 @@ export default function TermsOfServicePage() {
               {t("legal.termsOfService.intro")}
             </p>
             <RelatedPagesStrip showTitle className="mt-8 p-4 rounded-xl border border-gray-100 bg-gray-50/60" />
+            <SeoLinksPanel variant="legal" className="mt-4" />
           </motion.div>
 
           <div className="h-px bg-gray-200 my-8" />

@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
 import { parseUrlsToLinks } from "@/lib/utils/urlParser";
 import InstallationExploreMoreSection from "@/components/InstallationExploreMoreSection";
+import SeoLinksPanel from "@/components/SeoLinksPanel";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -351,6 +352,7 @@ export default function WindowsInstallation() {
             </div>
           </motion.div>
 
+          <SeoLinksPanel variant="installation" className="mb-6" />
           <InstallationExploreMoreSection />
         </div>
       </main>

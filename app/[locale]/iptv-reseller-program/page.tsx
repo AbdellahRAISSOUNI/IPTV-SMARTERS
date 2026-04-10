@@ -10,6 +10,7 @@ import PricingCard from "@/components/PricingCard";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { shouldReduceAnimations, isMobile, getImageQuality } from "@/lib/utils/performance";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
+import SeoLinksPanel from "@/components/SeoLinksPanel";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -309,6 +310,7 @@ export default function ResellerPage() {
 
         <section className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 mb-8 sm:mb-10">
           <RelatedPagesStrip showTitle className="p-4 sm:p-6 rounded-xl border border-gray-100 bg-gray-50/80" />
+          <SeoLinksPanel variant="reseller" className="mt-4" />
         </section>
 
         {/* Benefits Section */}
