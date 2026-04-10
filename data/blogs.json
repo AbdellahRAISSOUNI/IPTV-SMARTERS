@@ -17,7 +17,7 @@
       "fr": "IPTV Adulte :  Le meilleur abonnement IPTV premium en France 🇫🇷. Test IPTV gratuit, abonnements IPTV 4K stables, films &amp; sports. Option IPTV adulte en 4K incluse"
     },
     "publishedAt": "2026-04-10T09:05:45.968Z",
-    "updatedAt": "2026-04-10T09:17:19.463Z",
+    "updatedAt": "2026-04-10T09:18:57.281Z",
     "locale": "fr",
     "translations": [
       "fr"
@@ -29,9 +29,9 @@
         "content": {
           "en": "",
           "es": "",
-          "fr": ""
+          "fr": "IPTV Adulte : Comment choisir le meilleur service de streaming en 2026 ?"
         },
-        "level": 2
+        "level": 3
       },
       {
         "id": "avgniw3xz1i",
@@ -67,6 +67,11 @@
         "en": "",
         "es": "",
         "fr": "IPTV Adulte,abonnement IPTV adulte,Avec Chaines Adultes (Plus+),iptv adulte en france "
+      },
+      "description": {
+        "en": "",
+        "es": "",
+        "fr": ""
       }
     }
   },
