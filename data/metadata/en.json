@@ -11,6 +11,20 @@
     "title": "IPTV Guides & Tutorials | Firestick, M3U, Smarters Pro",
     "description": "Browse IPTV Smarters Pro tutorials, M3U playlist guides, Firestick & Android TV setup, Smart TV apps, reseller tips, and subscription advice—all in one blog."
   },
+  "legal": {
+    "refundPolicy": {
+      "title": "Refund Policy | IPTV Subscription & Money-Back Terms",
+      "description": "StreamPro IPTV refund policy: eligibility, 5-day guarantee, how to request a refund for your IPTV subscription, and support contact."
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy | How We Protect Your IPTV Account Data",
+      "description": "How StreamPro collects, uses, and secures personal data when you buy an IPTV subscription or use our website and apps."
+    },
+    "termsOfService": {
+      "title": "Terms of Service | IPTV Subscription & Website Use",
+      "description": "Terms and conditions for StreamPro IPTV services, subscriptions, website use, acceptable use, and legal limitations."
+    }
+  },
   "installation": {
     "windows": {
       "title": "Install IPTV Smarters Pro on Windows PC | Xtream Codes & M3U Guide",
@@ -36,19 +50,5 @@
   "reseller": {
     "title": "IPTV Reseller Program | Panel, Credits & White-Label IPTV Business",
     "description": "Start an IPTV reseller business: credits, customer panels, competitive pricing, Smarters-compatible lines, 24/7 support. Scale your IPTV sales in 2026."
-  },
-  "legal": {
-    "refundPolicy": {
-      "title": "Refund Policy | IPTV Subscription & Money-Back Terms | StreamPro",
-      "description": "StreamPro IPTV refund policy: eligibility, 5-day guarantee, how to request a refund for your IPTV subscription, and support contact."
-    },
-    "privacyPolicy": {
-      "title": "Privacy Policy | How We Protect Your IPTV Account Data | StreamPro",
-      "description": "How StreamPro collects, uses, and secures personal data when you buy an IPTV subscription or use our website and apps."
-    },
-    "termsOfService": {
-      "title": "Terms of Service | IPTV Subscription & Website Use | StreamPro",
-      "description": "Terms and conditions for StreamPro IPTV services, subscriptions, website use, acceptable use, and legal limitations."
-    }
   }
 }
