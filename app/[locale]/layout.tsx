@@ -5,6 +5,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { locales, type Locale, getTranslations } from "@/lib/i18n";
 import { getHomepageKeywordList } from "@/lib/seo/site-keywords";
 import { getHomepageMetadata } from "@/lib/utils/metadata-loader";
+import { getContactEmailForLocale } from "@/lib/utils/contact-email";
 
 // Generate structured data for SEO
 function generateStructuredData(locale: Locale, baseUrl: string) {
@@ -44,6 +45,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Customer Service",
+      email: getContactEmailForLocale(locale),
       availableLanguage: locale === "en" ? ["English"] : locale === "es" ? ["Spanish", "Español"] : ["French", "Français"],
     },
     sameAs: [],

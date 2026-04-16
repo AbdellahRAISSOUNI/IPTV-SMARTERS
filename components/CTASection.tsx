@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import { MessageCircle, Mail } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getContactEmailForLocale } from "@/lib/utils/contact-email";
 
 export default function CTASection() {
-  const { t } = useLanguage();
-  const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "support@streampro.com";
+  const { t, locale } = useLanguage();
+  const email = getContactEmailForLocale(locale);
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);

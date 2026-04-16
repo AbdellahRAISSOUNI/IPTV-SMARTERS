@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { MessageCircle, Mail } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getContactEmailForLocale } from "@/lib/utils/contact-email";
 
 export default function ContactSection() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const whatsappUrl = getWhatsAppUrl(t("whatsapp.contactQuestion"));
-  
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@iptvsubscriptionpro.es";
+  const contactEmail = getContactEmailForLocale(locale);
 
   return (
     <section id="contact" className="pt-4 pb-8 lg:pt-6 lg:pb-10 xl:pt-8 xl:pb-12 2xl:pt-10 2xl:pb-16 bg-white">

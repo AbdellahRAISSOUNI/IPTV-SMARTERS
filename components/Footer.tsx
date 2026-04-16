@@ -13,6 +13,7 @@ import {
   OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
   VLC_OFFICIAL_URL,
 } from "@/lib/constants/official-player-links";
+import { getContactEmailForLocale } from "@/lib/utils/contact-email";
 import { usePathname } from "next/navigation";
 import KeywordHubSection from "@/components/KeywordHubSection";
 
@@ -35,7 +36,7 @@ export default function Footer() {
   const pathname = usePathname();
   const currentYear = new Date().getFullYear();
   const whatsappUrl = getWhatsAppUrl(t("whatsapp.contactQuestion"));
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@iptvsubscriptionpro.es";
+  const contactEmail = getContactEmailForLocale(locale);
 
   const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
