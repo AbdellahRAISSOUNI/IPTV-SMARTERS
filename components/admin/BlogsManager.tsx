@@ -17,14 +17,19 @@ export default function BlogsManager() {
   const [showDeploymentNotification, setShowDeploymentNotification] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
 
+  const previewTitle = (b: BlogPost) =>
+    (b.title.en || b.title.es || b.title.fr || "").trim() || "Untitled";
+  const previewExcerpt = (b: BlogPost) =>
+    (b.excerpt.en || b.excerpt.es || b.excerpt.fr || "").trim() || "No excerpt";
+
   // Helper to get slug for display
   const getSlugForDisplay = (blog: BlogPost, locale?: string): string => {
-    if (typeof blog.slug === 'string') {
+    if (typeof blog.slug === "string") {
       return blog.slug;
     }
     const slugRecord = blog.slug as Record<string, string>;
-    const targetLocale = (locale || blog.locale) as 'en' | 'es' | 'fr';
-    return slugRecord[targetLocale] || slugRecord['en'] || '';
+    const targetLocale = (locale || blog.locale) as "en" | "es" | "fr";
+    return String(slugRecord[targetLocale] || "").trim();
   };
 
   useEffect(() => {
@@ -184,7 +189,13 @@ export default function BlogsManager() {
 
             {/* Description */}
             <p className="text-gray-600 text-center mb-6">
-              Are you sure you want to delete <span className="font-medium text-gray-900">"{deleteConfirmBlog.title[deleteConfirmBlog.locale] || "Untitled"}"</span>? This action cannot be undone.
+              Are you sure you want to delete{" "}
+              <span className="font-medium text-gray-900">
+                &quot;
+                {(deleteConfirmBlog.title.en || deleteConfirmBlog.title.es || deleteConfirmBlog.title.fr || "Untitled").trim()}
+                &quot;
+              </span>
+              ? This action cannot be undone.
             </p>
 
             {/* Actions */}
@@ -261,19 +272,24 @@ export default function BlogsManager() {
                    <div className="relative w-full h-40 mb-3 overflow-hidden rounded-lg bg-gray-100">
                      <img
                        src={blog.featuredImage}
-                       alt={blog.title[blog.locale] || "Blog"}
+                       alt={previewTitle(blog)}
                        className="w-full h-full object-cover"
                      />
                    </div>
                  )}
                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                   {blog.title[blog.locale] || "Untitled"}
+                   {previewTitle(blog)}
                  </h3>
                  <p className="text-sm text-gray-500 mb-3 line-clamp-2">
-                   {blog.excerpt[blog.locale] || "No excerpt"}
+                   {previewExcerpt(blog)}
                  </p>
                  <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
-                   <span className="truncate">/{blog.locale}/blog/{getSlugForDisplay(blog)}/</span>
+                   <span
+                     className="truncate"
+                     title={`Slugs — EN: ${getSlugForDisplay(blog, "en")} | ES: ${getSlugForDisplay(blog, "es")} | FR: ${getSlugForDisplay(blog, "fr")}`}
+                   >
+                     /{blog.locale}/blog/{getSlugForDisplay(blog, blog.locale)}/
+                   </span>
                    <span className="whitespace-nowrap ml-2">
                      {new Date(blog.publishedAt).toLocaleDateString()}
                    </span>

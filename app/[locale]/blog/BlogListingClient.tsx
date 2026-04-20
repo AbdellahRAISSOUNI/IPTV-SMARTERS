@@ -83,9 +83,8 @@ export default function BlogListingClient({ initialBlogs, locale }: BlogListingC
           ) : (
             <nav className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8" aria-label="Blog articles">
               {blogs.map((blog, index) => {
-                const displayTitle = blog.title[locale] || blog.title[blog.locale] || "Untitled";
-                const displayExcerpt =
-                  blog.excerpt[locale] || blog.excerpt[blog.locale] || "No excerpt available";
+                const displayTitle = (blog.title[locale] || "").trim() || "Untitled";
+                const displayExcerpt = (blog.excerpt[locale] || "").trim() || "No excerpt available";
                 const publishedDate = new Date(blog.publishedAt);
                 const formattedDate = publishedDate.toLocaleDateString(locale, {
                   year: "numeric",

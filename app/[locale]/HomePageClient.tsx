@@ -299,8 +299,8 @@ export default function Home() {
           {latestBlogs.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
               {latestBlogs.map((blog, index) => {
-                const displayTitle = blog.title[locale] || blog.title[blog.locale] || "Untitled";
-                const displayExcerpt = blog.excerpt[locale] || blog.excerpt[blog.locale] || "";
+                const displayTitle = (blog.title[locale] || "").trim() || "Untitled";
+                const displayExcerpt = (blog.excerpt[locale] || "").trim();
                 return (
                   <motion.div
                     key={blog.id}

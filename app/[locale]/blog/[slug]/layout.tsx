@@ -75,13 +75,16 @@ export async function generateMetadata({
       return getDefaultMetadata(locale, slug);
     }
 
-    const title = blog.title[locale] || blog.title[blog.locale] || "Blog Post";
-    const description = blog.excerpt[locale] || blog.excerpt[blog.locale] || "Read our latest blog post about IPTV services.";
+    const title = (blog.title[locale] || "").trim() || "Blog Post";
+    const metaDesc = (blog.meta?.description?.[locale] || "").trim();
+    const excerptLocale = (blog.excerpt[locale] || "").trim();
+    const description =
+      metaDesc || excerptLocale || "Read our latest blog post about IPTV services.";
     const image = getSafeImageUrl(blog.featuredImage);
-    
+
     const publishedTime = toValidIsoOrUndefined(blog.publishedAt);
     const modifiedTime = toValidIsoOrUndefined(blog.updatedAt);
-    const keywordList = toKeywordArray(blog.meta?.keywords?.[locale] || blog.meta?.keywords?.[blog.locale]);
+    const keywordList = toKeywordArray(blog.meta?.keywords?.[locale]);
 
     // Build correct hreflang URLs using each locale's slug (slugs can differ per language)
     const languageAlternates: Record<string, string> = {};
@@ -97,19 +100,22 @@ export async function generateMetadata({
         ? `${baseUrl}${xDefaultUrl}`
         : `${baseUrl}${getBlogUrl(blog, locale)}`;
 
+    const canonicalPath = getBlogUrl(blog, locale);
+    const canonicalUrl = `${baseUrl}${canonicalPath}`;
+
     return {
       title: `${title} | StreamPro`,
       description,
       keywords: keywordList,
       metadataBase: getSafeMetadataBase(),
       alternates: {
-        canonical: `${baseUrl}${getBlogUrl(blog, locale)}`,
+        canonical: canonicalUrl,
         languages: languageAlternates,
       },
       openGraph: {
         type: "article",
         locale: localeMap[locale],
-        url: `${baseUrl}/${locale}/blog/${slug}/`, // Include trailing slash for consistency
+        url: canonicalUrl,
         siteName: siteNameMap[locale],
         title: `${title} | StreamPro`,
         description,

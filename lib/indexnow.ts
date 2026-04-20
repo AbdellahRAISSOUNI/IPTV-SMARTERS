@@ -72,7 +72,10 @@ export function buildIndexNowUrlListForBlog(blog: BlogPost): string[] {
 
   // Ping the post URL for each locale (slugs may differ per locale)
   locales.forEach((loc) => {
-    urls.push(`${baseUrl}${getBlogUrl(blog, loc)}`);
+    const path = getBlogUrl(blog, loc);
+    if (!path.includes("/blog//")) {
+      urls.push(`${baseUrl}${path}`);
+    }
   });
 
   return uniq(urls);

@@ -9,20 +9,25 @@ function safeEncodeSlug(slug: string): string {
   }
 }
 
+function safeDecodeSlug(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
 /**
- * Get the blog slug for a specific locale
- * If the slug is a string (old format), return it as-is
- * If the slug is a Record (new format), return the locale-specific slug or fallback to English
+ * Get the blog slug for a specific locale (no cross-language fallback).
+ * Legacy string slug is returned for every locale.
  */
 export function getBlogSlug(blog: BlogPost, locale: Locale): string {
   if (typeof blog.slug === 'string') {
     return blog.slug;
   }
-  
+
   const slugRecord = blog.slug as Record<string, string>;
-  // Return locale-specific slug, then primary locale, then English.
-  const primaryLocale = blog.locale;
-  return slugRecord[locale] || slugRecord[primaryLocale] || slugRecord['en'] || '';
+  return String(slugRecord[locale] || '').trim();
 }
 
 /**
@@ -40,21 +45,19 @@ export function getBlogUrl(blog: BlogPost, locale: Locale): string {
  */
 export function getAllBlogSlugs(blog: BlogPost): Record<Locale, string> {
   if (typeof blog.slug === 'string') {
-    // Old format: same slug for all locales
     return {
       en: blog.slug,
       es: blog.slug,
       fr: blog.slug,
     };
   }
-  
+
   const slugRecord = blog.slug as Record<string, string>;
-  const englishSlug = slugRecord['en'] || '';
-  
+
   return {
-    en: slugRecord['en'] || '',
-    es: slugRecord['es'] || englishSlug,
-    fr: slugRecord['fr'] || englishSlug,
+    en: String(slugRecord['en'] || '').trim(),
+    es: String(slugRecord['es'] || '').trim(),
+    fr: String(slugRecord['fr'] || '').trim(),
   };
 }
 
@@ -66,12 +69,17 @@ export function findBlogByAnySlug(
   blogs: BlogPost[],
   slug: string
 ): BlogPost | null {
-  return blogs.find((blog) => {
-    if (typeof blog.slug === 'string') {
-      return blog.slug === slug;
-    }
-    
-    const slugRecord = blog.slug as Record<string, string>;
-    return Object.values(slugRecord).includes(slug);
-  }) || null;
+  const target = safeDecodeSlug(slug).trim();
+  return (
+    blogs.find((blog) => {
+      if (typeof blog.slug === "string") {
+        return safeDecodeSlug(blog.slug).trim() === target;
+      }
+
+      const slugRecord = blog.slug as Record<string, string>;
+      return Object.values(slugRecord).some(
+        (s) => safeDecodeSlug(String(s)).trim() === target
+      );
+    }) || null
+  );
 }

@@ -45,11 +45,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const title = blog.title[locale] || blog.title[blog.locale] || "Blog Post";
+  const title = (blog.title[locale] || "").trim() || "Blog Post";
+  const metaDesc = (blog.meta?.description?.[locale] || "").trim();
+  const excerptLocale = (blog.excerpt[locale] || "").trim();
+  const schemaDescription = metaDesc || excerptLocale;
   const imageUrl = getSafeImageUrl(blog.featuredImage);
   const localizedPath = getBlogUrl(blog, locale);
   const articleUrl =
-    localizedPath && !localizedPath.endsWith("/blog//")
+    localizedPath && !localizedPath.includes("/blog//")
       ? `${baseUrl}${localizedPath}`
       : `${baseUrl}/${locale}/blog/${slug}/`;
 
@@ -58,7 +61,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: title,
-    description: blog.excerpt[locale] || blog.excerpt[blog.locale] || "",
+    description: schemaDescription,
     image: imageUrl,
     datePublished: blog.publishedAt,
     dateModified: blog.updatedAt,

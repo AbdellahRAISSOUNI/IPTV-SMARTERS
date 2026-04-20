@@ -29,7 +29,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
     url: `${baseUrl}/${locale}/blog/`,
     numberOfItems: blogs.length,
     itemListElement: blogs.map((blog, index) => {
-      const title = blog.title[locale] || blog.title[blog.locale] || "Untitled";
+      const title = (blog.title[locale] || "").trim() || "Untitled";
       const url = `${baseUrl}${getBlogUrl(blog, locale)}`;
       return {
         "@type": "ListItem",

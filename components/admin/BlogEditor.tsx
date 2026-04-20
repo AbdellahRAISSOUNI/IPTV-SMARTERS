@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from "react";
 import {
-  Plus,
   Trash2,
-  Edit,
   Save,
   X,
   Loader2,
@@ -15,13 +13,11 @@ import {
   List,
   Quote,
   Heading,
-  GripVertical,
   MoveUp,
   MoveDown,
   AlignLeft,
   AlignCenter,
   AlignRight,
-  Eye,
   Globe,
   Tag,
   Bold,
@@ -52,6 +48,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
       translations: [],
       blocks: [],
       meta: {
+        description: { en: "", es: "", fr: "" },
         keywords: { en: "", es: "", fr: "" },
       },
     }
@@ -77,6 +74,12 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
           : { en: "", es: "", fr: "", ...initialBlog.slug },
         meta: {
           ...initialBlog.meta,
+          description: {
+            en: "",
+            es: "",
+            fr: "",
+            ...initialBlog.meta?.description,
+          },
           keywords: {
             en: "",
             es: "",
@@ -92,14 +95,12 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
   const generateId = () => Math.random().toString(36).substring(2, 15);
 
-  // Helper to get slug for a locale (with fallback to English if empty)
   const getSlug = (locale: "en" | "es" | "fr"): string => {
-    if (typeof blog.slug === 'string') {
+    if (typeof blog.slug === "string") {
       return blog.slug;
     }
     const slugRecord = blog.slug as Record<string, string>;
-    // If empty, fallback to English slug
-    return slugRecord[locale] || slugRecord['en'] || '';
+    return String(slugRecord[locale] || "").trim();
   };
 
   // Helper to set slug for a locale
@@ -128,26 +129,15 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     setSaveStatus("idle");
 
     try {
-      // Auto-populate translations array based on which locales have content
-      // A locale is considered "translated" if it has at least title OR excerpt
-      const translations: string[] = [];
-      (["en", "es", "fr"] as const).forEach((loc) => {
-        if (blog.title[loc] || blog.excerpt[loc]) {
-          translations.push(loc);
-        }
-      });
-      
-      // Ensure slug is properly formatted - if empty for a locale, use English slug
       let cleanedSlug: Record<string, string>;
-      if (typeof blog.slug === 'string') {
+      if (typeof blog.slug === "string") {
         cleanedSlug = { en: blog.slug, es: blog.slug, fr: blog.slug };
       } else {
         const slugRecord = blog.slug as Record<string, string>;
-        const englishSlug = slugRecord['en'] || '';
         cleanedSlug = {
-          en: englishSlug,
-          es: slugRecord['es'] || englishSlug,
-          fr: slugRecord['fr'] || englishSlug,
+          en: String(slugRecord.en || "").trim(),
+          es: String(slugRecord.es || "").trim(),
+          fr: String(slugRecord.fr || "").trim(),
         };
       }
       
@@ -158,9 +148,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
         slug: cleanedSlug,
         updatedAt: new Date().toISOString(),
         publishedAt: blog.publishedAt || new Date().toISOString(),
-        // Auto-populate translations based on content availability
-        // Include primary locale if no translations found
-        translations: translations.length > 0 ? translations : [blog.locale],
+        translations: ["en", "es", "fr"],
         // Ensure featured image is not a blob URL (Cloudinary URLs are https://)
         featuredImage: blog.featuredImage?.startsWith('blob:') ? undefined : blog.featuredImage,
         // Clean up block image URLs
@@ -229,10 +217,13 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
   // Helper to get content for current locale (supports both old string format and new multi-language format)
   const getBlockContent = (block: BlogBlock, locale: string): string => {
-    if (typeof block.content === 'string') {
+    if (typeof block.content === "string") {
       return block.content;
     }
-    return block.content[locale] || block.content[block.content.en ? 'en' : Object.keys(block.content)[0]] || '';
+    if (block.content && typeof block.content === "object") {
+      return String(block.content[locale] || "").trim();
+    }
+    return "";
   };
 
   // Helper to set content for current locale
@@ -442,7 +433,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
             ))}
           </div>
           <p className="text-xs text-gray-500 mt-2">
-            Switch between languages to edit title, excerpt, and content.
+            Each language has its own URL slug, SEO fields, and body copy. Switch tabs to edit EN / ES / FR independently.
           </p>
         </div>
 
@@ -450,42 +441,42 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              URL Slugs (leave empty to use English slug)
+              URL slug per language (required for each — used in /en/blog/…, /es/blog/…, /fr/blog/…)
             </label>
             <div className="space-y-2">
               <div>
                 <label className="block text-xs text-gray-600 mb-1">English (EN)</label>
                 <input
                   type="text"
-                  value={getSlug('en')}
-                  onChange={(e) => setSlug('en', e.target.value)}
+                  value={getSlug("en")}
+                  onChange={(e) => setSlug("en", e.target.value)}
                   placeholder="my-blog-post"
                   className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-600 mb-1">Spanish (ES) - Leave empty to use English</label>
+                <label className="block text-xs text-gray-600 mb-1">Spanish (ES)</label>
                 <input
                   type="text"
-                  value={getSlug('es')}
-                  onChange={(e) => setSlug('es', e.target.value)}
-                  placeholder={getSlug('en') || "my-blog-post"}
+                  value={getSlug("es")}
+                  onChange={(e) => setSlug("es", e.target.value)}
+                  placeholder="mi-articulo-iptv"
                   className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-600 mb-1">French (FR) - Leave empty to use English</label>
+                <label className="block text-xs text-gray-600 mb-1">French (FR)</label>
                 <input
                   type="text"
-                  value={getSlug('fr')}
-                  onChange={(e) => setSlug('fr', e.target.value)}
-                  placeholder={getSlug('en') || "my-blog-post"}
+                  value={getSlug("fr")}
+                  onChange={(e) => setSlug("fr", e.target.value)}
+                  placeholder="mon-article-iptv"
                   className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                 />
               </div>
             </div>
             <p className="text-xs text-gray-500 mt-2">
-              Will be accessible at: /{activeLocale}/blog/{getSlug(activeLocale) || getSlug('en') || "your-slug"}
+              Preview for current editing language: /{activeLocale}/blog/{getSlug(activeLocale) || "your-slug"}/
             </p>
           </div>
           <div>
@@ -537,6 +528,32 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
             />
           </div>
           <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              SEO meta description ({activeLocale.toUpperCase()}) — search snippet and social preview text
+            </label>
+            <textarea
+              value={blog.meta?.description?.[activeLocale] || ""}
+              onChange={(e) =>
+                setBlog({
+                  ...blog,
+                  meta: {
+                    ...blog.meta,
+                    description: {
+                      ...(blog.meta?.description || { en: "", es: "", fr: "" }),
+                      [activeLocale]: e.target.value,
+                    },
+                  },
+                })
+              }
+              rows={3}
+              placeholder="Distinct description for this language (required to publish)"
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              This is the primary SEO description for this language. Listing cards still use the excerpt above.
+            </p>
+          </div>
+          <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <Tag className="w-4 h-4 text-gray-500" />
               <span>SEO Keywords ({activeLocale.toUpperCase()}) - Comma-separated keywords (not visible on website)</span>
@@ -560,7 +577,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-y"
             />
             <p className="text-xs text-gray-500 mt-1">
-              Enter keywords separated by commas. These will be added to meta tags for SEO but won't be visible on the website.
+              Enter keywords separated by commas. These will be added to meta tags for SEO but will not be visible on the website.
             </p>
           </div>
           <div>
@@ -640,9 +657,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
       <div className="bg-white rounded-xl border border-gray-200 p-6 relative">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-lg font-medium text-black mb-1">Content Blocks (legacy)</h3>
+            <h3 className="text-lg font-medium text-black mb-1">Content blocks</h3>
             <p className="text-gray-500 text-sm">
-              Used on the public site only when the visual editor above is empty for that language.
+              Use the language tabs on each block to write different text per language. Images are shared; alt text is per language.
             </p>
           </div>
         </div>
@@ -1059,7 +1076,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                                   if (file) {
                                     try {
                                       await handleImageBlockUpload(block.id, file);
-                                    } catch (error) {
+                                    } catch {
                                       alert("Failed to upload image. Please try again.");
                                     }
                                   }
@@ -1100,7 +1117,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                               if (file) {
                                 try {
                                   await handleImageBlockUpload(block.id, file);
-                                } catch (error) {
+                                } catch {
                                   alert("Failed to upload image. Please try again.");
                                 }
                               }
@@ -1128,14 +1145,13 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                   {block.type === "list" && (
                     <div>
                       {(() => {
-                        // Handle both old format (string[]) and new format (Record<string, string[]>)
                         let items: string[] = [];
                         if (Array.isArray(block.listItems)) {
                           items = block.listItems;
-                        } else if (block.listItems && typeof block.listItems === 'object') {
-                          items = block.listItems[blockLocale] || block.listItems['en'] || [];
+                        } else if (block.listItems && typeof block.listItems === "object") {
+                          items = block.listItems[blockLocale] || [];
                         }
-                        
+
                         return items.map((item, itemIndex) => (
                           <div key={itemIndex} className="flex items-center gap-2 mb-2">
                             <span className="text-gray-500">•</span>
@@ -1143,28 +1159,30 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                               type="text"
                               value={item}
                               onChange={(e) => {
-                                const currentItems = Array.isArray(block.listItems) 
-                                  ? block.listItems 
-                                  : (block.listItems?.[blockLocale] || block.listItems?.['en'] || []);
+                                let currentItems: string[] = [];
+                                if (Array.isArray(block.listItems)) {
+                                  currentItems = [...block.listItems];
+                                } else {
+                                  currentItems = [...(block.listItems?.[blockLocale] || [])];
+                                }
                                 const newItems = [...currentItems];
                                 newItems[itemIndex] = e.target.value;
-                                
-                                // Convert to multi-language format if needed
+
                                 if (Array.isArray(block.listItems)) {
-                                  updateBlock(block.id, { 
+                                  const base = [...block.listItems];
+                                  updateBlock(block.id, {
                                     listItems: {
-                                      en: block.listItems,
-                                      es: [],
-                                      fr: [],
-                                      [blockLocale]: newItems,
-                                    }
+                                      en: blockLocale === "en" ? newItems : [...base],
+                                      es: blockLocale === "es" ? newItems : [...base],
+                                      fr: blockLocale === "fr" ? newItems : [...base],
+                                    },
                                   });
                                 } else {
-                                  updateBlock(block.id, { 
+                                  updateBlock(block.id, {
                                     listItems: {
                                       ...(block.listItems || { en: [], es: [], fr: [] }),
                                       [blockLocale]: newItems,
-                                    }
+                                    },
                                   });
                                 }
                               }}
@@ -1173,26 +1191,29 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                             />
                             <button
                               onClick={() => {
-                                const currentItems = Array.isArray(block.listItems) 
-                                  ? block.listItems 
-                                  : (block.listItems?.[blockLocale] || block.listItems?.['en'] || []);
-                                const newItems = currentItems.filter((_, i) => i !== itemIndex);
-                                
+                                let currentItems: string[] = [];
                                 if (Array.isArray(block.listItems)) {
-                                  updateBlock(block.id, { 
+                                  currentItems = [...block.listItems];
+                                } else {
+                                  currentItems = [...(block.listItems?.[blockLocale] || [])];
+                                }
+                                const newItems = currentItems.filter((_, i) => i !== itemIndex);
+
+                                if (Array.isArray(block.listItems)) {
+                                  const base = block.listItems.filter((_, i) => i !== itemIndex);
+                                  updateBlock(block.id, {
                                     listItems: {
-                                      en: block.listItems,
-                                      es: [],
-                                      fr: [],
-                                      [blockLocale]: newItems,
-                                    }
+                                      en: blockLocale === "en" ? newItems : [...base],
+                                      es: blockLocale === "es" ? newItems : [...base],
+                                      fr: blockLocale === "fr" ? newItems : [...base],
+                                    },
                                   });
                                 } else {
-                                  updateBlock(block.id, { 
+                                  updateBlock(block.id, {
                                     listItems: {
                                       ...(block.listItems || { en: [], es: [], fr: [] }),
                                       [blockLocale]: newItems,
-                                    }
+                                    },
                                   });
                                 }
                               }}
@@ -1205,25 +1226,29 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                       })()}
                       <button
                         onClick={() => {
-                          const currentItems = Array.isArray(block.listItems) 
-                            ? block.listItems 
-                            : (block.listItems?.[blockLocale] || block.listItems?.['en'] || []);
-                          
+                          let currentItems: string[] = [];
                           if (Array.isArray(block.listItems)) {
-                            updateBlock(block.id, { 
+                            currentItems = [...block.listItems];
+                          } else {
+                            currentItems = [...(block.listItems?.[blockLocale] || [])];
+                          }
+                          const next = [...currentItems, ""];
+
+                          if (Array.isArray(block.listItems)) {
+                            const base = [...block.listItems, ""];
+                            updateBlock(block.id, {
                               listItems: {
-                                en: [...block.listItems, ""],
-                                es: [],
-                                fr: [],
-                                [blockLocale]: [...currentItems, ""],
-                              }
+                                en: blockLocale === "en" ? next : [...base],
+                                es: blockLocale === "es" ? next : [...base],
+                                fr: blockLocale === "fr" ? next : [...base],
+                              },
                             });
                           } else {
-                            updateBlock(block.id, { 
+                            updateBlock(block.id, {
                               listItems: {
                                 ...(block.listItems || { en: [], es: [], fr: [] }),
-                                [blockLocale]: [...currentItems, ""],
-                              }
+                                [blockLocale]: next,
+                              },
                             });
                           }
                         }}

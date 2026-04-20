@@ -36,9 +36,8 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
   // Use client locale if available, otherwise fallback to server locale
   const activeLocale = locale || serverLocale;
   
-  const displayTitle = blog.title[activeLocale] || blog.title[blog.locale] || "Untitled";
-  const displayExcerpt =
-    blog.excerpt[activeLocale] || blog.excerpt[blog.locale] || "";
+  const displayTitle = (blog.title[activeLocale] || "").trim() || "Untitled";
+  const displayExcerpt = (blog.excerpt[activeLocale] || "").trim();
   const publishedDate = new Date(blog.publishedAt);
   const hasValidPublishedDate = !Number.isNaN(publishedDate.getTime());
   const postLinks = [
@@ -59,13 +58,13 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
 
   // Helper to get content for current locale
   const getBlockContent = (block: BlogBlock): string => {
-    if (typeof block.content === 'string') {
+    if (typeof block.content === "string") {
       return block.content;
     }
-    if (block.content && typeof block.content === 'object') {
-      return block.content[activeLocale] || block.content[blog.locale] || block.content['en'] || '';
+    if (block.content && typeof block.content === "object") {
+      return String(block.content[activeLocale] || "").trim();
     }
-    return '';
+    return "";
   };
 
   // Helper to parse markdown-like formatting (bold, italic, links)
@@ -152,7 +151,11 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
             <div className={`relative ${getImageMaxWidth()}`}>
               <img
                 src={block.imageUrl}
-                alt={typeof block.imageAlt === 'string' ? block.imageAlt : (block.imageAlt?.[activeLocale] || block.imageAlt?.[blog.locale] || displayTitle)}
+                alt={
+                  typeof block.imageAlt === "string"
+                    ? block.imageAlt
+                    : (block.imageAlt?.[activeLocale] || displayTitle)
+                }
                 className="w-full h-auto rounded-lg"
                 loading="lazy"
                 decoding="async"
@@ -176,8 +179,8 @@ export default function BlogPostContent({ blog, locale: serverLocale }: BlogPost
         let listItems: string[] = [];
         if (Array.isArray(block.listItems)) {
           listItems = block.listItems;
-        } else if (block.listItems && typeof block.listItems === 'object') {
-          listItems = block.listItems[activeLocale] || block.listItems[blog.locale] || block.listItems['en'] || [];
+        } else if (block.listItems && typeof block.listItems === "object") {
+          listItems = block.listItems[activeLocale] || [];
         }
         
         return (
