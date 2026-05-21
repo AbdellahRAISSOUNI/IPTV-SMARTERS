@@ -3,6 +3,7 @@ import { locales } from "@/lib/i18n";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
 import { getInstallationUrl, getResellerUrl, getLegalUrl } from "@/lib/utils/installation-slugs";
 import type { BlogPost } from "@/lib/admin/blog-shared";
+import { getPublishedLocales } from "@/lib/admin/blog-locales";
 
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/IndexNow";
 
@@ -70,8 +71,8 @@ export function buildIndexNowUrlListForBlog(blog: BlogPost): string[] {
     urls.push(`${baseUrl}/${loc}/blog/`);
   });
 
-  // Ping the post URL for each locale (slugs may differ per locale)
-  locales.forEach((loc) => {
+  // Ping the post URL for each published locale (slugs may differ per locale)
+  getPublishedLocales(blog).forEach((loc) => {
     const path = getBlogUrl(blog, loc);
     if (!path.includes("/blog//")) {
       urls.push(`${baseUrl}${path}`);

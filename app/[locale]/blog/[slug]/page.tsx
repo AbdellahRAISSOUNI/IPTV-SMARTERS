@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { getBlogBySlug } from "@/lib/admin/blog";
-import { getBlogUrl } from "@/lib/utils/blog-slugs";
+import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import BlogPostContent from "./BlogPostContent";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
@@ -40,8 +40,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  // If blog not found, return 404
-  if (!blog) {
+  if (!blog || !isBlogAvailableInLocale(blog, locale)) {
     notFound();
   }
 

@@ -7,6 +7,7 @@ import {
   getLegalUrl,
 } from '@/lib/utils/installation-slugs';
 import { getAllBlogSlugs } from '@/lib/utils/blog-slugs';
+import { getPublishedLocales } from '@/lib/admin/blog-locales';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour for fresh blog posts
@@ -131,30 +132,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const blogs = await getAllBlogs();
     blogs.forEach((blog) => {
-      // Get all slugs for this blog to determine which locales have valid slugs
       const allSlugs = getAllBlogSlugs(blog);
-      
-      // Determine which locales should be included in sitemap
-      // Include all locales that have non-empty slugs (not just those in translations array)
-      const blogLocales: Locale[] = [];
-      locales.forEach((locale) => {
-        const slug = allSlugs[locale];
-        // Include locale if it has a slug (even if empty content - slug means it's a valid URL)
-        if (slug && slug.trim() !== '') {
-          blogLocales.push(locale);
-        }
+      const finalLocales = getPublishedLocales(blog).filter((loc) => {
+        const slug = allSlugs[loc];
+        return slug && slug.trim() !== "";
       });
-      
-      // Fallback: if no valid slugs found, use translations array or primary locale
-      const finalLocales = blogLocales.length > 0 
-        ? blogLocales 
-        : (blog.translations && blog.translations.length > 0 
-          ? blog.translations.filter((loc): loc is Locale => locales.includes(loc as Locale))
-          : [blog.locale as Locale].filter((loc): loc is Locale => locales.includes(loc)));
       
       // Generate alternates map for all valid locales
       const alternates: Record<string, string> = {};
-      blogLocales.forEach((loc) => {
+      finalLocales.forEach((loc) => {
         const altBlogUrl = getSafeBlogPath(blog, loc);
         if (!altBlogUrl) return;
         const absoluteAlt = toAbsoluteUrl(altBlogUrl);

@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
+/* Relative path avoids Turbopack mis-resolving @tailwindcss/* as the @/* alias */
+@plugin "../node_modules/@tailwindcss/typography";
 
 /* Critical CSS - inline above-the-fold styles */
 

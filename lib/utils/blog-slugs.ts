@@ -1,5 +1,6 @@
 import type { Locale } from '@/lib/i18n';
 import type { BlogPost } from '@/lib/admin/blog-shared';
+import { getPublishedLocales, isLocalePublished } from '@/lib/admin/blog-locales';
 
 function safeEncodeSlug(slug: string): string {
   try {
@@ -36,8 +37,19 @@ export function getBlogSlug(blog: BlogPost, locale: Locale): string {
  */
 export function getBlogUrl(blog: BlogPost, locale: Locale): string {
   const slug = getBlogSlug(blog, locale);
+  if (!slug) {
+    return `/${locale}/blog//`;
+  }
   return `/${locale}/blog/${safeEncodeSlug(slug)}/`;
 }
+
+/** Whether this post is published and viewable in the given locale. */
+export function isBlogAvailableInLocale(blog: BlogPost, locale: Locale): boolean {
+  if (!isLocalePublished(blog, locale)) return false;
+  return Boolean(getBlogSlug(blog, locale));
+}
+
+export { getPublishedLocales };
 
 /**
  * Get all available slugs for a blog (for language switching)

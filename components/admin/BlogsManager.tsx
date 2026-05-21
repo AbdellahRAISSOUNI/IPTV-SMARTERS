@@ -6,6 +6,7 @@ import BlogEditor from "./BlogEditor";
 import DeploymentNotification from "./DeploymentNotification";
 import type { BlogPost } from "@/lib/admin/blog-shared";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
+import { getPublishedLocales } from "@/lib/admin/blog-locales";
 
 export default function BlogsManager() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -277,6 +278,16 @@ export default function BlogsManager() {
                      />
                    </div>
                  )}
+                 <div className="flex flex-wrap gap-1 mb-2">
+                   {getPublishedLocales(blog).map((loc) => (
+                     <span
+                       key={loc}
+                       className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-gray-100 text-gray-600"
+                     >
+                       {loc}
+                     </span>
+                   ))}
+                 </div>
                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
                    {previewTitle(blog)}
                  </h3>

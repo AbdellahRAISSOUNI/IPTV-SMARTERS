@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/lib/admin/blog-shared";
-import { getBlogUrl } from "@/lib/utils/blog-slugs";
+import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 import type { Locale } from "@/lib/i18n";
@@ -82,7 +82,9 @@ export default function BlogListingClient({ initialBlogs, locale }: BlogListingC
             </div>
           ) : (
             <nav className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8" aria-label="Blog articles">
-              {blogs.map((blog, index) => {
+              {blogs
+                .filter((blog) => isBlogAvailableInLocale(blog, locale))
+                .map((blog, index) => {
                 const displayTitle = (blog.title[locale] || "").trim() || "Untitled";
                 const displayExcerpt = (blog.excerpt[locale] || "").trim() || "No excerpt available";
                 const publishedDate = new Date(blog.publishedAt);

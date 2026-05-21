@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import type { BlogPost } from "@/lib/admin/blog-shared";
 import type { Locale } from "@/lib/i18n";
-import { findBlogByAnySlug, getAllBlogSlugs, getBlogSlug, getBlogUrl } from "@/lib/utils/blog-slugs";
+import {
+  findBlogByAnySlug,
+  getAllBlogSlugs,
+  getBlogSlug,
+  getBlogUrl,
+  isBlogAvailableInLocale,
+} from "@/lib/utils/blog-slugs";
 
 function makePost(overrides: Partial<BlogPost> & Pick<BlogPost, "slug">): BlogPost {
   const now = new Date().toISOString();
@@ -44,6 +50,7 @@ describe("blog-slugs", () => {
   it("getBlogUrl encodes slug and uses trailing slash path shape", () => {
     const blog = makePost({
       slug: { en: "a b", es: "x", fr: "y" },
+      translations: ["en"],
     });
     expect(getBlogUrl(blog, "en" as Locale)).toMatch(/\/en\/blog\/a%20b\/$/);
   });
@@ -79,5 +86,28 @@ describe("blog-slugs", () => {
       slug: { en: "hello world", es: "x", fr: "y" },
     });
     expect(findBlogByAnySlug([blog], "hello%20world")?.id).toBe(blog.id);
+  });
+
+  it("isBlogAvailableInLocale is false when locale not published", () => {
+    const blog = makePost({
+      slug: { en: "only-en", es: "", fr: "" },
+      translations: ["en"],
+    });
+    expect(isBlogAvailableInLocale(blog, "en")).toBe(true);
+    expect(isBlogAvailableInLocale(blog, "fr")).toBe(false);
+  });
+
+  it("isBlogAvailableInLocale uses inferred publish list for legacy posts", () => {
+    const blog = makePost({
+      translations: ["fr"],
+      locale: "fr",
+      slug: { en: "", es: "", fr: "fr-post" },
+      title: { en: "", es: "", fr: "T" },
+      excerpt: { en: "", es: "", fr: "E" },
+      meta: { description: { en: "", es: "", fr: "D" } },
+      blocks: [{ id: "1", type: "paragraph", content: { fr: "body" } }],
+    });
+    expect(isBlogAvailableInLocale(blog, "fr")).toBe(true);
+    expect(isBlogAvailableInLocale(blog, "en")).toBe(false);
   });
 });

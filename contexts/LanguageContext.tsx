@@ -4,7 +4,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { usePathname, useRouter } from 'next/navigation';
 import { getTranslations, type Locale, locales, defaultLocale, detectLocaleFromCountry } from '@/lib/i18n';
 import { getEnglishSlugFromLocalized, getInstallationSlug, isInstallationSlug, isResellerSlug, getResellerSlug, isLegalSlug, getLegalSlug } from '@/lib/utils/installation-slugs';
-import { getBlogUrl, findBlogByAnySlug } from '@/lib/utils/blog-slugs';
+import { getBlogUrl, findBlogByAnySlug, isBlogAvailableInLocale } from '@/lib/utils/blog-slugs';
+import { getPublishedLocales } from '@/lib/admin/blog-locales';
 import type { BlogPost } from '@/lib/admin/blog-shared';
 
 type Translations = ReturnType<typeof getTranslations>;
@@ -66,9 +67,28 @@ export function LanguageProvider({ children, initialLocale }: { children: ReactN
               const blog = findBlogByAnySlug(blogs, blogSlug);
               
               if (blog) {
-                // Get the correct URL for the new locale
-                const newPath = getBlogUrl(blog, newLocale);
-                router.replace(newPath);
+                let targetLocale = newLocale;
+                if (!isBlogAvailableInLocale(blog, newLocale)) {
+                  const published = getPublishedLocales(blog);
+                  const fallback =
+                    published.find((loc) => isBlogAvailableInLocale(blog, loc)) ||
+                    published[0];
+                  if (fallback) {
+                    targetLocale = fallback;
+                  } else {
+                    router.replace(`/${newLocale}/blog/`);
+                    if (typeof window !== 'undefined') {
+                      localStorage.setItem('preferred-locale', newLocale);
+                    }
+                    return;
+                  }
+                }
+                const newPath = getBlogUrl(blog, targetLocale);
+                if (newPath.includes('/blog//')) {
+                  router.replace(`/${newLocale}/blog/`);
+                } else {
+                  router.replace(newPath);
+                }
                 if (typeof window !== 'undefined') {
                   localStorage.setItem('preferred-locale', newLocale);
                 }

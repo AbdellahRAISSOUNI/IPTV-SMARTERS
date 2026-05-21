@@ -18,7 +18,6 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
-  Globe,
   Tag,
   Bold,
   Italic,
@@ -28,6 +27,11 @@ import {
   type BlogPost,
   type BlogBlock,
 } from "@/lib/admin/blog-shared";
+import {
+  getPublishedLocales,
+  type BlogLocale,
+} from "@/lib/admin/blog-locales";
+import BlogLocaleToolbar from "@/components/admin/BlogLocaleToolbar";
 
 interface BlogEditorProps {
   onSave: (blog: BlogPost) => Promise<void>;
@@ -45,7 +49,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
       publishedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       locale: "en",
-      translations: [],
+      translations: ["en"],
       blocks: [],
       meta: {
         description: { en: "", es: "", fr: "" },
@@ -58,10 +62,13 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
   const [isUploading, setIsUploading] = useState(false);
   const [editingBlockId, setEditingBlockId] = useState<string | null>(null);
-  const [activeLocale, setActiveLocale] = useState<"en" | "es" | "fr">("en");
-  const [imagePreviewUrls, setImagePreviewUrls] = useState<Record<string, string>>({}); // For immediate previews
-  const [pendingUploads, setPendingUploads] = useState<Set<string>>(new Set()); // Track blocks/images being uploaded
-  const [blockLocales, setBlockLocales] = useState<Record<string, "en" | "es" | "fr">>({}); // Track locale per block
+  const [activeLocale, setActiveLocale] = useState<BlogLocale>("en");
+  const [primaryLocale, setPrimaryLocale] = useState<BlogLocale>("en");
+  const [publishedLocales, setPublishedLocales] = useState<BlogLocale[]>(["en"]);
+  const [mirrorMode, setMirrorMode] = useState(false);
+  const [imagePreviewUrls, setImagePreviewUrls] = useState<Record<string, string>>({});
+  const [pendingUploads, setPendingUploads] = useState<Set<string>>(new Set());
+  const [blockLocales, setBlockLocales] = useState<Record<string, BlogLocale>>({});
 
   useEffect(() => {
     if (initialBlog) {
@@ -89,9 +96,47 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
         },
       };
       setBlog(blogWithMeta);
-      setActiveLocale(initialBlog.locale as "en" | "es" | "fr");
+      const published = getPublishedLocales(blogWithMeta);
+      const primary = (blogWithMeta.locale as BlogLocale) || published[0] || "en";
+      setPublishedLocales(published);
+      setPrimaryLocale(primary);
+      setActiveLocale(primary);
     }
   }, [initialBlog]);
+
+  const applyToLocales = (
+    value: string,
+    field: "title" | "excerpt",
+    targets: BlogLocale[]
+  ): Record<BlogLocale, string> => {
+    const current = { en: "", es: "", fr: "", ...blog[field] };
+    const next = { ...current };
+    for (const loc of targets) {
+      next[loc] = value;
+    }
+    return next;
+  };
+
+  const applyMetaDescription = (value: string, targets: BlogLocale[]) => {
+    const current = { en: "", es: "", fr: "", ...blog.meta?.description };
+    const description = { ...current };
+    for (const loc of targets) {
+      description[loc] = value;
+    }
+    return description;
+  };
+
+  const applyMetaKeywords = (value: string, targets: BlogLocale[]) => {
+    const current = { en: "", es: "", fr: "", ...blog.meta?.keywords };
+    const keywords = { ...current };
+    for (const loc of targets) {
+      keywords[loc] = value;
+    }
+    return keywords;
+  };
+
+  const mirrorTargets = (): BlogLocale[] =>
+    mirrorMode ? publishedLocales : [activeLocale];
 
   const generateId = () => Math.random().toString(36).substring(2, 15);
 
@@ -148,7 +193,8 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
         slug: cleanedSlug,
         updatedAt: new Date().toISOString(),
         publishedAt: blog.publishedAt || new Date().toISOString(),
-        translations: ["en", "es", "fr"],
+        locale: primaryLocale,
+        translations: publishedLocales,
         // Ensure featured image is not a blob URL (Cloudinary URLs are https://)
         featuredImage: blog.featuredImage?.startsWith('blob:') ? undefined : blog.featuredImage,
         // Clean up block image URLs
@@ -227,32 +273,24 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   };
 
   // Helper to set content for current locale
-  const setBlockContent = (blockId: string, locale: string, value: string) => {
+  const setBlockContent = (blockId: string, locale: BlogLocale, value: string) => {
+    const targets = mirrorMode ? publishedLocales : [locale];
     setBlog({
       ...blog,
       blocks: blog.blocks.map((block) => {
         if (block.id !== blockId) return block;
-        
-        // Convert old string format to multi-language format if needed
-        if (typeof block.content === 'string') {
-          return {
-            ...block,
-            content: {
-              en: block.content,
-              es: '',
-              fr: '',
-              [locale]: value,
-            },
-          };
+
+        let content: Record<string, string>;
+        if (typeof block.content === "string") {
+          content = { en: block.content, es: "", fr: "" };
+        } else {
+          content = { en: "", es: "", fr: "", ...(block.content as Record<string, string>) };
         }
-        
-        return {
-          ...block,
-          content: {
-            ...block.content,
-            [locale]: value,
-          },
-        };
+        for (const loc of targets) {
+          content[loc] = value;
+        }
+
+        return { ...block, content };
       }),
     });
   };
@@ -405,78 +443,43 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
           </div>
         </div>
 
-        {/* Language Selector - Only show when editing blog content */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Editing Language - Switch to edit content in different languages
-          </label>
-          <div className="flex items-center gap-2">
-            {(["en", "es", "fr"] as const).map((locale) => (
-              <button
-                key={locale}
-                onClick={() => {
-                  setActiveLocale(locale);
-                  // Only update blog.locale if this is a new blog (no ID yet)
-                  if (!blog.id) {
-                    setBlog({ ...blog, locale });
-                  }
-                }}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  activeLocale === locale
-                    ? "bg-black text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                <Globe className="w-4 h-4 inline mr-2" />
-                {locale.toUpperCase()}
-              </button>
-            ))}
-          </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Each language has its own URL slug, SEO fields, and body copy. Switch tabs to edit EN / ES / FR independently.
-          </p>
-        </div>
+        <BlogLocaleToolbar
+          blog={blog}
+          activeLocale={activeLocale}
+          primaryLocale={primaryLocale}
+          publishedLocales={publishedLocales}
+          mirrorMode={mirrorMode}
+          onBlogChange={setBlog}
+          onActiveLocaleChange={setActiveLocale}
+          onPrimaryLocaleChange={setPrimaryLocale}
+          onPublishedLocalesChange={setPublishedLocales}
+          onMirrorModeChange={setMirrorMode}
+        />
 
         {/* Basic Info */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              URL slug per language (required for each — used in /en/blog/…, /es/blog/…, /fr/blog/…)
+              URL slug (per published language)
             </label>
             <div className="space-y-2">
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">English (EN)</label>
-                <input
-                  type="text"
-                  value={getSlug("en")}
-                  onChange={(e) => setSlug("en", e.target.value)}
-                  placeholder="my-blog-post"
-                  className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">Spanish (ES)</label>
-                <input
-                  type="text"
-                  value={getSlug("es")}
-                  onChange={(e) => setSlug("es", e.target.value)}
-                  placeholder="mi-articulo-iptv"
-                  className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">French (FR)</label>
-                <input
-                  type="text"
-                  value={getSlug("fr")}
-                  onChange={(e) => setSlug("fr", e.target.value)}
-                  placeholder="mon-article-iptv"
-                  className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                />
-              </div>
+              {publishedLocales.map((loc) => (
+                <div key={loc}>
+                  <label className="block text-xs text-gray-600 mb-1">
+                    {loc === "en" ? "English" : loc === "es" ? "Spanish" : "French"} ({loc.toUpperCase()})
+                  </label>
+                  <input
+                    type="text"
+                    value={getSlug(loc)}
+                    onChange={(e) => setSlug(loc, e.target.value)}
+                    placeholder={loc === "en" ? "my-blog-post" : loc === "es" ? "mi-articulo-iptv" : "mon-article-iptv"}
+                    className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  />
+                </div>
+              ))}
             </div>
             <p className="text-xs text-gray-500 mt-2">
-              Preview for current editing language: /{activeLocale}/blog/{getSlug(activeLocale) || "your-slug"}/
+              Preview: /{activeLocale}/blog/{getSlug(activeLocale) || "your-slug"}/
             </p>
           </div>
           <div>
@@ -500,12 +503,13 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
             <input
               type="text"
               value={blog.title[activeLocale] || ""}
-              onChange={(e) =>
+              onChange={(e) => {
+                const targets = mirrorTargets();
                 setBlog({
                   ...blog,
-                  title: { ...blog.title, [activeLocale]: e.target.value },
-                })
-              }
+                  title: applyToLocales(e.target.value, "title", targets),
+                });
+              }}
               placeholder="Enter blog title"
               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             />
@@ -516,12 +520,13 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
             </label>
             <textarea
               value={blog.excerpt[activeLocale] || ""}
-              onChange={(e) =>
+              onChange={(e) => {
+                const targets = mirrorTargets();
                 setBlog({
                   ...blog,
-                  excerpt: { ...blog.excerpt, [activeLocale]: e.target.value },
-                })
-              }
+                  excerpt: applyToLocales(e.target.value, "excerpt", targets),
+                });
+              }}
               rows={3}
               placeholder="Enter a short excerpt that will appear on the blog listing page"
               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
@@ -533,18 +538,16 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
             </label>
             <textarea
               value={blog.meta?.description?.[activeLocale] || ""}
-              onChange={(e) =>
+              onChange={(e) => {
+                const targets = mirrorTargets();
                 setBlog({
                   ...blog,
                   meta: {
                     ...blog.meta,
-                    description: {
-                      ...(blog.meta?.description || { en: "", es: "", fr: "" }),
-                      [activeLocale]: e.target.value,
-                    },
+                    description: applyMetaDescription(e.target.value, targets),
                   },
-                })
-              }
+                });
+              }}
               rows={3}
               placeholder="Distinct description for this language (required to publish)"
               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
@@ -560,18 +563,16 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
             </label>
             <textarea
               value={blog.meta?.keywords?.[activeLocale] || ""}
-              onChange={(e) =>
+              onChange={(e) => {
+                const targets = mirrorTargets();
                 setBlog({
                   ...blog,
                   meta: {
                     ...blog.meta,
-                    keywords: {
-                      ...(blog.meta?.keywords || { en: "", es: "", fr: "" }),
-                      [activeLocale]: e.target.value,
-                    },
+                    keywords: applyMetaKeywords(e.target.value, targets),
                   },
-                })
-              }
+                });
+              }}
               placeholder="keyword1, keyword2, keyword3"
               rows={3}
               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-y"
@@ -659,7 +660,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
           <div>
             <h3 className="text-lg font-medium text-black mb-1">Content blocks</h3>
             <p className="text-gray-500 text-sm">
-              Use the language tabs on each block to write different text per language. Images are shared; alt text is per language.
+              Use block language tabs for per-language text, or turn on mirror editing above. Images are shared across languages.
             </p>
           </div>
         </div>
@@ -719,8 +720,8 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
           )}
           {blog.blocks.map((block, index) => {
             const blockLocale = blockLocales[block.id] || activeLocale;
-            const setBlockLocale = (loc: "en" | "es" | "fr") => {
-              setBlockLocales(prev => ({ ...prev, [block.id]: loc }));
+            const setBlockLocale = (loc: BlogLocale) => {
+              setBlockLocales((prev) => ({ ...prev, [block.id]: loc }));
             };
             const currentContent = getBlockContent(block, blockLocale);
             
@@ -764,9 +765,10 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                   {(block.type === "heading" || block.type === "paragraph" || block.type === "quote" || block.type === "list") && (
                     <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-200">
                       <span className="text-xs text-gray-500 font-medium">Language:</span>
-                      {(["en", "es", "fr"] as const).map((loc) => (
+                      {publishedLocales.map((loc) => (
                         <button
                           key={loc}
+                          type="button"
                           onClick={() => setBlockLocale(loc)}
                           className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
                             blockLocale === loc

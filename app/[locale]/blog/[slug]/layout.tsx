@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
 import { getBlogBySlug } from "@/lib/admin/blog";
-import { getBlogUrl } from "@/lib/utils/blog-slugs";
+import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
+import { getPublishedLocales } from "@/lib/admin/blog-locales";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
@@ -71,7 +72,7 @@ export async function generateMetadata({
     // Pass locale to getBlogBySlug to ensure correct blog is found
     const blog = await getBlogBySlug(slug, locale);
     
-    if (!blog) {
+    if (!blog || !isBlogAvailableInLocale(blog, locale)) {
       return getDefaultMetadata(locale, slug);
     }
 
@@ -86,17 +87,20 @@ export async function generateMetadata({
     const modifiedTime = toValidIsoOrUndefined(blog.updatedAt);
     const keywordList = toKeywordArray(blog.meta?.keywords?.[locale]);
 
-    // Build correct hreflang URLs using each locale's slug (slugs can differ per language)
+    const publishedLocales = getPublishedLocales(blog);
     const languageAlternates: Record<string, string> = {};
-    locales.forEach((loc) => {
+    publishedLocales.forEach((loc) => {
       const localizedUrl = getBlogUrl(blog, loc);
       if (localizedUrl !== `/${loc}/blog//`) {
         languageAlternates[loc] = `${baseUrl}${localizedUrl}`;
       }
     });
-    const xDefaultUrl = getBlogUrl(blog, "en");
+    const xDefaultLoc = publishedLocales.includes("en")
+      ? "en"
+      : publishedLocales[0] || locale;
+    const xDefaultUrl = getBlogUrl(blog, xDefaultLoc);
     languageAlternates["x-default"] =
-      xDefaultUrl !== "/en/blog//"
+      xDefaultUrl !== `/${xDefaultLoc}/blog//`
         ? `${baseUrl}${xDefaultUrl}`
         : `${baseUrl}${getBlogUrl(blog, locale)}`;
 

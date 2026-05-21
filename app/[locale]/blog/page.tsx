@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { getAllBlogs } from "@/lib/admin/blog";
-import { getBlogUrl } from "@/lib/utils/blog-slugs";
+import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import BlogListingClient from "./BlogListingClient";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
@@ -15,6 +15,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
   const { locale } = await params;
 
   let blogs = await getAllBlogs();
+  blogs = blogs.filter((blog) => isBlogAvailableInLocale(blog, locale));
   // Sort newest first
   blogs = [...blogs].sort(
     (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
