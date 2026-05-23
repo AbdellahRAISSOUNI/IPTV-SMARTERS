@@ -22,7 +22,12 @@ function HeroImage({
   const variantClass =
     variant === "canadaSticky"
       ? "aspect-[4/3] sm:aspect-[3/2] max-h-[230px] sm:max-h-[275px] lg:max-h-[min(400px,70vh)] lg:aspect-[5/4] xl:aspect-[4/3] lg:min-h-[280px]"
-      : "aspect-[16/10] sm:aspect-[5/4] max-h-[200px] sm:max-h-[260px] lg:max-h-none lg:aspect-[4/5] lg:min-h-[320px] xl:min-h-[380px]";
+      : "aspect-[16/10] max-h-[175px] sm:max-h-[220px] md:max-h-[250px] lg:aspect-[16/10] lg:max-h-[min(340px,46vh)] xl:max-h-[min(380px,50vh)]";
+
+  const objectPosition =
+    variant === "canadaSticky"
+      ? "object-center"
+      : "object-contain object-top lg:object-center";
 
   return (
     <div className={`relative w-full ${variantClass} ${className}`}>
@@ -30,7 +35,7 @@ function HeroImage({
         src="/images/hero.png"
         alt="IPTV on TV, laptop, tablet and phone"
         fill
-        className="object-contain object-center"
+        className={objectPosition}
         priority={!mobile}
         fetchPriority={mobile ? "low" : "high"}
         sizes="(max-width: 1024px) 90vw, 40vw"
@@ -218,22 +223,22 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative bg-white pt-20 pb-6 sm:pt-24 sm:pb-8 lg:pt-20 lg:pb-10"
+      className="relative bg-white pt-20 pb-4 sm:pt-[5.25rem] sm:pb-5 lg:pt-20 lg:pb-6"
     >
       <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(260px,0.95fr)] gap-6 lg:gap-10 xl:gap-12 items-start">
-          <div className="flex flex-col gap-3 sm:gap-4 min-w-0 text-center lg:text-left">
-            <h1 className="text-2xl sm:text-3xl md:text-[2rem] lg:text-[2.25rem] xl:text-[2.75rem] font-bold leading-[1.15] text-[#1a1a1a] font-heading tracking-tight">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(280px,44%)] xl:grid-cols-[minmax(0,1.05fr)_minmax(300px,42%)] gap-4 sm:gap-5 md:gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center">
+          <div className="flex flex-col gap-2.5 sm:gap-3 md:gap-3.5 min-w-0 text-center lg:text-left lg:py-1">
+            <h1 className="text-2xl sm:text-3xl md:text-[1.85rem] lg:text-[2.1rem] xl:text-[2.65rem] font-bold leading-[1.12] text-[#1a1a1a] font-heading tracking-tight">
               <span className="block underline decoration-[#2563eb] decoration-2 underline-offset-3">
                 {t("hero.title")}
               </span>
-              <span className="block mt-1.5 sm:mt-2 text-[0.95em] sm:text-[1em]">
+              <span className="block mt-1 sm:mt-1.5 text-[0.95em] sm:text-[1em]">
                 {t("hero.subtitlePart1")}{" "}
                 <span className="text-[#2563eb]">{t("hero.subtitlePart2")}</span>
               </span>
             </h1>
 
-            <div className="lg:hidden w-full max-w-md mx-auto">
+            <div className="lg:hidden w-full max-w-[min(100%,22rem)] sm:max-w-md md:max-w-lg mx-auto -mt-0.5">
               <HeroImage mobile={mobile} />
             </div>
 
@@ -241,11 +246,11 @@ export default function HeroSection() {
               <DefaultHeroDescription />
             </div>
 
-            <div className="pt-1 pb-1 flex justify-center lg:justify-start">
+            <div className="pt-0.5 flex justify-center lg:justify-start">
               <a
                 href="#pricing"
                 onClick={scrollToPricing}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-[#2563eb] text-white font-semibold rounded-lg shadow-lg hover:bg-[#1d4ed8] transition-all duration-200 text-sm sm:text-base group w-full sm:w-auto cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-[#2563eb] text-white font-semibold rounded-lg shadow-lg hover:bg-[#1d4ed8] transition-all duration-200 text-sm sm:text-base group w-full sm:w-auto max-w-md lg:max-w-none cursor-pointer"
               >
                 <span className="whitespace-nowrap">{t("common.viewOffers")}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
@@ -253,8 +258,10 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="hidden lg:block min-w-0">
-            <HeroImage mobile={mobile} />
+          <div className="hidden lg:flex min-w-0 items-center justify-center self-center">
+            <div className="w-full max-w-[min(100%,28rem)] xl:max-w-[30rem]">
+              <HeroImage mobile={mobile} />
+            </div>
           </div>
         </div>
       </div>
