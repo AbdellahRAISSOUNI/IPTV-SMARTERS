@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildHreflangAlternates,
   buildHomepageHreflangAlternates,
+  buildLegalHreflangAlternates,
   hreflangByLocale,
 } from "@/lib/seo/hreflang";
 
@@ -31,5 +32,17 @@ describe("hreflang", () => {
     expect(alt["en-CA"]).toContain("/ca/blog/");
     expect(alt["x-default"]).toContain("/ca/blog/");
     expect(Object.keys(alt)).toEqual(["en-CA", "x-default"]);
+  });
+
+  it("builds legal hreflang with localized slugs for es and fr", () => {
+    const getLegalUrl = (slug: string, loc: string) =>
+      `/${loc}/${slug === "privacy-policy" && loc === "es" ? "politica-de-privacidad" : slug}/`;
+    const alt = buildLegalHreflangAlternates(
+      "https://example.com",
+      "privacy-policy",
+      getLegalUrl as (englishSlug: string, locale: import("@/lib/i18n").Locale) => string
+    );
+    expect(alt["en-CA"]).toBe("https://example.com/ca/privacy-policy/");
+    expect(alt["es-ES"]).toBe("https://example.com/es/politica-de-privacidad/");
   });
 });

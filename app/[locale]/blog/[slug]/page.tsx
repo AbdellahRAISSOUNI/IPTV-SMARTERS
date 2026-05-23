@@ -9,6 +9,8 @@ import {
   optimizeImageForSocialShare,
   resolveAbsoluteImageUrl,
 } from "@/lib/seo/og-image";
+import { hreflangByLocale } from "@/lib/seo/hreflang";
+import { siteNameMap } from "@/lib/i18n/locale-maps";
 
 // Ensure dynamic rendering for blog posts (they're created dynamically)
 export const dynamic = "force-dynamic";
@@ -55,15 +57,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     headline: title,
     description: schemaDescription,
     image: imageUrl,
+    inLanguage: hreflangByLocale[locale],
     datePublished: blog.publishedAt,
     dateModified: blog.updatedAt,
     author: blog.author
       ? { "@type": "Person", name: blog.author }
-      : { "@type": "Organization", name: "StreamPro", url: baseUrl },
+      : { "@type": "Organization", name: siteNameMap[locale], url: `${baseUrl}/${locale}/` },
     publisher: {
       "@type": "Organization",
-      name: "StreamPro - Premium IPTV Service",
-      url: baseUrl,
+      name: siteNameMap[locale],
+      url: `${baseUrl}/${locale}/`,
       logo: {
         "@type": "ImageObject",
         url: `${baseUrl}/logo/IPTVSMARTERSNL-LOGO.png`,

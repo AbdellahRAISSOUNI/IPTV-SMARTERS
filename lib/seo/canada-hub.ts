@@ -40,7 +40,6 @@ export function getCanadaKeywordHref(
     `/${locale}/#channels`,
     `/${locale}/#cta`,
     `/${locale}/blog/`,
-    `/${locale}/installation/`,
     installGuide,
     firestick,
     smartTv,

@@ -1,11 +1,33 @@
 import type { Locale } from "@/lib/i18n";
 import { getAllBlogs } from "@/lib/admin/blog";
 import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
+import { hreflangByLocale } from "@/lib/seo/hreflang";
+import { getSiteBaseUrl } from "@/lib/seo/og-image";
 import BlogListingClient from "./BlogListingClient";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
-
 export const revalidate = 3600; // Revalidate every hour so new posts appear
+
+const baseUrl = getSiteBaseUrl();
+
+const itemListMeta: Record<Locale, { name: string; description: string }> = {
+  en: {
+    name: "IPTV Blog - Latest Articles & Guides",
+    description: "Latest articles, guides, and updates about IPTV and streaming in the USA.",
+  },
+  ca: {
+    name: "IPTV Canada Blog - Guides & Setup Articles",
+    description:
+      "Latest IPTV Canada articles: Smarters Pro setup, Firestick guides, M3U playlists, and CAD subscription tips for Canadian viewers.",
+  },
+  es: {
+    name: "Blog IPTV - Artículos y Guías",
+    description: "Últimos artículos, guías y novedades sobre IPTV y streaming.",
+  },
+  fr: {
+    name: "Blog IPTV - Articles et Guides",
+    description: "Derniers articles, guides et actualités sur l'IPTV et le streaming.",
+  },
+};
 
 interface BlogPageProps {
   params: Promise<{ locale: Locale }>;
@@ -16,18 +38,18 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
   let blogs = await getAllBlogs();
   blogs = blogs.filter((blog) => isBlogAvailableInLocale(blog, locale));
-  // Sort newest first
   blogs = [...blogs].sort(
     (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   );
 
-  // ItemList schema for SEO - helps search engines understand the listing
+  const listingMeta = itemListMeta[locale];
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "IPTV Blog - Latest Articles & Guides",
-    description: "Latest articles, guides, and updates about IPTV and streaming.",
+    name: listingMeta.name,
+    description: listingMeta.description,
     url: `${baseUrl}/${locale}/blog/`,
+    inLanguage: hreflangByLocale[locale],
     numberOfItems: blogs.length,
     itemListElement: blogs.map((blog, index) => {
       const title = (blog.title[locale] || "").trim() || "Untitled";
@@ -39,6 +61,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
           "@type": "Article",
           name: title,
           url,
+          inLanguage: hreflangByLocale[locale],
           datePublished: blog.publishedAt,
           dateModified: blog.updatedAt,
         },

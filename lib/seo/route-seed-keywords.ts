@@ -369,10 +369,11 @@ export const legalTermsSeeds: Record<Locale, readonly string[]> = {
     "IPTV Smarters Pro terms",
   ],
   ca: [
-    "IPTV terms of service",
-    "StreamPro terms",
-    "IPTV user agreement",
-    "IPTV Smarters Pro terms",
+    "IPTV terms of service Canada",
+    "StreamPro terms Canada",
+    "IPTV Canada user agreement",
+    "IPTV Smarters Pro terms Canada",
+    "CAD IPTV subscription terms",
   ],
   es: [
     "términos de servicio iptv",

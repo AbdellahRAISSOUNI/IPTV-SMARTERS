@@ -58,3 +58,12 @@ export function buildHreflangAlternatesForPaths(
 
   return buildHreflangAlternates(urls, `${baseUrl}${pathForLocale(xDefaultLocale)}`);
 }
+
+/** Legal pages with localized slugs (privacy, refund, terms). */
+export function buildLegalHreflangAlternates(
+  baseUrl: string,
+  englishLegalSlug: string,
+  getLegalUrl: (englishSlug: string, locale: Locale) => string
+): Record<string, string> {
+  return buildHreflangAlternatesForPaths(baseUrl, (loc) => getLegalUrl(englishLegalSlug, loc));
+}

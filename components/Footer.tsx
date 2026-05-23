@@ -71,7 +71,7 @@ export default function Footer() {
 
   return (
     <>
-      <KeywordHubSection />
+      {locale !== "ca" ? <KeywordHubSection /> : null}
       <CanadaKeywordCloudSection />
     <footer className="relative bg-[#0f172a] text-white overflow-hidden border-t border-white/5">
       {/* Modern gradient overlay */}

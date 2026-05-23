@@ -1,5 +1,6 @@
 import { getTranslations, type Locale } from "@/lib/i18n";
 import { getFaqPricingAnswerText } from "@/lib/seo/schema-pricing";
+import { getInstallationUrl } from "@/lib/utils/installation-slugs";
 
 type FaqItem = { question: string; answer: string };
 
@@ -52,7 +53,7 @@ export function getHomeFaqMainEntity(locale: Locale) {
       ),
       faqEntry(
         "How do I install IPTV Smarters Pro in Canada?",
-        "We provide step-by-step guides for Firestick, Smart TV, Windows, iOS, and iptv box setup on /ca/installation/."
+        `We provide step-by-step guides for Firestick, Smart TV, Windows, iOS, and iptv box setup at ${getInstallationUrl("iptv-installation-guide", "ca")}.`
       ),
       faqEntry(
         "Can I watch the 2026 FIFA World Cup with IPTV in Canada?",

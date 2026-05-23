@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
-import { getBlogMetadata } from "@/lib/utils/metadata-loader";
+import { getBlogListingMetadata } from "@/lib/utils/metadata-loader";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { blogListingSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
@@ -17,7 +17,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const baseUrl = getSiteBaseUrl();
 
-  const pageMetadata = await getBlogMetadata(locale);
+  const pageMetadata = await getBlogListingMetadata(locale);
   const title = pageMetadata.title;
   const description = pageMetadata.description;
   const keywords = getRouteMetaKeywords(locale, "blog", blogListingSeeds[locale]);
@@ -46,7 +46,7 @@ export default async function BlogLayout({
     return <>{children}</>;
   }
   const locale = localeParam as Locale;
-  const pageMetadata = await getBlogMetadata(locale);
+  const pageMetadata = await getBlogListingMetadata(locale);
   const baseUrl = getSiteBaseUrl();
   const canonicalUrl = `${baseUrl}/${locale}/blog/`;
   const keywords = getRouteMetaKeywords(locale, "blog", blogListingSeeds[locale]);

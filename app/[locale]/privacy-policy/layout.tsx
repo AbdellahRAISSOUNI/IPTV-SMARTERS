@@ -4,9 +4,10 @@ import { locales } from "@/lib/i18n";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { legalPrivacySeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
-import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
+import { buildLegalHreflangAlternates } from "@/lib/seo/hreflang";
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
+import { getLegalUrl } from "@/lib/utils/installation-slugs";
 
 export async function generateMetadata({
   params,
@@ -40,10 +41,11 @@ export async function generateMetadata({
   };
 
   const keywords = getRouteMetaKeywords(locale, "legal", legalPrivacySeeds[locale]);
-  const canonicalUrl = `${baseUrl}/${locale}/privacy-policy/`;
-  const languageAlternates = buildHreflangAlternatesForPaths(
+  const canonicalUrl = `${baseUrl}${getLegalUrl("privacy-policy", locale)}`;
+  const languageAlternates = buildLegalHreflangAlternates(
     baseUrl,
-    (loc) => `/${loc}/privacy-policy/`
+    "privacy-policy",
+    getLegalUrl
   );
 
   return buildSocialMetadata({
@@ -87,7 +89,7 @@ export default async function PrivacyPolicyLayout({
   };
 
   const keywords = getRouteMetaKeywords(locale, "legal", legalPrivacySeeds[locale]);
-  const canonicalUrl = `${baseUrl}/${locale}/privacy-policy/`;
+  const canonicalUrl = `${baseUrl}${getLegalUrl("privacy-policy", locale)}`;
 
   return (
     <>

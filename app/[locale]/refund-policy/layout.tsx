@@ -4,9 +4,10 @@ import { locales } from "@/lib/i18n";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { legalRefundSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
-import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
+import { buildLegalHreflangAlternates } from "@/lib/seo/hreflang";
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
+import { getLegalUrl } from "@/lib/utils/installation-slugs";
 
 export async function generateMetadata({
   params,
@@ -40,10 +41,11 @@ export async function generateMetadata({
   };
 
   const keywords = getRouteMetaKeywords(locale, "legal", legalRefundSeeds[locale]);
-  const canonicalUrl = `${baseUrl}/${locale}/refund-policy/`;
-  const languageAlternates = buildHreflangAlternatesForPaths(
+  const canonicalUrl = `${baseUrl}${getLegalUrl("refund-policy", locale)}`;
+  const languageAlternates = buildLegalHreflangAlternates(
     baseUrl,
-    (loc) => `/${loc}/refund-policy/`
+    "refund-policy",
+    getLegalUrl
   );
 
   return buildSocialMetadata({
@@ -87,7 +89,7 @@ export default async function RefundPolicyLayout({
   };
 
   const keywords = getRouteMetaKeywords(locale, "legal", legalRefundSeeds[locale]);
-  const canonicalUrl = `${baseUrl}/${locale}/refund-policy/`;
+  const canonicalUrl = `${baseUrl}${getLegalUrl("refund-policy", locale)}`;
 
   return (
     <>

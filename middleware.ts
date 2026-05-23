@@ -4,6 +4,14 @@ import type { NextRequest } from 'next/server';
 const locales = ['en', 'es', 'fr', 'ca'];
 const defaultLocale = 'en';
 
+function detectCountry(request: NextRequest): string | undefined {
+  const raw =
+    request.headers.get('x-vercel-ip-country') ||
+    request.headers.get('cf-ipcountry') ||
+    request.headers.get('x-country-code');
+  return raw?.trim().toUpperCase() || undefined;
+}
+
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const url = request.nextUrl.clone();
@@ -21,7 +29,9 @@ export function middleware(request: NextRequest) {
   // Redirect root domain to /en/ to prevent duplicate content
   // Add noindex header so Google doesn't try to index the root domain
   if (pathname === '/') {
-    url.pathname = '/en/';
+    const country = detectCountry(request);
+    const targetLocale = country === 'CA' ? 'ca' : defaultLocale;
+    url.pathname = `/${targetLocale}/`;
     const response = NextResponse.redirect(url, 301);
     response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     return response;

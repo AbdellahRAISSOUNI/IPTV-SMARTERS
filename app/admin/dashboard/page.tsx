@@ -797,16 +797,6 @@ export default function AdminDashboard() {
                 {activeSection === "pricing" && (
                   <div className="space-y-6">
                     {activeLocale === "ca" && (
-                      <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
-                        <strong>Canada (CA)</strong> pricing is stored in{" "}
-                        <code className="text-xs bg-white/80 px-1 rounded">ca.json</code> only — independent
-                        from EN, ES, and FR. Change plan prices here; they appear on{" "}
-                        <code className="text-xs bg-white/80 px-1 rounded">/ca/#pricing</code> exactly as
-                        in the preview below. Use format <strong>29 $CA</strong> (amount, space, $CA).
-                      </div>
-                    )}
-
-                    {activeLocale === "ca" && (
                       <AdminPricingPreview
                         locale={activeLocale}
                         getValue={getValue}
@@ -819,7 +809,6 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-medium text-black mb-1">Pricing Section</h2>
                       <p className="text-gray-500 text-sm mb-6">
                         Edit section title, currency, and plan labels
-                        {activeLocale === "ca" ? " — Canada uses its own CAD prices in ca.json" : ""}
                       </p>
 
                       <div className="space-y-4">
