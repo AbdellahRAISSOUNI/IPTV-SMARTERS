@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -8,11 +8,12 @@ import { getInstallationUrl } from "@/lib/utils/installation-slugs";
 import {
   getCanadaHubKeywords,
   getCanadaKeywordHref,
+  PRIORITY_CANADA_KEYWORDS,
 } from "@/lib/seo/canada-hub";
 
 /**
  * Visible Canada SEO keyword cloud — shown on /ca pages (homepage footer area and hub).
- * Collapsed by default; user can expand to see all topic pills.
+ * Priority keywords are always visible as pills; additional topics expand on demand.
  */
 export default function CanadaKeywordCloudSection() {
   const { locale, t } = useLanguage();
@@ -23,8 +24,25 @@ export default function CanadaKeywordCloudSection() {
   const guide = getInstallationUrl("iptv-installation-guide", locale);
   const firestick = getInstallationUrl("iptv-installation-firestick", locale);
   const smartTv = getInstallationUrl("iptv-installation-smart-tv", locale);
-  const keywords = getCanadaHubKeywords();
+  const allKeywords = getCanadaHubKeywords();
+  const prioritySet = new Set<string>(PRIORITY_CANADA_KEYWORDS);
+  const priorityKeywords = allKeywords.filter((item) =>
+    prioritySet.has(item.keyword as (typeof PRIORITY_CANADA_KEYWORDS)[number])
+  );
+  const extraKeywords = allKeywords.filter(
+    (item) => !prioritySet.has(item.keyword as (typeof PRIORITY_CANADA_KEYWORDS)[number])
+  );
   const panelId = "canada-keywords-panel";
+
+  const renderPill = (item: (typeof allKeywords)[number], index: number) => (
+    <Link
+      key={`${item.keyword}-${index}`}
+      href={getCanadaKeywordHref(locale, index, guide, firestick, smartTv)}
+      className="inline-flex items-center rounded-full border border-red-300/50 bg-white px-3.5 py-1.5 text-sm font-medium text-red-900 hover:bg-red-700 hover:text-white hover:border-red-700 transition-colors"
+    >
+      {item.label}
+    </Link>
+  );
 
   return (
     <section
@@ -46,46 +64,42 @@ export default function CanadaKeywordCloudSection() {
                 {t("canadaKeywords.subtitle")}
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => setIsOpen((prev) => !prev)}
-              aria-expanded={isOpen}
-              aria-controls={panelId}
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-red-300/60 bg-white px-4 py-2.5 text-sm font-semibold text-red-900 hover:bg-red-700 hover:text-white hover:border-red-700 transition-colors self-start sm:self-center"
-            >
-              {isOpen
-                ? t("canadaKeywords.collapseLabel")
-                : t("canadaKeywords.expandLabel")}
-              <ChevronDown
-                className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                aria-hidden
-              />
-            </button>
+            {extraKeywords.length > 0 ? (
+              <button
+                type="button"
+                onClick={() => setIsOpen((prev) => !prev)}
+                aria-expanded={isOpen}
+                aria-controls={panelId}
+                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-red-300/60 bg-white px-4 py-2.5 text-sm font-semibold text-red-900 hover:bg-red-700 hover:text-white hover:border-red-700 transition-colors self-start sm:self-center"
+              >
+                {isOpen
+                  ? t("canadaKeywords.collapseLabel")
+                  : t("canadaKeywords.expandLabel")}
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                  aria-hidden
+                />
+              </button>
+            ) : null}
           </div>
 
-          <div
-            id={panelId}
-            hidden={!isOpen}
-            className={isOpen ? "block" : "hidden"}
-          >
-            <div className="flex flex-wrap gap-2.5 sm:gap-3 pt-2 border-t border-red-200/40">
-              {keywords.map((item, index) => (
-                <Link
-                  key={`${item.keyword}-${index}`}
-                  href={getCanadaKeywordHref(
-                    locale,
-                    index,
-                    guide,
-                    firestick,
-                    smartTv
-                  )}
-                  className="inline-flex items-center rounded-full border border-red-300/50 bg-white px-3.5 py-1.5 text-sm font-medium text-red-900 hover:bg-red-700 hover:text-white hover:border-red-700 transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+          <div className="flex flex-wrap gap-2.5 sm:gap-3 pt-2 border-t border-red-200/40">
+            {priorityKeywords.map((item, index) => renderPill(item, index))}
           </div>
+
+          {extraKeywords.length > 0 ? (
+            <div
+              id={panelId}
+              hidden={!isOpen}
+              className={isOpen ? "block mt-3" : "hidden"}
+            >
+              <div className="flex flex-wrap gap-2.5 sm:gap-3 pt-3 border-t border-red-200/30">
+                {extraKeywords.map((item, index) =>
+                  renderPill(item, priorityKeywords.length + index)
+                )}
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

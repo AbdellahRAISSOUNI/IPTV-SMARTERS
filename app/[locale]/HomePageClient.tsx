@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Monitor, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import CanadaLandingExtras from "@/components/CanadaLandingExtras";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { isPremiumPlansSectionEnabled } from "@/lib/i18n/pricing-display";
 import { openWhatsApp } from "@/lib/whatsapp";
@@ -293,6 +294,7 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Header />
       <HeroSection />
+      <CanadaLandingExtras />
       <ContentCarousel />
       <LogoCarousel images={channelLogos} size="large" direction="right" speed={0.4} />
       <LogoCarousel images={streamingLogos} direction="left" speed={0.7} />

@@ -438,13 +438,13 @@ export default function AdminDashboard() {
   const currentContent = translations[activeLocale]?.content;
   const pricePlaceholder =
     activeLocale === "ca"
-      ? "$27.99 CAD"
+      ? "$29 CA"
       : activeLocale === "en"
         ? "$19.99"
         : "€19.99";
   const premiumPricePlaceholder =
     activeLocale === "ca"
-      ? "$39.99 CAD"
+      ? "$39 CA"
       : activeLocale === "en"
         ? "$29.99"
         : "€29.99";

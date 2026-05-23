@@ -23,7 +23,7 @@ const STANDARD_PLANS = [
   { nameKey: "plan24Months" as const, priceKey: "plan24MonthsPrice" as const },
 ];
 
-/** Extract numeric amount from display strings like "$27.99 CAD" or "€19.99". */
+/** Extract numeric amount from display strings like "$29 CA", "$27.99 CAD", or "€19.99". */
 export function parsePriceAmount(displayPrice: string): string {
   const normalized = displayPrice.replace(/,/g, "");
   const match = normalized.match(/(\d+\.?\d*)/);

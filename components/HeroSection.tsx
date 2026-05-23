@@ -89,7 +89,7 @@ function DefaultHeroDescription() {
 function CanadaHeroKeywords() {
   return (
     <p
-      className="text-[11px] leading-relaxed text-neutral-400 break-words"
+      className="text-xs sm:text-sm leading-relaxed text-neutral-500 break-words"
       aria-label="IPTV Canada search topics"
     >
       {PRIORITY_CANADA_KEYWORDS.map((kw, index) => (
