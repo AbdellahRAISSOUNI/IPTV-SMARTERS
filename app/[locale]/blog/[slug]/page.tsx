@@ -4,21 +4,11 @@ import { getBlogBySlug } from "@/lib/admin/blog";
 import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import BlogPostContent from "./BlogPostContent";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
-
-function getSafeImageUrl(value: string | undefined): string {
-  if (!value || value.startsWith("blob:")) return `${baseUrl}/images/hero.png`;
-  if (value.startsWith("/")) return `${baseUrl}${value}`;
-  try {
-    const parsed = new URL(value);
-    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-      return value;
-    }
-  } catch {
-    // Ignore and fallback below.
-  }
-  return `${baseUrl}/images/hero.png`;
-}
+import {
+  getSiteBaseUrl,
+  optimizeImageForSocialShare,
+  resolveAbsoluteImageUrl,
+} from "@/lib/seo/og-image";
 
 // Ensure dynamic rendering for blog posts (they're created dynamically)
 export const dynamic = "force-dynamic";
@@ -48,7 +38,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const metaDesc = (blog.meta?.description?.[locale] || "").trim();
   const excerptLocale = (blog.excerpt[locale] || "").trim();
   const schemaDescription = metaDesc || excerptLocale;
-  const imageUrl = getSafeImageUrl(blog.featuredImage);
+  const baseUrl = getSiteBaseUrl();
+  const imageUrl = optimizeImageForSocialShare(
+    resolveAbsoluteImageUrl(blog.featuredImage, baseUrl)
+  );
   const localizedPath = getBlogUrl(blog, locale);
   const articleUrl =
     localizedPath && !localizedPath.includes("/blog//")

@@ -3,16 +3,14 @@ import { notFound } from "next/navigation";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import { locales, type Locale, getTranslations } from "@/lib/i18n";
-import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
-import { getHomepageKeywordList } from "@/lib/seo/site-keywords";
+
+import { buildLocaleHomepageMetadata } from "@/lib/utils/homepage-route-metadata";
 import {
   getFaqPricingAnswerText,
   getStandardProductOffers,
 } from "@/lib/seo/schema-pricing";
 import { getHomeFaqMainEntity } from "@/lib/seo/home-faq-schema";
-import { getHomepageMetadata } from "@/lib/utils/metadata-loader";
 import { getContactEmailForLocale } from "@/lib/utils/contact-email";
-import { buildHomepageHreflangAlternates } from "@/lib/seo/hreflang";
 
 // Generate structured data for SEO
 function generateStructuredData(locale: Locale, baseUrl: string) {
@@ -331,90 +329,7 @@ export async function generateMetadata({
   }
   
   const locale = localeParam as Locale;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
-  const translations = getTranslations(locale);
-  
-  const localeMap = openGraphLocaleMap;
-
-  // Load metadata from file
-  const homepageMetadata = await getHomepageMetadata(locale);
-  const title = homepageMetadata.title;
-  const description = homepageMetadata.description;
-
-  const hreflangAlternates = buildHomepageHreflangAlternates(baseUrl, "/");
-
-  // Site name translations
-  // siteNameMap imported from locale-maps
-
-  return {
-    title,
-    description,
-    keywords: getHomepageKeywordList(locale),
-    authors: [{ name: "StreamPro" }],
-    creator: "StreamPro",
-    publisher: "StreamPro",
-    applicationName: "StreamPro IPTV",
-    formatDetection: {
-      email: false,
-      address: false,
-      telephone: false,
-    },
-    metadataBase: new URL(baseUrl),
-    alternates: {
-      canonical: `${baseUrl}/${locale}/`, // Include trailing slash to match next.config trailingSlash: true
-      languages: hreflangAlternates,
-    },
-    openGraph: {
-      type: "website",
-      locale: localeMap[locale],
-      url: `${baseUrl}/${locale}/`, // Include trailing slash for consistency
-      siteName: siteNameMap[locale],
-      title,
-      description,
-      images: [
-        {
-          url: `${baseUrl}/images/hero.png`,
-          width: 1200,
-          height: 630,
-          alt: title,
-          type: "image/jpeg",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [`${baseUrl}/images/hero.png`],
-      creator: "@streampro",
-      site: "@streampro",
-    },
-    other: {
-      "og:image:secure_url": `${baseUrl}/images/hero.png`,
-      "og:image:type": "image/jpeg",
-      "og:image:width": "1200",
-      "og:image:height": "630",
-      "og:image:alt": title,
-      "article:author": "StreamPro",
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-    verification: {
-      // Add your verification codes here when available
-      // google: "your-google-verification-code",
-      // yandex: "your-yandex-verification-code",
-      // bing: "your-bing-verification-code",
-    },
-  };
+  return buildLocaleHomepageMetadata(locale);
 }
 
 export default async function LocaleLayout({

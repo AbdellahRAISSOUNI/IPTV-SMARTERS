@@ -5,8 +5,8 @@ import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { legalRefundSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
+import { buildSocialMetadata } from "@/lib/seo/social-metadata";
+import { getSiteBaseUrl } from "@/lib/seo/og-image";
 
 export async function generateMetadata({
   params,
@@ -23,6 +23,7 @@ export async function generateMetadata({
   }
 
   const locale = localeParam as Locale;
+  const baseUrl = getSiteBaseUrl();
 
   const titleMap: Record<Locale, string> = {
     en: "Refund Policy | StreamPro IPTV",
@@ -39,53 +40,22 @@ export async function generateMetadata({
   };
 
   const keywords = getRouteMetaKeywords(locale, "legal", legalRefundSeeds[locale]);
-
   const canonicalUrl = `${baseUrl}/${locale}/refund-policy/`;
   const languageAlternates = buildHreflangAlternatesForPaths(
     baseUrl,
     (loc) => `/${loc}/refund-policy/`
   );
 
-  const title = titleMap[locale];
-  const description = descriptionMap[locale];
-
-  return {
-    title,
-    description,
+  return buildSocialMetadata({
+    title: titleMap[locale],
+    description: descriptionMap[locale],
+    locale,
+    canonicalUrl,
     keywords,
-    metadataBase: new URL(baseUrl),
-    alternates: {
-      canonical: canonicalUrl,
-      languages: languageAlternates,
-    },
-    openGraph: {
-      type: "website",
-      locale: locale === "en" ? "en_US" : locale === "es" ? "es_ES" : "fr_FR",
-      url: canonicalUrl,
-      title,
-      description,
-      images: [
-        {
-          url: `${baseUrl}/images/hero.png`,
-          width: 1200,
-          height: 630,
-          alt: title,
-          type: "image/jpeg",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [`${baseUrl}/images/hero.png`],
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: { index: true, follow: true },
-    },
-  };
+    type: "website",
+    languageAlternates,
+    useGeneratedOgImage: true,
+  });
 }
 
 export default async function RefundPolicyLayout({
@@ -100,20 +70,24 @@ export default async function RefundPolicyLayout({
     return <>{children}</>;
   }
   const locale = localeParam as Locale;
+  const baseUrl = getSiteBaseUrl();
+
   const titleMap: Record<Locale, string> = {
     en: "Refund Policy | StreamPro IPTV",
     ca: "Refund Policy | StreamPro IPTV",
     es: "Política de Reembolso | StreamPro IPTV",
     fr: "Politique de Remboursement | StreamPro IPTV",
   };
+
   const descriptionMap: Record<Locale, string> = {
     en: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
     ca: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
     es: "Consulta la política de reembolso de StreamPro IPTV, incluyendo elegibilidad, plazos y cómo solicitar un reembolso de tu suscripción IPTV.",
     fr: "Consultez la politique de remboursement de StreamPro IPTV, y découvrez l’éligibilité, les délais et comment demander un remboursement pour votre abonnement IPTV.",
   };
-  const canonicalUrl = `${baseUrl}/${locale}/refund-policy/`;
+
   const keywords = getRouteMetaKeywords(locale, "legal", legalRefundSeeds[locale]);
+  const canonicalUrl = `${baseUrl}/${locale}/refund-policy/`;
 
   return (
     <>
@@ -129,4 +103,3 @@ export default async function RefundPolicyLayout({
     </>
   );
 }
-

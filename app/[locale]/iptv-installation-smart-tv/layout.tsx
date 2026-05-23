@@ -1,5 +1,6 @@
-import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
 import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
+import { buildSocialMetadata } from "@/lib/seo/social-metadata";
+import { getSiteBaseUrl } from "@/lib/seo/og-image";
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
@@ -15,7 +16,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
+  const baseUrl = getSiteBaseUrl();
 
   if (!locales.includes(locale)) {
     return {
@@ -30,10 +31,6 @@ export async function generateMetadata({
 
   const keywords = getRouteMetaKeywords(locale, "smartTv", smartTvInstallationSeeds[locale]);
 
-  const localeMap = openGraphLocaleMap;
-
-  const ogImage = `${baseUrl}/images/hero.png`;
-
   const currentUrl = getInstallationUrl("iptv-installation-smart-tv", locale);
   const canonicalUrl = `${baseUrl}${currentUrl}`;
 
@@ -41,60 +38,16 @@ export async function generateMetadata({
     getInstallationUrl("iptv-installation-smart-tv", loc)
   );
 
-  return {
+  return buildSocialMetadata({
     title,
     description,
+    locale,
+    canonicalUrl,
     keywords,
-    metadataBase: new URL(baseUrl),
-    alternates: {
-      canonical: canonicalUrl,
-      languages: languageAlternates,
-    },
-    openGraph: {
-      type: "article",
-      locale: localeMap[locale],
-      url: canonicalUrl,
-      siteName: siteNameMap[locale],
-      title,
-      description,
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: title,
-          type: "image/jpeg",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogImage],
-      creator: "@streampro",
-      site: "@streampro",
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-    other: {
-      "og:image:secure_url": ogImage,
-      "og:image:type": "image/jpeg",
-      "og:image:width": "1200",
-      "og:image:height": "630",
-      "og:image:alt": title,
-      "article:author": "StreamPro",
-    },
-  };
+    type: "article",
+    languageAlternates,
+    useGeneratedOgImage: true,
+  });
 }
 
 export default async function SmartTvInstallationLayout({

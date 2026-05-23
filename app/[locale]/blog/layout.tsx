@@ -5,12 +5,9 @@ import { getBlogMetadata } from "@/lib/utils/metadata-loader";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { blogListingSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
-import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
 import { buildHomepageHreflangAlternates } from "@/lib/seo/hreflang";
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
-
-const localeMap = openGraphLocaleMap;
+import { buildSocialMetadata } from "@/lib/seo/social-metadata";
+import { getSiteBaseUrl } from "@/lib/seo/og-image";
 
 export async function generateMetadata({
   params,
@@ -18,68 +15,23 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  
-  // Load metadata from file
-  // Use the "blog" metadata for the /blog route itself.
-  // The listing component uses separate "blogListing" metadata for listing context and schema.
+  const baseUrl = getSiteBaseUrl();
+
   const pageMetadata = await getBlogMetadata(locale);
   const title = pageMetadata.title;
   const description = pageMetadata.description;
   const keywords = getRouteMetaKeywords(locale, "blog", blogListingSeeds[locale]);
 
-  return {
+  return buildSocialMetadata({
     title,
     description,
+    locale,
+    canonicalUrl: `${baseUrl}/${locale}/blog/`,
     keywords,
-    metadataBase: new URL(baseUrl),
-    alternates: {
-      canonical: `${baseUrl}/${locale}/blog/`, // Include trailing slash for consistency
-      languages: buildHomepageHreflangAlternates(baseUrl, "/blog/"),
-    },
-    openGraph: {
-      type: "website",
-      locale: localeMap[locale],
-      url: `${baseUrl}/${locale}/blog/`, // Include trailing slash for consistency
-      siteName: siteNameMap[locale],
-      title,
-      description,
-      images: [
-        {
-          url: `${baseUrl}/images/hero.png`,
-          width: 1200,
-          height: 630,
-          alt: title,
-          type: "image/jpeg",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [`${baseUrl}/images/hero.png`],
-      creator: "@streampro",
-      site: "@streampro",
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-    other: {
-      "og:image:secure_url": `${baseUrl}/images/hero.png`,
-      "og:image:type": "image/jpeg",
-      "og:image:width": "1200",
-      "og:image:height": "630",
-      "og:image:alt": title,
-    },
-  };
+    type: "website",
+    languageAlternates: buildHomepageHreflangAlternates(baseUrl, "/blog/"),
+    useGeneratedOgImage: true,
+  });
 }
 
 export default async function BlogLayout({
@@ -95,6 +47,7 @@ export default async function BlogLayout({
   }
   const locale = localeParam as Locale;
   const pageMetadata = await getBlogMetadata(locale);
+  const baseUrl = getSiteBaseUrl();
   const canonicalUrl = `${baseUrl}/${locale}/blog/`;
   const keywords = getRouteMetaKeywords(locale, "blog", blogListingSeeds[locale]);
 

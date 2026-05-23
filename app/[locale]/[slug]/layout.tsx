@@ -1,4 +1,5 @@
-import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
+import { buildSocialMetadata } from "@/lib/seo/social-metadata";
+import { getSiteBaseUrl } from "@/lib/seo/og-image";
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import {
@@ -82,7 +83,7 @@ export async function generateMetadata({
   }
   const locale = localeParam as Locale;
   
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.pro-iptvsmarters.com';
+  const baseUrl = getSiteBaseUrl();
   
   // Check if this is a localized installation or reseller slug
   const englishSlug = getEnglishSlugFromLocalized(slug, locale);
@@ -190,56 +191,16 @@ export async function generateMetadata({
     keywords = getRouteMetaKeywords(locale, seoCfg.profile, seoCfg.seeds[locale]);
   }
 
-  const localeMap = openGraphLocaleMap;
-
-  const ogImage = `${baseUrl}/images/hero.png`;
-  
-  return {
+  return buildSocialMetadata({
     title,
     description,
+    locale,
+    canonicalUrl,
     keywords: keywords.length > 0 ? keywords : undefined,
-    metadataBase: new URL(baseUrl),
-    alternates: {
-      canonical: canonicalUrl,
-      languages: languageAlternates,
-    },
-    openGraph: {
-      type: 'article',
-      locale: localeMap[locale],
-      url: canonicalUrl,
-      siteName: siteNameMap[locale],
-      title,
-      description,
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: title,
-          type: 'image/jpeg',
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [ogImage],
-      creator: '@streampro',
-      site: '@streampro',
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
-  };
+    type: "article",
+    languageAlternates,
+    useGeneratedOgImage: true,
+  });
 }
 
 export default async function InstallationSlugLayout({
@@ -268,7 +229,7 @@ export default async function InstallationSlugLayout({
     return <>{children}</>;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.pro-iptvsmarters.com';
+  const baseUrl = getSiteBaseUrl();
   const currentUrl = isInstallationSlug(englishSlug)
     ? getInstallationUrl(englishSlug, locale)
     : isResellerSlug(englishSlug)

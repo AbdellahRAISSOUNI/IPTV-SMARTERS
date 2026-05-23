@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
-import { locales } from "@/lib/i18n";
 import { getBlogBySlug } from "@/lib/admin/blog";
 import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import { getPublishedLocales } from "@/lib/admin/blog-locales";
-import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
 import { buildHreflangAlternates } from "@/lib/seo/hreflang";
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
-
-const localeMap = openGraphLocaleMap;
+import { buildSocialMetadata } from "@/lib/seo/social-metadata";
+import { getSiteBaseUrl } from "@/lib/seo/og-image";
 
 function toKeywordArray(value: unknown): string[] {
   if (Array.isArray(value)) {
@@ -31,39 +27,17 @@ function toValidIsoOrUndefined(value: unknown): string | undefined {
   return parsed.toISOString();
 }
 
-function getSafeMetadataBase(): URL | undefined {
-  try {
-    return new URL(baseUrl);
-  } catch {
-    return undefined;
-  }
-}
-
-function getSafeImageUrl(value: string | undefined): string {
-  if (!value || value.startsWith("blob:")) return `${baseUrl}/images/hero.png`;
-  if (value.startsWith("/")) return `${baseUrl}${value}`;
-  try {
-    const parsed = new URL(value);
-    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-      return value;
-    }
-  } catch {
-    // Ignore and fallback below.
-  }
-  return `${baseUrl}/images/hero.png`;
-}
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: Locale; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  
+  const baseUrl = getSiteBaseUrl();
+
   try {
-    // Pass locale to getBlogBySlug to ensure correct blog is found
     const blog = await getBlogBySlug(slug, locale);
-    
+
     if (!blog || !isBlogAvailableInLocale(blog, locale)) {
       return getDefaultMetadata(locale, slug);
     }
@@ -73,8 +47,6 @@ export async function generateMetadata({
     const excerptLocale = (blog.excerpt[locale] || "").trim();
     const description =
       metaDesc || excerptLocale || "Read our latest blog post about IPTV services.";
-    const image = getSafeImageUrl(blog.featuredImage);
-
     const publishedTime = toValidIsoOrUndefined(blog.publishedAt);
     const modifiedTime = toValidIsoOrUndefined(blog.updatedAt);
     const keywordList = toKeywordArray(blog.meta?.keywords?.[locale]);
@@ -100,117 +72,36 @@ export async function generateMetadata({
     const canonicalPath = getBlogUrl(blog, locale);
     const canonicalUrl = `${baseUrl}${canonicalPath}`;
 
-    return {
+    return buildSocialMetadata({
       title: `${title} | StreamPro`,
       description,
+      locale,
+      canonicalUrl,
+      image: blog.featuredImage,
+      imageAlt: title,
       keywords: keywordList,
-      metadataBase: getSafeMetadataBase(),
-      alternates: {
-        canonical: canonicalUrl,
-        languages: languageAlternates,
-      },
-      openGraph: {
-        type: "article",
-        locale: localeMap[locale],
-        url: canonicalUrl,
-        siteName: siteNameMap[locale],
-        title: `${title} | StreamPro`,
-        description,
-        images: [
-          {
-            url: image,
-            width: 1200,
-            height: 630,
-            alt: title,
-            type: "image/jpeg",
-          },
-        ],
-        publishedTime,
-        modifiedTime,
-        authors: ["StreamPro"],
-        section: "IPTV Blog",
-        tags: keywordList,
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: `${title} | StreamPro`,
-        description,
-        images: [image],
-        creator: "@streampro",
-        site: "@streampro",
-      },
-      robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          "max-video-preview": -1,
-          "max-image-preview": "large",
-          "max-snippet": -1,
-        },
-      },
-      other: {
-        "og:image:secure_url": image,
-        "og:image:type": "image/jpeg",
-        "og:image:width": "1200",
-        "og:image:height": "630",
-        "og:image:alt": title,
-        "article:author": "StreamPro",
-        ...(publishedTime ? { "article:published_time": publishedTime } : {}),
-        ...(modifiedTime ? { "article:modified_time": modifiedTime } : {}),
-      },
-    };
+      type: "article",
+      languageAlternates,
+      publishedTime,
+      modifiedTime,
+      tags: keywordList,
+      section: "IPTV Blog",
+    });
   } catch {
     return getDefaultMetadata(locale, slug);
   }
 }
 
 function getDefaultMetadata(locale: Locale, slug: string): Metadata {
-  const title = "Blog Post | StreamPro";
-  const description = "Read our latest blog post about IPTV services.";
-  
-  return {
-    title,
-    description,
-    metadataBase: getSafeMetadataBase(),
-    alternates: {
-      canonical: `${baseUrl}/${locale}/blog/${slug}/`, // Include trailing slash for consistency
-    },
-    openGraph: {
-      type: "article",
-      locale: localeMap[locale],
-      url: `${baseUrl}/${locale}/blog/${slug}/`, // Include trailing slash for consistency
-      siteName: siteNameMap[locale],
-      title,
-      description,
-      images: [
-        {
-          url: `${baseUrl}/images/hero.png`,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [`${baseUrl}/images/hero.png`],
-    },
-    robots: {
-      index: true, // Ensure blog pages are always indexable
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-  };
+  const baseUrl = getSiteBaseUrl();
+  return buildSocialMetadata({
+    title: "Blog Post | StreamPro",
+    description: "Read our latest blog post about IPTV services.",
+    locale,
+    canonicalUrl: `${baseUrl}/${locale}/blog/${slug}/`,
+    type: "article",
+    useGeneratedOgImage: true,
+  });
 }
 
 export default function BlogPostLayout({
