@@ -29,8 +29,9 @@ function applyTranslationEdit(
 
 describe("Canada vs other locales — translation files", () => {
   it("homepage pricing in ca.json is independent from en.json", () => {
-    expect(ca.pricing.plan12MonthsPrice).toContain("CAD");
-    expect(en.pricing.plan12MonthsPrice).not.toContain("CAD");
+    expect(ca.pricing.plan12MonthsPrice).toMatch(/\$CA/i);
+    expect(ca.pricing.plan12MonthsPrice).toBe("79 $CA");
+    expect(en.pricing.plan12MonthsPrice).not.toMatch(/\$CA/i);
     expect(ca.pricing.plan12MonthsPrice).not.toBe(en.pricing.plan12MonthsPrice);
   });
 
@@ -45,10 +46,10 @@ describe("Canada vs other locales — translation files", () => {
     const caContent = JSON.parse(JSON.stringify(ca)) as Record<string, unknown>;
     const enBefore = (enContent.pricing as { plan3MonthsPrice: string }).plan3MonthsPrice;
 
-    applyTranslationEdit(caContent, "pricing.plan3MonthsPrice", "$88.88 CAD");
+    applyTranslationEdit(caContent, "pricing.plan3MonthsPrice", "35 $CA");
 
     expect((caContent.pricing as { plan3MonthsPrice: string }).plan3MonthsPrice).toBe(
-      "$88.88 CAD"
+      "35 $CA"
     );
     expect((enContent.pricing as { plan3MonthsPrice: string }).plan3MonthsPrice).toBe(
       enBefore

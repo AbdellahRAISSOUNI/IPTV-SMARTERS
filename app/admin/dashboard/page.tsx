@@ -35,6 +35,7 @@ import {
 import { translations as defaultTranslations } from "@/lib/i18n";
 import BlogsManager from "@/components/admin/BlogsManager";
 import DeploymentNotification from "@/components/admin/DeploymentNotification";
+import { AdminHeroPreview, AdminPricingPreview } from "@/components/admin/AdminLocalePreview";
 
 interface Translations {
   [locale: string]: {
@@ -142,6 +143,12 @@ export default function AdminDashboard() {
   const [showPreview, setShowPreview] = useState(false);
   const [showDeploymentNotification, setShowDeploymentNotification] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (activeLocale === "ca") {
+      setShowPreview(true);
+    }
+  }, [activeLocale]);
 
   // Verify authentication
   useEffect(() => {
@@ -346,10 +353,17 @@ export default function AdminDashboard() {
   const updateValue = (path: string, value: string | boolean) => {
     const keys = path.split(".");
     const newTranslations = { ...translations };
-    let current: any = newTranslations[activeLocale].content;
+    let current: Record<string, unknown> = newTranslations[activeLocale].content as Record<
+      string,
+      unknown
+    >;
 
     for (let i = 0; i < keys.length - 1; i++) {
-      current = current[keys[i]];
+      const key = keys[i];
+      if (!current[key] || typeof current[key] !== "object") {
+        current[key] = {};
+      }
+      current = current[key] as Record<string, unknown>;
     }
 
     current[keys[keys.length - 1]] = value;
@@ -438,13 +452,13 @@ export default function AdminDashboard() {
   const currentContent = translations[activeLocale]?.content;
   const pricePlaceholder =
     activeLocale === "ca"
-      ? "$29 CA"
+      ? "29 $CA"
       : activeLocale === "en"
         ? "$19.99"
         : "€19.99";
   const premiumPricePlaceholder =
     activeLocale === "ca"
-      ? "$39 CA"
+      ? "39 $CA"
       : activeLocale === "en"
         ? "$29.99"
         : "€29.99";
@@ -773,20 +787,8 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    {/* Preview */}
-                    {showPreview && (
-                      <div className="bg-white rounded-xl border border-gray-200 p-6">
-                        <p className="text-xs text-gray-500 mb-4 uppercase tracking-wide">Preview</p>
-                        <h1 className="text-4xl font-bold text-black mb-3">
-                          <span className="underline decoration-blue-600">{getValue("hero.title")}</span>
-                          <br />
-                          <span className="mt-2 block">
-                            {getValue("hero.subtitlePart1")}{" "}
-                            <span className="text-blue-600">{getValue("hero.subtitlePart2")}</span>
-                          </span>
-                        </h1>
-                        <p className="text-gray-600 leading-relaxed">{getValue("hero.description")}</p>
-                      </div>
+                    {(showPreview || activeLocale === "ca") && (
+                      <AdminHeroPreview locale={activeLocale} getValue={getValue} />
                     )}
                   </div>
                 )}
@@ -799,9 +801,19 @@ export default function AdminDashboard() {
                         <strong>Canada (CA)</strong> pricing is stored in{" "}
                         <code className="text-xs bg-white/80 px-1 rounded">ca.json</code> only — independent
                         from EN, ES, and FR. Change plan prices here; they appear on{" "}
-                        <code className="text-xs bg-white/80 px-1 rounded">/ca/#pricing</code> in CAD.
+                        <code className="text-xs bg-white/80 px-1 rounded">/ca/#pricing</code> exactly as
+                        in the preview below. Use format <strong>29 $CA</strong> (amount, space, $CA).
                       </div>
                     )}
+
+                    {activeLocale === "ca" && (
+                      <AdminPricingPreview
+                        locale={activeLocale}
+                        getValue={getValue}
+                        getBoolValue={getBoolValue}
+                      />
+                    )}
+
                     {/* Section Settings */}
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
                       <h2 className="text-2xl font-medium text-black mb-1">Pricing Section</h2>
@@ -934,12 +946,19 @@ export default function AdminDashboard() {
                               onChange={(e) => updateValue("pricing.plan3Months", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                             />
+                            <p className="text-xs text-red-800/90 mb-1">
+                              Shown on cards as: <strong>{getValue("pricing.plan3MonthsPrice") || pricePlaceholder}</strong>
+                            </p>
                             <input
                               type="text"
                               placeholder={`Price (e.g., ${pricePlaceholder})`}
                               value={getValue("pricing.plan3MonthsPrice")}
                               onChange={(e) => updateValue("pricing.plan3MonthsPrice", e.target.value)}
-                              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                              className={`w-full px-3 py-2 bg-white border rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 ${
+                                activeLocale === "ca"
+                                  ? "border-red-200 focus:ring-red-600"
+                                  : "border-gray-300 focus:ring-black"
+                              }`}
                             />
                             <div className="text-xs text-gray-500 space-y-1">
                               <p>✓ {getValue("pricing.instantActivation") || "Instant Activation"}</p>
@@ -1393,126 +1412,12 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    {/* Live Preview */}
-                    {showPreview && (
-                      <div className="bg-white rounded-xl border border-gray-200 p-6">
-                        <p className="text-xs text-gray-500 mb-4 uppercase tracking-wide">Live Preview</p>
-                        
-                        {/* Standard Plans Preview */}
-                        <div className="mb-8">
-                          <div className="flex justify-center mb-6">
-                            <div className="relative px-6 py-2.5 rounded-lg border-2 border-gray-300 bg-gray-100">
-                              <div className="absolute inset-0 bg-blue-600 rounded-lg"></div>
-                              <span className="relative z-10 font-semibold text-sm text-white uppercase">
-                                {getValue("pricing.oneConnection")}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-4 gap-4">
-                            {[
-                              { name: "3 Months", price: "€19.99", popular: false },
-                              { name: "6 Months", price: "€29.99", popular: false },
-                              { name: "12 Months", price: "€39.99", popular: true },
-                              { name: "24 Months", price: "€54.99", popular: false }
-                            ].map((plan, i) => (
-                              <div key={i} className={`border-2 rounded-xl p-4 ${
-                                plan.popular ? 'border-blue-600 bg-blue-50 shadow-lg' : 'border-gray-200 bg-white'
-                              }`}>
-                                {plan.popular && (
-                                  <div className="text-center mb-2">
-                                    <span className="inline-block text-xs bg-blue-600 text-white px-3 py-1 rounded-full font-semibold">
-                                      POPULAR
-                                    </span>
-                                  </div>
-                                )}
-                                <h3 className="font-bold text-gray-900 mb-2 text-center">{plan.name}</h3>
-                                <div className="text-center mb-3">
-                                  <span className="text-2xl font-bold text-gray-900">{plan.price}</span>
-                                </div>
-                                <div className="space-y-1.5 text-xs">
-                                  <p className="flex items-center gap-1.5">
-                                    <span className="text-blue-600">✓</span>
-                                    <span>{getValue("pricing.instantActivation")}</span>
-                                  </p>
-                                  <p className="flex items-center gap-1.5">
-                                    <span className="text-blue-600">✓</span>
-                                    <span>{getValue("pricing.liveChannels")}</span>
-                                  </p>
-                                  <p className="flex items-center gap-1.5">
-                                    <span className="text-blue-600">✓</span>
-                                    <span>{getValue("pricing.quality")}</span>
-                                  </p>
-                                </div>
-                                <button className={`w-full mt-4 py-2 rounded-lg font-semibold text-sm ${
-                                  plan.popular 
-                                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                                    : 'bg-gray-900 text-white hover:bg-gray-800'
-                                }`}>
-                                  Buy Now
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Premium Plans Preview */}
-                        <div>
-                          <div className="flex justify-center mb-6">
-                            <div className="relative px-6 py-2.5 rounded-lg border-2 border-gray-300 bg-gray-100">
-                              <div className="absolute inset-0 bg-blue-600 rounded-lg"></div>
-                              <span className="relative z-10 font-semibold text-sm text-white uppercase">
-                                {getValue("pricing.premiumPlansLabel") ||
-                                  "Premium Plans (Multiple Connections)"}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-4 gap-4">
-                            {[
-                              { name: "3 Months", price: "€29.99", popular: false },
-                              { name: "6 Months", price: "€39.99", popular: false },
-                              { name: "12 Months", price: "€59.99", popular: true },
-                              { name: "24 Months", price: "€89.99", popular: false }
-                            ].map((plan, i) => (
-                              <div key={i} className={`border-2 rounded-xl p-4 ${
-                                plan.popular ? 'border-blue-600 bg-blue-50 shadow-lg' : 'border-gray-200 bg-white'
-                              }`}>
-                                {plan.popular && (
-                                  <div className="text-center mb-2">
-                                    <span className="inline-block text-xs bg-blue-600 text-white px-3 py-1 rounded-full font-semibold">
-                                      POPULAR
-                                    </span>
-                                  </div>
-                                )}
-                                <h3 className="font-bold text-gray-900 mb-2 text-center">{plan.name}</h3>
-                                <div className="text-center mb-3">
-                                  <span className="text-2xl font-bold text-gray-900">{plan.price}</span>
-                                </div>
-                                <div className="space-y-1.5 text-xs">
-                                  <p className="flex items-center gap-1.5">
-                                    <span className="text-blue-600">✓</span>
-                                    <span>{getValue("pricing.adultContent")}</span>
-                                  </p>
-                                  <p className="flex items-center gap-1.5">
-                                    <span className="text-blue-600">✓</span>
-                                    <span>{getValue("pricing.liveChannels")}</span>
-                                  </p>
-                                  <p className="flex items-center gap-1.5">
-                                    <span className="text-blue-600">✓</span>
-                                    <span>{getValue("pricing.quality")}</span>
-                                  </p>
-                                </div>
-                                <button className={`w-full mt-4 py-2 rounded-lg font-semibold text-sm ${
-                                  plan.popular 
-                                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                                    : 'bg-gray-900 text-white hover:bg-gray-800'
-                                }`}>
-                                  Buy Now
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                    {(showPreview || activeLocale === "ca") && activeLocale !== "ca" && (
+                      <AdminPricingPreview
+                        locale={activeLocale}
+                        getValue={getValue}
+                        getBoolValue={getBoolValue}
+                      />
                     )}
                   </div>
                 )}
