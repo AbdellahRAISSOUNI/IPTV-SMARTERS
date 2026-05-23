@@ -31,6 +31,16 @@ const nextConfig: NextConfig = {
         hostname: "flagcdn.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.pro-iptvsmarters.com",
+        pathname: "/**",
+      },
     ],
   },
   // Performance optimizations
