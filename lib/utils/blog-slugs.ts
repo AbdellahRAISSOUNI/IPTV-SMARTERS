@@ -59,6 +59,7 @@ export function getAllBlogSlugs(blog: BlogPost): Record<Locale, string> {
   if (typeof blog.slug === 'string') {
     return {
       en: blog.slug,
+      ca: blog.slug,
       es: blog.slug,
       fr: blog.slug,
     };
@@ -68,6 +69,7 @@ export function getAllBlogSlugs(blog: BlogPost): Record<Locale, string> {
 
   return {
     en: String(slugRecord['en'] || '').trim(),
+    ca: String(slugRecord['ca'] || '').trim(),
     es: String(slugRecord['es'] || '').trim(),
     fr: String(slugRecord['fr'] || '').trim(),
   };

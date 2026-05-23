@@ -1,4 +1,5 @@
 import type { Locale } from '@/lib/i18n';
+import { locales } from '@/lib/i18n';
 
 /**
  * Installation page slug mappings
@@ -7,26 +8,31 @@ import type { Locale } from '@/lib/i18n';
 export const installationSlugMap: Record<string, Record<Locale, string>> = {
   'iptv-installation-guide': {
     en: 'iptv-installation-guide',
+    ca: 'iptv-installation-guide',
     es: 'guia-instalacion-iptv',
     fr: 'guide-installation-iptv',
   },
   'iptv-installation-ios': {
     en: 'iptv-installation-ios',
+    ca: 'iptv-installation-ios',
     es: 'instalacion-ios-iptv',
     fr: 'installation-ios-iptv',
   },
   'iptv-installation-windows': {
     en: 'iptv-installation-windows',
+    ca: 'iptv-installation-windows',
     es: 'instalacion-windows-iptv',
     fr: 'installation-windows-iptv',
   },
   'iptv-installation-smart-tv': {
     en: 'iptv-installation-smart-tv',
+    ca: 'iptv-installation-smart-tv',
     es: 'instalacion-smart-tv-iptv',
     fr: 'installation-smart-tv-iptv',
   },
   'iptv-installation-firestick': {
     en: 'iptv-installation-firestick',
+    ca: 'iptv-installation-firestick',
     es: 'instalacion-firestick-iptv',
     fr: 'installation-firestick-iptv',
   },
@@ -39,6 +45,7 @@ export const installationSlugMap: Record<string, Record<Locale, string>> = {
 export const resellerSlugMap: Record<string, Record<Locale, string>> = {
   'iptv-reseller-program': {
     en: 'iptv-reseller-program',
+    ca: 'iptv-reseller-program',
     es: 'programa-revendedor-iptv',
     fr: 'programme-revendeur-iptv',
   },
@@ -51,16 +58,19 @@ export const resellerSlugMap: Record<string, Record<Locale, string>> = {
 export const legalSlugMap: Record<string, Record<Locale, string>> = {
   'refund-policy': {
     en: 'refund-policy',
+    ca: 'refund-policy',
     es: 'politica-de-reembolso',
     fr: 'politique-de-remboursement',
   },
   'privacy-policy': {
     en: 'privacy-policy',
+    ca: 'privacy-policy',
     es: 'politica-de-privacidad',
     fr: 'politique-de-confidentialite',
   },
   'terms-of-service': {
     en: 'terms-of-service',
+    ca: 'terms-of-service',
     es: 'terminos-de-servicio',
     fr: 'conditions-utilisation',
   },
@@ -107,7 +117,7 @@ export function getEnglishSlugFromLocalized(localizedSlug: string, locale?: Loca
   
   // Fallback: check all locales for installation slugs
   for (const [englishSlug, mappings] of Object.entries(installationSlugMap)) {
-    for (const loc of ['en', 'es', 'fr'] as Locale[]) {
+    for (const loc of locales) {
       if (mappings[loc] === localizedSlug) {
         return englishSlug;
       }
@@ -116,7 +126,7 @@ export function getEnglishSlugFromLocalized(localizedSlug: string, locale?: Loca
 
   // Fallback: check all locales for reseller slugs
   for (const [englishSlug, mappings] of Object.entries(resellerSlugMap)) {
-    for (const loc of ['en', 'es', 'fr'] as Locale[]) {
+    for (const loc of locales) {
       if (mappings[loc] === localizedSlug) {
         return englishSlug;
       }
@@ -125,7 +135,7 @@ export function getEnglishSlugFromLocalized(localizedSlug: string, locale?: Loca
 
   // Fallback: check all locales for legal slugs
   for (const [englishSlug, mappings] of Object.entries(legalSlugMap)) {
-    for (const loc of ['en', 'es', 'fr'] as Locale[]) {
+    for (const loc of locales) {
       if (mappings[loc] === localizedSlug) {
         return englishSlug;
       }

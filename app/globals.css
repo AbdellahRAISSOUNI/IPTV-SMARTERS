@@ -32,6 +32,23 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Canada regional locale — subtle visual differentiation on /ca/ */
+[data-locale="ca"] {
+  --color-accent-blue: #c8102e;
+}
+
+[data-locale="ca"] .text-\[\#2563eb\] {
+  color: var(--color-accent-blue);
+}
+
+[data-locale="ca"] .bg-\[\#2563eb\] {
+  background-color: var(--color-accent-blue);
+}
+
+[data-locale="ca"] .decoration-\[\#2563eb\] {
+  text-decoration-color: var(--color-accent-blue);
+}
+
 /* Scroll margin for smooth anchor scrolling */
 section[id] {
   scroll-margin-top: 100px;

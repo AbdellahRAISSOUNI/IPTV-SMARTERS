@@ -1,10 +1,11 @@
 import en from './translations/en.json';
 import es from './translations/es.json';
 import fr from './translations/fr.json';
+import ca from './translations/ca.json';
 
-export type Locale = 'en' | 'es' | 'fr';
+export type Locale = 'en' | 'es' | 'fr' | 'ca';
 
-export const locales: Locale[] = ['en', 'es', 'fr'];
+export const locales: Locale[] = ['en', 'es', 'fr', 'ca'];
 
 export const defaultLocale: Locale = 'en';
 
@@ -12,6 +13,7 @@ export const translations = {
   en,
   es,
   fr,
+  ca,
 } as const;
 
 export type TranslationKey = keyof typeof en | string;
@@ -47,7 +49,7 @@ export const countryToLocale: Record<string, Locale> = {
   'FR': 'fr', // France
   'BE': 'fr', // Belgium
   'CH': 'fr', // Switzerland (French-speaking regions)
-  'CA': 'fr', // Canada (French-speaking regions)
+  'CA': 'ca', // Canada (English regional site)
   'LU': 'fr', // Luxembourg
   'MC': 'fr', // Monaco
   'SN': 'fr', // Senegal

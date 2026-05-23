@@ -31,7 +31,7 @@ export default function WhatsAppButton({
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Start free test on WhatsApp"
+      aria-label={t("whatsapp.ariaFreeTest")}
       className={`${baseStyles} ${
         variant === "primary" ? primaryStyles : secondaryStyles
       } ${className}`}

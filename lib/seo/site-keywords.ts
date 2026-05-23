@@ -76,6 +76,60 @@ export const CORE_SITE_KEYWORDS: Record<Locale, readonly string[]> = {
     "IPTV multi-device",
     "IPTV family plan",
     "IPTV USA",
+    "best IPTV USA",
+    "IPTV United States",
+    "IPTV subscription USA",
+    "IPTV service USA",
+    "premium IPTV USA",
+    "IPTV provider USA",
+    "IPTV Smarters Pro USA",
+    "American IPTV",
+    "IPTV for Americans",
+    "US IPTV service",
+    "USA IPTV subscription",
+    "IPTV plans USA",
+    "IPTV pricing USD",
+    "USD IPTV subscription",
+    "IPTV dollars",
+    "IPTV English USA",
+    "IPTV for US residents",
+    "IPTV Firestick USA",
+    "IPTV Smart TV USA",
+    "IPTV Android USA",
+    "IPTV iOS USA",
+    "IPTV Roku USA",
+    "IPTV Apple TV USA",
+    "live TV USA IPTV",
+    "sports IPTV USA",
+    "NFL IPTV streaming",
+    "NBA IPTV streaming",
+    "MLB IPTV streaming",
+    "NHL IPTV streaming",
+    "UFC PPV IPTV USA",
+    "IPTV New York",
+    "IPTV Los Angeles",
+    "IPTV Chicago",
+    "IPTV Houston",
+    "IPTV Miami",
+    "IPTV Dallas",
+    "IPTV Atlanta",
+    "IPTV Phoenix",
+    "IPTV Philadelphia",
+    "IPTV San Francisco",
+    "IPTV Seattle",
+    "IPTV Boston",
+    "IPTV Denver",
+    "IPTV Las Vegas",
+    "IPTV Austin",
+    "IPTV San Diego",
+    "IPTV Detroit",
+    "IPTV Orlando",
+    "IPTV Tampa",
+    "IPTV Charlotte",
+    "IPTV Nashville",
+    "IPTV Portland",
+    "IPTV Minneapolis",
+    "IPTV St Louis",
     "IPTV UK",
     "IPTV Canada",
     "IPTV worldwide",
@@ -93,6 +147,128 @@ export const CORE_SITE_KEYWORDS: Record<Locale, readonly string[]> = {
     "2026 FIFA World Cup",
     "FIFA World Cup 2026",
     "USA 2026 World Cup",
+    "World Cup 2026 streaming",
+    "watch World Cup on IPTV",
+    "IPTV World Cup 2026",
+    "soccer streaming IPTV",
+    "football matches streaming",
+    "World Cup live TV",
+    "World Cup on Firestick",
+    "World Cup on Smart TV",
+    "IPTV Smarters Pro World Cup",
+  ],
+  ca: [
+    "iptv canada",
+    "iptv quebec",
+    "iptv box",
+    "iptv from canada",
+    "best iptv",
+    "iptv with box",
+    "best canada iptv",
+    "iptv for canada",
+    "quebec iptv",
+    "best iptv canada",
+    "iptv subscription",
+    "iptv smarters pro subscription",
+    "subscription iptv",
+    "iptv smarters",
+    "best iptv service",
+    "IPTV",
+    "IPTV service",
+    "IPTV streaming",
+    "premium IPTV",
+    "IPTV provider",
+    "best IPTV",
+    "IPTV subscription service",
+    "IPTV subscription provider",
+    "IPTV subscription plans",
+    "IPTV subscription price",
+    "IPTV subscription cost",
+    "IPTV Smarters Pro",
+    "IPTV Smarters Pro subscription",
+    "IPTV Smarters Pro service",
+    "IPTV Smarters Pro codes",
+    "IPTV Smarters Pro account",
+    "IPTV Smarters Pro login",
+    "IPTV Smarters Pro app",
+    "IPTV Smarters Pro download",
+    "IPTV Smarters Pro Windows",
+    "IPTV Smarters Pro Android",
+    "IPTV Smarters Pro iOS",
+    "IPTV Smarters Pro Mac",
+    "IPTV Smarters Pro APK",
+    "streaming service",
+    "live TV streaming",
+    "4K IPTV",
+    "HD IPTV",
+    "FHD IPTV",
+    "IPTV 4K streaming",
+    "IPTV HD quality",
+    "IPTV free test",
+    "IPTV trial",
+    "free IPTV test",
+    "live TV channels",
+    "VOD streaming",
+    "video on demand",
+    "IPTV channels",
+    "IPTV movies",
+    "IPTV series",
+    "sports IPTV",
+    "IPTV sports channels",
+    "IPTV for Smart TV",
+    "IPTV for Android",
+    "IPTV for iOS",
+    "IPTV for Windows",
+    "IPTV for Mac",
+    "IPTV for Firestick",
+    "IPTV for Roku",
+    "IPTV for Apple TV",
+    "IPTV for MAG",
+    "IPTV for Enigma",
+    "M3U playlist",
+    "Xtream Codes",
+    "IPTV codes",
+    "IPTV credentials",
+    "IPTV account",
+    "IPTV server",
+    "IPTV reseller",
+    "IPTV panel",
+    "IPTV with EPG",
+    "IPTV catch up",
+    "IPTV recording",
+    "IPTV multi-screen",
+    "IPTV multi-device",
+    "IPTV family plan",
+    "IPTV Canada",
+    "IPTV Ontario",
+    "IPTV British Columbia",
+    "IPTV Alberta",
+    "IPTV Manitoba",
+    "IPTV CAD pricing",
+    "IPTV subscription Canada CAD",
+    "IPTV Toronto",
+    "IPTV Montreal",
+    "IPTV Vancouver",
+    "IPTV Calgary",
+    "IPTV Edmonton",
+    "IPTV Ottawa",
+    "IPTV Winnipeg",
+    "IPTV Halifax",
+    "IPTV worldwide",
+    "international IPTV",
+    "affordable IPTV",
+    "cheap IPTV",
+    "reliable IPTV",
+    "stable IPTV",
+    "IPTV without buffering",
+    "IPTV anti-freeze",
+    "IPTV 24/7 support",
+    "instant IPTV activation",
+    "IPTV setup guide",
+    "how to use IPTV",
+    "2026 FIFA World Cup",
+    "FIFA World Cup 2026",
+    "Canada 2026 World Cup",
     "World Cup 2026 streaming",
     "watch World Cup on IPTV",
     "IPTV World Cup 2026",
@@ -339,7 +515,126 @@ export const CORE_SITE_KEYWORDS: Record<Locale, readonly string[]> = {
 const corpus = keywordCorpus as Record<Locale, string[]>;
 
 /** Extra phrases merged into homepage meta from generated corpus (avoids multi-KB meta tags). */
-const META_EXTRA_FROM_CORPUS = 56;
+const META_EXTRA_FROM_CORPUS = 72;
+const META_EXTRA_CA_FROM_CORPUS = 180;
+
+const US_CITY_HINTS = [
+  "new york",
+  "los angeles",
+  "chicago",
+  "houston",
+  "phoenix",
+  "philadelphia",
+  "san antonio",
+  "san diego",
+  "dallas",
+  "austin",
+  "jacksonville",
+  "san jose",
+  "fort worth",
+  "columbus",
+  "charlotte",
+  "san francisco",
+  "indianapolis",
+  "seattle",
+  "denver",
+  "boston",
+  "detroit",
+  "nashville",
+  "portland",
+  "las vegas",
+  "miami",
+  "atlanta",
+  "orlando",
+  "tampa",
+  "minneapolis",
+  "st louis",
+  "kansas city",
+  "sacramento",
+  "raleigh",
+  "virginia beach",
+  "oakland",
+  "tucson",
+  "albuquerque",
+  "fresno",
+  "long beach",
+  "omaha",
+  "cleveland",
+  "pittsburgh",
+  "cincinnati",
+  "buffalo",
+  "richmond",
+  "hartford",
+];
+
+function isUsaFocusedKeyword(phrase: string): boolean {
+  const p = phrase.toLowerCase();
+  return (
+    p.includes("united states") ||
+    p.includes(" u.s.") ||
+    p.includes(" usa") ||
+    p.startsWith("usa ") ||
+    p.includes("american") ||
+    /\bus\b/.test(p) ||
+    p.includes("usd") ||
+    US_CITY_HINTS.some((city) => p.includes(city))
+  );
+}
+
+function isCanadaFocusedKeyword(phrase: string): boolean {
+  const p = phrase.toLowerCase();
+  return (
+    p.includes("canada") ||
+    p.includes("quebec") ||
+    p.includes("québec") ||
+    p.includes("ontario") ||
+    p.includes("toronto") ||
+    p.includes("montreal") ||
+    p.includes("montréal") ||
+    p.includes("vancouver") ||
+    p.includes("calgary") ||
+    p.includes("edmonton") ||
+    p.includes("ottawa") ||
+    p.includes("winnipeg") ||
+    p.includes("halifax") ||
+    p.includes("cad") ||
+    p.includes("british columbia") ||
+    p.includes("alberta")
+  );
+}
+
+function appendCorpusExtras(
+  core: string[],
+  seen: Set<string>,
+  list: readonly string[],
+  maxExtra: number,
+  prefer?: (phrase: string) => boolean
+): void {
+  let added = 0;
+
+  const tryAdd = (phrase: string) => {
+    if (added >= maxExtra) return false;
+    const n = phrase.toLowerCase().trim();
+    if (!n || seen.has(n)) return false;
+    seen.add(n);
+    core.push(phrase);
+    added += 1;
+    return true;
+  };
+
+  if (prefer) {
+    for (const phrase of list) {
+      if (added >= maxExtra) break;
+      if (!prefer(phrase)) continue;
+      tryAdd(phrase);
+    }
+  }
+
+  for (const phrase of list) {
+    if (added >= maxExtra) break;
+    tryAdd(phrase);
+  }
+}
 
 /**
  * Keywords for homepage `<meta name="keywords">`: core list plus a deduped slice of the corpus.
@@ -347,15 +642,16 @@ const META_EXTRA_FROM_CORPUS = 56;
 export function getHomepageKeywordList(locale: Locale): string[] {
   const core = [...CORE_SITE_KEYWORDS[locale]];
   const seen = new Set(core.map((k) => k.toLowerCase().trim()));
-  let added = 0;
-  for (const k of corpus[locale] ?? []) {
-    if (added >= META_EXTRA_FROM_CORPUS) break;
-    const n = k.toLowerCase().trim();
-    if (seen.has(n)) continue;
-    seen.add(n);
-    core.push(k);
-    added++;
-  }
+  const maxExtra = locale === "ca" ? META_EXTRA_CA_FROM_CORPUS : META_EXTRA_FROM_CORPUS;
+  const list = corpus[locale] ?? [];
+  const prefer =
+    locale === "en"
+      ? isUsaFocusedKeyword
+      : locale === "ca"
+        ? isCanadaFocusedKeyword
+        : undefined;
+
+  appendCorpusExtras(core, seen, list, maxExtra, prefer);
   return core;
 }
 

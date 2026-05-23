@@ -1,3 +1,5 @@
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
+import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { getResellerMetadata } from "@/lib/utils/metadata-loader";
@@ -22,17 +24,7 @@ export async function generateMetadata({
 
   const keywords = getRouteMetaKeywords(locale, "reseller", resellerSeeds[locale]);
 
-  const localeMap: Record<Locale, string> = {
-    en: "en_US",
-    es: "es_ES",
-    fr: "fr_FR",
-  };
-
-  const siteNameMap: Record<Locale, string> = {
-    en: "StreamPro - Premium IPTV Service",
-    es: "StreamPro - Servicio IPTV Premium",
-    fr: "StreamPro - Service IPTV Premium",
-  };
+  const localeMap = openGraphLocaleMap;
 
   const ogImage = `${baseUrl}/images/hero.png`;
   
@@ -40,12 +32,9 @@ export async function generateMetadata({
   const currentUrl = getResellerUrl("iptv-reseller-program", locale);
   const canonicalUrl = `${baseUrl}${currentUrl}`;
 
-  const languageAlternates: Record<string, string> = {};
-  locales.forEach((loc) => {
-    const altUrl = getResellerUrl("iptv-reseller-program", loc);
-    languageAlternates[loc] = `${baseUrl}${altUrl}`;
-  });
-  languageAlternates["x-default"] = `${baseUrl}${getResellerUrl("iptv-reseller-program", "en")}`;
+  const languageAlternates = buildHreflangAlternatesForPaths(baseUrl, (loc) =>
+    getResellerUrl("iptv-reseller-program", loc)
+  );
 
   return {
     title,

@@ -8,6 +8,7 @@ import {
 } from '@/lib/utils/installation-slugs';
 import { getAllBlogSlugs } from '@/lib/utils/blog-slugs';
 import { getPublishedLocales } from '@/lib/admin/blog-locales';
+import { buildHreflangAlternates, buildHomepageHreflangAlternates } from '@/lib/seo/hreflang';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour for fresh blog posts
@@ -66,10 +67,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const url = toAbsoluteUrl(localizedPath);
         if (!url) return;
 
-        const alternates: Record<string, string> = {};
+        const urlsByLocale: Partial<Record<Locale, string>> = {};
         locales.forEach((loc) => {
           const alt = toAbsoluteUrl(opts.pathForLocale(englishSlug, loc));
-          if (alt) alternates[loc] = alt;
+          if (alt) urlsByLocale[loc] = alt;
         });
 
         sitemapEntries.push({
@@ -78,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: 'weekly',
           priority: opts.priority(englishSlug),
           alternates: {
-            languages: alternates,
+            languages: buildHreflangAlternates(urlsByLocale),
           },
         });
       });
@@ -116,12 +117,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: route.changeFrequency,
         priority: route.priority,
         alternates: {
-          languages: Object.fromEntries(
-            locales.map((loc) => {
-              const altPathWithSlash = route.path === '' ? '/' : route.path.endsWith('/') ? route.path : `${route.path}/`;
-              return [loc, toAbsoluteUrl(`/${loc}${altPathWithSlash}`)];
-            })
-            .filter(([, v]) => Boolean(v)) as [string, string][]
+          languages: buildHomepageHreflangAlternates(
+            baseUrl,
+            route.path === "" ? "/" : route.path.endsWith("/") ? route.path : `${route.path}/`
           ),
         },
       });
@@ -139,13 +137,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
       
       // Generate alternates map for all valid locales
-      const alternates: Record<string, string> = {};
+      const urlsByLocale: Partial<Record<Locale, string>> = {};
       finalLocales.forEach((loc) => {
         const altBlogUrl = getSafeBlogPath(blog, loc);
         if (!altBlogUrl) return;
         const absoluteAlt = toAbsoluteUrl(altBlogUrl);
-        if (absoluteAlt) alternates[loc] = absoluteAlt;
+        if (absoluteAlt) urlsByLocale[loc] = absoluteAlt;
       });
+      const hreflangLanguages = buildHreflangAlternates(urlsByLocale);
       
       // Add sitemap entry for each valid locale
       finalLocales.forEach((blogLocale) => {
@@ -160,7 +159,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: 'weekly',
           priority: 0.7,
           alternates: {
-            languages: alternates,
+            languages: hreflangLanguages,
           },
         });
       });

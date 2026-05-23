@@ -6,6 +6,7 @@ import { Mail, MessageCircle, ArrowRight, Globe } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { locales, type Locale } from "@/lib/i18n";
+import { regionDisplayNames } from "@/lib/i18n/locale-maps";
 import { getLegalUrl, getInstallationUrl } from "@/lib/utils/installation-slugs";
 import {
   GOOGLE_PLAY_STORE_URL,
@@ -16,6 +17,7 @@ import {
 import { getContactEmailForLocale } from "@/lib/utils/contact-email";
 import { usePathname } from "next/navigation";
 import KeywordHubSection from "@/components/KeywordHubSection";
+import CanadaKeywordCloudSection from "@/components/CanadaKeywordCloudSection";
 
 const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
   e.preventDefault();
@@ -40,11 +42,7 @@ export default function Footer() {
 
   const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
-  const languageNames: Record<Locale, string> = {
-    en: "English",
-    es: "Español",
-    fr: "Français",
-  };
+  const languageNames = regionDisplayNames;
 
   const quickLinks = isHomePage
     ? [
@@ -74,6 +72,7 @@ export default function Footer() {
   return (
     <>
       <KeywordHubSection />
+      <CanadaKeywordCloudSection />
     <footer className="relative bg-[#0f172a] text-white overflow-hidden border-t border-white/5">
       {/* Modern gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a]/50 via-transparent to-[#1e3a8a]/30 pointer-events-none" />

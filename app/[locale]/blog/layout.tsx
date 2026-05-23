@@ -5,20 +5,12 @@ import { getBlogMetadata } from "@/lib/utils/metadata-loader";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { blogListingSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
+import { buildHomepageHreflangAlternates } from "@/lib/seo/hreflang";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
-const localeMap: Record<Locale, string> = {
-  en: "en_US",
-  es: "es_ES",
-  fr: "fr_FR",
-};
-
-const siteNameMap: Record<Locale, string> = {
-  en: "StreamPro - Premium IPTV Service",
-  es: "StreamPro - Servicio IPTV Premium",
-  fr: "StreamPro - Service IPTV Premium",
-};
+const localeMap = openGraphLocaleMap;
 
 export async function generateMetadata({
   params,
@@ -42,12 +34,7 @@ export async function generateMetadata({
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `${baseUrl}/${locale}/blog/`, // Include trailing slash for consistency
-      languages: {
-        en: `${baseUrl}/en/blog/`,
-        es: `${baseUrl}/es/blog/`,
-        fr: `${baseUrl}/fr/blog/`,
-        "x-default": `${baseUrl}/en/blog/`,
-      },
+      languages: buildHomepageHreflangAlternates(baseUrl, "/blog/"),
     },
     openGraph: {
       type: "website",

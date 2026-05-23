@@ -8,111 +8,253 @@ import {
   OFFICIAL_IBO_PLAYER_URL,
   OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
 } from "@/lib/constants/official-player-links";
+import { PRIORITY_CANADA_KEYWORDS } from "@/lib/seo/canada-hub";
+
+function HeroImage({
+  mobile,
+  variant = "default",
+  className = "",
+}: {
+  mobile: boolean;
+  variant?: "default" | "canadaSticky";
+  className?: string;
+}) {
+  const variantClass =
+    variant === "canadaSticky"
+      ? "aspect-[4/3] sm:aspect-[3/2] max-h-[230px] sm:max-h-[275px] lg:max-h-[min(400px,70vh)] lg:aspect-[5/4] xl:aspect-[4/3] lg:min-h-[280px]"
+      : "aspect-[16/10] sm:aspect-[5/4] max-h-[200px] sm:max-h-[260px] lg:max-h-none lg:aspect-[4/5] lg:min-h-[320px] xl:min-h-[380px]";
+
+  return (
+    <div className={`relative w-full ${variantClass} ${className}`}>
+      <Image
+        src="/images/hero.png"
+        alt="IPTV on TV, laptop, tablet and phone"
+        fill
+        className="object-contain object-center"
+        priority={!mobile}
+        fetchPriority={mobile ? "low" : "high"}
+        sizes="(max-width: 1024px) 90vw, 40vw"
+        quality={mobile ? 24 : 50}
+        loading={mobile ? "lazy" : "eager"}
+        decoding="async"
+      />
+    </div>
+  );
+}
+
+function DefaultHeroDescription() {
+  const { t } = useLanguage();
+
+  return (
+    <div className="text-sm sm:text-base text-[#1a1a1a]/80 leading-relaxed space-y-2.5 text-left">
+      <p>
+        {t("hero.description")}{" "}
+        <a href="#pricing" className="text-[#2563eb] hover:underline font-medium">
+          {t("hero.channelsLink")}
+        </a>
+        {t("hero.description2")}{" "}
+        <span className="font-medium text-[#1a1a1a]/90">
+          <a
+            href={OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#2563eb] hover:underline"
+          >
+            {t("hero.officialSmartersLinkText")}
+          </a>
+          {", "}
+          <a
+            href={OFFICIAL_IBO_PLAYER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#2563eb] hover:underline"
+          >
+            {t("hero.officialIboLinkText")}
+          </a>
+        </span>
+      </p>
+      <p>
+        {t("hero.description3")}{" "}
+        <a href="#features" className="text-[#2563eb] hover:underline font-medium">
+          {t("hero.m3uLink")}
+        </a>
+        {t("hero.description4")}{" "}
+        <span className="font-semibold text-[#1a1a1a]">{t("hero.freeTest")}</span>{" "}
+        {t("hero.description5")}
+      </p>
+    </div>
+  );
+}
+
+function CanadaHeroKeywords() {
+  return (
+    <p
+      className="text-[11px] leading-relaxed text-neutral-400 break-words"
+      aria-label="IPTV Canada search topics"
+    >
+      {PRIORITY_CANADA_KEYWORDS.map((kw, index) => (
+        <span key={kw}>
+          {index > 0 ? <span className="text-neutral-300"> · </span> : null}
+          <a href="#pricing" className="hover:text-neutral-700 hover:underline underline-offset-2">
+            {kw}
+          </a>
+        </span>
+      ))}
+    </p>
+  );
+}
+
+function CanadaHeroContent({
+  onViewPlans,
+}: {
+  onViewPlans: (e: { preventDefault: () => void }) => void;
+}) {
+  const { t } = useLanguage();
+
+  return (
+    <div className="relative z-10 flex flex-col gap-5 sm:gap-6 min-w-0 w-full text-left">
+      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-red-800/90">
+        {t("hero.eyebrow")}
+      </p>
+
+      <div className="space-y-2.5 sm:space-y-3">
+        <h1 className="text-[1.75rem] sm:text-4xl lg:text-[2.65rem] xl:text-[3rem] font-bold text-neutral-900 leading-[1.12] tracking-tight max-w-xl">
+          {t("hero.title")}
+        </h1>
+        <p className="text-base sm:text-lg lg:text-xl font-medium text-neutral-600 leading-snug max-w-lg">
+          {t("hero.subtitlePart1")}{" "}
+          <span className="text-[#2563eb]">{t("hero.subtitlePart2")}</span>
+        </p>
+      </div>
+
+      <p className="text-[0.9375rem] sm:text-base text-neutral-600 leading-relaxed max-w-lg">
+        {t("hero.lead")}{" "}
+        <a href="#pricing" className="font-medium text-[#2563eb] hover:underline">
+          {t("hero.channelsLink")}
+        </a>
+        {t("hero.lead2")}{" "}
+        <a
+          href={OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-medium text-[#2563eb] hover:underline"
+        >
+          {t("hero.officialSmartersLinkText")}
+        </a>
+        {t("hero.lead3")}{" "}
+        <a
+          href={OFFICIAL_IBO_PLAYER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-medium text-[#2563eb] hover:underline"
+        >
+          {t("hero.officialIboLinkText")}
+        </a>
+        {t("hero.lead4")}{" "}
+        <a href="#features" className="font-medium text-[#2563eb] hover:underline">
+          {t("hero.m3uLink")}
+        </a>
+        {t("hero.lead5")}
+      </p>
+
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-0.5">
+        <a
+          href="#pricing"
+          onClick={onViewPlans}
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#2563eb] text-white font-semibold rounded-lg hover:bg-[#1d4ed8] transition-colors text-sm sm:text-base w-full sm:w-auto"
+        >
+          {t("hero.cta")}
+          <ArrowRight className="w-4 h-4 shrink-0" />
+        </a>
+        <span className="text-xs sm:text-sm text-neutral-500">{t("hero.ctaNote")}</span>
+      </div>
+
+      <div className="pt-4 mt-1 border-t border-neutral-100 max-w-lg">
+        <CanadaHeroKeywords />
+      </div>
+    </div>
+  );
+}
 
 export default function HeroSection() {
-  const { t } = useLanguage();
-  const mobile = typeof window !== 'undefined' ? isMobile() : false;
+  const { t, locale } = useLanguage();
+  const mobile = typeof window !== "undefined" ? isMobile() : false;
+  const isCa = locale === "ca";
+
+  const scrollToPricing = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const element = document.querySelector("#pricing");
+    if (element) {
+      const headerHeight = 80;
+      const offsetPosition =
+        element.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+    }
+  };
+
+  if (isCa) {
+    return (
+      <section id="home" className="relative overflow-visible bg-white pt-20 pb-8 sm:pt-24 lg:pt-20 lg:pb-12">
+        <div className="max-w-7xl xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_48%] lg:gap-x-12 xl:gap-x-14 lg:items-center">
+            <div className="min-w-0">
+              <div className="lg:hidden mb-6 max-w-md mx-auto sm:max-w-xl">
+                <HeroImage mobile={mobile} variant="canadaSticky" />
+              </div>
+              <CanadaHeroContent onViewPlans={scrollToPricing} />
+            </div>
+
+            <div className="hidden lg:flex min-w-0 items-center justify-center self-center py-6">
+              <div className="w-full scale-[1.15] origin-center">
+                <HeroImage mobile={mobile} variant="canadaSticky" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-white pt-24 pb-0 sm:pt-24 sm:pb-0 md:pt-20 md:pb-0 lg:pt-20 lg:pb-0"
+      className="relative bg-white pt-20 pb-6 sm:pt-24 sm:pb-8 lg:pt-20 lg:pb-10"
     >
-      <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-8 xl:px-12 2xl:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-6 sm:gap-8 md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 items-center">
-          {/* Left Column - Text Content - This should be LCP on mobile - order-1 on mobile to appear first */}
-          <div className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 text-center md:text-left md:pr-4 lg:pr-4 xl:pr-8 order-1 md:order-1">
-            {/* Main Heading - Optimized for LCP */}
-            <h1 className="text-[1.575rem] sm:text-[1.96875rem] md:text-[2.3625rem] lg:text-[2.3625rem] xl:text-[3.15rem] 2xl:text-[3.9375rem] font-bold leading-tight sm:leading-tight md:leading-tight lg:leading-[1.1] xl:leading-[1.05] 2xl:leading-[1.05] text-[#1a1a1a] font-heading tracking-tight">
-              <span className="block underline decoration-[#2563eb] decoration-2 sm:decoration-2 md:decoration-3 lg:decoration-4 xl:decoration-[5px] underline-offset-2 sm:underline-offset-3 md:underline-offset-4 lg:underline-offset-4 xl:underline-offset-5 mb-1 sm:mb-1.5 md:mb-2">
+      <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(260px,0.95fr)] gap-6 lg:gap-10 xl:gap-12 items-start">
+          <div className="flex flex-col gap-3 sm:gap-4 min-w-0 text-center lg:text-left">
+            <h1 className="text-2xl sm:text-3xl md:text-[2rem] lg:text-[2.25rem] xl:text-[2.75rem] font-bold leading-[1.15] text-[#1a1a1a] font-heading tracking-tight">
+              <span className="block underline decoration-[#2563eb] decoration-2 underline-offset-3">
                 {t("hero.title")}
               </span>
-              <span className="block mt-2 sm:mt-2.5 md:mt-3 lg:mt-3 xl:mt-4">
+              <span className="block mt-1.5 sm:mt-2 text-[0.95em] sm:text-[1em]">
                 {t("hero.subtitlePart1")}{" "}
                 <span className="text-[#2563eb]">{t("hero.subtitlePart2")}</span>
               </span>
             </h1>
 
-            {/* Descriptive Paragraph */}
-            <p className="text-sm sm:text-base md:text-sm lg:text-lg xl:text-xl 2xl:text-2xl text-[#1a1a1a]/80 leading-relaxed max-w-xl lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto md:mx-0">
-              {t("hero.description")}{" "}
-              <a href="#pricing" className="text-[#2563eb] hover:underline font-semibold">
-                {t("hero.channelsLink")}
-              </a>
-              {t("hero.description2")}{" "}
-              <span className="font-semibold">
-                <a
-                  href={OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#2563eb] hover:underline font-semibold"
-                >
-                  {t("hero.officialSmartersLinkText")}
-                </a>
-                {", "}
-                <a
-                  href={OFFICIAL_IBO_PLAYER_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#2563eb] hover:underline font-semibold"
-                >
-                  {t("hero.officialIboLinkText")}
-                </a>
-              </span>
-              {t("hero.description3")}{" "}
-              <a href="#features" className="text-[#2563eb] hover:underline font-semibold">
-                {t("hero.m3uLink")}
-              </a>
-              {t("hero.description4")}{" "}
-              <span className="font-semibold text-[#1a1a1a]">
-                {t("hero.freeTest")}
-              </span>{" "}
-              {t("hero.description5")}
-            </p>
+            <div className="lg:hidden w-full max-w-md mx-auto">
+              <HeroImage mobile={mobile} />
+            </div>
 
-            {/* CTA Button */}
-            <div className="pt-1 sm:pt-2 flex justify-center md:justify-start">
+            <div className="w-full max-w-xl mx-auto lg:mx-0 lg:max-w-none text-left">
+              <DefaultHeroDescription />
+            </div>
+
+            <div className="pt-1 pb-1 flex justify-center lg:justify-start">
               <a
                 href="#pricing"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const element = document.querySelector("#pricing");
-                  if (element) {
-                    const headerHeight = 80;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-                    window.scrollTo({
-                      top: offsetPosition,
-                      behavior: "smooth",
-                    });
-                  }
-                }}
-                className="inline-flex items-center justify-center gap-2 sm:gap-3 px-5 py-2.5 sm:px-6 sm:py-3 md:px-6 md:py-3 lg:px-8 lg:py-4 xl:px-10 xl:py-5 2xl:px-12 2xl:py-6 bg-[#2563eb] text-white font-semibold rounded-lg shadow-lg hover:bg-[#1d4ed8] transition-all duration-200 text-sm sm:text-base md:text-sm lg:text-lg xl:text-xl 2xl:text-2xl group w-full sm:w-auto cursor-pointer"
+                onClick={scrollToPricing}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-[#2563eb] text-white font-semibold rounded-lg shadow-lg hover:bg-[#1d4ed8] transition-all duration-200 text-sm sm:text-base group w-full sm:w-auto cursor-pointer"
               >
                 <span className="whitespace-nowrap">{t("common.viewOffers")}</span>
-                <ArrowRight className="w-4 h-4 sm:w-4 md:w-4 lg:w-5 sm:h-4 md:h-4 lg:h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
               </a>
             </div>
           </div>
 
-          {/* Right Column - Image - order-2 on mobile to appear after text (LCP optimization) */}
-          <div className="relative w-full flex items-center justify-center md:justify-end mt-1 sm:mt-2 md:mt-0 order-2 md:order-2">
-            <div className="relative w-full max-w-full aspect-[4/3] sm:aspect-[4/3] md:aspect-[5/4] lg:aspect-[6/5] xl:aspect-[5/4] flex items-center justify-center overflow-visible lg:overflow-hidden">
-              <div className="relative w-full h-full sm:w-[100%] sm:h-[100%] md:w-[100%] md:h-[100%] lg:w-[140%] lg:h-[140%] xl:w-[150%] xl:h-[150%] 2xl:w-[160%] 2xl:h-[160%] flex items-center justify-center">
-                <Image
-                  src="/images/hero.png"
-                  alt="Premium IPTV Streaming Service - Watch on all devices"
-                  fill
-                  className="object-contain"
-                  priority={!mobile}
-                  fetchPriority={mobile ? "low" : "high"}
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 70vw"
-                  quality={mobile ? 20 : 40}
-                  loading={mobile ? "lazy" : "eager"}
-                  decoding="async"
-                />
-              </div>
-            </div>
+          <div className="hidden lg:block min-w-0">
+            <HeroImage mobile={mobile} />
           </div>
         </div>
       </div>

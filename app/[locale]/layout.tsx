@@ -3,37 +3,46 @@ import { notFound } from "next/navigation";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import { locales, type Locale, getTranslations } from "@/lib/i18n";
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
 import { getHomepageKeywordList } from "@/lib/seo/site-keywords";
+import {
+  getFaqPricingAnswerText,
+  getStandardProductOffers,
+} from "@/lib/seo/schema-pricing";
+import { getHomeFaqMainEntity } from "@/lib/seo/home-faq-schema";
 import { getHomepageMetadata } from "@/lib/utils/metadata-loader";
 import { getContactEmailForLocale } from "@/lib/utils/contact-email";
+import { buildHomepageHreflangAlternates } from "@/lib/seo/hreflang";
 
 // Generate structured data for SEO
 function generateStructuredData(locale: Locale, baseUrl: string) {
   const organizationNameMap: Record<Locale, string> = {
     en: "StreamPro",
+    ca: "StreamPro",
     es: "StreamPro",
     fr: "StreamPro",
   };
 
   const organizationDescMap: Record<Locale, string> = {
     en: "Premium IPTV streaming service with crystal-clear quality, 99.9% uptime, and full device compatibility",
+    ca: "Premium IPTV streaming for Canada with crystal-clear quality, 99.9% uptime, and full device compatibility",
     es: "Servicio de streaming IPTV premium con calidad cristalina, 99.9% de tiempo de actividad y compatibilidad total con dispositivos",
     fr: "Service de streaming IPTV premium avec une qualité cristalline, 99.9% de disponibilité et compatibilité totale des appareils",
   };
 
   const productNameMap: Record<Locale, string> = {
     en: "Premium IPTV Streaming Service",
+    ca: "Premium IPTV Streaming Service Canada",
     es: "Servicio de Streaming IPTV Premium",
     fr: "Service de Streaming IPTV Premium",
   };
 
   const productDescMap: Record<Locale, string> = {
     en: "Premium IPTV streaming service with over 20,000 live TV channels, 4K quality, and support for all devices. Free test available.",
+    ca: "Premium IPTV for Canada with 20,000+ live channels, 4K quality, CAD plans, and support for all devices. Free trial available.",
     es: "Servicio de streaming IPTV premium con más de 20,000 canales de TV en vivo, calidad 4K y soporte para todos los dispositivos. Prueba gratuita disponible.",
     fr: "Service de streaming IPTV premium avec plus de 20,000 chaînes TV en direct, qualité 4K et support pour tous les appareils. Essai gratuit disponible.",
   };
-
-  const t = getTranslations(locale);
 
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -46,14 +55,16 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
       "@type": "ContactPoint",
       contactType: "Customer Service",
       email: getContactEmailForLocale(locale),
-      availableLanguage: locale === "en" ? ["English"] : locale === "es" ? ["Spanish", "Español"] : ["French", "Français"],
+      availableLanguage:
+        locale === "en"
+          ? ["English"]
+          : locale === "ca"
+            ? ["English", "en-CA"]
+            : locale === "es"
+              ? ["Spanish", "Español"]
+              : ["French", "Français"],
     },
     sameAs: [],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "1000",
-    },
   };
 
   const productSchema = {
@@ -66,265 +77,14 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
       "@type": "Brand",
       name: "StreamPro",
     },
-    category: locale === "en" 
-      ? "IPTV Streaming Service"
-      : locale === "es"
-      ? "Servicio de Streaming IPTV"
-      : "Service de Streaming IPTV",
-    offers: [
-      {
-        "@type": "Offer",
-        name: t.pricing?.plan3Months || "3 Months Plan",
-        price: (t.pricing?.plan3MonthsPrice || "€19.99").replace(/[^\d.]/g, ""),
-        priceCurrency: "EUR",
-        availability: "https://schema.org/InStock",
-        url: `${baseUrl}/${locale}/#pricing`, // Include trailing slash before hash
-        priceValidUntil: "2026-12-31",
-        shippingDetails: {
-          "@type": "OfferShippingDetails",
-          shippingDestination: {
-            "@type": "DefinedRegion",
-            addressCountry:
-              locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
-          },
-          shippingRate: {
-            "@type": "MonetaryAmount",
-            value: "0",
-            currency: "EUR",
-          },
-          deliveryTime: {
-            "@type": "ShippingDeliveryTime",
-            businessDays: {
-              "@type": "OpeningHoursSpecification",
-              dayOfWeek: [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday",
-              ],
-            },
-            cutoffTime: "17:00",
-            handlingTime: {
-              "@type": "QuantitativeValue",
-              minValue: 0,
-              maxValue: 0,
-              unitCode: "DAY",
-            },
-            transitTime: {
-              "@type": "QuantitativeValue",
-              minValue: 0,
-              maxValue: 0,
-              unitCode: "DAY",
-            },
-          },
-        },
-        hasMerchantReturnPolicy: {
-          "@type": "MerchantReturnPolicy",
-          applicableCountry:
-            locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
-          returnPolicyCategory:
-            "https://schema.org/MerchantReturnFiniteReturnWindow",
-          returnPolicyDays: 30,
-          merchantReturnDays: 30,
-          returnFees: "https://schema.org/FreeReturn",
-          returnMethod: "https://schema.org/ReturnByMail",
-        },
-      },
-      {
-        "@type": "Offer",
-        name: locale === "en" ? "6 Months Plan" : locale === "es" ? "Plan de 6 Meses" : "Plan de 6 Mois",
-        price: "24.99",
-        priceCurrency: "EUR",
-        availability: "https://schema.org/InStock",
-        url: `${baseUrl}/${locale}/#pricing`, // Include trailing slash before hash
-        priceValidUntil: "2026-12-31",
-        shippingDetails: {
-          "@type": "OfferShippingDetails",
-          shippingDestination: {
-            "@type": "DefinedRegion",
-            addressCountry:
-              locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
-          },
-          shippingRate: {
-            "@type": "MonetaryAmount",
-            value: "0",
-            currency: "EUR",
-          },
-          deliveryTime: {
-            "@type": "ShippingDeliveryTime",
-            businessDays: {
-              "@type": "OpeningHoursSpecification",
-              dayOfWeek: [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday",
-              ],
-            },
-            cutoffTime: "17:00",
-            handlingTime: {
-              "@type": "QuantitativeValue",
-              minValue: 0,
-              maxValue: 0,
-              unitCode: "DAY",
-            },
-            transitTime: {
-              "@type": "QuantitativeValue",
-              minValue: 0,
-              maxValue: 0,
-              unitCode: "DAY",
-            },
-          },
-        },
-        hasMerchantReturnPolicy: {
-          "@type": "MerchantReturnPolicy",
-          applicableCountry:
-            locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
-          returnPolicyCategory:
-            "https://schema.org/MerchantReturnFiniteReturnWindow",
-          returnPolicyDays: 30,
-          merchantReturnDays: 30,
-          returnFees: "https://schema.org/FreeReturn",
-          returnMethod: "https://schema.org/ReturnByMail",
-        },
-      },
-      {
-        "@type": "Offer",
-        name: locale === "en" ? "12 Months Plan" : locale === "es" ? "Plan de 12 Meses" : "Plan de 12 Mois",
-        price: "39.99",
-        priceCurrency: "EUR",
-        availability: "https://schema.org/InStock",
-        url: `${baseUrl}/${locale}/#pricing`, // Include trailing slash before hash
-        priceValidUntil: "2026-12-31",
-        shippingDetails: {
-          "@type": "OfferShippingDetails",
-          shippingDestination: {
-            "@type": "DefinedRegion",
-            addressCountry:
-              locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
-          },
-          shippingRate: {
-            "@type": "MonetaryAmount",
-            value: "0",
-            currency: "EUR",
-          },
-          deliveryTime: {
-            "@type": "ShippingDeliveryTime",
-            businessDays: {
-              "@type": "OpeningHoursSpecification",
-              dayOfWeek: [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday",
-              ],
-            },
-            cutoffTime: "17:00",
-            handlingTime: {
-              "@type": "QuantitativeValue",
-              minValue: 0,
-              maxValue: 0,
-              unitCode: "DAY",
-            },
-            transitTime: {
-              "@type": "QuantitativeValue",
-              minValue: 0,
-              maxValue: 0,
-              unitCode: "DAY",
-            },
-          },
-        },
-        hasMerchantReturnPolicy: {
-          "@type": "MerchantReturnPolicy",
-          applicableCountry:
-            locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
-          returnPolicyCategory:
-            "https://schema.org/MerchantReturnFiniteReturnWindow",
-          returnPolicyDays: 30,
-          merchantReturnDays: 30,
-          returnFees: "https://schema.org/FreeReturn",
-          returnMethod: "https://schema.org/ReturnByMail",
-        },
-      },
-      {
-        "@type": "Offer",
-        name: locale === "en" ? "24 Months Plan" : locale === "es" ? "Plan de 24 Meses" : "Plan de 24 Mois",
-        price: "54.99",
-        priceCurrency: "EUR",
-        availability: "https://schema.org/InStock",
-        url: `${baseUrl}/${locale}/#pricing`, // Include trailing slash before hash
-        priceValidUntil: "2026-12-31",
-        shippingDetails: {
-          "@type": "OfferShippingDetails",
-          shippingDestination: {
-            "@type": "DefinedRegion",
-            addressCountry:
-              locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
-          },
-          shippingRate: {
-            "@type": "MonetaryAmount",
-            value: "0",
-            currency: "EUR",
-          },
-          deliveryTime: {
-            "@type": "ShippingDeliveryTime",
-            businessDays: {
-              "@type": "OpeningHoursSpecification",
-              dayOfWeek: [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday",
-              ],
-            },
-            cutoffTime: "17:00",
-            handlingTime: {
-              "@type": "QuantitativeValue",
-              minValue: 0,
-              maxValue: 0,
-              unitCode: "DAY",
-            },
-            transitTime: {
-              "@type": "QuantitativeValue",
-              minValue: 0,
-              maxValue: 0,
-              unitCode: "DAY",
-            },
-          },
-        },
-        hasMerchantReturnPolicy: {
-          "@type": "MerchantReturnPolicy",
-          applicableCountry:
-            locale === "en" ? "US" : locale === "es" ? "ES" : "FR",
-          returnPolicyCategory:
-            "https://schema.org/MerchantReturnFiniteReturnWindow",
-          returnPolicyDays: 30,
-          merchantReturnDays: 30,
-          returnFees: "https://schema.org/FreeReturn",
-          returnMethod: "https://schema.org/ReturnByMail",
-        },
-      },
-    ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "1000",
-      bestRating: "5",
-      worstRating: "1",
-    },
-    featureList: locale === "en"
+    category:
+      locale === "en" || locale === "ca"
+        ? "IPTV Streaming Service"
+        : locale === "es"
+          ? "Servicio de Streaming IPTV"
+          : "Service de Streaming IPTV",
+    offers: getStandardProductOffers(locale, baseUrl),
+    featureList: locale === "en" || locale === "ca"
       ? [
           "20,000+ Live TV Channels",
           "4K & HD Quality Streaming",
@@ -362,82 +122,9 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: locale === "en"
-      ? [
-          {
-            "@type": "Question",
-            name: "What is IPTV Smarters Pro?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "IPTV Smarters Pro is a premium IPTV streaming service that provides access to over 20,000 live TV channels, movies, and series in 4K quality. It works on all devices including Windows, Android, iOS, Mac, and Smart TVs.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "How much does IPTV subscription cost?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Our IPTV subscription plans start from €19.99 for 3 months, with options for 6 months (€24.99), 12 months (€39.99), and 24 months (€54.99). All plans include instant activation and free test available.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Is a free test available?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Yes, we offer a free test of our IPTV service so you can experience the quality before purchasing. Contact us via WhatsApp to get your free test.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "What devices are supported?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Our IPTV service works on all devices including Windows PC, Android phones and tablets, iOS devices (iPhone/iPad), Mac computers, Smart TVs, Firestick, Roku, Apple TV, and more.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "How do I install IPTV Smarters Pro?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "We provide detailed installation guides for all devices. Visit our installation guide page for step-by-step instructions for Windows, Android, iOS, Smart TV, and Firestick.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Can I watch the 2026 FIFA World Cup with IPTV Smarters Pro?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "You can use IPTV Smarters Pro with our IPTV subscription to enjoy compatible football channels and match viewing. Channel availability depends on regional broadcasters and rights—request a free test first to confirm the lineup for your area.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Do you offer a free IPTV test before the World Cup starts?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Yes. We offer a free IPTV test so you can check streaming quality, device compatibility, and the channels you care about before the 2026 FIFA World Cup.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Which devices are best for World Cup streaming?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Our service works across Windows PC, Android phones and tablets, iOS devices, Mac computers, Smart TVs, Firestick, Roku, and Apple TV—so you can watch the 2026 World Cup on your preferred screen.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Will the World Cup stream in HD or 4K?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "We are built for stable HD/4K streaming. For best results during match days, use a stable internet connection and the device recommended for your plan.",
-            },
-          },
-        ]
-      : locale === "es"
+    mainEntity:
+      getHomeFaqMainEntity(locale) ??
+      (locale === "es"
       ? [
           {
             "@type": "Question",
@@ -452,7 +139,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             name: "¿Cuánto cuesta la suscripción IPTV?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Nuestros planes de suscripción IPTV comienzan desde €19.99 por 3 meses, con opciones para 6 meses (€24.99), 12 meses (€39.99) y 24 meses (€54.99). Todos los planes incluyen activación instantánea y prueba gratuita disponible.",
+              text: getFaqPricingAnswerText(locale),
             },
           },
           {
@@ -526,7 +213,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             name: "Combien coûte l'abonnement IPTV?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Nos plans d'abonnement IPTV commencent à partir de 19,99€ pour 3 mois, avec des options pour 6 mois (24,99€), 12 mois (39,99€) et 24 mois (54,99€). Tous les plans incluent une activation instantanée et un essai gratuit disponible.",
+              text: getFaqPricingAnswerText(locale),
             },
           },
           {
@@ -585,7 +272,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
               text: "Nous privilégions un streaming stable en HD/4K. Pour de meilleures performances pendant les jours de match, utilisez une connexion internet stable et l’appareil recommandé pour votre formule.",
             },
           },
-        ],
+        ]),
   };
 
   // Breadcrumb Schema
@@ -596,13 +283,31 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
       {
         "@type": "ListItem",
         position: 1,
-        name: locale === "en" ? "Home" : locale === "es" ? "Inicio" : "Accueil",
+        name:
+          locale === "en" || locale === "ca"
+            ? "Home"
+            : locale === "es"
+              ? "Inicio"
+              : "Accueil",
         item: `${baseUrl}/${locale}`,
       },
     ],
   };
 
-  return { organizationSchema, productSchema, faqSchema, breadcrumbSchema };
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: organizationNameMap[locale],
+    url: `${baseUrl}/${locale}/`,
+    inLanguage: locale === "en" ? "en-US" : locale === "ca" ? "en-CA" : locale === "es" ? "es-ES" : "fr-FR",
+    publisher: {
+      "@type": "Organization",
+      name: organizationNameMap[locale],
+      url: `${baseUrl}/${locale}/`,
+    },
+  };
+
+  return { organizationSchema, productSchema, faqSchema, breadcrumbSchema, websiteSchema };
 }
 
 export async function generateStaticParams() {
@@ -629,31 +334,17 @@ export async function generateMetadata({
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
   const translations = getTranslations(locale);
   
-  const localeMap: Record<Locale, string> = {
-    en: "en_US",
-    es: "es_ES",
-    fr: "fr_FR",
-  };
+  const localeMap = openGraphLocaleMap;
 
   // Load metadata from file
   const homepageMetadata = await getHomepageMetadata(locale);
   const title = homepageMetadata.title;
   const description = homepageMetadata.description;
 
-  // Generate hreflang alternates
-  const alternates: Record<string, string> = {};
-  locales.forEach((loc) => {
-    alternates[loc] = `${baseUrl}/${loc}/`;
-  });
-  // Add x-default pointing to English (default locale)
-  alternates['x-default'] = `${baseUrl}/en/`;
+  const hreflangAlternates = buildHomepageHreflangAlternates(baseUrl, "/");
 
   // Site name translations
-  const siteNameMap: Record<Locale, string> = {
-    en: "StreamPro - Premium IPTV Service",
-    es: "StreamPro - Servicio IPTV Premium",
-    fr: "StreamPro - Service IPTV Premium",
-  };
+  // siteNameMap imported from locale-maps
 
   return {
     title,
@@ -671,7 +362,7 @@ export async function generateMetadata({
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `${baseUrl}/${locale}/`, // Include trailing slash to match next.config trailingSlash: true
-      languages: alternates,
+      languages: hreflangAlternates,
     },
     openGraph: {
       type: "website",
@@ -740,10 +431,12 @@ export default async function LocaleLayout({
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
-  const { organizationSchema, productSchema, faqSchema, breadcrumbSchema } = generateStructuredData(locale as Locale, baseUrl);
+  const { organizationSchema, productSchema, faqSchema, breadcrumbSchema, websiteSchema } =
+    generateStructuredData(locale as Locale, baseUrl);
 
   return (
     <LanguageProvider initialLocale={locale as Locale}>
+      <div data-locale={locale} className="contents">
       <ScrollToTop />
       <script
         type="application/ld+json"
@@ -761,7 +454,12 @@ export default async function LocaleLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
       {children}
+      </div>
     </LanguageProvider>
   );
 }

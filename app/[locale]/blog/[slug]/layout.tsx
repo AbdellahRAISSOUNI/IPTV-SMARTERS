@@ -4,20 +4,12 @@ import { locales } from "@/lib/i18n";
 import { getBlogBySlug } from "@/lib/admin/blog";
 import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import { getPublishedLocales } from "@/lib/admin/blog-locales";
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
+import { buildHreflangAlternates } from "@/lib/seo/hreflang";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
-const localeMap: Record<Locale, string> = {
-  en: "en_US",
-  es: "es_ES",
-  fr: "fr_FR",
-};
-
-const siteNameMap: Record<Locale, string> = {
-  en: "StreamPro - Premium IPTV Service",
-  es: "StreamPro - Servicio IPTV Premium",
-  fr: "StreamPro - Service IPTV Premium",
-};
+const localeMap = openGraphLocaleMap;
 
 function toKeywordArray(value: unknown): string[] {
   if (Array.isArray(value)) {
@@ -88,21 +80,22 @@ export async function generateMetadata({
     const keywordList = toKeywordArray(blog.meta?.keywords?.[locale]);
 
     const publishedLocales = getPublishedLocales(blog);
-    const languageAlternates: Record<string, string> = {};
+    const urlsByLocale: Partial<Record<Locale, string>> = {};
     publishedLocales.forEach((loc) => {
       const localizedUrl = getBlogUrl(blog, loc);
       if (localizedUrl !== `/${loc}/blog//`) {
-        languageAlternates[loc] = `${baseUrl}${localizedUrl}`;
+        urlsByLocale[loc] = `${baseUrl}${localizedUrl}`;
       }
     });
     const xDefaultLoc = publishedLocales.includes("en")
       ? "en"
       : publishedLocales[0] || locale;
     const xDefaultUrl = getBlogUrl(blog, xDefaultLoc);
-    languageAlternates["x-default"] =
+    const xDefaultAbsolute =
       xDefaultUrl !== `/${xDefaultLoc}/blog//`
         ? `${baseUrl}${xDefaultUrl}`
         : `${baseUrl}${getBlogUrl(blog, locale)}`;
+    const languageAlternates = buildHreflangAlternates(urlsByLocale, xDefaultAbsolute);
 
     const canonicalPath = getBlogUrl(blog, locale);
     const canonicalUrl = `${baseUrl}${canonicalPath}`;

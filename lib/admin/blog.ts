@@ -44,6 +44,7 @@ function normalizeLocaleTextMap(input: unknown): Record<string, string> {
   const raw = typeof input === "object" && input !== null ? (input as Record<string, unknown>) : {};
   return {
     en: typeof raw.en === "string" ? raw.en : "",
+    ca: typeof raw.ca === "string" ? raw.ca : "",
     es: typeof raw.es === "string" ? raw.es : "",
     fr: typeof raw.fr === "string" ? raw.fr : "",
   };
@@ -72,6 +73,7 @@ function normalizeBlogPost(blog: BlogPost): BlogPost {
       ? blog.slug
       : {
           en: typeof blog.slug?.en === "string" ? blog.slug.en : "",
+          ca: typeof blog.slug?.ca === "string" ? blog.slug.ca : "",
           es: typeof blog.slug?.es === "string" ? blog.slug.es : "",
           fr: typeof blog.slug?.fr === "string" ? blog.slug.fr : "",
         };
@@ -113,35 +115,91 @@ async function getLocalBlogs(): Promise<BlogPost[]> {
   }
 }
 
+function countCanadaLocales(blogs: BlogPost[]): number {
+  return blogs.filter((b) => (b.translations || []).includes("ca")).length;
+}
+
+function sortBlogsNewestFirst(blogs: BlogPost[]): BlogPost[] {
+  return [...blogs].sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+}
+
+/**
+ * Merge GitHub + repo `data/blogs.json`. Prefer local when it has Canada publishes
+ * missing on remote, or when a post was updated locally more recently.
+ */
+function mergeBlogSources(remote: BlogPost[], local: BlogPost[]): BlogPost[] {
+  if (local.length === 0) return sortBlogsNewestFirst(remote);
+  if (remote.length === 0) return sortBlogsNewestFirst(local);
+
+  const byId = new Map<string, BlogPost>();
+  for (const post of remote) {
+    byId.set(post.id, post);
+  }
+
+  for (const localPost of local) {
+    const remotePost = byId.get(localPost.id);
+    if (!remotePost) {
+      byId.set(localPost.id, localPost);
+      continue;
+    }
+
+    const localHasCa = (localPost.translations || []).includes("ca");
+    const remoteHasCa = (remotePost.translations || []).includes("ca");
+    const localUpdated = new Date(localPost.updatedAt).getTime();
+    const remoteUpdated = new Date(remotePost.updatedAt).getTime();
+
+    if ((localHasCa && !remoteHasCa) || localUpdated > remoteUpdated) {
+      byId.set(localPost.id, localPost);
+    }
+  }
+
+  return sortBlogsNewestFirst(Array.from(byId.values()));
+}
+
+async function getGithubBlogs(): Promise<BlogPost[]> {
+  const { octokit, owner, repo, branch } = getGithubBlogContext();
+  const response = await octokit.repos.getContent({
+    owner,
+    repo,
+    path: BLOG_DATA_PATH,
+    ref: branch,
+  });
+
+  if (response.status === 200 && "content" in response.data) {
+    const content = Buffer.from(response.data.content, "base64").toString("utf8");
+    const parsed = JSON.parse(content) as BlogPost[];
+    return Array.isArray(parsed) ? parsed.map(normalizeBlogPost) : [];
+  }
+  return [];
+}
+
 export async function getAllBlogs(): Promise<BlogPost[]> {
+  const local = await getLocalBlogs();
+
   // Public read-path must keep working even when GitHub env vars are missing.
   if (!hasGithubBlogContext()) {
-    return getLocalBlogs();
+    return local;
   }
 
   try {
-    const { octokit, owner, repo, branch } = getGithubBlogContext();
-    const response = await octokit.repos.getContent({
-      owner,
-      repo,
-      path: BLOG_DATA_PATH,
-      ref: branch,
-    });
+    const remote = await getGithubBlogs();
+    const merged = mergeBlogSources(remote, local);
 
-    if (response.status === 200 && "content" in response.data) {
-      const content = Buffer.from(response.data.content, "base64").toString("utf8");
-      const parsed = JSON.parse(content) as BlogPost[];
-      return Array.isArray(parsed) ? parsed.map(normalizeBlogPost) : [];
+    if (countCanadaLocales(local) > countCanadaLocales(remote)) {
+      console.info(
+        "[blogs] Merged local data/blogs.json (includes Canada locales not yet on GitHub)."
+      );
     }
-    return [];
+
+    return merged;
   } catch (error: unknown) {
     if ((error as { status?: number })?.status === 404) {
-      // File doesn't exist yet, return empty array
-      return [];
+      return local;
     }
     console.error("Error fetching blogs from GitHub:", error);
-    // Fallback prevents crawl-time 5xx when GitHub API is unavailable/rate-limited.
-    return getLocalBlogs();
+    return local.length > 0 ? local : [];
   }
 }
 

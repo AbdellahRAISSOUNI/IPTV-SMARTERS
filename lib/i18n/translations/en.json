@@ -142,6 +142,8 @@
     }
   },
   "pricing": {
+    "showPremiumPlans": true,
+    "currencyCode": "USD",
     "title": "Our IPTV Subscription Prices",
     "oneConnection": "1 Connection",
     "twoConnectionsPremium": "2 Connections + Premium",
@@ -259,7 +261,14 @@
     "installationHelp": "Hello! I need help with IPTV Smarters Pro installation.",
     "resellerInterest": "Hello! I'm interested in becoming an IPTV reseller.",
     "notFoundHelp": "Hello! I need help finding something on your website.",
-    "tooltip": "Chat with us"
+    "tooltip": "Chat with us",
+    "contactButton": "Contact us on WhatsApp",
+    "ariaFloating": "Contact us on WhatsApp",
+    "ariaFreeTest": "Start free test on WhatsApp"
+  },
+  "contactSection": {
+    "title": "Do you have questions?",
+    "description": "Our support team is available for you 24 hours a day, 7 days a week, ready to answer all your doubts and concerns."
   },
   "footer": {
     "description": "Premium IPTV streaming service offering thousands of channels, movies and series. Experience the best in entertainment with reliable 24/7 support.",
@@ -463,6 +472,7 @@
     "whyFeature8": "Benefit from 24/7 customer support.",
     "pricingTitle": "IPTV Reseller Plans",
     "credit10Title": "10 CREDITS",
+    "credit10Price": "$175",
     "credit10Feature1": "10 credits allow you to create 10 one-year accounts.",
     "credit10Feature2": "You create any offer you want for your clients with all premium features.",
     "credit10Feature3": "+50,000 TV channels, movies and series",
@@ -470,6 +480,7 @@
     "credit10Feature5": "All devices are compatible",
     "credit10Feature6": "Support available 7/7 days",
     "credit20Title": "20 CREDITS",
+    "credit20Price": "$320",
     "credit20Feature1": "20 credits allow you to create 20 one-year accounts.",
     "credit20Feature2": "You create any offer you want for your clients with all premium features.",
     "credit20Feature3": "+50,000 TV channels, movies and series",
@@ -477,6 +488,7 @@
     "credit20Feature5": "All devices are compatible",
     "credit20Feature6": "Support available 7/7 days",
     "credit30Title": "30 CREDITS",
+    "credit30Price": "$465",
     "credit30Feature1": "30 credits allow you to create 30 one-year accounts.",
     "credit30Feature2": "You create any offer you want for your clients with all premium features.",
     "credit30Feature3": "+50,000 TV channels, movies and series",

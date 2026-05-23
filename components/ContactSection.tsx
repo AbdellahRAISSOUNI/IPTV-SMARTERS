@@ -26,10 +26,10 @@ export default function ContactSection() {
               {/* Left Side - Text Content */}
               <div>
                 <h2 className="text-lg md:text-xl xl:text-2xl 2xl:text-3xl font-bold text-white uppercase mb-2 xl:mb-3 2xl:mb-4">
-                  Do you have questions?
+                  {t("contactSection.title")}
                 </h2>
                 <p className="text-white/90 text-sm md:text-base xl:text-lg 2xl:text-xl leading-relaxed">
-                  Our support team is available for you 24 hours a day, 7 days a week, ready to answer all your doubts and concerns.
+                  {t("contactSection.description")}
                 </p>
               </div>
 
@@ -44,7 +44,9 @@ export default function ContactSection() {
                   whileHover={{ x: 2 }}
                 >
                   <MessageCircle className="w-6 h-6 md:w-7 md:h-7 xl:w-8 xl:h-8 2xl:w-9 2xl:h-9 flex-shrink-0" />
-                  <span className="text-base md:text-lg xl:text-xl 2xl:text-2xl font-medium underline">WhatsApp</span>
+                  <span className="text-base md:text-lg xl:text-xl 2xl:text-2xl font-medium underline">
+                    {t("common.whatsapp")}
+                  </span>
                 </motion.a>
 
                 {/* Email */}

@@ -82,10 +82,40 @@ function phraseMatchesProfile(phrase: string, profile: CorpusSeoProfile): boolea
   }
 }
 
+function isUsaCorpusPhrase(phrase: string): boolean {
+  const p = phrase.toLowerCase();
+  return (
+    p.includes("united states") ||
+    p.includes(" usa") ||
+    p.startsWith("usa ") ||
+    p.includes("american") ||
+    /\bus\b/.test(p)
+  );
+}
+
+function isCanadaCorpusPhrase(phrase: string): boolean {
+  const p = phrase.toLowerCase();
+  return p.includes("canada") || p.includes("quebec") || p.includes("ontario") || p.includes("toronto");
+}
+
 function pickFromCorpus(locale: Locale, profile: CorpusSeoProfile, maxPick: number): string[] {
   const list = corpus[locale] ?? [];
   const picked: string[] = [];
   const seen = new Set<string>();
+  const geoPrefer =
+    locale === "en" ? isUsaCorpusPhrase : locale === "ca" ? isCanadaCorpusPhrase : null;
+
+  if (geoPrefer) {
+    for (const phrase of list) {
+      if (picked.length >= maxPick) break;
+      if (!phraseMatchesProfile(phrase, profile)) continue;
+      if (!geoPrefer(phrase)) continue;
+      const k = phrase.toLowerCase().trim();
+      if (seen.has(k)) continue;
+      seen.add(k);
+      picked.push(phrase);
+    }
+  }
 
   for (const phrase of list) {
     if (picked.length >= maxPick) break;

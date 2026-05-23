@@ -79,4 +79,19 @@ describe("blog-locales", () => {
     expect(hasLocalePublishableContent(blog, "en")).toBe(true);
     expect(hasLocalePublishableContent(blog, "es")).toBe(false);
   });
+
+  it("supports ca as a publish locale", () => {
+    const blog = makePost({
+      translations: ["ca"],
+      locale: "ca",
+      slug: { en: "", ca: "canada-post", es: "", fr: "" },
+      title: { en: "", ca: "Canada Title", es: "", fr: "" },
+      excerpt: { en: "", ca: "Canada excerpt", es: "", fr: "" },
+      meta: { description: { en: "", ca: "Canada meta", es: "", fr: "" } },
+      blocks: [{ id: "1", type: "paragraph", content: { ca: "Body CA" } }],
+    });
+    expect(getPublishedLocales(blog)).toEqual(["ca"]);
+    const result = validateBlogForPublish(blog, ["ca"]);
+    expect(result.ok).toBe(true);
+  });
 });

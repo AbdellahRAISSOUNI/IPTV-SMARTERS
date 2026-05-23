@@ -4,6 +4,7 @@ import { locales } from "@/lib/i18n";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { legalRefundSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
+import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
@@ -25,12 +26,14 @@ export async function generateMetadata({
 
   const titleMap: Record<Locale, string> = {
     en: "Refund Policy | StreamPro IPTV",
+    ca: "Refund Policy | StreamPro IPTV",
     es: "Política de Reembolso | StreamPro IPTV",
     fr: "Politique de Remboursement | StreamPro IPTV",
   };
 
   const descriptionMap: Record<Locale, string> = {
     en: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
+    ca: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
     es: "Consulta la política de reembolso de StreamPro IPTV, incluyendo elegibilidad, plazos y cómo solicitar un reembolso de tu suscripción IPTV.",
     fr: "Consultez la politique de remboursement de StreamPro IPTV, y découvrez l’éligibilité, les délais et comment demander un remboursement pour votre abonnement IPTV.",
   };
@@ -38,12 +41,10 @@ export async function generateMetadata({
   const keywords = getRouteMetaKeywords(locale, "legal", legalRefundSeeds[locale]);
 
   const canonicalUrl = `${baseUrl}/${locale}/refund-policy/`;
-  const languageAlternates: Record<string, string> = {
-    en: `${baseUrl}/en/refund-policy/`,
-    es: `${baseUrl}/es/refund-policy/`,
-    fr: `${baseUrl}/fr/refund-policy/`,
-    "x-default": `${baseUrl}/en/refund-policy/`,
-  };
+  const languageAlternates = buildHreflangAlternatesForPaths(
+    baseUrl,
+    (loc) => `/${loc}/refund-policy/`
+  );
 
   const title = titleMap[locale];
   const description = descriptionMap[locale];
@@ -101,11 +102,13 @@ export default async function RefundPolicyLayout({
   const locale = localeParam as Locale;
   const titleMap: Record<Locale, string> = {
     en: "Refund Policy | StreamPro IPTV",
+    ca: "Refund Policy | StreamPro IPTV",
     es: "Política de Reembolso | StreamPro IPTV",
     fr: "Politique de Remboursement | StreamPro IPTV",
   };
   const descriptionMap: Record<Locale, string> = {
     en: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
+    ca: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
     es: "Consulta la política de reembolso de StreamPro IPTV, incluyendo elegibilidad, plazos y cómo solicitar un reembolso de tu suscripción IPTV.",
     fr: "Consultez la politique de remboursement de StreamPro IPTV, y découvrez l’éligibilité, les délais et comment demander un remboursement pour votre abonnement IPTV.",
   };

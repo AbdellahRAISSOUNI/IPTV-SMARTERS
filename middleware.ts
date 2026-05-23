@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const locales = ['en', 'es', 'fr'];
+const locales = ['en', 'es', 'fr', 'ca'];
 const defaultLocale = 'en';
 
 export function middleware(request: NextRequest) {
@@ -28,7 +28,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Redirect root language pages without trailing slash to with trailing slash
-  // e.g., /en -> /en/, /es -> /es/, /fr -> /fr/
+  // e.g., /en -> /en/, /ca -> /ca/, /es -> /es/, /fr -> /fr/
   if (locales.includes(pathname.slice(1)) && pathname.length === 3) {
     url.pathname = `${pathname}/`;
     return NextResponse.redirect(url, 301);

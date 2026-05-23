@@ -9,7 +9,10 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "seo:keywords": "node scripts/generate-seo-keyword-corpus.mjs"
+    "seo:keywords": "node scripts/generate-seo-keyword-corpus.mjs",
+    "seo:keywords:ca": "node scripts/generate-canada-keyword-corpus.mjs",
+    "blogs:migrate:ca": "node scripts/migrate-blogs-to-ca.mjs",
+    "blogs:push": "node scripts/push-blogs-to-github.mjs"
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1",

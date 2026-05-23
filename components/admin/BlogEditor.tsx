@@ -43,17 +43,17 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   const [blog, setBlog] = useState<BlogPost>(
     initialBlog || {
       id: "",
-      slug: { en: "", es: "", fr: "" },
-      title: { en: "", es: "", fr: "" },
-      excerpt: { en: "", es: "", fr: "" },
+      slug: { en: "", ca: "", es: "", fr: "" },
+      title: { en: "", ca: "", es: "", fr: "" },
+      excerpt: { en: "", ca: "", es: "", fr: "" },
       publishedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       locale: "en",
       translations: ["en"],
       blocks: [],
       meta: {
-        description: { en: "", es: "", fr: "" },
-        keywords: { en: "", es: "", fr: "" },
+        description: { en: "", ca: "", es: "", fr: "" },
+        keywords: { en: "", ca: "", es: "", fr: "" },
       },
     }
   );
@@ -109,7 +109,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     field: "title" | "excerpt",
     targets: BlogLocale[]
   ): Record<BlogLocale, string> => {
-    const current = { en: "", es: "", fr: "", ...blog[field] };
+    const current: Record<BlogLocale, string> = { en: "", ca: "", es: "", fr: "", ...blog[field] };
     const next = { ...current };
     for (const loc of targets) {
       next[loc] = value;
@@ -118,7 +118,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   };
 
   const applyMetaDescription = (value: string, targets: BlogLocale[]) => {
-    const current = { en: "", es: "", fr: "", ...blog.meta?.description };
+    const current = { en: "", ca: "", es: "", fr: "", ...blog.meta?.description };
     const description = { ...current };
     for (const loc of targets) {
       description[loc] = value;
@@ -127,7 +127,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   };
 
   const applyMetaKeywords = (value: string, targets: BlogLocale[]) => {
-    const current = { en: "", es: "", fr: "", ...blog.meta?.keywords };
+    const current = { en: "", ca: "", es: "", fr: "", ...blog.meta?.keywords };
     const keywords = { ...current };
     for (const loc of targets) {
       keywords[loc] = value;
@@ -140,7 +140,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
   const generateId = () => Math.random().toString(36).substring(2, 15);
 
-  const getSlug = (locale: "en" | "es" | "fr"): string => {
+  const getSlug = (locale: BlogLocale): string => {
     if (typeof blog.slug === "string") {
       return blog.slug;
     }
@@ -149,9 +149,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   };
 
   // Helper to set slug for a locale
-  const setSlug = (locale: "en" | "es" | "fr", value: string) => {
+  const setSlug = (locale: BlogLocale, value: string) => {
     const currentSlug = typeof blog.slug === 'string' 
-      ? { en: blog.slug, es: blog.slug, fr: blog.slug }
+      ? { en: blog.slug, ca: blog.slug, es: blog.slug, fr: blog.slug }
       : { ...(blog.slug as Record<string, string>) };
     
     setBlog({
@@ -176,11 +176,12 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     try {
       let cleanedSlug: Record<string, string>;
       if (typeof blog.slug === "string") {
-        cleanedSlug = { en: blog.slug, es: blog.slug, fr: blog.slug };
+        cleanedSlug = { en: blog.slug, ca: blog.slug, es: blog.slug, fr: blog.slug };
       } else {
         const slugRecord = blog.slug as Record<string, string>;
         cleanedSlug = {
           en: String(slugRecord.en || "").trim(),
+          ca: String(slugRecord.ca || "").trim(),
           es: String(slugRecord.es || "").trim(),
           fr: String(slugRecord.fr || "").trim(),
         };
@@ -282,9 +283,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
         let content: Record<string, string>;
         if (typeof block.content === "string") {
-          content = { en: block.content, es: "", fr: "" };
+          content = { en: block.content, ca: "", es: "", fr: "" };
         } else {
-          content = { en: "", es: "", fr: "", ...(block.content as Record<string, string>) };
+          content = { en: "", ca: "", es: "", fr: "", ...(block.content as Record<string, string>) };
         }
         for (const loc of targets) {
           content[loc] = value;
@@ -299,7 +300,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     const newBlock: BlogBlock = {
       id: generateId(),
       type,
-      content: { en: "", es: "", fr: "" }, // Initialize as multi-language
+      content: { en: "", ca: "", es: "", fr: "" }, // Initialize as multi-language
       ...(type === "heading" && { level: 2 }),
       ...(type === "list" && { listItems: { en: [""], es: [""], fr: [""] } }),
     };
@@ -979,7 +980,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                       {/* Language Tabs for Image Alt Text */}
                       <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-200">
                         <span className="text-xs text-gray-500 font-medium">Alt Text Language:</span>
-                        {(["en", "es", "fr"] as const).map((loc) => (
+                        {publishedLocales.map((loc) => (
                           <button
                             key={loc}
                             onClick={() => setBlockLocale(loc)}
@@ -1060,7 +1061,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                             onChange={(e) => {
                               const newAlt = typeof block.imageAlt === 'string' 
                                 ? { en: block.imageAlt, es: "", fr: "", [blockLocale]: e.target.value }
-                                : { ...(block.imageAlt || { en: "", es: "", fr: "" }), [blockLocale]: e.target.value };
+                                : { ...(block.imageAlt || { en: "", ca: "", es: "", fr: "" }), [blockLocale]: e.target.value };
                               updateBlock(block.id, { imageAlt: newAlt });
                             }}
                             placeholder={`Image alt text (${blockLocale.toUpperCase()})`}

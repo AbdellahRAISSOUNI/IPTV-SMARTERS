@@ -43,7 +43,7 @@ export function LanguageProvider({ children, initialLocale }: { children: ReactN
     // Use window.location.pathname as fallback to ensure we get the actual current path
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : pathname;
     // Remove locale prefix and normalize path
-    const pathWithoutLocale = currentPath.replace(/^\/(en|es|fr)/, '') || '/';
+    const pathWithoutLocale = currentPath.replace(/^\/(en|es|fr|ca)/, '') || '/';
     
     // Check if current path is an installation page and translate the slug
     let translatedPath = pathWithoutLocale;

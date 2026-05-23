@@ -484,7 +484,7 @@ export default function InstallationPage() {
               className="inline-flex items-center gap-2 text-base text-[#2563eb] hover:text-[#1d4ed8] font-medium"
             >
               <MessageCircle className="w-5 h-5" />
-              Contact us on WhatsApp
+              {t("whatsapp.contactButton")}
             </button>
           </motion.div>
         </div>

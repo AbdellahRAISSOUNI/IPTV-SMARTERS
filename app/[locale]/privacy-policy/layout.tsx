@@ -4,6 +4,7 @@ import { locales } from "@/lib/i18n";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { legalPrivacySeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
+import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
@@ -25,12 +26,14 @@ export async function generateMetadata({
 
   const titleMap: Record<Locale, string> = {
     en: "Privacy Policy | StreamPro IPTV Smarters Pro",
+    ca: "Privacy Policy | StreamPro IPTV Canada",
     es: "Política de Privacidad | StreamPro IPTV Smarters Pro",
     fr: "Politique de Confidentialité | StreamPro IPTV Smarters Pro",
   };
 
   const descriptionMap: Record<Locale, string> = {
     en: "Learn how StreamPro IPTV Smarters Pro collects, uses, and protects your personal data when you use our IPTV service and website.",
+    ca: "Learn how StreamPro IPTV Canada collects, uses, and protects your personal data when you use our IPTV service and website.",
     es: "Descubre cómo StreamPro IPTV Smarters Pro recopila, utiliza y protege tus datos personales al usar nuestro servicio IPTV y el sitio web.",
     fr: "Découvrez comment StreamPro IPTV Smarters Pro collecte, utilise et protège vos données personnelles lorsque vous utilisez notre service IPTV et notre site web.",
   };
@@ -40,11 +43,10 @@ export async function generateMetadata({
   const currentUrl = `/${locale}/privacy-policy/`;
   const canonicalUrl = `${baseUrl}${currentUrl}`;
 
-  const languageAlternates: Record<string, string> = {};
-  locales.forEach((loc) => {
-    languageAlternates[loc] = `${baseUrl}/${loc}/privacy-policy/`;
-  });
-  languageAlternates["x-default"] = `${baseUrl}/en/privacy-policy/`;
+  const languageAlternates = buildHreflangAlternatesForPaths(
+    baseUrl,
+    (loc) => `/${loc}/privacy-policy/`
+  );
 
   const title = titleMap[locale];
   const description = descriptionMap[locale];
@@ -95,11 +97,13 @@ export default async function PrivacyPolicyLayout({
   const locale = localeParam as Locale;
   const titleMap: Record<Locale, string> = {
     en: "Privacy Policy | StreamPro IPTV Smarters Pro",
+    ca: "Privacy Policy | StreamPro IPTV Canada",
     es: "Política de Privacidad | StreamPro IPTV Smarters Pro",
     fr: "Politique de Confidentialité | StreamPro IPTV Smarters Pro",
   };
   const descriptionMap: Record<Locale, string> = {
     en: "Learn how StreamPro IPTV Smarters Pro collects, uses, and protects your personal data when you use our IPTV service and website.",
+    ca: "Learn how StreamPro IPTV Canada collects, uses, and protects your personal data when you use our IPTV service and website.",
     es: "Descubre cómo StreamPro IPTV Smarters Pro recopila, utiliza y protege tus datos personales al usar nuestro servicio IPTV y el sitio web.",
     fr: "Découvrez comment StreamPro IPTV Smarters Pro collecte, utilise et protège vos données personnelles lorsque vous utilisez notre service IPTV et notre site web.",
   };

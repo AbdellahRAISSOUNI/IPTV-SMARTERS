@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
+import { locales } from "@/lib/i18n";
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
+import { buildHreflangAlternates } from "@/lib/seo/hreflang";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
@@ -23,17 +26,7 @@ export interface MetadataOptions {
   tags?: string[];
 }
 
-const localeMap: Record<Locale, string> = {
-  en: "en_US",
-  es: "es_ES",
-  fr: "fr_FR",
-};
-
-const siteNameMap: Record<Locale, string> = {
-  en: "StreamPro - Premium IPTV Service",
-  es: "StreamPro - Servicio IPTV Premium",
-  fr: "StreamPro - Service IPTV Premium",
-};
+const localeMap = openGraphLocaleMap;
 
 export function generateMetadata(options: MetadataOptions): Metadata {
   const {
@@ -105,12 +98,15 @@ export function generateMetadata(options: MetadataOptions): Metadata {
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: pageUrl,
-      languages: {
-        en: pageUrl.replace(`/${locale}`, "/en").replace(`/${locale}/`, "/en/"),
-        es: pageUrl.replace(`/${locale}`, "/es").replace(`/${locale}/`, "/es/"),
-        fr: pageUrl.replace(`/${locale}`, "/fr").replace(`/${locale}/`, "/fr/"),
-        "x-default": pageUrl.replace(`/${locale}`, "/en").replace(`/${locale}/`, "/en/"),
-      },
+      languages: buildHreflangAlternates(
+        Object.fromEntries(
+          locales.map((loc) => [
+            loc,
+            pageUrl.replace(`/${locale}`, `/${loc}`).replace(`/${locale}/`, `/${loc}/`),
+          ])
+        ) as Record<Locale, string>,
+        pageUrl.replace(`/${locale}`, "/en").replace(`/${locale}/`, "/en/")
+      ),
     },
     openGraph,
     twitter,

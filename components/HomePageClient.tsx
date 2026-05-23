@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { lazy, Suspense, useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
@@ -7,11 +7,13 @@ import Link from "next/link";
 import { Monitor, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import CanadaLandingExtras from "@/components/CanadaLandingExtras";
 import OfficialPlayerAppsSection from "@/components/OfficialPlayerAppsSection";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { isPremiumPlansSectionEnabled } from "@/lib/i18n/pricing-display";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
-import { getBlogUrl } from "@/lib/utils/blog-slugs";
+import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import { getInstallationUrl, getResellerUrl } from "@/lib/utils/installation-slugs";
 import type { BlogPost } from "@/lib/admin/blog-shared";
 
@@ -34,7 +36,10 @@ const ComponentLoader = () => (
 );
 
 export default function Home() {
-  const { t, locale } = useLanguage();
+  const { t, locale, translations } = useLanguage();
+  const showPremiumPlans = isPremiumPlansSectionEnabled(
+    translations.pricing as Record<string, unknown> | undefined
+  );
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [reduceAnimations, setReduceAnimations] = useState(false);
   const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([]);
@@ -82,9 +87,22 @@ export default function Home() {
   useEffect(() => {
     fetch("/api/blogs")
       .then((res) => (res.ok ? res.json() : []))
-      .then((data: BlogPost[]) => setLatestBlogs(Array.isArray(data) ? data.slice(0, 3) : []))
+      .then((data: BlogPost[]) => {
+        if (!Array.isArray(data)) {
+          setLatestBlogs([]);
+          return;
+        }
+        const available = data
+          .filter((blog) => isBlogAvailableInLocale(blog, locale))
+          .sort(
+            (a, b) =>
+              new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+          )
+          .slice(0, 3);
+        setLatestBlogs(available);
+      })
       .catch(() => setLatestBlogs([]));
-  }, []);
+  }, [locale]);
 
   const pricingPlans = [
     {
@@ -316,6 +334,7 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Header />
       <HeroSection />
+      <CanadaLandingExtras />
       <OfficialPlayerAppsSection />
       <ContentCarousel />
       <LogoCarousel images={channelLogos} size="large" direction="right" speed={0.4} />
@@ -415,9 +434,19 @@ export default function Home() {
           >
             {/* Red line */}
             <div className="w-16 h-0.5 bg-red-600 mx-auto mb-6"></div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold mb-8 xl:mb-12 2xl:mb-16 text-[#1a1a1a]">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold mb-4 xl:mb-6 2xl:mb-8 text-[#1a1a1a]">
               {t("pricing.title")}
             </h2>
+            {t("pricing.currencyNote") ? (
+              <p className="mx-auto max-w-2xl text-sm sm:text-base text-red-900/80 font-medium mb-3">
+                {t("pricing.currencyNote")}
+              </p>
+            ) : null}
+            {t("pricing.subtitle") ? (
+              <p className="mx-auto max-w-3xl text-sm sm:text-base text-[#1a1a1a]/70 mb-6">
+                {t("pricing.subtitle")}
+              </p>
+            ) : null}
             <p className="mx-auto max-w-3xl text-sm sm:text-base text-[#1a1a1a]/70 leading-relaxed">
               {seoKeywordLinksRow.map((item, index) => (
                 <span key={`${item.href}-${item.label}`}>
@@ -463,36 +492,38 @@ export default function Home() {
           </div>
 
           {/* 2 Connections + Premium Plans */}
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.3 }}
-              className="flex justify-center mb-8"
-            >
-              <div className="relative px-6 py-2.5 rounded-lg border-[3px] border-gray-300 bg-gray-100">
-                <div className="absolute inset-0 bg-[#2563eb] rounded-lg"></div>
-                <span className="relative z-10 font-semibold text-base text-white uppercase tracking-wide">
-                  {t("pricing.premiumPlansLabel") || t("pricing.twoConnectionsPremium")}
-                </span>
+          {showPremiumPlans ? (
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.3 }}
+                className="flex justify-center mb-8"
+              >
+                <div className="relative px-6 py-2.5 rounded-lg border-[3px] border-gray-300 bg-gray-100">
+                  <div className="absolute inset-0 bg-[#2563eb] rounded-lg"></div>
+                  <span className="relative z-10 font-semibold text-base text-white uppercase tracking-wide">
+                    {t("pricing.premiumPlansLabel") || t("pricing.twoConnectionsPremium")}
+                  </span>
+                </div>
+              </motion.div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-6 xl:gap-8 2xl:gap-10">
+                {premiumPlans.map((plan, index) => (
+                  <Suspense key={index} fallback={<div className="h-96 bg-gray-50 animate-pulse rounded-lg" />}>
+                    <PricingCard
+                      name={plan.name}
+                      price={plan.price}
+                      period={plan.period}
+                      features={plan.features}
+                      popular={plan.popular}
+                      delay={index * 0.05}
+                    />
+                  </Suspense>
+                ))}
               </div>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-6 xl:gap-8 2xl:gap-10">
-              {premiumPlans.map((plan, index) => (
-                <Suspense key={index} fallback={<div className="h-96 bg-gray-50 animate-pulse rounded-lg" />}>
-                  <PricingCard
-                    name={plan.name}
-                    price={plan.price}
-                    period={plan.period}
-                    features={plan.features}
-                    popular={plan.popular}
-                    delay={index * 0.05}
-                  />
-                </Suspense>
-              ))}
             </div>
-          </div>
+          ) : null}
         </div>
       </section>
 

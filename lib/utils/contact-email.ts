@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n";
 /** Default public inbox per site language (override with NEXT_PUBLIC_CONTACT_EMAIL_EN | _ES | _FR). */
 const CONTACT_EMAIL_BY_LOCALE: Record<Locale, string> = {
   en: "info@official-iptvsmarterspro.com",
+  ca: "info@official-iptvsmarterspro.com",
   es: "info@iptvsubscriptionpro.es",
   fr: "info@officieliptvabonnement.fr",
 };

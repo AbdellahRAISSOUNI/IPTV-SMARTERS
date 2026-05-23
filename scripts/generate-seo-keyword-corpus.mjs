@@ -248,7 +248,20 @@ const templatesFr = [
   (g) => `streaming TV IPTV ${g}`,
 ];
 
-const enGeo = uniqueGeo([...countriesEn, ...citiesEn]);
+// USA-first for /en (Bing meta + corpus); international terms still fill remaining slots.
+const usaGeoBoost = uniqueGeo([
+  "United States",
+  "USA",
+  "US",
+  "America",
+  "American",
+  ...citiesEn.filter((c) =>
+    /^(New York|Los Angeles|Chicago|Houston|Phoenix|Philadelphia|San Antonio|San Diego|Dallas|Austin|Jacksonville|San Jose|Fort Worth|Columbus|Charlotte|San Francisco|Indianapolis|Seattle|Denver|Boston|Detroit|Nashville|Portland|Las Vegas|Miami|Atlanta|Orlando|Tampa|Minneapolis|St Louis|Kansas City|Sacramento|Raleigh|Virginia Beach|Oakland|Tucson|Albuquerque|Fresno|Long Beach|Omaha|Cleveland|Pittsburgh|Cincinnati|Buffalo|Richmond|Hartford)/.test(
+      c
+    )
+  ),
+]);
+const enGeo = uniqueGeo([...usaGeoBoost, ...usaGeoBoost, ...countriesEn, ...citiesEn]);
 const esGeo = uniqueGeo([...countriesEs, ...citiesEs]);
 const frGeo = uniqueGeo([...countriesFr, ...citiesFr]);
 
@@ -381,6 +394,12 @@ const seedsEn = [
   "best IPTV service",
   "IPTV provider",
   "IPTV channels list",
+  "IPTV USA",
+  "IPTV United States",
+  "best IPTV USA",
+  "USD IPTV subscription",
+  "IPTV for Americans",
+  "IPTV English USA",
   "international IPTV",
   "IPTV for expats",
   "IPTV family plan",

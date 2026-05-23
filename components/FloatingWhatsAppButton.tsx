@@ -20,7 +20,7 @@ export default function FloatingWhatsAppButton() {
       transition={{ duration: 0.3, delay: 0.5 }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      aria-label="Contact us on WhatsApp"
+      aria-label={t("whatsapp.ariaFloating")}
     >
       {/* WhatsApp icon */}
       <div className="relative w-full h-full flex items-center justify-center p-2.5 sm:p-3">

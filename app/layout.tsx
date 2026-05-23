@@ -118,7 +118,7 @@ export default function RootLayout({
               (function() {
                 try {
                   var path = window.location.pathname;
-                  var localeMatch = path.match(/^\/(en|es|fr)/);
+                  var localeMatch = path.match(/^\/(en|es|fr|ca)/);
                   if (localeMatch) {
                     document.documentElement.lang = localeMatch[1];
                   }

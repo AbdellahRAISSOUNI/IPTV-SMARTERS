@@ -1,0 +1,644 @@
+{
+  "keywords": [
+    {
+      "label": "IPTV Canada",
+      "keyword": "iptv canada"
+    },
+    {
+      "label": "IPTV Quebec",
+      "keyword": "iptv quebec"
+    },
+    {
+      "label": "IPTV box",
+      "keyword": "iptv box"
+    },
+    {
+      "label": "IPTV From Canada",
+      "keyword": "iptv from canada"
+    },
+    {
+      "label": "Best IPTV",
+      "keyword": "best iptv"
+    },
+    {
+      "label": "IPTV With box",
+      "keyword": "iptv with box"
+    },
+    {
+      "label": "Best Canada IPTV",
+      "keyword": "best canada iptv"
+    },
+    {
+      "label": "IPTV for Canada",
+      "keyword": "iptv for canada"
+    },
+    {
+      "label": "Quebec IPTV",
+      "keyword": "quebec iptv"
+    },
+    {
+      "label": "Best IPTV Canada",
+      "keyword": "best iptv canada"
+    },
+    {
+      "label": "IPTV Subscription",
+      "keyword": "iptv subscription"
+    },
+    {
+      "label": "IPTV Canada 2026",
+      "keyword": "iptv canada 2026"
+    },
+    {
+      "label": "IPTV Canada cad",
+      "keyword": "iptv canada cad"
+    },
+    {
+      "label": "IPTV Canada Smarters pro",
+      "keyword": "iptv canada smarters pro"
+    },
+    {
+      "label": "IPTV Quebec 2026",
+      "keyword": "iptv quebec 2026"
+    },
+    {
+      "label": "IPTV Quebec cad",
+      "keyword": "iptv quebec cad"
+    },
+    {
+      "label": "IPTV Quebec Smarters pro",
+      "keyword": "iptv quebec smarters pro"
+    },
+    {
+      "label": "IPTV box 2026",
+      "keyword": "iptv box 2026"
+    },
+    {
+      "label": "IPTV box cad",
+      "keyword": "iptv box cad"
+    },
+    {
+      "label": "IPTV box Smarters pro",
+      "keyword": "iptv box smarters pro"
+    },
+    {
+      "label": "IPTV From Canada 2026",
+      "keyword": "iptv from canada 2026"
+    },
+    {
+      "label": "IPTV From Canada cad",
+      "keyword": "iptv from canada cad"
+    },
+    {
+      "label": "IPTV From Canada Smarters pro",
+      "keyword": "iptv from canada smarters pro"
+    },
+    {
+      "label": "Best IPTV 2026",
+      "keyword": "best iptv 2026"
+    },
+    {
+      "label": "Best IPTV cad",
+      "keyword": "best iptv cad"
+    },
+    {
+      "label": "Best IPTV Smarters pro",
+      "keyword": "best iptv smarters pro"
+    },
+    {
+      "label": "IPTV With box 2026",
+      "keyword": "iptv with box 2026"
+    },
+    {
+      "label": "IPTV With box cad",
+      "keyword": "iptv with box cad"
+    },
+    {
+      "label": "IPTV With box Smarters pro",
+      "keyword": "iptv with box smarters pro"
+    },
+    {
+      "label": "Best Canada IPTV 2026",
+      "keyword": "best canada iptv 2026"
+    },
+    {
+      "label": "Best Canada IPTV cad",
+      "keyword": "best canada iptv cad"
+    },
+    {
+      "label": "Best Canada IPTV Smarters pro",
+      "keyword": "best canada iptv smarters pro"
+    },
+    {
+      "label": "IPTV for Canada 2026",
+      "keyword": "iptv for canada 2026"
+    },
+    {
+      "label": "IPTV for Canada cad",
+      "keyword": "iptv for canada cad"
+    },
+    {
+      "label": "IPTV for Canada Smarters pro",
+      "keyword": "iptv for canada smarters pro"
+    },
+    {
+      "label": "Quebec IPTV 2026",
+      "keyword": "quebec iptv 2026"
+    },
+    {
+      "label": "Quebec IPTV cad",
+      "keyword": "quebec iptv cad"
+    },
+    {
+      "label": "Quebec IPTV Smarters pro",
+      "keyword": "quebec iptv smarters pro"
+    },
+    {
+      "label": "Best IPTV Canada 2026",
+      "keyword": "best iptv canada 2026"
+    },
+    {
+      "label": "Best IPTV Canada cad",
+      "keyword": "best iptv canada cad"
+    },
+    {
+      "label": "Best IPTV Canada Smarters pro",
+      "keyword": "best iptv canada smarters pro"
+    },
+    {
+      "label": "IPTV Subscription 2026",
+      "keyword": "iptv subscription 2026"
+    },
+    {
+      "label": "IPTV Subscription cad",
+      "keyword": "iptv subscription cad"
+    },
+    {
+      "label": "IPTV Subscription Smarters pro",
+      "keyword": "iptv subscription smarters pro"
+    },
+    {
+      "label": "IPTV Ontario",
+      "keyword": "iptv ontario"
+    },
+    {
+      "label": "Ontario IPTV",
+      "keyword": "ontario iptv"
+    },
+    {
+      "label": "Best IPTV Ontario",
+      "keyword": "best iptv ontario"
+    },
+    {
+      "label": "IPTV Subscription Ontario",
+      "keyword": "iptv subscription ontario"
+    },
+    {
+      "label": "IPTV Canada Ontario",
+      "keyword": "iptv canada ontario"
+    },
+    {
+      "label": "IPTV for Ontario",
+      "keyword": "iptv for ontario"
+    },
+    {
+      "label": "IPTV box Ontario",
+      "keyword": "iptv box ontario"
+    },
+    {
+      "label": "IPTV With box Ontario",
+      "keyword": "iptv with box ontario"
+    },
+    {
+      "label": "IPTV From Canada Ontario",
+      "keyword": "iptv from canada ontario"
+    },
+    {
+      "label": "Quebec IPTV Ontario",
+      "keyword": "quebec iptv ontario"
+    },
+    {
+      "label": "IPTV Quebec Ontario",
+      "keyword": "iptv quebec ontario"
+    },
+    {
+      "label": "Best IPTV Canada Ontario",
+      "keyword": "best iptv canada ontario"
+    },
+    {
+      "label": "Best Canada IPTV Ontario",
+      "keyword": "best canada iptv ontario"
+    },
+    {
+      "label": "Cheap IPTV Ontario",
+      "keyword": "cheap iptv ontario"
+    },
+    {
+      "label": "4K IPTV Ontario",
+      "keyword": "4k iptv ontario"
+    },
+    {
+      "label": "IPTV Smarters pro Ontario",
+      "keyword": "iptv smarters pro ontario"
+    },
+    {
+      "label": "m3u IPTV Ontario",
+      "keyword": "m3u iptv ontario"
+    },
+    {
+      "label": "Xtream Codes IPTV Ontario",
+      "keyword": "xtream codes iptv ontario"
+    },
+    {
+      "label": "Live tv IPTV Ontario",
+      "keyword": "live tv iptv ontario"
+    },
+    {
+      "label": "Sports IPTV Ontario",
+      "keyword": "sports iptv ontario"
+    },
+    {
+      "label": "Best IPTV Quebec",
+      "keyword": "best iptv quebec"
+    },
+    {
+      "label": "IPTV Subscription Quebec",
+      "keyword": "iptv subscription quebec"
+    },
+    {
+      "label": "IPTV Canada Quebec",
+      "keyword": "iptv canada quebec"
+    },
+    {
+      "label": "IPTV for Quebec",
+      "keyword": "iptv for quebec"
+    },
+    {
+      "label": "IPTV box Quebec",
+      "keyword": "iptv box quebec"
+    },
+    {
+      "label": "IPTV With box Quebec",
+      "keyword": "iptv with box quebec"
+    },
+    {
+      "label": "IPTV From Canada Quebec",
+      "keyword": "iptv from canada quebec"
+    },
+    {
+      "label": "Quebec IPTV Quebec",
+      "keyword": "quebec iptv quebec"
+    },
+    {
+      "label": "IPTV Quebec Quebec",
+      "keyword": "iptv quebec quebec"
+    },
+    {
+      "label": "Best IPTV Canada Quebec",
+      "keyword": "best iptv canada quebec"
+    },
+    {
+      "label": "Best Canada IPTV Quebec",
+      "keyword": "best canada iptv quebec"
+    },
+    {
+      "label": "Cheap IPTV Quebec",
+      "keyword": "cheap iptv quebec"
+    },
+    {
+      "label": "4K IPTV Quebec",
+      "keyword": "4k iptv quebec"
+    },
+    {
+      "label": "IPTV Smarters pro Quebec",
+      "keyword": "iptv smarters pro quebec"
+    },
+    {
+      "label": "m3u IPTV Quebec",
+      "keyword": "m3u iptv quebec"
+    },
+    {
+      "label": "Xtream Codes IPTV Quebec",
+      "keyword": "xtream codes iptv quebec"
+    },
+    {
+      "label": "Live tv IPTV Quebec",
+      "keyword": "live tv iptv quebec"
+    },
+    {
+      "label": "Sports IPTV Quebec",
+      "keyword": "sports iptv quebec"
+    },
+    {
+      "label": "IPTV British Columbia",
+      "keyword": "iptv british columbia"
+    },
+    {
+      "label": "British Columbia IPTV",
+      "keyword": "british columbia iptv"
+    },
+    {
+      "label": "Best IPTV British Columbia",
+      "keyword": "best iptv british columbia"
+    },
+    {
+      "label": "IPTV Subscription British Columbia",
+      "keyword": "iptv subscription british columbia"
+    },
+    {
+      "label": "IPTV Canada British Columbia",
+      "keyword": "iptv canada british columbia"
+    },
+    {
+      "label": "IPTV for British Columbia",
+      "keyword": "iptv for british columbia"
+    },
+    {
+      "label": "IPTV box British Columbia",
+      "keyword": "iptv box british columbia"
+    },
+    {
+      "label": "IPTV With box British Columbia",
+      "keyword": "iptv with box british columbia"
+    },
+    {
+      "label": "IPTV From Canada British Columbia",
+      "keyword": "iptv from canada british columbia"
+    },
+    {
+      "label": "Quebec IPTV British Columbia",
+      "keyword": "quebec iptv british columbia"
+    },
+    {
+      "label": "IPTV Quebec British Columbia",
+      "keyword": "iptv quebec british columbia"
+    },
+    {
+      "label": "Best IPTV Canada British Columbia",
+      "keyword": "best iptv canada british columbia"
+    },
+    {
+      "label": "Best Canada IPTV British Columbia",
+      "keyword": "best canada iptv british columbia"
+    },
+    {
+      "label": "Cheap IPTV British Columbia",
+      "keyword": "cheap iptv british columbia"
+    },
+    {
+      "label": "4K IPTV British Columbia",
+      "keyword": "4k iptv british columbia"
+    },
+    {
+      "label": "IPTV Smarters pro British Columbia",
+      "keyword": "iptv smarters pro british columbia"
+    },
+    {
+      "label": "m3u IPTV British Columbia",
+      "keyword": "m3u iptv british columbia"
+    },
+    {
+      "label": "Xtream Codes IPTV British Columbia",
+      "keyword": "xtream codes iptv british columbia"
+    },
+    {
+      "label": "Live tv IPTV British Columbia",
+      "keyword": "live tv iptv british columbia"
+    },
+    {
+      "label": "Sports IPTV British Columbia",
+      "keyword": "sports iptv british columbia"
+    },
+    {
+      "label": "IPTV Alberta",
+      "keyword": "iptv alberta"
+    },
+    {
+      "label": "Alberta IPTV",
+      "keyword": "alberta iptv"
+    },
+    {
+      "label": "Best IPTV Alberta",
+      "keyword": "best iptv alberta"
+    },
+    {
+      "label": "IPTV Subscription Alberta",
+      "keyword": "iptv subscription alberta"
+    },
+    {
+      "label": "IPTV Canada Alberta",
+      "keyword": "iptv canada alberta"
+    },
+    {
+      "label": "IPTV for Alberta",
+      "keyword": "iptv for alberta"
+    },
+    {
+      "label": "IPTV box Alberta",
+      "keyword": "iptv box alberta"
+    },
+    {
+      "label": "IPTV With box Alberta",
+      "keyword": "iptv with box alberta"
+    },
+    {
+      "label": "IPTV From Canada Alberta",
+      "keyword": "iptv from canada alberta"
+    },
+    {
+      "label": "Quebec IPTV Alberta",
+      "keyword": "quebec iptv alberta"
+    },
+    {
+      "label": "IPTV Quebec Alberta",
+      "keyword": "iptv quebec alberta"
+    },
+    {
+      "label": "Best IPTV Canada Alberta",
+      "keyword": "best iptv canada alberta"
+    },
+    {
+      "label": "Best Canada IPTV Alberta",
+      "keyword": "best canada iptv alberta"
+    },
+    {
+      "label": "Cheap IPTV Alberta",
+      "keyword": "cheap iptv alberta"
+    },
+    {
+      "label": "4K IPTV Alberta",
+      "keyword": "4k iptv alberta"
+    },
+    {
+      "label": "IPTV Smarters pro Alberta",
+      "keyword": "iptv smarters pro alberta"
+    },
+    {
+      "label": "m3u IPTV Alberta",
+      "keyword": "m3u iptv alberta"
+    },
+    {
+      "label": "Xtream Codes IPTV Alberta",
+      "keyword": "xtream codes iptv alberta"
+    },
+    {
+      "label": "Live tv IPTV Alberta",
+      "keyword": "live tv iptv alberta"
+    },
+    {
+      "label": "Sports IPTV Alberta",
+      "keyword": "sports iptv alberta"
+    },
+    {
+      "label": "IPTV Manitoba",
+      "keyword": "iptv manitoba"
+    },
+    {
+      "label": "Manitoba IPTV",
+      "keyword": "manitoba iptv"
+    },
+    {
+      "label": "Best IPTV Manitoba",
+      "keyword": "best iptv manitoba"
+    },
+    {
+      "label": "IPTV Subscription Manitoba",
+      "keyword": "iptv subscription manitoba"
+    },
+    {
+      "label": "IPTV Canada Manitoba",
+      "keyword": "iptv canada manitoba"
+    },
+    {
+      "label": "IPTV for Manitoba",
+      "keyword": "iptv for manitoba"
+    },
+    {
+      "label": "IPTV box Manitoba",
+      "keyword": "iptv box manitoba"
+    },
+    {
+      "label": "IPTV With box Manitoba",
+      "keyword": "iptv with box manitoba"
+    },
+    {
+      "label": "IPTV From Canada Manitoba",
+      "keyword": "iptv from canada manitoba"
+    },
+    {
+      "label": "Quebec IPTV Manitoba",
+      "keyword": "quebec iptv manitoba"
+    },
+    {
+      "label": "IPTV Quebec Manitoba",
+      "keyword": "iptv quebec manitoba"
+    },
+    {
+      "label": "Best IPTV Canada Manitoba",
+      "keyword": "best iptv canada manitoba"
+    },
+    {
+      "label": "Best Canada IPTV Manitoba",
+      "keyword": "best canada iptv manitoba"
+    },
+    {
+      "label": "Cheap IPTV Manitoba",
+      "keyword": "cheap iptv manitoba"
+    },
+    {
+      "label": "4K IPTV Manitoba",
+      "keyword": "4k iptv manitoba"
+    },
+    {
+      "label": "IPTV Smarters pro Manitoba",
+      "keyword": "iptv smarters pro manitoba"
+    },
+    {
+      "label": "m3u IPTV Manitoba",
+      "keyword": "m3u iptv manitoba"
+    },
+    {
+      "label": "Xtream Codes IPTV Manitoba",
+      "keyword": "xtream codes iptv manitoba"
+    },
+    {
+      "label": "Live tv IPTV Manitoba",
+      "keyword": "live tv iptv manitoba"
+    },
+    {
+      "label": "Sports IPTV Manitoba",
+      "keyword": "sports iptv manitoba"
+    },
+    {
+      "label": "IPTV Saskatchewan",
+      "keyword": "iptv saskatchewan"
+    },
+    {
+      "label": "Saskatchewan IPTV",
+      "keyword": "saskatchewan iptv"
+    },
+    {
+      "label": "Best IPTV Saskatchewan",
+      "keyword": "best iptv saskatchewan"
+    },
+    {
+      "label": "IPTV Subscription Saskatchewan",
+      "keyword": "iptv subscription saskatchewan"
+    },
+    {
+      "label": "IPTV Canada Saskatchewan",
+      "keyword": "iptv canada saskatchewan"
+    },
+    {
+      "label": "IPTV for Saskatchewan",
+      "keyword": "iptv for saskatchewan"
+    },
+    {
+      "label": "IPTV box Saskatchewan",
+      "keyword": "iptv box saskatchewan"
+    },
+    {
+      "label": "IPTV With box Saskatchewan",
+      "keyword": "iptv with box saskatchewan"
+    },
+    {
+      "label": "IPTV From Canada Saskatchewan",
+      "keyword": "iptv from canada saskatchewan"
+    },
+    {
+      "label": "Quebec IPTV Saskatchewan",
+      "keyword": "quebec iptv saskatchewan"
+    },
+    {
+      "label": "IPTV Quebec Saskatchewan",
+      "keyword": "iptv quebec saskatchewan"
+    },
+    {
+      "label": "Best IPTV Canada Saskatchewan",
+      "keyword": "best iptv canada saskatchewan"
+    },
+    {
+      "label": "Best Canada IPTV Saskatchewan",
+      "keyword": "best canada iptv saskatchewan"
+    },
+    {
+      "label": "Cheap IPTV Saskatchewan",
+      "keyword": "cheap iptv saskatchewan"
+    },
+    {
+      "label": "4K IPTV Saskatchewan",
+      "keyword": "4k iptv saskatchewan"
+    },
+    {
+      "label": "IPTV Smarters pro Saskatchewan",
+      "keyword": "iptv smarters pro saskatchewan"
+    },
+    {
+      "label": "m3u IPTV Saskatchewan",
+      "keyword": "m3u iptv saskatchewan"
+    },
+    {
+      "label": "Xtream Codes IPTV Saskatchewan",
+      "keyword": "xtream codes iptv saskatchewan"
+    }
+  ]
+}

@@ -1,8 +1,12 @@
+import type { Locale } from "@/lib/i18n";
+import { hreflangByLocale } from "@/lib/seo/hreflang";
+import { keywordsForJsonLd } from "@/lib/seo/json-ld-limits";
+
 type WebPageJsonLdProps = {
   url: string;
   name: string;
   description: string;
-  locale: string;
+  locale: Locale | string;
   keywords?: string[];
   siteUrl: string;
 };
@@ -12,7 +16,11 @@ type WebPageJsonLdProps = {
  */
 export function WebPageJsonLd({ url, name, description, locale, keywords, siteUrl }: WebPageJsonLdProps) {
   const inLanguage =
-    locale === "en" ? "en-US" : locale === "es" ? "es-ES" : locale === "fr" ? "fr-FR" : locale;
+    locale === "en" || locale === "ca" || locale === "es" || locale === "fr"
+      ? hreflangByLocale[locale]
+      : locale === "en-US" || locale === "en-CA"
+        ? locale
+        : "en-US";
 
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -28,8 +36,9 @@ export function WebPageJsonLd({ url, name, description, locale, keywords, siteUr
     },
   };
 
-  if (keywords?.length) {
-    data.keywords = keywords.join(", ");
+  const jsonLdKeywords = keywordsForJsonLd(keywords ?? []);
+  if (jsonLdKeywords.length) {
+    data.keywords = jsonLdKeywords.join(", ");
   }
 
   return (

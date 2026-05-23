@@ -1,3 +1,5 @@
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
+import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { getInstallationMetadata } from "@/lib/utils/metadata-loader";
@@ -22,17 +24,7 @@ export async function generateMetadata({
 
   const keywords = getRouteMetaKeywords(locale, "windows", windowsInstallationSeeds[locale]);
 
-  const localeMap: Record<Locale, string> = {
-    en: "en_US",
-    es: "es_ES",
-    fr: "fr_FR",
-  };
-
-  const siteNameMap: Record<Locale, string> = {
-    en: "StreamPro - Premium IPTV Service",
-    es: "StreamPro - Servicio IPTV Premium",
-    fr: "StreamPro - Service IPTV Premium",
-  };
+  const localeMap = openGraphLocaleMap;
 
   const ogImage = `${baseUrl}/images/hero.png`;
   
@@ -41,12 +33,9 @@ export async function generateMetadata({
   const canonicalUrl = `${baseUrl}${currentUrl}`;
   
   // Generate alternates with language-specific URLs
-  const languageAlternates: Record<string, string> = {};
-  locales.forEach((loc) => {
-    const altUrl = getInstallationUrl('iptv-installation-windows', loc);
-    languageAlternates[loc] = `${baseUrl}${altUrl}`;
-  });
-  languageAlternates['x-default'] = `${baseUrl}${getInstallationUrl('iptv-installation-windows', 'en')}`;
+  const languageAlternates = buildHreflangAlternatesForPaths(baseUrl, (loc) =>
+    getInstallationUrl("iptv-installation-windows", loc)
+  );
 
   return {
     title,

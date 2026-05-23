@@ -4,6 +4,7 @@
  */
 
 import type { Locale } from '@/lib/i18n';
+import { locales as validLocalesList } from '@/lib/i18n';
 import { getDefaultMetadata } from '@/lib/admin/metadata';
 import type { MetadataContent } from '@/lib/admin/metadata';
 import fs from 'fs';
@@ -15,7 +16,7 @@ import { cache } from 'react';
  */
 export const loadPageMetadata = cache(async function loadPageMetadata(locale: Locale): Promise<MetadataContent> {
   // Validate locale first - only valid locales should reach here
-  const validLocales: Locale[] = ['en', 'es', 'fr'];
+  const validLocales: Locale[] = validLocalesList;
   if (!validLocales.includes(locale)) {
     // Invalid locale, return default for English
     return getDefaultMetadata('en');

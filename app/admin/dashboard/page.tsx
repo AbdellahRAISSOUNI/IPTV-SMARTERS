@@ -30,6 +30,7 @@ import {
   AlignRight,
   MoveUp,
   MoveDown,
+  MessageCircle,
 } from "lucide-react";
 import { translations as defaultTranslations } from "@/lib/i18n";
 import BlogsManager from "@/components/admin/BlogsManager";
@@ -49,7 +50,81 @@ interface CarouselData {
   content: string[];
 }
 
-type Section = "hero" | "pricing" | "carousel" | "reseller" | "settings" | "blogs" | "metadata";
+type Section =
+  | "hero"
+  | "pricing"
+  | "whatsapp"
+  | "carousel"
+  | "reseller"
+  | "settings"
+  | "blogs"
+  | "metadata";
+
+const WHATSAPP_MESSAGE_FIELDS: { key: string; label: string; hint?: string }[] = [
+  {
+    key: "floatingButton",
+    label: "Floating button (corner chat)",
+    hint: "Pre-filled when visitors tap the floating WhatsApp icon.",
+  },
+  {
+    key: "defaultButton",
+    label: "Default WhatsApp button",
+  },
+  {
+    key: "ctaSection",
+    label: "CTA section button",
+  },
+  {
+    key: "homePage",
+    label: "Homepage channels CTA",
+  },
+  {
+    key: "pricingPlan",
+    label: "Pricing card “Buy now”",
+    hint: "Use {planName} where the plan title should appear.",
+  },
+  {
+    key: "contactQuestion",
+    label: "Footer / contact question",
+  },
+  {
+    key: "installationHelp",
+    label: "Installation pages help",
+  },
+  {
+    key: "resellerInterest",
+    label: "Reseller program",
+  },
+  {
+    key: "notFoundHelp",
+    label: "404 page",
+  },
+  {
+    key: "tooltip",
+    label: "Floating button tooltip",
+  },
+  {
+    key: "contactButton",
+    label: "Installation “Contact” link text",
+  },
+  {
+    key: "ariaFloating",
+    label: "Accessibility label (floating button)",
+  },
+  {
+    key: "ariaFreeTest",
+    label: "Accessibility label (free test button)",
+  },
+];
+
+const LOCALE_LABELS: Record<string, string> = {
+  en: "EN",
+  es: "ES",
+  fr: "FR",
+  ca: "Canada",
+};
+
+const ADMIN_LOCALE_ORDER = ["en", "es", "fr", "ca"] as const;
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -267,8 +342,8 @@ export default function AdminDashboard() {
     }));
   };
 
-  // Update translation value
-  const updateValue = (path: string, value: string) => {
+  // Update translation value (string or boolean)
+  const updateValue = (path: string, value: string | boolean) => {
     const keys = path.split(".");
     const newTranslations = { ...translations };
     let current: any = newTranslations[activeLocale].content;
@@ -279,6 +354,36 @@ export default function AdminDashboard() {
 
     current[keys[keys.length - 1]] = value;
     setTranslations(newTranslations);
+  };
+
+  const getRawValue = (path: string): unknown => {
+    const keys = path.split(".");
+    let current: any = translations[activeLocale]?.content;
+
+    for (const key of keys) {
+      if (current && current[key] !== undefined) {
+        current = current[key];
+      } else {
+        let fallback: any = (defaultTranslations as any)[activeLocale];
+        for (const k of keys) {
+          if (fallback && fallback[k] !== undefined) {
+            fallback = fallback[k];
+          } else {
+            return undefined;
+          }
+        }
+        return fallback;
+      }
+    }
+
+    return current;
+  };
+
+  const getBoolValue = (path: string, defaultValue = true): boolean => {
+    const raw = getRawValue(path);
+    if (raw === false || raw === "false" || raw === "0") return false;
+    if (raw === true || raw === "true" || raw === "1") return true;
+    return defaultValue;
   };
 
   const getDefaultValue = (localeKey: string, path: string): string => {
@@ -331,6 +436,19 @@ export default function AdminDashboard() {
   }
 
   const currentContent = translations[activeLocale]?.content;
+  const pricePlaceholder =
+    activeLocale === "ca"
+      ? "$27.99 CAD"
+      : activeLocale === "en"
+        ? "$19.99"
+        : "€19.99";
+  const premiumPricePlaceholder =
+    activeLocale === "ca"
+      ? "$39.99 CAD"
+      : activeLocale === "en"
+        ? "$29.99"
+        : "€29.99";
+  const sortedLocales = ADMIN_LOCALE_ORDER.filter((code) => translations[code]);
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
@@ -346,7 +464,7 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-3">
               {/* Language Selector */}
               <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
-                {Object.keys(translations).map((locale) => (
+                {sortedLocales.map((locale) => (
                   <button
                     key={locale}
                     onClick={() => setActiveLocale(locale)}
@@ -356,7 +474,7 @@ export default function AdminDashboard() {
                         : "text-gray-600 hover:text-black"
                     }`}
                   >
-                    {locale.toUpperCase()}
+                    {LOCALE_LABELS[locale] ?? locale.toUpperCase()}
                   </button>
                 ))}
               </div>
@@ -442,6 +560,17 @@ export default function AdminDashboard() {
                   Pricing
                 </button>
                 <button
+                  onClick={() => setActiveSection("whatsapp")}
+                  className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
+                    activeSection === "whatsapp"
+                      ? "bg-black text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  WhatsApp & CTA
+                </button>
+                <button
                   onClick={() => setActiveSection("carousel")}
                   className={`w-full px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-3 text-left ${
                     activeSection === "carousel"
@@ -508,11 +637,38 @@ export default function AdminDashboard() {
                 {/* Hero Section Editor */}
                 {activeSection === "hero" && (
                   <div className="space-y-6">
+                    {activeLocale === "ca" && (
+                      <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
+                        <strong>Canada homepage</strong> — hero copy is saved in{" "}
+                        <code className="text-xs bg-white/80 px-1 rounded">ca.json</code> only. EN / ES / FR
+                        are not affected.
+                      </div>
+                    )}
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h2 className="text-2xl font-medium text-black mb-1">Homepage Hero</h2>
-                      <p className="text-gray-500 text-sm mb-6">Edit your homepage hero section</p>
+                      <h2 className="text-2xl font-medium text-black mb-1">
+                        {activeLocale === "ca" ? "Canada Homepage Hero" : "Homepage Hero"}
+                      </h2>
+                      <p className="text-gray-500 text-sm mb-6">
+                        {activeLocale === "ca"
+                          ? "Edit the /ca/ hero (title, subtitle, lead paragraph, CTA)."
+                          : "Edit your homepage hero section"}
+                      </p>
 
                       <div className="space-y-5">
+                        {activeLocale === "ca" && (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Eyebrow (e.g. Canada · Plans in CAD)
+                            </label>
+                            <input
+                              type="text"
+                              value={getValue("hero.eyebrow")}
+                              onChange={(e) => updateValue("hero.eyebrow", e.target.value)}
+                              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                            />
+                          </div>
+                        )}
+
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Main Heading
@@ -550,17 +706,70 @@ export default function AdminDashboard() {
                           </div>
                         </div>
 
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Description
-                          </label>
-                          <textarea
-                            value={getValue("hero.description")}
-                            onChange={(e) => updateValue("hero.description", e.target.value)}
-                            rows={4}
-                            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
-                          />
-                        </div>
+                        {activeLocale === "ca" ? (
+                          <>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Lead paragraph (start)
+                              </label>
+                              <textarea
+                                value={getValue("hero.lead")}
+                                onChange={(e) => updateValue("hero.lead", e.target.value)}
+                                rows={3}
+                                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
+                              />
+                            </div>
+                            {(["lead2", "lead3", "lead4", "lead5"] as const).map((key) => (
+                              <div key={key}>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  {key}
+                                </label>
+                                <input
+                                  type="text"
+                                  value={getValue(`hero.${key}`)}
+                                  onChange={(e) => updateValue(`hero.${key}`, e.target.value)}
+                                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                                />
+                              </div>
+                            ))}
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  CTA button
+                                </label>
+                                <input
+                                  type="text"
+                                  value={getValue("hero.cta")}
+                                  onChange={(e) => updateValue("hero.cta", e.target.value)}
+                                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  CTA note
+                                </label>
+                                <input
+                                  type="text"
+                                  value={getValue("hero.ctaNote")}
+                                  onChange={(e) => updateValue("hero.ctaNote", e.target.value)}
+                                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                                />
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Description
+                            </label>
+                            <textarea
+                              value={getValue("hero.description")}
+                              onChange={(e) => updateValue("hero.description", e.target.value)}
+                              rows={4}
+                              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -585,10 +794,21 @@ export default function AdminDashboard() {
                 {/* Pricing Section Editor */}
                 {activeSection === "pricing" && (
                   <div className="space-y-6">
+                    {activeLocale === "ca" && (
+                      <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
+                        <strong>Canada (CA)</strong> pricing is stored in{" "}
+                        <code className="text-xs bg-white/80 px-1 rounded">ca.json</code> only — independent
+                        from EN, ES, and FR. Change plan prices here; they appear on{" "}
+                        <code className="text-xs bg-white/80 px-1 rounded">/ca/#pricing</code> in CAD.
+                      </div>
+                    )}
                     {/* Section Settings */}
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
                       <h2 className="text-2xl font-medium text-black mb-1">Pricing Section</h2>
-                      <p className="text-gray-500 text-sm mb-6">Edit section title and labels</p>
+                      <p className="text-gray-500 text-sm mb-6">
+                        Edit section title, currency, and plan labels
+                        {activeLocale === "ca" ? " — Canada uses its own CAD prices in ca.json" : ""}
+                      </p>
 
                       <div className="space-y-4">
                         <div>
@@ -603,26 +823,88 @@ export default function AdminDashboard() {
                           />
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        {(activeLocale === "ca" || getValue("pricing.subtitle")) && (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Standard Plans Label
+                              Section subtitle
+                            </label>
+                            <textarea
+                              value={getValue("pricing.subtitle")}
+                              onChange={(e) => updateValue("pricing.subtitle", e.target.value)}
+                              rows={2}
+                              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
+                            />
+                          </div>
+                        )}
+
+                        <div
+                          className={`grid gap-4 ${activeLocale === "ca" ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2"}`}
+                        >
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Currency code (SEO / schema)
                             </label>
                             <input
                               type="text"
-                              value={getValue("pricing.oneConnection")}
-                              onChange={(e) => updateValue("pricing.oneConnection", e.target.value)}
+                              maxLength={3}
+                              placeholder={activeLocale === "ca" ? "CAD" : activeLocale === "en" ? "USD" : "EUR"}
+                              value={getValue("pricing.currencyCode")}
+                              onChange={(e) =>
+                                updateValue("pricing.currencyCode", e.target.value.toUpperCase())
+                              }
+                              className={`w-full px-4 py-3 bg-white border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:border-transparent ${
+                                activeLocale === "ca"
+                                  ? "border-red-200 focus:ring-red-600"
+                                  : "border-gray-300 focus:ring-black"
+                              }`}
+                            />
+                            <p className="text-xs text-gray-500 mt-1">
+                              ISO code for structured data. Card prices use the fields below (e.g.{" "}
+                              {pricePlaceholder}).
+                            </p>
+                          </div>
+                          {activeLocale === "ca" && (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Currency note (shown on /ca/)
+                              </label>
+                              <input
+                                type="text"
+                                value={getValue("pricing.currencyNote")}
+                                onChange={(e) => updateValue("pricing.currencyNote", e.target.value)}
+                                className="w-full px-4 py-3 bg-white border border-red-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Standard plans tab label
+                            </label>
+                            <input
+                              type="text"
+                              value={
+                                getValue("pricing.standardPlansLabel") ||
+                                getValue("pricing.oneConnection")
+                              }
+                              onChange={(e) =>
+                                updateValue("pricing.standardPlansLabel", e.target.value)
+                              }
                               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                             />
                           </div>
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Premium Plans Label
+                              Premium plans tab label
                             </label>
                             <input
                               type="text"
-                              value={getValue("pricing.premiumPlans")}
-                              onChange={(e) => updateValue("pricing.premiumPlans", e.target.value)}
+                              value={getValue("pricing.premiumPlansLabel")}
+                              onChange={(e) =>
+                                updateValue("pricing.premiumPlansLabel", e.target.value)
+                              }
                               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                             />
                           </div>
@@ -654,7 +936,7 @@ export default function AdminDashboard() {
                             />
                             <input
                               type="text"
-                              placeholder="Price (e.g., €19.99)"
+                              placeholder={`Price (e.g., ${pricePlaceholder})`}
                               value={getValue("pricing.plan3MonthsPrice")}
                               onChange={(e) => updateValue("pricing.plan3MonthsPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -685,7 +967,7 @@ export default function AdminDashboard() {
                             />
                             <input
                               type="text"
-                              placeholder="Price (e.g., €24.99)"
+                              placeholder={`Price (e.g., ${pricePlaceholder})`}
                               value={getValue("pricing.plan6MonthsPrice")}
                               onChange={(e) => updateValue("pricing.plan6MonthsPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -717,7 +999,7 @@ export default function AdminDashboard() {
                             />
                             <input
                               type="text"
-                              placeholder="Price (e.g., €39.99)"
+                              placeholder={`Price (e.g., ${pricePlaceholder})`}
                               value={getValue("pricing.plan12MonthsPrice")}
                               onChange={(e) => updateValue("pricing.plan12MonthsPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -748,7 +1030,7 @@ export default function AdminDashboard() {
                             />
                             <input
                               type="text"
-                              placeholder="Price (e.g., €54.99)"
+                              placeholder={`Price (e.g., ${pricePlaceholder})`}
                               value={getValue("pricing.plan24MonthsPrice")}
                               onChange={(e) => updateValue("pricing.plan24MonthsPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -765,11 +1047,59 @@ export default function AdminDashboard() {
                     </div>
 
                     {/* Premium Plans - 4 Cards */}
-                    <div className="bg-white rounded-xl border border-gray-200 p-6">
-                      <h3 className="text-lg font-medium text-black mb-4">
-                        {getValue("pricing.premiumPlansLabel") || "Premium Plans (Multiple Connections)"}
-                      </h3>
-                      
+                    <div
+                      className={`bg-white rounded-xl border p-6 ${
+                        getBoolValue("pricing.showPremiumPlans", true)
+                          ? "border-gray-200"
+                          : "border-amber-200 bg-amber-50/30"
+                      }`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                        <div>
+                          <h3 className="text-lg font-medium text-black">
+                            {getValue("pricing.premiumPlansLabel") ||
+                              "Premium Plans (Multiple Connections)"}
+                          </h3>
+                          <p className="text-sm text-gray-500 mt-1">
+                            Multi-connection plans shown below standard plans on the live site.
+                          </p>
+                        </div>
+                        <label className="inline-flex items-center gap-3 cursor-pointer shrink-0">
+                          <span className="text-sm font-medium text-gray-700">Show on website</span>
+                          <button
+                            type="button"
+                            role="switch"
+                            aria-checked={getBoolValue("pricing.showPremiumPlans", true)}
+                            onClick={() =>
+                              updateValue(
+                                "pricing.showPremiumPlans",
+                                !getBoolValue("pricing.showPremiumPlans", true)
+                              )
+                            }
+                            className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${
+                              getBoolValue("pricing.showPremiumPlans", true)
+                                ? "bg-black"
+                                : "bg-gray-300"
+                            }`}
+                          >
+                            <span
+                              className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${
+                                getBoolValue("pricing.showPremiumPlans", true)
+                                  ? "translate-x-6"
+                                  : "translate-x-1"
+                              }`}
+                            />
+                          </button>
+                        </label>
+                      </div>
+
+                      {!getBoolValue("pricing.showPremiumPlans", true) && (
+                        <p className="text-sm text-amber-800 mb-4 rounded-lg bg-amber-100/80 px-3 py-2">
+                          This section is hidden on the public site. Turn the switch on to display it
+                          again.
+                        </p>
+                      )}
+
                       <div className="grid grid-cols-2 gap-6">
                         {/* 3 Months Premium */}
                         <div className="border border-gray-200 rounded-lg p-4">
@@ -788,7 +1118,7 @@ export default function AdminDashboard() {
                             />
                             <input
                               type="text"
-                              placeholder="Price (e.g., €29.99)"
+                              placeholder={`Price (e.g., ${premiumPricePlaceholder})`}
                               value={getValue("pricing.plan3MonthsPremiumPrice")}
                               onChange={(e) => updateValue("pricing.plan3MonthsPremiumPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -819,7 +1149,7 @@ export default function AdminDashboard() {
                             />
                             <input
                               type="text"
-                              placeholder="Price (e.g., €39.99)"
+                              placeholder={`Price (e.g., ${premiumPricePlaceholder})`}
                               value={getValue("pricing.plan6MonthsPremiumPrice")}
                               onChange={(e) => updateValue("pricing.plan6MonthsPremiumPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -851,7 +1181,7 @@ export default function AdminDashboard() {
                             />
                             <input
                               type="text"
-                              placeholder="Price (e.g., €59.99)"
+                              placeholder={`Price (e.g., ${premiumPricePlaceholder})`}
                               value={getValue("pricing.plan12MonthsPremiumPrice")}
                               onChange={(e) => updateValue("pricing.plan12MonthsPremiumPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -882,7 +1212,7 @@ export default function AdminDashboard() {
                             />
                             <input
                               type="text"
-                              placeholder="Price (e.g., €89.99)"
+                              placeholder={`Price (e.g., ${premiumPricePlaceholder})`}
                               value={getValue("pricing.plan24MonthsPremiumPrice")}
                               onChange={(e) => updateValue("pricing.plan24MonthsPremiumPrice", e.target.value)}
                               className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -1131,7 +1461,8 @@ export default function AdminDashboard() {
                             <div className="relative px-6 py-2.5 rounded-lg border-2 border-gray-300 bg-gray-100">
                               <div className="absolute inset-0 bg-blue-600 rounded-lg"></div>
                               <span className="relative z-10 font-semibold text-sm text-white uppercase">
-                                {getValue("pricing.premiumPlans")}
+                                {getValue("pricing.premiumPlansLabel") ||
+                                  "Premium Plans (Multiple Connections)"}
                               </span>
                             </div>
                           </div>
@@ -1183,6 +1514,135 @@ export default function AdminDashboard() {
                         </div>
                       </div>
                     )}
+                  </div>
+                )}
+
+                {/* WhatsApp & CTA messages */}
+                {activeSection === "whatsapp" && (
+                  <div className="space-y-6">
+                    {activeLocale === "ca" && (
+                      <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
+                        <strong>Canada WhatsApp messages</strong> — these are the exact texts
+                        pre-filled when someone opens WhatsApp from <code className="text-xs bg-white/80 px-1 rounded">/ca/</code>.
+                        Keep CAD / Canadian support wording here; other locales use their own JSON files.
+                      </div>
+                    )}
+
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h2 className="text-2xl font-medium text-black mb-1 flex items-center gap-2">
+                        <MessageCircle className="w-6 h-6" />
+                        WhatsApp pre-filled messages
+                      </h2>
+                      <p className="text-gray-500 text-sm mb-6">
+                        Each field is sent as the opening message in WhatsApp when that button is
+                        clicked on the {LOCALE_LABELS[activeLocale] ?? activeLocale} site.
+                      </p>
+
+                      <div className="space-y-5">
+                        {WHATSAPP_MESSAGE_FIELDS.map(({ key, label, hint }) => (
+                          <div key={key}>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              {label}
+                            </label>
+                            {hint ? (
+                              <p className="text-xs text-gray-500 mb-2">{hint}</p>
+                            ) : null}
+                            <textarea
+                              value={getValue(`whatsapp.${key}`)}
+                              onChange={(e) => updateValue(`whatsapp.${key}`, e.target.value)}
+                              rows={key === "pricingPlan" ? 2 : 3}
+                              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-y"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h3 className="text-lg font-medium text-black mb-4">CTA section (homepage)</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                        {(["title", "title2", "title3"] as const).map((key) => (
+                          <div key={key}>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Title line — {key}
+                            </label>
+                            <input
+                              type="text"
+                              value={getValue(`cta.${key}`)}
+                              onChange={(e) => updateValue(`cta.${key}`, e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Description
+                          </label>
+                          <textarea
+                            value={getValue("cta.description")}
+                            onChange={(e) => updateValue("cta.description", e.target.value)}
+                            rows={3}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm resize-none"
+                          />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              WhatsApp button label
+                            </label>
+                            <input
+                              type="text"
+                              value={getValue("cta.whatsapp")}
+                              onChange={(e) => updateValue("cta.whatsapp", e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Email button label
+                            </label>
+                            <input
+                              type="text"
+                              value={getValue("cta.email")}
+                              onChange={(e) => updateValue("cta.email", e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h3 className="text-lg font-medium text-black mb-4">Contact strip</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Heading
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("contactSection.title")}
+                            onChange={(e) => updateValue("contactSection.title", e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Description
+                          </label>
+                          <textarea
+                            value={getValue("contactSection.description")}
+                            onChange={(e) =>
+                              updateValue("contactSection.description", e.target.value)
+                            }
+                            rows={3}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm resize-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -1302,6 +1762,13 @@ export default function AdminDashboard() {
                 {/* Reseller Section Editor */}
                 {activeSection === "reseller" && (
                   <div className="space-y-6">
+                    {activeLocale === "ca" && (
+                      <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
+                        <strong>Canada reseller pricing</strong> is saved in{" "}
+                        <code className="text-xs bg-white/80 px-1 rounded">ca.json</code> only — set CAD
+                        credit prices below (independent from EN / ES / FR).
+                      </div>
+                    )}
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
                       <h2 className="text-2xl font-medium text-black mb-1">Reseller Page</h2>
                       <p className="text-gray-500 text-sm mb-6">Edit your reseller program page</p>
@@ -1342,6 +1809,53 @@ export default function AdminDashboard() {
                             className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                           />
                         </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h3 className="text-lg font-medium text-black mb-4">Reseller credit pricing</h3>
+                      {activeLocale === "ca" && (
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Currency note (shown above plan cards)
+                          </label>
+                          <input
+                            type="text"
+                            value={getValue("reseller.pricingCurrencyNote")}
+                            onChange={(e) =>
+                              updateValue("reseller.pricingCurrencyNote", e.target.value)
+                            }
+                            className="w-full px-3 py-2 border border-red-200 rounded-lg text-sm"
+                          />
+                        </div>
+                      )}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {(
+                          [
+                            { key: "credit10Price", label: "10 credits" },
+                            { key: "credit20Price", label: "20 credits" },
+                            { key: "credit30Price", label: "30 credits" },
+                          ] as const
+                        ).map(({ key, label }) => (
+                          <div key={key}>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              {label}
+                            </label>
+                            <input
+                              type="text"
+                              placeholder={
+                                activeLocale === "ca"
+                                  ? "$219 CAD"
+                                  : activeLocale === "en"
+                                    ? "$175"
+                                    : "160 €"
+                              }
+                              value={getValue(`reseller.${key}`)}
+                              onChange={(e) => updateValue(`reseller.${key}`, e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                            />
+                          </div>
+                        ))}
                       </div>
                     </div>
 

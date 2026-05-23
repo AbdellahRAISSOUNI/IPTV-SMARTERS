@@ -6,7 +6,8 @@ import BlogEditor from "./BlogEditor";
 import DeploymentNotification from "./DeploymentNotification";
 import type { BlogPost } from "@/lib/admin/blog-shared";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
-import { getPublishedLocales } from "@/lib/admin/blog-locales";
+import { getPublishedLocales, type BlogLocale } from "@/lib/admin/blog-locales";
+import type { Locale } from "@/lib/i18n";
 
 export default function BlogsManager() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -18,18 +19,27 @@ export default function BlogsManager() {
   const [showDeploymentNotification, setShowDeploymentNotification] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
 
-  const previewTitle = (b: BlogPost) =>
-    (b.title.en || b.title.es || b.title.fr || "").trim() || "Untitled";
-  const previewExcerpt = (b: BlogPost) =>
-    (b.excerpt.en || b.excerpt.es || b.excerpt.fr || "").trim() || "No excerpt";
+  const previewForLocale = (b: BlogPost, locale: BlogLocale) => {
+    const title = (b.title[locale] || "").trim();
+    const excerpt = (b.excerpt[locale] || "").trim();
+    return { title: title || "Untitled", excerpt: excerpt || "No excerpt" };
+  };
+
+  const previewPrimary = (b: BlogPost) => {
+    const locales = getPublishedLocales(b);
+    const loc = (locales.includes(b.locale as BlogLocale)
+      ? b.locale
+      : locales[0] || "en") as BlogLocale;
+    return { ...previewForLocale(b, loc), locale: loc };
+  };
 
   // Helper to get slug for display
-  const getSlugForDisplay = (blog: BlogPost, locale?: string): string => {
+  const getSlugForDisplay = (blog: BlogPost, locale?: Locale): string => {
     if (typeof blog.slug === "string") {
       return blog.slug;
     }
     const slugRecord = blog.slug as Record<string, string>;
-    const targetLocale = (locale || blog.locale) as "en" | "es" | "fr";
+    const targetLocale = (locale || blog.locale) as Locale;
     return String(slugRecord[targetLocale] || "").trim();
   };
 
@@ -273,7 +283,7 @@ export default function BlogsManager() {
                    <div className="relative w-full h-40 mb-3 overflow-hidden rounded-lg bg-gray-100">
                      <img
                        src={blog.featuredImage}
-                       alt={previewTitle(blog)}
+                       alt={previewPrimary(blog).title}
                        className="w-full h-full object-cover"
                      />
                    </div>
@@ -289,17 +299,17 @@ export default function BlogsManager() {
                    ))}
                  </div>
                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                   {previewTitle(blog)}
+                   {previewPrimary(blog).title}
                  </h3>
                  <p className="text-sm text-gray-500 mb-3 line-clamp-2">
-                   {previewExcerpt(blog)}
+                   {previewPrimary(blog).excerpt}
                  </p>
                  <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
                    <span
                      className="truncate"
-                     title={`Slugs — EN: ${getSlugForDisplay(blog, "en")} | ES: ${getSlugForDisplay(blog, "es")} | FR: ${getSlugForDisplay(blog, "fr")}`}
+                     title={`Slugs — EN: ${getSlugForDisplay(blog, "en")} | CA: ${getSlugForDisplay(blog, "ca")} | ES: ${getSlugForDisplay(blog, "es")} | FR: ${getSlugForDisplay(blog, "fr")}`}
                    >
-                     /{blog.locale}/blog/{getSlugForDisplay(blog, blog.locale)}/
+                     /{previewPrimary(blog).locale}/blog/{getSlugForDisplay(blog, previewPrimary(blog).locale)}/
                    </span>
                    <span className="whitespace-nowrap ml-2">
                      {new Date(blog.publishedAt).toLocaleDateString()}
@@ -314,7 +324,7 @@ export default function BlogsManager() {
                     Edit
                   </button>
                   <a
-                    href={getBlogUrl(blog, blog.locale as 'en' | 'es' | 'fr')}
+                    href={getBlogUrl(blog, previewPrimary(blog).locale)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all text-sm font-medium flex items-center justify-center gap-2"

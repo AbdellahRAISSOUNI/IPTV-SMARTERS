@@ -61,6 +61,7 @@ describe("blog-slugs", () => {
     });
     expect(getAllBlogSlugs(blog)).toEqual({
       en: "en-s",
+      ca: "",
       es: "es-s",
       fr: "fr-s",
     });

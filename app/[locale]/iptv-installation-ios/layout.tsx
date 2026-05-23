@@ -1,3 +1,5 @@
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
+import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
@@ -21,27 +23,15 @@ export async function generateMetadata({
   const description = pageMetadata.description;
   const keywords = getRouteMetaKeywords(locale, "ios", iosInstallationSeeds[locale]);
 
-  const localeMap: Record<Locale, string> = {
-    en: "en_US",
-    es: "es_ES",
-    fr: "fr_FR",
-  };
-
-  const siteNameMap: Record<Locale, string> = {
-    en: "StreamPro - Premium IPTV Service",
-    es: "StreamPro - Servicio IPTV Premium",
-    fr: "StreamPro - Service IPTV Premium",
-  };
+  const localeMap = openGraphLocaleMap;
 
   const ogImage = `${baseUrl}/images/hero.png`;
   const currentUrl = getInstallationUrl("iptv-installation-ios", locale);
   const canonicalUrl = `${baseUrl}${currentUrl}`;
 
-  const languageAlternates: Record<string, string> = {};
-  locales.forEach((loc) => {
-    languageAlternates[loc] = `${baseUrl}${getInstallationUrl("iptv-installation-ios", loc)}`;
-  });
-  languageAlternates["x-default"] = `${baseUrl}${getInstallationUrl("iptv-installation-ios", "en")}`;
+  const languageAlternates = buildHreflangAlternatesForPaths(baseUrl, (loc) =>
+    getInstallationUrl("iptv-installation-ios", loc)
+  );
 
   return {
     title,

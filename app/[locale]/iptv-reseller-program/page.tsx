@@ -39,7 +39,7 @@ export default function ResellerPage() {
   const resellerPlans = [
     {
       name: t("reseller.credit10Title"),
-      price: "160 €",
+      price: t("reseller.credit10Price"),
       period: "",
       features: [
         t("reseller.credit10Feature1"),
@@ -52,7 +52,7 @@ export default function ResellerPage() {
     },
     {
       name: t("reseller.credit20Title"),
-      price: "290 €",
+      price: t("reseller.credit20Price"),
       period: "",
       features: [
         t("reseller.credit20Feature1"),
@@ -66,7 +66,7 @@ export default function ResellerPage() {
     },
     {
       name: t("reseller.credit30Title"),
-      price: "420 €",
+      price: t("reseller.credit30Price"),
       period: "",
       features: [
         t("reseller.credit30Feature1"),
@@ -240,9 +240,17 @@ export default function ResellerPage() {
             transition={reduceAnimations ? {} : { duration: 0.4, delay: 0.3 }}
             className="mb-6 sm:mb-8"
           >
-            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-4 sm:mb-6 text-center px-2">
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#1a1a1a] mb-2 sm:mb-3 text-center px-2">
               {t("reseller.pricingTitle")}
             </h3>
+            {t("reseller.pricingCurrencyNote") &&
+            !t("reseller.pricingCurrencyNote").startsWith("reseller.") ? (
+              <p className="text-center text-sm text-red-900/80 font-medium mb-4 sm:mb-6 px-2">
+                {t("reseller.pricingCurrencyNote")}
+              </p>
+            ) : (
+              <div className="mb-4 sm:mb-6" />
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {resellerPlans.map((plan, index) => (
                 <PricingCard

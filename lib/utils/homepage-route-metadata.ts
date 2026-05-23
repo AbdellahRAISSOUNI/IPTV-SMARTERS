@@ -1,36 +1,23 @@
 import type { Metadata } from "next";
 import { locales, type Locale } from "@/lib/i18n";
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
 import { getHomepageKeywordList } from "@/lib/seo/site-keywords";
 import { getHomepageMetadata } from "@/lib/utils/metadata-loader";
+import { buildHomepageHreflangAlternates } from "@/lib/seo/hreflang";
 
 export async function buildLocaleHomepageMetadata(locale: Locale): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
 
-  const localeMap: Record<Locale, string> = {
-    en: "en_US",
-    es: "es_ES",
-    fr: "fr_FR",
-  };
+  const localeMap = openGraphLocaleMap;
 
   // Load metadata from file
   const homepageMetadata = await getHomepageMetadata(locale);
   const title = homepageMetadata.title;
   const description = homepageMetadata.description;
 
-  // Generate hreflang alternates
-  const alternates: Record<string, string> = {};
-  locales.forEach((loc) => {
-    alternates[loc] = `${baseUrl}/${loc}/`;
-  });
-  // Add x-default pointing to English (default locale)
-  alternates['x-default'] = `${baseUrl}/en/`;
+  const hreflangAlternates = buildHomepageHreflangAlternates(baseUrl, "/");
 
   // Site name translations
-  const siteNameMap: Record<Locale, string> = {
-    en: "StreamPro - Premium IPTV Service",
-    es: "StreamPro - Servicio IPTV Premium",
-    fr: "StreamPro - Service IPTV Premium",
-  };
 
   return {
     title,
@@ -48,7 +35,7 @@ export async function buildLocaleHomepageMetadata(locale: Locale): Promise<Metad
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `${baseUrl}/${locale}/`, // Include trailing slash to match next.config trailingSlash: true
-      languages: alternates,
+      languages: hreflangAlternates,
     },
     openGraph: {
       type: "website",

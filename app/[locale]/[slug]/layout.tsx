@@ -1,3 +1,4 @@
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import {
@@ -14,6 +15,7 @@ import { locales } from '@/lib/i18n';
 import { notFound } from 'next/navigation';
 import { getRouteMetaKeywords } from '@/lib/seo/corpus-route-keywords';
 import { localizedSlugSeoConfig } from '@/lib/seo/route-seed-keywords';
+import { buildHreflangAlternatesForPaths } from '@/lib/seo/hreflang';
 import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd';
 
 // Import layout components
@@ -104,22 +106,13 @@ export async function generateMetadata({
     : getLegalUrl(englishSlug, locale);
   const canonicalUrl = `${baseUrl}${currentUrl}`;
   
-  // Generate alternates with language-specific URLs
-  const languageAlternates: Record<string, string> = {};
-  locales.forEach((loc) => {
-    const altUrl = isInstallationSlug(englishSlug)
+  const languageAlternates = buildHreflangAlternatesForPaths(baseUrl, (loc) =>
+    isInstallationSlug(englishSlug)
       ? getInstallationUrl(englishSlug, loc)
       : isResellerSlug(englishSlug)
-      ? getResellerUrl(englishSlug, loc)
-      : getLegalUrl(englishSlug, loc);
-    languageAlternates[loc] = `${baseUrl}${altUrl}`;
-  });
-  const defaultUrl = isInstallationSlug(englishSlug)
-    ? getInstallationUrl(englishSlug, 'en')
-    : isResellerSlug(englishSlug)
-    ? getResellerUrl(englishSlug, 'en')
-    : getLegalUrl(englishSlug, 'en');
-  languageAlternates['x-default'] = `${baseUrl}${defaultUrl}`;
+        ? getResellerUrl(englishSlug, loc)
+        : getLegalUrl(englishSlug, loc)
+  );
   
   let title = '';
   let description = '';
@@ -135,46 +128,55 @@ export async function generateMetadata({
     const fallbackTitles: Record<string, Record<Locale, string>> = {
       'iptv-installation-guide': {
         en: 'IPTV Installation Guide',
+        ca: 'IPTV Installation Guide',
         es: 'Guía de Instalación IPTV',
         fr: 'Guide d\'Installation IPTV',
       },
       'iptv-installation-ios': {
         en: 'Install IPTV on iOS',
+        ca: 'Install IPTV on iOS',
         es: 'Instalar IPTV en iOS',
         fr: 'Installer IPTV sur iOS',
       },
       'iptv-installation-windows': {
         en: 'Install IPTV on Windows',
+        ca: 'Install IPTV on Windows',
         es: 'Instalar IPTV en Windows',
         fr: 'Installer IPTV sur Windows',
       },
       'iptv-installation-smart-tv': {
         en: 'Install IPTV on Smart TV',
+        ca: 'Install IPTV on Smart TV',
         es: 'Instalar IPTV en Smart TV',
         fr: 'Installer IPTV sur Smart TV',
       },
       'iptv-installation-firestick': {
         en: 'Install IPTV on Firestick',
+        ca: 'Install IPTV on Firestick',
         es: 'Instalar IPTV en Firestick',
         fr: 'Installer IPTV sur Firestick',
       },
       'iptv-reseller-program': {
         en: 'IPTV Reseller Program',
+        ca: 'IPTV Reseller Program',
         es: 'Programa Revendedor IPTV',
         fr: 'Programme Revendeur IPTV',
       },
       'refund-policy': {
         en: 'Refund Policy',
+        ca: 'Refund Policy',
         es: 'Política de Reembolso',
         fr: 'Politique de Remboursement',
       },
       'privacy-policy': {
         en: 'Privacy Policy',
+        ca: 'Privacy Policy',
         es: 'Política de Privacidad',
         fr: 'Politique de Confidentialité',
       },
       'terms-of-service': {
         en: 'Terms of Service',
+        ca: 'Terms of Service',
         es: 'Términos de Servicio',
         fr: "Conditions d'Utilisation",
       },
@@ -188,18 +190,8 @@ export async function generateMetadata({
     keywords = getRouteMetaKeywords(locale, seoCfg.profile, seoCfg.seeds[locale]);
   }
 
-  const localeMap: Record<Locale, string> = {
-    en: 'en_US',
-    es: 'es_ES',
-    fr: 'fr_FR',
-  };
-  
-  const siteNameMap: Record<Locale, string> = {
-    en: 'StreamPro - Premium IPTV Service',
-    es: 'StreamPro - Servicio IPTV Premium',
-    fr: 'StreamPro - Service IPTV Premium',
-  };
-  
+  const localeMap = openGraphLocaleMap;
+
   const ogImage = `${baseUrl}/images/hero.png`;
   
   return {

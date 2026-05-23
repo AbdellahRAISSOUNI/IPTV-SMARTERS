@@ -142,6 +142,8 @@
     }
   },
   "pricing": {
+    "showPremiumPlans": true,
+    "currencyCode": "EUR",
     "title": "Nuestros Precios de Suscripción IPTV",
     "oneConnection": "1 Conexión",
     "twoConnectionsPremium": "2 Conexiones + Premium",
@@ -259,7 +261,14 @@
     "installationHelp": "¡Hola! Necesito ayuda con la instalación de IPTV Smarters Pro.",
     "resellerInterest": "¡Hola! Estoy interesado en convertirme en revendedor IPTV.",
     "notFoundHelp": "¡Hola! Necesito ayuda para encontrar algo en su sitio web.",
-    "tooltip": "Chatea con nosotros"
+    "tooltip": "Chatea con nosotros",
+    "contactButton": "Contáctanos por WhatsApp",
+    "ariaFloating": "Contáctanos por WhatsApp",
+    "ariaFreeTest": "Iniciar prueba gratuita por WhatsApp"
+  },
+  "contactSection": {
+    "title": "¿Tienes preguntas?",
+    "description": "Nuestro equipo de soporte está disponible 24 horas al día, 7 días a la semana, listo para responder todas tus dudas e inquietudes."
   },
   "footer": {
     "description": "Servicio de streaming IPTV premium que ofrece miles de canales, películas y series. Experimenta lo mejor en entretenimiento con soporte confiable 24/7.",
@@ -463,6 +472,7 @@
     "whyFeature8": "Benefíciate de soporte al cliente disponible 24/7.",
     "pricingTitle": "Planes Revendedor IPTV",
     "credit10Title": "10 CRÉDITOS",
+    "credit10Price": "160 €",
     "credit10Feature1": "10 créditos te permiten crear 10 cuentas de un año.",
     "credit10Feature2": "Creas cualquier oferta que desees para tus clientes con todas las funciones premium.",
     "credit10Feature3": "+50,000 canales de TV, películas y series",
@@ -470,6 +480,7 @@
     "credit10Feature5": "Todos los dispositivos son compatibles",
     "credit10Feature6": "Soporte disponible 7/7 días",
     "credit20Title": "20 CRÉDITOS",
+    "credit20Price": "290 €",
     "credit20Feature1": "20 créditos te permiten crear 20 cuentas de un año.",
     "credit20Feature2": "Creas cualquier oferta que desees para tus clientes con todas las funciones premium.",
     "credit20Feature3": "+50,000 canales de TV, películas y series",
@@ -477,6 +488,7 @@
     "credit20Feature5": "Todos los dispositivos son compatibles",
     "credit20Feature6": "Soporte disponible 7/7 días",
     "credit30Title": "30 CRÉDITOS",
+    "credit30Price": "420 €",
     "credit30Feature1": "30 créditos te permiten crear 30 cuentas de un año.",
     "credit30Feature2": "Creas cualquier oferta que desees para tus clientes con todas las funciones premium.",
     "credit30Feature3": "+50,000 canales de TV, películas y series",

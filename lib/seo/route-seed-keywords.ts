@@ -3,12 +3,21 @@ import type { CorpusSeoProfile } from "@/lib/seo/corpus-route-keywords";
 
 export const windowsInstallationSeeds: Record<Locale, readonly string[]> = {
   en: [
-    "iptv smarters pro windows",
+    "iptv smarters pro windows usa",
     "install iptv windows",
     "iptv windows installation",
     "iptv smarters pro windows guide",
-    "how to install iptv on windows",
+    "how to install iptv on windows pc",
     "iptv windows setup",
+    "iptv windows download",
+  ],
+  ca: [
+    "iptv smarters pro windows canada",
+    "install iptv windows canada",
+    "iptv windows installation",
+    "iptv smarters pro windows guide",
+    "how to install iptv on windows",
+    "iptv windows setup canada",
     "iptv windows download",
   ],
   es: [
@@ -33,12 +42,21 @@ export const windowsInstallationSeeds: Record<Locale, readonly string[]> = {
 
 export const iosInstallationSeeds: Record<Locale, readonly string[]> = {
   en: [
-    "iptv ios",
+    "iptv ios usa",
     "iptv smarters pro ios",
     "install iptv iphone",
     "iptv ipad",
-    "iptv apple tv",
+    "iptv apple tv usa",
     "ios iptv app",
+    "iptv on iphone",
+  ],
+  ca: [
+    "iptv ios canada",
+    "iptv smarters pro ios",
+    "install iptv iphone canada",
+    "iptv ipad",
+    "iptv apple tv canada",
+    "ios iptv app canada",
     "iptv on iphone",
   ],
   es: [
@@ -63,13 +81,22 @@ export const iosInstallationSeeds: Record<Locale, readonly string[]> = {
 
 export const firestickInstallationSeeds: Record<Locale, readonly string[]> = {
   en: [
-    "iptv firestick",
+    "iptv firestick usa",
     "iptv smarters pro firestick",
     "install iptv firestick",
     "fire tv stick iptv",
-    "amazon fire stick iptv",
+    "amazon fire stick iptv usa",
     "iptv on firestick",
     "firestick iptv setup",
+  ],
+  ca: [
+    "iptv firestick canada",
+    "iptv smarters pro firestick canada",
+    "install iptv firestick canada",
+    "fire tv stick iptv canada",
+    "amazon fire stick iptv",
+    "iptv on firestick",
+    "firestick iptv setup canada",
   ],
   es: [
     "iptv firestick",
@@ -94,11 +121,20 @@ export const firestickInstallationSeeds: Record<Locale, readonly string[]> = {
 export const smartTvInstallationSeeds: Record<Locale, readonly string[]> = {
   en: [
     "iptv smarters pro smart tv",
-    "install iptv smart tv",
+    "install iptv smart tv usa",
     "iptv smart tv setup",
     "iptv on samsung smart tv",
     "iptv on lg smart tv",
     "smart tv iptv app",
+    "iptv smarters smart tv guide",
+  ],
+  ca: [
+    "iptv smarters pro smart tv canada",
+    "install iptv smart tv canada",
+    "iptv smart tv setup canada",
+    "iptv on samsung smart tv canada",
+    "iptv on lg smart tv canada",
+    "smart tv iptv app canada",
     "iptv smarters smart tv guide",
   ],
   es: [
@@ -123,7 +159,7 @@ export const smartTvInstallationSeeds: Record<Locale, readonly string[]> = {
 
 export const installationGuideSeeds: Record<Locale, readonly string[]> = {
   en: [
-    "iptv installation guide",
+    "iptv installation guide usa",
     "how to install iptv",
     "iptv smarters pro installation",
     "iptv installation windows",
@@ -138,6 +174,23 @@ export const installationGuideSeeds: Record<Locale, readonly string[]> = {
     "iptv installation instructions",
     "iptv installation help",
     "iptv installation support",
+  ],
+  ca: [
+    "iptv installation guide canada",
+    "how to install iptv canada",
+    "iptv smarters pro installation canada",
+    "iptv installation windows canada",
+    "iptv installation android",
+    "iptv installation ios canada",
+    "iptv installation smart tv canada",
+    "iptv installation firestick canada",
+    "iptv setup guide canada",
+    "iptv installation tutorial",
+    "install iptv smarters pro canada",
+    "iptv installation steps",
+    "iptv installation instructions",
+    "iptv installation help",
+    "iptv installation support canada",
   ],
   es: [
     "guía instalación iptv",
@@ -177,20 +230,37 @@ export const installationGuideSeeds: Record<Locale, readonly string[]> = {
 
 export const resellerSeeds: Record<Locale, readonly string[]> = {
   en: [
-    "iptv reseller program",
+    "iptv reseller program usa",
     "become iptv reseller",
     "iptv reseller",
     "white label iptv",
     "iptv reseller panel",
-    "iptv business",
+    "iptv business usa",
     "start iptv business",
     "iptv reseller account",
-    "iptv reseller pricing",
+    "iptv reseller pricing usd",
     "iptv reseller support",
     "iptv reseller platform",
     "iptv reseller credits",
     "iptv reseller program benefits",
     "iptv reseller opportunity",
+    "iptv reseller white label",
+  ],
+  ca: [
+    "iptv reseller program canada",
+    "become iptv reseller canada",
+    "iptv reseller canada",
+    "white label iptv canada",
+    "iptv reseller panel",
+    "iptv business canada",
+    "start iptv business canada",
+    "iptv reseller account",
+    "iptv reseller pricing cad",
+    "iptv reseller support",
+    "iptv reseller platform",
+    "iptv reseller credits",
+    "iptv reseller program benefits",
+    "iptv reseller opportunity canada",
     "iptv reseller white label",
   ],
   es: [
@@ -238,6 +308,14 @@ export const legalPrivacySeeds: Record<Locale, readonly string[]> = {
     "StreamPro privacy policy",
     "IPTV Smarters Pro privacy",
   ],
+  ca: [
+    "IPTV privacy policy",
+    "privacy policy IPTV",
+    "IPTV data protection",
+    "personal data IPTV",
+    "StreamPro privacy policy",
+    "IPTV Smarters Pro privacy",
+  ],
   es: [
     "política de privacidad iptv",
     "privacidad iptv",
@@ -258,6 +336,12 @@ export const legalPrivacySeeds: Record<Locale, readonly string[]> = {
 
 export const legalRefundSeeds: Record<Locale, readonly string[]> = {
   en: [
+    "IPTV refund policy",
+    "StreamPro refund",
+    "IPTV subscription refund",
+    "money back IPTV",
+  ],
+  ca: [
     "IPTV refund policy",
     "StreamPro refund",
     "IPTV subscription refund",
@@ -284,6 +368,12 @@ export const legalTermsSeeds: Record<Locale, readonly string[]> = {
     "IPTV user agreement",
     "IPTV Smarters Pro terms",
   ],
+  ca: [
+    "IPTV terms of service",
+    "StreamPro terms",
+    "IPTV user agreement",
+    "IPTV Smarters Pro terms",
+  ],
   es: [
     "términos de servicio iptv",
     "términos StreamPro",
@@ -301,12 +391,20 @@ export const legalTermsSeeds: Record<Locale, readonly string[]> = {
 /** Localized slug pages: map English slug → corpus profile + seed lines */
 export const blogListingSeeds: Record<Locale, readonly string[]> = {
   en: [
-    "IPTV blog",
+    "IPTV blog USA",
     "IPTV Smarters Pro news",
     "IPTV streaming tips",
     "IPTV setup articles",
     "live TV streaming guides",
     "IPTV tutorials",
+  ],
+  ca: [
+    "IPTV blog Canada",
+    "IPTV Smarters Pro Canada",
+    "IPTV streaming tips Canada",
+    "IPTV setup articles Canada",
+    "live TV streaming guides Canada",
+    "IPTV tutorials Canada",
   ],
   es: [
     "blog IPTV",

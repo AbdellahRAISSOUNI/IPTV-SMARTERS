@@ -6,6 +6,8 @@ import { getInstallationMetadata } from "@/lib/utils/metadata-loader";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { installationGuideSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
+import { openGraphLocaleMap, siteNameMap } from "@/lib/i18n/locale-maps";
+import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
 
 export async function generateMetadata({
   params,
@@ -21,17 +23,7 @@ export async function generateMetadata({
 
   const keywords = getRouteMetaKeywords(locale, "guide", installationGuideSeeds[locale]);
 
-  const localeMap: Record<Locale, string> = {
-    en: "en_US",
-    es: "es_ES",
-    fr: "fr_FR",
-  };
-
-  const siteNameMap: Record<Locale, string> = {
-    en: "StreamPro - Premium IPTV Service",
-    es: "StreamPro - Servicio IPTV Premium",
-    fr: "StreamPro - Service IPTV Premium",
-  };
+  const localeMap = openGraphLocaleMap;
 
   const ogImage = `${baseUrl}/images/hero.png`;
   
@@ -39,13 +31,9 @@ export async function generateMetadata({
   const currentUrl = getInstallationUrl('iptv-installation-guide', locale);
   const canonicalUrl = `${baseUrl}${currentUrl}`;
   
-  // Generate alternates with language-specific URLs
-  const languageAlternates: Record<string, string> = {};
-  locales.forEach((loc) => {
-    const altUrl = getInstallationUrl('iptv-installation-guide', loc);
-    languageAlternates[loc] = `${baseUrl}${altUrl}`;
-  });
-  languageAlternates['x-default'] = `${baseUrl}${getInstallationUrl('iptv-installation-guide', 'en')}`;
+  const languageAlternates = buildHreflangAlternatesForPaths(baseUrl, (loc) =>
+    getInstallationUrl("iptv-installation-guide", loc)
+  );
 
   return {
     title,

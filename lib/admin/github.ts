@@ -3,6 +3,9 @@
  * Handles file operations and commits
  */
 
+import { promises as fs } from "node:fs";
+import path from "node:path";
+
 interface GitHubFileContent {
   name: string;
   path: string;
@@ -121,35 +124,101 @@ export async function updateFileOnGitHub(params: CommitFileParams): Promise<void
   }
 }
 
+function translationFilePath(locale: string): string {
+  return `lib/i18n/translations/${locale}.json`;
+}
+
+async function readLocalTranslationFile(locale: string): Promise<Record<string, unknown> | null> {
+  try {
+    const absolute = path.join(process.cwd(), translationFilePath(locale));
+    const raw = await fs.readFile(absolute, "utf8");
+    return JSON.parse(raw) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+}
+
+async function writeLocalTranslationFile(locale: string, jsonContent: string): Promise<void> {
+  const absolute = path.join(process.cwd(), translationFilePath(locale));
+  await fs.mkdir(path.dirname(absolute), { recursive: true });
+  await fs.writeFile(absolute, `${jsonContent}\n`, "utf8");
+}
+
+async function fetchGithubSha(filePath: string): Promise<string> {
+  if (!hasGithubBlogContext()) {
+    return "";
+  }
+  try {
+    const file = await getFileFromGitHub(filePath);
+    return file.sha;
+  } catch {
+    return "";
+  }
+}
+
+function hasGithubBlogContext(): boolean {
+  const token = process.env.GITHUB_TOKEN;
+  const repoFull = process.env.GITHUB_REPO;
+  const email = process.env.GITHUB_EMAIL;
+  const name = process.env.GITHUB_NAME;
+  return Boolean(token && repoFull?.includes("/") && email && name);
+}
+
 /**
- * Get translation file
+ * Get translation file — prefers local repo JSON (matches dev site), keeps GitHub sha for saves.
  */
-export async function getTranslationFile(locale: string): Promise<any> {
-  const filePath = `lib/i18n/translations/${locale}.json`;
+export async function getTranslationFile(locale: string): Promise<{
+  content: Record<string, unknown>;
+  sha: string;
+  path: string;
+}> {
+  const filePath = translationFilePath(locale);
+  const localContent = await readLocalTranslationFile(locale);
+  const sha = await fetchGithubSha(filePath);
+
+  if (localContent) {
+    return {
+      content: localContent,
+      sha,
+      path: filePath,
+    };
+  }
+
   const file = await getFileFromGitHub(filePath);
   return {
-    content: JSON.parse(file.content),
+    content: JSON.parse(file.content) as Record<string, unknown>,
     sha: file.sha,
     path: file.path,
   };
 }
 
 /**
- * Update translation file
+ * Update translation file — writes local JSON first, then GitHub when configured.
  */
 export async function updateTranslationFile(
   locale: string,
-  content: any,
+  content: Record<string, unknown>,
   sha: string
 ): Promise<void> {
-  const filePath = `lib/i18n/translations/${locale}.json`;
+  const filePath = translationFilePath(locale);
   const jsonContent = JSON.stringify(content, null, 2);
-  
+
+  await writeLocalTranslationFile(locale, jsonContent);
+
+  if (!hasGithubBlogContext()) {
+    return;
+  }
+
+  let remoteSha = sha;
+  if (!remoteSha) {
+    remoteSha = await fetchGithubSha(filePath);
+  }
+
   await updateFileOnGitHub({
     path: filePath,
     content: jsonContent,
     message: `Update ${locale} translations via admin dashboard`,
-    sha,
+    sha: remoteSha || undefined,
   });
 }
 
@@ -157,7 +226,7 @@ export async function updateTranslationFile(
  * Get all translation files
  */
 export async function getAllTranslations(): Promise<Record<string, any>> {
-  const locales = ['en', 'es', 'fr'];
+  const locales = ['en', 'es', 'fr', 'ca'];
   const translations: Record<string, any> = {};
 
   for (const locale of locales) {

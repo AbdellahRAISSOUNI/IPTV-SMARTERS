@@ -5,7 +5,64 @@
  import { Star } from 'lucide-react';
  import { useLanguage } from '@/contexts/LanguageContext';
  
- const testimonials = [
+ const canadaTestimonials = [
+  {
+    text: "The streaming quality is exceptional, and support is always there when needed. Over 25,000 channels, zero buffering, and an incredible VOD library. Best iptv canada service I've tried.",
+    name: "Michael S.",
+    username: "@michaeltoronto",
+    location: "Toronto, ON",
+  },
+  {
+    text: "Been using this for sports and movies for months. 4K quality is amazing and no more buffering. Customer service responds within minutes — real iptv for canada quality.",
+    name: "Sarah M.",
+    username: "@sarahvancouver",
+    location: "Vancouver, BC",
+  },
+  {
+    text: "Finally found a reliable quebec iptv friendly service! 120,000+ movies and shows on demand. Perfect on Smart TV and mobile. Highly recommended.",
+    name: "Emily R.",
+    username: "@emilymtl",
+    location: "Montreal, QC",
+  },
+  {
+    text: "Switched from cable and saved a fortune. NHL, CFL, and international sports in HD. Best iptv subscription deal in CAD.",
+    name: "James T.",
+    username: "@jamescalgary",
+    location: "Calgary, AB",
+  },
+  {
+    text: "Setup on Firestick took 10 minutes with their guide. iptv box style apps work great. Instant activation after payment.",
+    name: "Priya K.",
+    username: "@priyaottawa",
+    location: "Ottawa, ON",
+  },
+  {
+    text: "Multi-device plan works perfectly for our family. iptv with box and phones — everyone watches what they want.",
+    name: "Marc L.",
+    username: "@marcedmonton",
+    location: "Edmonton, AB",
+  },
+  {
+    text: "Free trial convinced me. Stable servers during playoff season. This is the best canada iptv provider I've used.",
+    name: "Anna W.",
+    username: "@annawinnipeg",
+    location: "Winnipeg, MB",
+  },
+  {
+    text: "EPG and catch-up TV are solid. iptv from canada servers feel fast. Support helped with Xtream login same day.",
+    name: "David C.",
+    username: "@davidhalifax",
+    location: "Halifax, NS",
+  },
+  {
+    text: "Coast to coast — works at the cottage and downtown. Transparent CAD pricing, no hidden fees. Love it.",
+    name: "Sophie B.",
+    username: "@sophiequebec",
+    location: "Quebec City, QC",
+  },
+];
+
+ const defaultTestimonials = [
   {
     text: "Best IPTV service I've ever used! Crystal clear quality and never buffers. The support team is amazing too.",
     name: "Ahmed M.",
@@ -62,13 +119,16 @@
   }
 ];
 
-const firstColumn = testimonials.slice(0, 3);
-const secondColumn = testimonials.slice(3, 6);
-const thirdColumn = testimonials.slice(6, 9);
+type TestimonialItem = {
+  text: string;
+  name: string;
+  username: string;
+  location: string;
+};
 
 interface TestimonialsColumnProps {
   className?: string;
-  testimonials: typeof testimonials;
+  testimonials: TestimonialItem[];
   duration?: number;
 }
 
@@ -148,7 +208,11 @@ const TestimonialsColumn = ({ className, testimonials, duration = 10 }: Testimon
 };
  
 export default function TestimonialsSection() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const testimonials = locale === "ca" ? canadaTestimonials : defaultTestimonials;
+  const firstColumn = testimonials.slice(0, 3);
+  const secondColumn = testimonials.slice(3, 6);
+  const thirdColumn = testimonials.slice(6, 9);
 
   return (
     <section id="testimonials" className="py-12 lg:py-20 xl:py-24 2xl:py-28 relative overflow-hidden bg-white">
