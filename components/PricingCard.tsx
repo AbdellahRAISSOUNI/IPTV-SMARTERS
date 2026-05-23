@@ -33,6 +33,8 @@ export default function PricingCard({
   const reduceAnimations = shouldReduceAnimations();
   const mobile = isMobile();
   const isCa = locale === "ca";
+  const isUk = locale === "uk";
+  const isRegional = isCa || isUk;
   
   return (
     <motion.div
@@ -65,10 +67,14 @@ export default function PricingCard({
         popular
           ? isCa
             ? "bg-[#2563eb] text-white shadow-xl border border-[#2563eb] ring-4 ring-[#2563eb]/15"
-            : "bg-[#2563eb] text-white shadow-2xl border-2 border-[#2563eb] ring-2 ring-[#2563eb]/20"
+            : isUk
+              ? "bg-[#2563eb] text-white shadow-xl border-2 border-[#2563eb] ring-2 ring-blue-200/80"
+              : "bg-[#2563eb] text-white shadow-2xl border-2 border-[#2563eb] ring-2 ring-[#2563eb]/20"
           : isCa
             ? "bg-white text-[#1a1a1a] border border-slate-200 shadow-lg hover:border-[#2563eb]/35 hover:shadow-2xl hover:ring-1 hover:ring-[#2563eb]/15"
-            : "bg-white text-[#1a1a1a] border-2 border-[#d1d5db] shadow-md hover:border-[#2563eb]/40 hover:shadow-xl hover:ring-2 hover:ring-[#2563eb]/10"
+            : isUk
+              ? "bg-white text-[#1a1a1a] border border-blue-100 shadow-md hover:border-[#2563eb]/40 hover:shadow-xl hover:ring-2 hover:ring-blue-100"
+              : "bg-white text-[#1a1a1a] border-2 border-[#d1d5db] shadow-md hover:border-[#2563eb]/40 hover:shadow-xl hover:ring-2 hover:ring-[#2563eb]/10"
       }`}
       style={{
         transition: "box-shadow 0.075s, border-color 0.075s, ring 0.075s"

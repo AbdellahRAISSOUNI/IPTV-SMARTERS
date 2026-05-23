@@ -110,7 +110,9 @@ export default function FAQSection() {
   return (
     <section
       id="faq"
-      className={`pt-0 pb-0 xl:pt-4 2xl:pt-6 ${locale === "ca" ? "bg-slate-50/30" : "bg-white"}`}
+      className={`pt-0 pb-0 xl:pt-4 2xl:pt-6 ${
+        locale === "ca" ? "bg-slate-50/30" : locale === "uk" ? "bg-blue-50/20" : "bg-white"
+      }`}
     >
       <div className="max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         {/* Section Heading */}

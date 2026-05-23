@@ -41,6 +41,22 @@ const canadaSurface: LocaleSurface = {
     "p-5 rounded-3xl border border-slate-200/80 bg-slate-50/40 backdrop-blur-sm hover:border-[#2563eb]/25 shadow-md",
 };
 
+const ukSurface: LocaleSurface = {
+  cardRadius: "rounded-2xl",
+  btnRadius: "rounded-lg",
+  planBadgeRadius: "rounded-xl",
+  sectionSoftBg: "bg-gradient-to-b from-blue-50/30 via-white to-white",
+  faqWrapper: "rounded-2xl shadow-lg border border-blue-100/80",
+  faqAnswerBorder: "border-l-4 border-[#2563eb]/60",
+  ctaPanel:
+    "rounded-2xl bg-white border border-blue-100/60 p-7 sm:p-8 lg:p-10 overflow-hidden shadow-md",
+  blogCard: "rounded-xl border border-blue-100/70 shadow-sm",
+  testimonialCard:
+    "p-5 rounded-2xl border border-blue-100/60 bg-white/90 backdrop-blur-sm hover:border-[#2563eb]/30 shadow-sm",
+};
+
 export function getLocaleSurface(locale: Locale): LocaleSurface {
-  return locale === "ca" ? canadaSurface : defaultSurface;
+  if (locale === "ca") return canadaSurface;
+  if (locale === "uk") return ukSurface;
+  return defaultSurface;
 }

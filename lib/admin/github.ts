@@ -226,7 +226,7 @@ export async function updateTranslationFile(
  * Get all translation files
  */
 export async function getAllTranslations(): Promise<Record<string, any>> {
-  const locales = ['en', 'es', 'fr', 'ca'];
+  const locales = ['en', 'es', 'fr', 'ca', 'uk'];
   const translations: Record<string, any> = {};
 
   for (const locale of locales) {

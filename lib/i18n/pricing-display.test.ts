@@ -23,6 +23,7 @@ describe("getLocaleCurrencyCode", () => {
 
   it("falls back to locale default", () => {
     expect(getLocaleCurrencyCode("ca", {})).toBe("CAD");
+    expect(getLocaleCurrencyCode("uk", {})).toBe("GBP");
     expect(getLocaleCurrencyCode("en", {})).toBe("USD");
   });
 });

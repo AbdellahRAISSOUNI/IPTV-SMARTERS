@@ -49,7 +49,7 @@ export default function BlogsManager() {
 
   const loadBlogs = async () => {
     try {
-      const response = await fetch("/api/admin/blogs");
+      const response = await fetch("/api/admin/blogs/");
       if (response.ok) {
         const data = await response.json();
         setBlogs(data);
@@ -76,7 +76,7 @@ export default function BlogsManager() {
 
   const handleSave = async (blog: BlogPost) => {
     try {
-      const response = await fetch("/api/admin/blogs", {
+      const response = await fetch("/api/admin/blogs/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +115,7 @@ export default function BlogsManager() {
     const blogId = deleteConfirmBlog.id;
     setIsDeleting(blogId);
     try {
-      const response = await fetch(`/api/admin/blogs?id=${blogId}`, {
+      const response = await fetch(`/api/admin/blogs/?id=${blogId}`, {
         method: "DELETE",
       });
 

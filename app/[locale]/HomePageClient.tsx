@@ -8,6 +8,8 @@ import { Monitor, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import CanadaLandingExtras from "@/components/CanadaLandingExtras";
+import UkLandingExtras from "@/components/UkLandingExtras";
+import { isRegionalEnglishLocale } from "@/lib/i18n/regional-locales";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { isPremiumPlansSectionEnabled } from "@/lib/i18n/pricing-display";
 import { openWhatsApp } from "@/lib/whatsapp";
@@ -40,7 +42,7 @@ export default function Home() {
   const showPremiumPlans = isPremiumPlansSectionEnabled(pricingContent);
   const pricingSubtitle =
     typeof pricingContent?.subtitle === "string" ? pricingContent.subtitle : "";
-  const isCanadaHome = locale === "ca";
+  const isRegionalHome = isRegionalEnglishLocale(locale);
   const surface = getLocaleSurface(locale);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [reduceAnimations, setReduceAnimations] = useState(false);
@@ -296,6 +298,7 @@ export default function Home() {
       <Header />
       <HeroSection />
       <CanadaLandingExtras />
+      <UkLandingExtras />
       <ContentCarousel />
       <LogoCarousel images={channelLogos} size="large" direction="right" speed={0.4} />
       <LogoCarousel images={streamingLogos} direction="left" speed={0.7} />
@@ -306,7 +309,7 @@ export default function Home() {
       {/* Latest from blog - drive traffic to blog and main pages */}
       <section
         id="latest-blog"
-        className={`py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50/50 ${isCanadaHome ? "order-2" : ""}`}
+        className={`py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50/50 ${isRegionalHome ? "order-2" : ""}`}
       >
         <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div
@@ -377,7 +380,7 @@ export default function Home() {
           >
             <Link
               href={`/${locale}/blog/`}
-              className={`inline-flex items-center gap-2 px-6 py-3 ${isCanadaHome ? "rounded-xl" : "rounded-full"} bg-[#2563eb] text-white font-semibold text-sm hover:bg-[#1d4ed8] transition-colors shadow-md hover:shadow-lg`}
+              className={`inline-flex items-center gap-2 px-6 py-3 ${locale === "uk" ? "rounded-lg" : isRegionalHome ? "rounded-xl" : "rounded-full"} bg-[#2563eb] text-white font-semibold text-sm hover:bg-[#1d4ed8] transition-colors shadow-md hover:shadow-lg`}
             >
               {t("home.viewAllArticles")}
               <ArrowRight className="w-4 h-4" />
@@ -389,7 +392,7 @@ export default function Home() {
       {/* Pricing Section */}
       <section
         id="pricing"
-        className={`pt-8 pb-0 sm:pt-12 sm:pb-0 lg:pt-16 lg:pb-0 xl:pt-20 xl:pb-0 bg-white ${isCanadaHome ? "order-1" : ""}`}
+        className={`pt-8 pb-0 sm:pt-12 sm:pb-0 lg:pt-16 lg:pb-0 xl:pt-20 xl:pb-0 bg-white ${isRegionalHome ? "order-1" : ""}`}
       >
         <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <motion.div

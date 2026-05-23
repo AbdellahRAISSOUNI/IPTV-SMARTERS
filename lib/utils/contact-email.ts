@@ -4,6 +4,7 @@ import type { Locale } from "@/lib/i18n";
 const CONTACT_EMAIL_BY_LOCALE: Record<Locale, string> = {
   en: "info@official-iptvsmarterspro.com",
   ca: "info@official-iptvsmarterspro.com",
+  uk: "info@official-iptvsmarterspro.com",
   es: "info@iptvsubscriptionpro.es",
   fr: "info@officieliptvabonnement.fr",
 };

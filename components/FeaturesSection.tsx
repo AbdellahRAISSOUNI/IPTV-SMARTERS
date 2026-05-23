@@ -67,7 +67,8 @@ export default function FeaturesSection() {
     },
   ];
 
-  const featureItems = locale === "ca" ? [...features].reverse() : features;
+  const featureItems =
+    locale === "ca" || locale === "uk" ? [...features].reverse() : features;
 
   return (
     <section

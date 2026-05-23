@@ -29,6 +29,7 @@ export async function generateMetadata({
   const titleMap: Record<Locale, string> = {
     en: "Refund Policy | StreamPro IPTV",
     ca: "Refund Policy | StreamPro IPTV",
+    uk: "Refund Policy | StreamPro IPTV UK",
     es: "Política de Reembolso | StreamPro IPTV",
     fr: "Politique de Remboursement | StreamPro IPTV",
   };
@@ -36,6 +37,7 @@ export async function generateMetadata({
   const descriptionMap: Record<Locale, string> = {
     en: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
     ca: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
+    uk: "Read StreamPro IPTV UK’s refund policy, including eligibility, timelines, and how to request a refund for your GBP IPTV subscription.",
     es: "Consulta la política de reembolso de StreamPro IPTV, incluyendo elegibilidad, plazos y cómo solicitar un reembolso de tu suscripción IPTV.",
     fr: "Consultez la politique de remboursement de StreamPro IPTV, y découvrez l’éligibilité, les délais et comment demander un remboursement pour votre abonnement IPTV.",
   };
@@ -77,6 +79,7 @@ export default async function RefundPolicyLayout({
   const titleMap: Record<Locale, string> = {
     en: "Refund Policy | StreamPro IPTV",
     ca: "Refund Policy | StreamPro IPTV",
+    uk: "Refund Policy | StreamPro IPTV UK",
     es: "Política de Reembolso | StreamPro IPTV",
     fr: "Politique de Remboursement | StreamPro IPTV",
   };
@@ -84,6 +87,7 @@ export default async function RefundPolicyLayout({
   const descriptionMap: Record<Locale, string> = {
     en: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
     ca: "Read StreamPro IPTV’s refund policy, including eligibility, timelines, and how to request a refund for your IPTV subscription.",
+    uk: "Read StreamPro IPTV UK’s refund policy, including eligibility, timelines, and how to request a refund for your GBP IPTV subscription.",
     es: "Consulta la política de reembolso de StreamPro IPTV, incluyendo elegibilidad, plazos y cómo solicitar un reembolso de tu suscripción IPTV.",
     fr: "Consultez la politique de remboursement de StreamPro IPTV, y découvrez l’éligibilité, les délais et comment demander un remboursement pour votre abonnement IPTV.",
   };

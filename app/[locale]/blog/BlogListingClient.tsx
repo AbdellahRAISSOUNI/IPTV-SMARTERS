@@ -57,21 +57,6 @@ export default function BlogListingClient({ initialBlogs, locale }: BlogListingC
               <p className="text-base sm:text-lg md:text-xl text-[#1a1a1a]/70 max-w-2xl mx-auto leading-relaxed">
                 {t("blog.description")}
               </p>
-              <p className="mt-4 text-sm text-[#1a1a1a]/70">
-                {keywordTargets.map((item, index) => (
-                  <span key={item.id}>
-                    {index > 0 ? " • " : ""}
-                    <Link href={item.href} className="text-[#2563eb] hover:underline underline-offset-2">
-                      {item.label}
-                    </Link>
-                  </span>
-                ))}
-              </p>
-              <RelatedPagesStrip
-                showTitle
-                className="mt-8 max-w-3xl mx-auto"
-                navClassName="justify-center"
-              />
             </motion.div>
           </section>
 
@@ -149,6 +134,28 @@ export default function BlogListingClient({ initialBlogs, locale }: BlogListingC
               })}
             </nav>
           )}
+
+          {/* Explore links — below articles so posts appear first */}
+          <section
+            className="mt-14 sm:mt-16 pt-10 sm:pt-12 border-t border-gray-200/80"
+            aria-label="Related site pages"
+          >
+            <p className="text-sm sm:text-base text-[#1a1a1a]/70 text-center max-w-3xl mx-auto leading-relaxed">
+              {keywordTargets.map((item, index) => (
+                <span key={item.id}>
+                  {index > 0 ? " • " : ""}
+                  <Link href={item.href} className="text-[#2563eb] hover:underline underline-offset-2">
+                    {item.label}
+                  </Link>
+                </span>
+              ))}
+            </p>
+            <RelatedPagesStrip
+              showTitle
+              className="mt-8 max-w-3xl mx-auto"
+              navClassName="justify-center"
+            />
+          </section>
         </div>
       </main>
       <Footer />

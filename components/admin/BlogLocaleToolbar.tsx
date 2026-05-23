@@ -12,6 +12,7 @@ import type { BlogPost } from "@/lib/admin/blog-shared";
 const LOCALE_LABELS: Record<BlogLocale, string> = {
   en: "English (US)",
   ca: "Canada",
+  uk: "United Kingdom",
   es: "Spanish",
   fr: "French",
 };

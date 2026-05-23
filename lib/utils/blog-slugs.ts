@@ -60,6 +60,7 @@ export function getAllBlogSlugs(blog: BlogPost): Record<Locale, string> {
     return {
       en: blog.slug,
       ca: blog.slug,
+      uk: blog.slug,
       es: blog.slug,
       fr: blog.slug,
     };
@@ -70,6 +71,7 @@ export function getAllBlogSlugs(blog: BlogPost): Record<Locale, string> {
   return {
     en: String(slugRecord['en'] || '').trim(),
     ca: String(slugRecord['ca'] || '').trim(),
+    uk: String(slugRecord['uk'] || '').trim(),
     es: String(slugRecord['es'] || '').trim(),
     fr: String(slugRecord['fr'] || '').trim(),
   };

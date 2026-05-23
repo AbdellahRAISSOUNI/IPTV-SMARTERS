@@ -22,4 +22,12 @@ describe("site keywords locale focus", () => {
     const joined = list.join(" ").toLowerCase();
     expect(joined).toMatch(/canada|quebec|toronto|cad/);
   });
+
+  it("prioritizes UK phrases in UK homepage meta extras", () => {
+    const list = getHomepageKeywordList("uk");
+    const joined = list.join(" ").toLowerCase();
+    expect(joined).toMatch(/british iptv|iptv uk|premier league|gbp|fire stick/);
+    expect(joined).not.toMatch(/toronto|vancouver|quebec|cad/);
+    expect(list.length).toBeGreaterThan(CORE_SITE_KEYWORDS.uk.length);
+  });
 });

@@ -120,7 +120,7 @@ export async function getAllMetadata(): Promise<Record<string, {
   sha: string;
   path: string;
 }>> {
-  const locales = ['en', 'es', 'fr', 'ca'];
+  const locales = ['en', 'es', 'fr', 'ca', 'uk'];
   const metadata: Record<string, any> = {};
 
   for (const locale of locales) {

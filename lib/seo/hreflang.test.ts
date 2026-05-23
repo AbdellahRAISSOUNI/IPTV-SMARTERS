@@ -9,6 +9,7 @@ import {
 describe("hreflang", () => {
   it("maps internal ca route to en-CA (not Catalan ca)", () => {
     expect(hreflangByLocale.ca).toBe("en-CA");
+    expect(hreflangByLocale.uk).toBe("en-GB");
     expect(hreflangByLocale.en).toBe("en-US");
   });
 
@@ -16,6 +17,7 @@ describe("hreflang", () => {
     const alt = buildHomepageHreflangAlternates("https://example.com", "/");
     expect(alt["en-US"]).toBe("https://example.com/en/");
     expect(alt["en-CA"]).toBe("https://example.com/ca/");
+    expect(alt["en-GB"]).toBe("https://example.com/uk/");
     expect(alt["es-ES"]).toBe("https://example.com/es/");
     expect(alt["fr-FR"]).toBe("https://example.com/fr/");
     expect(alt["x-default"]).toBe("https://example.com/en/");

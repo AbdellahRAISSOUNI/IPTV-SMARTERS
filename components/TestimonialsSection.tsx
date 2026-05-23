@@ -6,7 +6,46 @@
  import { useLanguage } from '@/contexts/LanguageContext';
 import { getLocaleSurface } from '@/lib/i18n/locale-surface';
  
- const canadaTestimonials = [
+ const ukTestimonials = [
+  {
+    text: "Brilliant quality and Premier League streams are spot on. Best iptv uk service I've used — no buffering on match days.",
+    name: "James H.",
+    username: "@jameslondon",
+    location: "London, UK",
+  },
+  {
+    text: "Setup on Firestick took minutes. GBP plans are fair and support replied on WhatsApp within an hour.",
+    name: "Sophie W.",
+    username: "@sophiemcr",
+    location: "Manchester, UK",
+  },
+  {
+    text: "Huge VOD library and stable EPG. Perfect iptv subscription for our household in Birmingham.",
+    name: "Aisha K.",
+    username: "@aishabham",
+    location: "Birmingham, UK",
+  },
+  {
+    text: "Switched from cable and saving every month. Sports in HD/4K and films on demand — highly recommend.",
+    name: "Connor M.",
+    username: "@connorgla",
+    location: "Glasgow, UK",
+  },
+  {
+    text: "Works on Smart TV and phone. iptv uk lineup includes the channels we wanted for Scotland and UK news.",
+    name: "Emma T.",
+    username: "@emabelfast",
+    location: "Belfast, UK",
+  },
+  {
+    text: "12-month plan was the best value. Instant activation and Smarters Pro guide made setup easy.",
+    name: "Raj P.",
+    username: "@rajleeds",
+    location: "Leeds, UK",
+  },
+];
+
+const canadaTestimonials = [
   {
     text: "The streaming quality is exceptional, and support is always there when needed. Over 25,000 channels, zero buffering, and an incredible VOD library. Best iptv canada service I've tried.",
     name: "Michael S.",
@@ -217,7 +256,12 @@ const TestimonialsColumn = ({
 export default function TestimonialsSection() {
   const { t, locale } = useLanguage();
   const surface = getLocaleSurface(locale);
-  const testimonials = locale === "ca" ? canadaTestimonials : defaultTestimonials;
+  const testimonials =
+    locale === "ca"
+      ? canadaTestimonials
+      : locale === "uk"
+        ? ukTestimonials
+        : defaultTestimonials;
   const firstColumn = testimonials.slice(0, 3);
   const secondColumn = testimonials.slice(3, 6);
   const thirdColumn = testimonials.slice(6, 9);
@@ -225,7 +269,13 @@ export default function TestimonialsSection() {
   return (
     <section
       id="testimonials"
-      className={`py-12 lg:py-20 xl:py-24 2xl:py-28 relative overflow-hidden ${locale === "ca" ? "bg-gradient-to-b from-white to-slate-50/50" : "bg-white"}`}
+      className={`py-12 lg:py-20 xl:py-24 2xl:py-28 relative overflow-hidden ${
+        locale === "ca"
+          ? "bg-gradient-to-b from-white to-slate-50/50"
+          : locale === "uk"
+            ? "bg-gradient-to-b from-white to-blue-50/30"
+            : "bg-white"
+      }`}
     >
       <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 relative">
         <motion.div

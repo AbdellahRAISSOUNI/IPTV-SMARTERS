@@ -45,6 +45,7 @@ function normalizeLocaleTextMap(input: unknown): Record<string, string> {
   return {
     en: typeof raw.en === "string" ? raw.en : "",
     ca: typeof raw.ca === "string" ? raw.ca : "",
+    uk: typeof raw.uk === "string" ? raw.uk : "",
     es: typeof raw.es === "string" ? raw.es : "",
     fr: typeof raw.fr === "string" ? raw.fr : "",
   };
@@ -74,6 +75,7 @@ function normalizeBlogPost(blog: BlogPost): BlogPost {
       : {
           en: typeof blog.slug?.en === "string" ? blog.slug.en : "",
           ca: typeof blog.slug?.ca === "string" ? blog.slug.ca : "",
+          uk: typeof blog.slug?.uk === "string" ? blog.slug.uk : "",
           es: typeof blog.slug?.es === "string" ? blog.slug.es : "",
           fr: typeof blog.slug?.fr === "string" ? blog.slug.fr : "",
         };
@@ -147,10 +149,16 @@ function mergeBlogSources(remote: BlogPost[], local: BlogPost[]): BlogPost[] {
 
     const localHasCa = (localPost.translations || []).includes("ca");
     const remoteHasCa = (remotePost.translations || []).includes("ca");
+    const localHasUk = (localPost.translations || []).includes("uk");
+    const remoteHasUk = (remotePost.translations || []).includes("uk");
     const localUpdated = new Date(localPost.updatedAt).getTime();
     const remoteUpdated = new Date(remotePost.updatedAt).getTime();
 
-    if ((localHasCa && !remoteHasCa) || localUpdated > remoteUpdated) {
+    if (
+      (localHasCa && !remoteHasCa) ||
+      (localHasUk && !remoteHasUk) ||
+      localUpdated > remoteUpdated
+    ) {
       byId.set(localPost.id, localPost);
     }
   }

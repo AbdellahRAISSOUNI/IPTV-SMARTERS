@@ -4,6 +4,7 @@ import {
   copyBlogLocaleContent,
   getPublishedLocales,
   hasLocalePublishableContent,
+  normalizeBlogSlugRecord,
   validateBlogForPublish,
 } from "@/lib/admin/blog-locales";
 
@@ -78,6 +79,35 @@ describe("blog-locales", () => {
     const blog = makePost();
     expect(hasLocalePublishableContent(blog, "en")).toBe(true);
     expect(hasLocalePublishableContent(blog, "es")).toBe(false);
+  });
+
+  it("normalizeBlogSlugRecord preserves uk slugs on save", () => {
+    const normalized = normalizeBlogSlugRecord({
+      en: "",
+      ca: "",
+      uk: "british-iptv-guide",
+      es: "",
+      fr: "",
+    });
+    expect(normalized.uk).toBe("british-iptv-guide");
+  });
+
+  it("supports uk as a publish locale", () => {
+    const blog = makePost({
+      translations: ["uk"],
+      locale: "uk",
+      slug: { en: "", ca: "", uk: "uk-only-post", es: "", fr: "" },
+      title: { en: "", ca: "", uk: "UK Title", es: "", fr: "" },
+      excerpt: { en: "", ca: "", uk: "UK excerpt", es: "", fr: "" },
+      meta: { description: { en: "", ca: "", uk: "UK meta", es: "", fr: "" } },
+      blocks: [{ id: "1", type: "paragraph", content: { uk: "Body UK" } }],
+    });
+    expect(getPublishedLocales(blog)).toEqual(["uk"]);
+    const result = validateBlogForPublish(blog, ["uk"]);
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.blog.slug.uk).toBe("uk-only-post");
+    }
   });
 
   it("supports ca as a publish locale", () => {

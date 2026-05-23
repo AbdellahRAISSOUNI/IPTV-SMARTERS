@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const locales = ['en', 'es', 'fr', 'ca'];
+const locales = ['en', 'es', 'fr', 'ca', 'uk'];
 const defaultLocale = 'en';
 
 function detectCountry(request: NextRequest): string | undefined {
@@ -30,7 +30,8 @@ export function middleware(request: NextRequest) {
   // Add noindex header so Google doesn't try to index the root domain
   if (pathname === '/') {
     const country = detectCountry(request);
-    const targetLocale = country === 'CA' ? 'ca' : defaultLocale;
+    const targetLocale =
+      country === 'CA' ? 'ca' : country === 'GB' || country === 'UK' ? 'uk' : defaultLocale;
     url.pathname = `/${targetLocale}/`;
     const response = NextResponse.redirect(url, 301);
     response.headers.set('X-Robots-Tag', 'noindex, nofollow');

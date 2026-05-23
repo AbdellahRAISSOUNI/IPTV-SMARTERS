@@ -123,9 +123,10 @@ const LOCALE_LABELS: Record<string, string> = {
   es: "ES",
   fr: "FR",
   ca: "Canada",
+  uk: "United Kingdom",
 };
 
-const ADMIN_LOCALE_ORDER = ["en", "es", "fr", "ca"] as const;
+const ADMIN_LOCALE_ORDER = ["en", "es", "fr", "ca", "uk"] as const;
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -145,7 +146,7 @@ export default function AdminDashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    if (activeLocale === "ca") {
+    if (activeLocale === "ca" || activeLocale === "uk") {
       setShowPreview(true);
     }
   }, [activeLocale]);
@@ -154,7 +155,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const verifyAuth = async () => {
       try {
-        const response = await fetch("/api/admin/verify");
+        const response = await fetch("/api/admin/verify/");
         const data = await response.json();
 
         if (!data.authenticated) {
@@ -178,7 +179,7 @@ export default function AdminDashboard() {
   // Load translations
   const loadTranslations = async () => {
     try {
-      const response = await fetch("/api/admin/translations");
+      const response = await fetch("/api/admin/translations/");
       const data = await response.json();
       setTranslations(data);
     } catch (error) {
@@ -189,7 +190,7 @@ export default function AdminDashboard() {
   // Load carousel data
   const loadCarouselData = async () => {
     try {
-      const response = await fetch("/api/admin/carousel");
+      const response = await fetch("/api/admin/carousel/");
       const data = await response.json();
       setCarouselData(data);
     } catch (error) {
@@ -200,7 +201,7 @@ export default function AdminDashboard() {
   // Load metadata
   const loadMetadata = async () => {
     try {
-      const response = await fetch("/api/admin/metadata");
+      const response = await fetch("/api/admin/metadata/");
       const data = await response.json();
       setMetadata(data);
     } catch (error) {
@@ -213,7 +214,7 @@ export default function AdminDashboard() {
   // Handle logout
   const handleLogout = async () => {
     try {
-      await fetch("/api/admin/logout", { method: "POST" });
+      await fetch("/api/admin/logout/", { method: "POST" });
       router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -226,7 +227,7 @@ export default function AdminDashboard() {
     setSaveStatus("idle");
 
     try {
-      const response = await fetch("/api/admin/translations", {
+      const response = await fetch("/api/admin/translations/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -262,7 +263,7 @@ export default function AdminDashboard() {
     setSaveStatus("idle");
 
     try {
-      const response = await fetch("/api/admin/metadata", {
+      const response = await fetch("/api/admin/metadata/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -302,7 +303,7 @@ export default function AdminDashboard() {
       formData.append('file', file);
       formData.append('folder', folder);
 
-      const response = await fetch("/api/admin/upload", {
+      const response = await fetch("/api/admin/upload/", {
         method: "POST",
         body: formData,
       });
@@ -453,15 +454,20 @@ export default function AdminDashboard() {
   const pricePlaceholder =
     activeLocale === "ca"
       ? "29 $CA"
-      : activeLocale === "en"
-        ? "$19.99"
-        : "€19.99";
+      : activeLocale === "uk"
+        ? "£14.99"
+        : activeLocale === "en"
+          ? "$19.99"
+          : "€19.99";
   const premiumPricePlaceholder =
     activeLocale === "ca"
       ? "39 $CA"
-      : activeLocale === "en"
-        ? "$29.99"
-        : "€29.99";
+      : activeLocale === "uk"
+        ? "£22.99"
+        : activeLocale === "en"
+          ? "$29.99"
+          : "€29.99";
+  const isRegionalAdmin = activeLocale === "ca" || activeLocale === "uk";
   const sortedLocales = ADMIN_LOCALE_ORDER.filter((code) => translations[code]);
 
   return (
@@ -653,16 +659,22 @@ export default function AdminDashboard() {
                   <div className="space-y-6">
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
                       <h2 className="text-2xl font-medium text-black mb-1">
-                        {activeLocale === "ca" ? "Canada Homepage Hero" : "Homepage Hero"}
+                        {activeLocale === "ca"
+                          ? "Canada Homepage Hero"
+                          : activeLocale === "uk"
+                            ? "UK Homepage Hero"
+                            : "Homepage Hero"}
                       </h2>
                       <p className="text-gray-500 text-sm mb-6">
                         {activeLocale === "ca"
                           ? "Edit the /ca/ hero (title, subtitle, lead paragraph, CTA)."
-                          : "Edit your homepage hero section"}
+                          : activeLocale === "uk"
+                            ? "Edit the /uk/ hero (title, subtitle, lead paragraph, CTA)."
+                            : "Edit your homepage hero section"}
                       </p>
 
                       <div className="space-y-5">
-                        {activeLocale === "ca" && (
+                        {isRegionalAdmin && (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                               Eyebrow (e.g. Canada · Plans in CAD)
@@ -713,7 +725,7 @@ export default function AdminDashboard() {
                           </div>
                         </div>
 
-                        {activeLocale === "ca" ? (
+                        {isRegionalAdmin ? (
                           <>
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -780,7 +792,7 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    {(showPreview || activeLocale === "ca") && (
+                    {(showPreview || isRegionalAdmin) && (
                       <AdminHeroPreview locale={activeLocale} getValue={getValue} />
                     )}
                   </div>
@@ -809,7 +821,7 @@ export default function AdminDashboard() {
                           />
                         </div>
 
-                        {(activeLocale === "ca" || getValue("pricing.subtitle")) && (
+                        {(isRegionalAdmin || getValue("pricing.subtitle")) && (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                               Section subtitle
@@ -831,7 +843,15 @@ export default function AdminDashboard() {
                             <input
                               type="text"
                               maxLength={3}
-                              placeholder={activeLocale === "ca" ? "CAD" : activeLocale === "en" ? "USD" : "EUR"}
+                              placeholder={
+                                activeLocale === "ca"
+                                  ? "CAD"
+                                  : activeLocale === "uk"
+                                    ? "GBP"
+                                    : activeLocale === "en"
+                                      ? "USD"
+                                      : "EUR"
+                              }
                               value={getValue("pricing.currencyCode")}
                               onChange={(e) =>
                                 updateValue("pricing.currencyCode", e.target.value.toUpperCase())
@@ -1363,7 +1383,7 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    {(showPreview || activeLocale === "ca") && (
+                    {(showPreview || isRegionalAdmin) && (
                       <AdminPricingPreview
                         locale={activeLocale}
                         getValue={getValue}
@@ -1687,9 +1707,11 @@ export default function AdminDashboard() {
                               placeholder={
                                 activeLocale === "ca"
                                   ? "$219 CAD"
-                                  : activeLocale === "en"
-                                    ? "$175"
-                                    : "160 €"
+                                  : activeLocale === "uk"
+                                    ? "£175"
+                                    : activeLocale === "en"
+                                      ? "$175"
+                                      : "160 €"
                               }
                               value={getValue(`reseller.${key}`)}
                               onChange={(e) => updateValue(`reseller.${key}`, e.target.value)}

@@ -98,12 +98,34 @@ function isCanadaCorpusPhrase(phrase: string): boolean {
   return p.includes("canada") || p.includes("quebec") || p.includes("ontario") || p.includes("toronto");
 }
 
+function isUkCorpusPhrase(phrase: string): boolean {
+  const p = phrase.toLowerCase();
+  return (
+    p.includes(" uk") ||
+    p.startsWith("uk ") ||
+    p.includes("united kingdom") ||
+    p.includes("britain") ||
+    p.includes("british") ||
+    p.includes("london") ||
+    p.includes("manchester") ||
+    p.includes("england") ||
+    p.includes("scotland") ||
+    p.includes("gbp")
+  );
+}
+
 function pickFromCorpus(locale: Locale, profile: CorpusSeoProfile, maxPick: number): string[] {
   const list = corpus[locale] ?? [];
   const picked: string[] = [];
   const seen = new Set<string>();
   const geoPrefer =
-    locale === "en" ? isUsaCorpusPhrase : locale === "ca" ? isCanadaCorpusPhrase : null;
+    locale === "en"
+      ? isUsaCorpusPhrase
+      : locale === "ca"
+        ? isCanadaCorpusPhrase
+        : locale === "uk"
+          ? isUkCorpusPhrase
+          : null;
 
   if (geoPrefer) {
     for (const phrase of list) {

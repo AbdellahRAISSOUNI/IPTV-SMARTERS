@@ -17,6 +17,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
   const organizationNameMap: Record<Locale, string> = {
     en: "StreamPro",
     ca: "StreamPro",
+    uk: "StreamPro",
     es: "StreamPro",
     fr: "StreamPro",
   };
@@ -24,6 +25,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
   const organizationDescMap: Record<Locale, string> = {
     en: "Premium IPTV streaming service with crystal-clear quality, 99.9% uptime, and full device compatibility",
     ca: "Premium IPTV streaming for Canada with crystal-clear quality, 99.9% uptime, and full device compatibility",
+    uk: "Premium IPTV streaming for the United Kingdom with crystal-clear quality, 99.9% uptime, and full device compatibility",
     es: "Servicio de streaming IPTV premium con calidad cristalina, 99.9% de tiempo de actividad y compatibilidad total con dispositivos",
     fr: "Service de streaming IPTV premium avec une qualité cristalline, 99.9% de disponibilité et compatibilité totale des appareils",
   };
@@ -31,6 +33,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
   const productNameMap: Record<Locale, string> = {
     en: "Premium IPTV Streaming Service",
     ca: "Premium IPTV Streaming Service Canada",
+    uk: "Premium IPTV Streaming Service UK",
     es: "Servicio de Streaming IPTV Premium",
     fr: "Service de Streaming IPTV Premium",
   };
@@ -38,6 +41,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
   const productDescMap: Record<Locale, string> = {
     en: "Premium IPTV streaming service with over 20,000 live TV channels, 4K quality, and support for all devices. Free test available.",
     ca: "Premium IPTV for Canada with 20,000+ live channels, 4K quality, CAD plans, and support for all devices. Free trial available.",
+    uk: "Premium IPTV for the UK with 20,000+ live channels, 4K quality, GBP plans, and support for all devices. Free trial available.",
     es: "Servicio de streaming IPTV premium con más de 20,000 canales de TV en vivo, calidad 4K y soporte para todos los dispositivos. Prueba gratuita disponible.",
     fr: "Service de streaming IPTV premium avec plus de 20,000 chaînes TV en direct, qualité 4K et support pour tous les appareils. Essai gratuit disponible.",
   };
@@ -58,9 +62,11 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
           ? ["English"]
           : locale === "ca"
             ? ["English", "en-CA"]
-            : locale === "es"
-              ? ["Spanish", "Español"]
-              : ["French", "Français"],
+            : locale === "uk"
+              ? ["English", "en-GB"]
+              : locale === "es"
+                ? ["Spanish", "Español"]
+                : ["French", "Français"],
     },
     sameAs: [],
   };
@@ -76,13 +82,13 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
       name: "StreamPro",
     },
     category:
-      locale === "en" || locale === "ca"
+      locale === "en" || locale === "ca" || locale === "uk"
         ? "IPTV Streaming Service"
         : locale === "es"
           ? "Servicio de Streaming IPTV"
           : "Service de Streaming IPTV",
     offers: getStandardProductOffers(locale, baseUrl),
-    featureList: locale === "en" || locale === "ca"
+    featureList: locale === "en" || locale === "ca" || locale === "uk"
       ? [
           "20,000+ Live TV Channels",
           "4K & HD Quality Streaming",
@@ -282,7 +288,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         "@type": "ListItem",
         position: 1,
         name:
-          locale === "en" || locale === "ca"
+          locale === "en" || locale === "ca" || locale === "uk"
             ? "Home"
             : locale === "es"
               ? "Inicio"
@@ -297,7 +303,16 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     "@type": "WebSite",
     name: organizationNameMap[locale],
     url: `${baseUrl}/${locale}/`,
-    inLanguage: locale === "en" ? "en-US" : locale === "ca" ? "en-CA" : locale === "es" ? "es-ES" : "fr-FR",
+    inLanguage:
+      locale === "en"
+        ? "en-US"
+        : locale === "ca"
+          ? "en-CA"
+          : locale === "uk"
+            ? "en-GB"
+            : locale === "es"
+              ? "es-ES"
+              : "fr-FR",
     publisher: {
       "@type": "Organization",
       name: organizationNameMap[locale],

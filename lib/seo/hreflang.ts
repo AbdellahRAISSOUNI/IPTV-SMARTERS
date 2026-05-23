@@ -7,6 +7,7 @@ import { locales, type Locale } from "@/lib/i18n";
 export const hreflangByLocale: Record<Locale, string> = {
   en: "en-US",
   ca: "en-CA",
+  uk: "en-GB",
   es: "es-ES",
   fr: "fr-FR",
 };

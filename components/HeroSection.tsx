@@ -9,6 +9,8 @@ import {
   OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
 } from "@/lib/constants/official-player-links";
 import { PRIORITY_CANADA_KEYWORDS } from "@/lib/seo/canada-hub";
+import { PRIORITY_UK_KEYWORDS } from "@/lib/seo/uk-hub";
+import { isRegionalEnglishLocale } from "@/lib/i18n/regional-locales";
 
 function HeroImage({
   mobile,
@@ -91,13 +93,15 @@ function DefaultHeroDescription() {
   );
 }
 
-function CanadaHeroKeywords() {
+function RegionalHeroKeywords({ market }: { market: "ca" | "uk" }) {
+  const keywords = market === "uk" ? PRIORITY_UK_KEYWORDS : PRIORITY_CANADA_KEYWORDS;
+  const label = market === "uk" ? "IPTV UK search topics" : "IPTV Canada search topics";
   return (
     <p
       className="text-xs sm:text-sm leading-relaxed text-neutral-500 break-words"
-      aria-label="IPTV Canada search topics"
+      aria-label={label}
     >
-      {PRIORITY_CANADA_KEYWORDS.map((kw, index) => (
+      {keywords.map((kw, index) => (
         <span key={kw}>
           {index > 0 ? <span className="text-neutral-300"> · </span> : null}
           <a href="#pricing" className="hover:text-neutral-700 hover:underline underline-offset-2">
@@ -109,10 +113,12 @@ function CanadaHeroKeywords() {
   );
 }
 
-function CanadaHeroContent({
+function RegionalHeroContent({
   onViewPlans,
+  market,
 }: {
   onViewPlans: (e: { preventDefault: () => void }) => void;
+  market: "ca" | "uk";
 }) {
   const { t } = useLanguage();
 
@@ -175,7 +181,7 @@ function CanadaHeroContent({
       </div>
 
       <div className="pt-4 mt-1 border-t border-neutral-100 max-w-lg">
-        <CanadaHeroKeywords />
+        <RegionalHeroKeywords market={market} />
       </div>
     </div>
   );
@@ -184,7 +190,8 @@ function CanadaHeroContent({
 export default function HeroSection() {
   const { t, locale } = useLanguage();
   const mobile = typeof window !== "undefined" ? isMobile() : false;
-  const isCa = locale === "ca";
+  const isRegional = isRegionalEnglishLocale(locale);
+  const regionalMarket = locale === "uk" ? "uk" : "ca";
 
   const scrollToPricing = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -197,7 +204,7 @@ export default function HeroSection() {
     }
   };
 
-  if (isCa) {
+  if (isRegional) {
     return (
       <section
         id="home"
@@ -209,7 +216,7 @@ export default function HeroSection() {
               <div className="lg:hidden mb-6 max-w-md mx-auto sm:max-w-xl">
                 <HeroImage mobile={mobile} variant="canadaSticky" />
               </div>
-              <CanadaHeroContent onViewPlans={scrollToPricing} />
+              <RegionalHeroContent onViewPlans={scrollToPricing} market={regionalMarket} />
             </div>
 
             <div className="hidden lg:flex min-w-0 items-center justify-center self-center py-6">

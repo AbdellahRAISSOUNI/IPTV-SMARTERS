@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import keywordCorpus from "@/data/seo/keyword-corpus.json";
+import { UK_TRENDING_KEYWORDS } from "@/lib/seo/uk-trending-keywords";
 
 /** Hand-curated homepage meta keywords (kept separate from generated corpus). */
 export const CORE_SITE_KEYWORDS: Record<Locale, readonly string[]> = {
@@ -279,6 +280,27 @@ export const CORE_SITE_KEYWORDS: Record<Locale, readonly string[]> = {
     "World Cup on Smart TV",
     "IPTV Smarters Pro World Cup",
   ],
+  uk: [
+    ...UK_TRENDING_KEYWORDS,
+    "IPTV",
+    "IPTV service",
+    "IPTV streaming",
+    "premium IPTV",
+    "IPTV provider",
+    "IPTV subscription service",
+    "IPTV subscription plans",
+    "IPTV Smarters Pro",
+    "live TV channels",
+    "VOD streaming",
+    "IPTV for Smart TV",
+    "IPTV for Firestick",
+    "IPTV for Android",
+    "IPTV without buffering",
+    "IPTV anti-freeze",
+    "IPTV 24/7 support",
+    "instant IPTV activation",
+    "IPTV setup guide",
+  ],
   es: [
     "comprar iptv",
     "iptv españa",
@@ -517,6 +539,7 @@ const corpus = keywordCorpus as Record<Locale, string[]>;
 /** Extra phrases merged into homepage meta from generated corpus (avoids multi-KB meta tags). */
 const META_EXTRA_FROM_CORPUS = 72;
 const META_EXTRA_CA_FROM_CORPUS = 180;
+const META_EXTRA_UK_FROM_CORPUS = 220;
 
 const US_CITY_HINTS = [
   "new york",
@@ -603,6 +626,36 @@ function isCanadaFocusedKeyword(phrase: string): boolean {
   );
 }
 
+function isUkFocusedKeyword(phrase: string): boolean {
+  const p = phrase.toLowerCase();
+  return (
+    p.includes(" uk") ||
+    p.startsWith("uk ") ||
+    p.includes("united kingdom") ||
+    p.includes("britain") ||
+    p.includes("british") ||
+    p.includes("england") ||
+    p.includes("scotland") ||
+    p.includes("wales") ||
+    p.includes("london") ||
+    p.includes("manchester") ||
+    p.includes("birmingham") ||
+    p.includes("liverpool") ||
+    p.includes("leeds") ||
+    p.includes("glasgow") ||
+    p.includes("edinburgh") ||
+    p.includes("belfast") ||
+    p.includes("gbp") ||
+    p.includes("premier league") ||
+    p.includes("firestick") ||
+    p.includes("fire stick") ||
+    p.includes("tivimate") ||
+    p.includes("smarters") ||
+    p.includes("iptv trial") ||
+    p.includes("cheapest iptv")
+  );
+}
+
 function appendCorpusExtras(
   core: string[],
   seen: Set<string>,
@@ -642,14 +695,21 @@ function appendCorpusExtras(
 export function getHomepageKeywordList(locale: Locale): string[] {
   const core = [...CORE_SITE_KEYWORDS[locale]];
   const seen = new Set(core.map((k) => k.toLowerCase().trim()));
-  const maxExtra = locale === "ca" ? META_EXTRA_CA_FROM_CORPUS : META_EXTRA_FROM_CORPUS;
+  const maxExtra =
+    locale === "ca"
+      ? META_EXTRA_CA_FROM_CORPUS
+      : locale === "uk"
+        ? META_EXTRA_UK_FROM_CORPUS
+        : META_EXTRA_FROM_CORPUS;
   const list = corpus[locale] ?? [];
   const prefer =
     locale === "en"
       ? isUsaFocusedKeyword
       : locale === "ca"
         ? isCanadaFocusedKeyword
-        : undefined;
+        : locale === "uk"
+          ? isUkFocusedKeyword
+          : undefined;
 
   appendCorpusExtras(core, seen, list, maxExtra, prefer);
   return core;

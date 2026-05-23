@@ -118,3 +118,11 @@ h1, h2, h3, h4, h5, h6 {
 [data-locale="ca"] #latest-blog {
   background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
 }
+
+[data-locale="uk"] #pricing {
+  background: linear-gradient(180deg, #ffffff 0%, #eff6ff 40%, #ffffff 100%);
+}
+
+[data-locale="uk"] #latest-blog {
+  background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+}

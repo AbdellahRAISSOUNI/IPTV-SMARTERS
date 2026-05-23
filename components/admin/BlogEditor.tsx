@@ -28,7 +28,10 @@ import {
   type BlogBlock,
 } from "@/lib/admin/blog-shared";
 import {
+  emptyLocaleListMap,
+  emptyLocaleTextMap,
   getPublishedLocales,
+  normalizeBlogSlugRecord,
   type BlogLocale,
 } from "@/lib/admin/blog-locales";
 import BlogLocaleToolbar from "@/components/admin/BlogLocaleToolbar";
@@ -43,17 +46,17 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   const [blog, setBlog] = useState<BlogPost>(
     initialBlog || {
       id: "",
-      slug: { en: "", ca: "", es: "", fr: "" },
-      title: { en: "", ca: "", es: "", fr: "" },
-      excerpt: { en: "", ca: "", es: "", fr: "" },
+      slug: { en: "", ca: "", uk: "", es: "", fr: "" },
+      title: { en: "", ca: "", uk: "", es: "", fr: "" },
+      excerpt: { en: "", ca: "", uk: "", es: "", fr: "" },
       publishedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       locale: "en",
       translations: ["en"],
       blocks: [],
       meta: {
-        description: { en: "", ca: "", es: "", fr: "" },
-        keywords: { en: "", ca: "", es: "", fr: "" },
+        description: { en: "", ca: "", uk: "", es: "", fr: "" },
+        keywords: { en: "", ca: "", uk: "", es: "", fr: "" },
       },
     }
   );
@@ -78,19 +81,15 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
         ...initialBlog,
         slug: typeof initialBlog.slug === 'string' 
           ? { en: initialBlog.slug, es: initialBlog.slug, fr: initialBlog.slug }
-          : { en: "", es: "", fr: "", ...initialBlog.slug },
+          : { en: "", ca: "", uk: "", es: "", fr: "", ...initialBlog.slug },
         meta: {
           ...initialBlog.meta,
           description: {
-            en: "",
-            es: "",
-            fr: "",
+            ...emptyLocaleTextMap(),
             ...initialBlog.meta?.description,
           },
           keywords: {
-            en: "",
-            es: "",
-            fr: "",
+            ...emptyLocaleTextMap(),
             ...initialBlog.meta?.keywords,
           },
         },
@@ -109,7 +108,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     field: "title" | "excerpt",
     targets: BlogLocale[]
   ): Record<BlogLocale, string> => {
-    const current: Record<BlogLocale, string> = { en: "", ca: "", es: "", fr: "", ...blog[field] };
+    const current: Record<BlogLocale, string> = { en: "", ca: "", uk: "", es: "", fr: "", ...blog[field] };
     const next = { ...current };
     for (const loc of targets) {
       next[loc] = value;
@@ -118,7 +117,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   };
 
   const applyMetaDescription = (value: string, targets: BlogLocale[]) => {
-    const current = { en: "", ca: "", es: "", fr: "", ...blog.meta?.description };
+    const current = { en: "", ca: "", uk: "", es: "", fr: "", ...blog.meta?.description };
     const description = { ...current };
     for (const loc of targets) {
       description[loc] = value;
@@ -127,7 +126,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
   };
 
   const applyMetaKeywords = (value: string, targets: BlogLocale[]) => {
-    const current = { en: "", ca: "", es: "", fr: "", ...blog.meta?.keywords };
+    const current = { en: "", ca: "", uk: "", es: "", fr: "", ...blog.meta?.keywords };
     const keywords = { ...current };
     for (const loc of targets) {
       keywords[loc] = value;
@@ -150,9 +149,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
   // Helper to set slug for a locale
   const setSlug = (locale: BlogLocale, value: string) => {
-    const currentSlug = typeof blog.slug === 'string' 
-      ? { en: blog.slug, ca: blog.slug, es: blog.slug, fr: blog.slug }
-      : { ...(blog.slug as Record<string, string>) };
+    const currentSlug = normalizeBlogSlugRecord(blog.slug);
     
     setBlog({
       ...blog,
@@ -174,19 +171,8 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     setSaveStatus("idle");
 
     try {
-      let cleanedSlug: Record<string, string>;
-      if (typeof blog.slug === "string") {
-        cleanedSlug = { en: blog.slug, ca: blog.slug, es: blog.slug, fr: blog.slug };
-      } else {
-        const slugRecord = blog.slug as Record<string, string>;
-        cleanedSlug = {
-          en: String(slugRecord.en || "").trim(),
-          ca: String(slugRecord.ca || "").trim(),
-          es: String(slugRecord.es || "").trim(),
-          fr: String(slugRecord.fr || "").trim(),
-        };
-      }
-      
+      const cleanedSlug = normalizeBlogSlugRecord(blog.slug);
+
       // Clean up blob URLs before saving - ensure we only save Cloudinary URLs
       const cleanedBlog = {
         ...blog,
@@ -232,7 +218,7 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
       formData.append("file", file);
       formData.append("folder", "blog-images");
 
-      const response = await fetch("/api/admin/upload-cloudinary", {
+      const response = await fetch("/api/admin/upload-cloudinary/", {
         method: "POST",
         body: formData,
       });
@@ -283,9 +269,9 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
         let content: Record<string, string>;
         if (typeof block.content === "string") {
-          content = { en: block.content, ca: "", es: "", fr: "" };
+          content = { ...emptyLocaleTextMap(), en: block.content };
         } else {
-          content = { en: "", ca: "", es: "", fr: "", ...(block.content as Record<string, string>) };
+          content = { en: "", ca: "", uk: "", es: "", fr: "", ...(block.content as Record<string, string>) };
         }
         for (const loc of targets) {
           content[loc] = value;
@@ -300,9 +286,13 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
     const newBlock: BlogBlock = {
       id: generateId(),
       type,
-      content: { en: "", ca: "", es: "", fr: "" }, // Initialize as multi-language
+      content: { en: "", ca: "", uk: "", es: "", fr: "" }, // Initialize as multi-language
       ...(type === "heading" && { level: 2 }),
-      ...(type === "list" && { listItems: { en: [""], es: [""], fr: [""] } }),
+      ...(type === "list" && {
+        listItems: Object.fromEntries(
+          (["en", "ca", "uk", "es", "fr"] as BlogLocale[]).map((loc) => [loc, [""]])
+        ) as Record<BlogLocale, string[]>,
+      }),
     };
 
     setBlog({
@@ -1060,8 +1050,12 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
                             value={typeof block.imageAlt === 'string' ? block.imageAlt : (block.imageAlt?.[blockLocale] || "")}
                             onChange={(e) => {
                               const newAlt = typeof block.imageAlt === 'string' 
-                                ? { en: block.imageAlt, es: "", fr: "", [blockLocale]: e.target.value }
-                                : { ...(block.imageAlt || { en: "", ca: "", es: "", fr: "" }), [blockLocale]: e.target.value };
+                                ? {
+                                    ...emptyLocaleTextMap(),
+                                    en: block.imageAlt,
+                                    [blockLocale]: e.target.value,
+                                  }
+                                : { ...(block.imageAlt || { en: "", ca: "", uk: "", es: "", fr: "" }), [blockLocale]: e.target.value };
                               updateBlock(block.id, { imageAlt: newAlt });
                             }}
                             placeholder={`Image alt text (${blockLocale.toUpperCase()})`}
@@ -1173,17 +1167,16 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
                                 if (Array.isArray(block.listItems)) {
                                   const base = [...block.listItems];
-                                  updateBlock(block.id, {
-                                    listItems: {
-                                      en: blockLocale === "en" ? newItems : [...base],
-                                      es: blockLocale === "es" ? newItems : [...base],
-                                      fr: blockLocale === "fr" ? newItems : [...base],
-                                    },
-                                  });
+                                  const migrated = emptyLocaleListMap();
+                                  for (const loc of Object.keys(migrated) as BlogLocale[]) {
+                                    migrated[loc] = blockLocale === loc ? newItems : [...base];
+                                  }
+                                  updateBlock(block.id, { listItems: migrated });
                                 } else {
                                   updateBlock(block.id, {
                                     listItems: {
-                                      ...(block.listItems || { en: [], es: [], fr: [] }),
+                                      ...emptyLocaleListMap(),
+                                      ...(block.listItems as Record<BlogLocale, string[]>),
                                       [blockLocale]: newItems,
                                     },
                                   });
@@ -1204,17 +1197,16 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
                                 if (Array.isArray(block.listItems)) {
                                   const base = block.listItems.filter((_, i) => i !== itemIndex);
-                                  updateBlock(block.id, {
-                                    listItems: {
-                                      en: blockLocale === "en" ? newItems : [...base],
-                                      es: blockLocale === "es" ? newItems : [...base],
-                                      fr: blockLocale === "fr" ? newItems : [...base],
-                                    },
-                                  });
+                                  const migrated = emptyLocaleListMap();
+                                  for (const loc of Object.keys(migrated) as BlogLocale[]) {
+                                    migrated[loc] = blockLocale === loc ? newItems : [...base];
+                                  }
+                                  updateBlock(block.id, { listItems: migrated });
                                 } else {
                                   updateBlock(block.id, {
                                     listItems: {
-                                      ...(block.listItems || { en: [], es: [], fr: [] }),
+                                      ...emptyLocaleListMap(),
+                                      ...(block.listItems as Record<BlogLocale, string[]>),
                                       [blockLocale]: newItems,
                                     },
                                   });
@@ -1239,17 +1231,16 @@ export default function BlogEditor({ onSave, onDelete, initialBlog }: BlogEditor
 
                           if (Array.isArray(block.listItems)) {
                             const base = [...block.listItems, ""];
-                            updateBlock(block.id, {
-                              listItems: {
-                                en: blockLocale === "en" ? next : [...base],
-                                es: blockLocale === "es" ? next : [...base],
-                                fr: blockLocale === "fr" ? next : [...base],
-                              },
-                            });
+                            const migrated = emptyLocaleListMap();
+                            for (const loc of Object.keys(migrated) as BlogLocale[]) {
+                              migrated[loc] = blockLocale === loc ? next : [...base];
+                            }
+                            updateBlock(block.id, { listItems: migrated });
                           } else {
                             updateBlock(block.id, {
                               listItems: {
-                                ...(block.listItems || { en: [], es: [], fr: [] }),
+                                ...emptyLocaleListMap(),
+                                ...(block.listItems as Record<BlogLocale, string[]>),
                                 [blockLocale]: next,
                               },
                             });

@@ -6,6 +6,7 @@ type PricingSlice = Record<string, unknown> | undefined;
 export const DEFAULT_PRICE_CURRENCY: Record<Locale, string> = {
   en: "USD",
   ca: "CAD",
+  uk: "GBP",
   es: "EUR",
   fr: "EUR",
 };

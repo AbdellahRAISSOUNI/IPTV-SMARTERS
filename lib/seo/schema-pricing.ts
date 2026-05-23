@@ -12,6 +12,7 @@ export const PRICE_CURRENCY = DEFAULT_PRICE_CURRENCY;
 export const SCHEMA_COUNTRY: Record<Locale, string> = {
   en: "US",
   ca: "CA",
+  uk: "GB",
   es: "ES",
   fr: "FR",
 };
@@ -123,6 +124,9 @@ export function getFaqPricingAnswerText(locale: Locale): string {
 
   if (locale === "ca") {
     return `Our IPTV subscription plans start from ${plans[0].price} for ${plans[0].label}, with options for ${plans[1].label} (${plans[1].price}), ${plans[2].label} (${plans[2].price}), and ${plans[3].label} (${plans[3].price}). All plans include instant activation and a free trial. ${String(p.currencyNote || "Prices in CAD.")}`;
+  }
+  if (locale === "uk") {
+    return `Our IPTV subscription plans start from ${plans[0].price} for ${plans[0].label}, with options for ${plans[1].label} (${plans[1].price}), ${plans[2].label} (${plans[2].price}), and ${plans[3].label} (${plans[3].price}). All plans include instant activation and a free trial. ${String(p.currencyNote || "Prices in GBP.")}`;
   }
   if (locale === "es") {
     return `Nuestros planes de suscripción IPTV comienzan desde ${plans[0].price} por ${plans[0].label}, con opciones para ${plans[1].label} (${plans[1].price}), ${plans[2].label} (${plans[2].price}) y ${plans[3].label} (${plans[3].price}). Todos los planes incluyen activación instantánea y prueba gratuita disponible.`;

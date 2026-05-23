@@ -29,6 +29,7 @@ export async function generateMetadata({
   const titleMap: Record<Locale, string> = {
     en: "Privacy Policy | StreamPro IPTV Smarters Pro",
     ca: "Privacy Policy | StreamPro IPTV Canada",
+    uk: "Privacy Policy | StreamPro IPTV UK",
     es: "Política de Privacidad | StreamPro IPTV Smarters Pro",
     fr: "Politique de Confidentialité | StreamPro IPTV Smarters Pro",
   };
@@ -36,6 +37,7 @@ export async function generateMetadata({
   const descriptionMap: Record<Locale, string> = {
     en: "Learn how StreamPro IPTV Smarters Pro collects, uses, and protects your personal data when you use our IPTV service and website.",
     ca: "Learn how StreamPro IPTV Canada collects, uses, and protects your personal data when you use our IPTV service and website.",
+    uk: "Learn how StreamPro IPTV UK collects, uses, and protects your personal data when you use our IPTV service and website.",
     es: "Descubre cómo StreamPro IPTV Smarters Pro recopila, utiliza y protege tus datos personales al usar nuestro servicio IPTV y el sitio web.",
     fr: "Découvrez comment StreamPro IPTV Smarters Pro collecte, utilise et protège vos données personnelles lorsque vous utilisez notre service IPTV et notre site web.",
   };
@@ -77,6 +79,7 @@ export default async function PrivacyPolicyLayout({
   const titleMap: Record<Locale, string> = {
     en: "Privacy Policy | StreamPro IPTV Smarters Pro",
     ca: "Privacy Policy | StreamPro IPTV Canada",
+    uk: "Privacy Policy | StreamPro IPTV UK",
     es: "Política de Privacidad | StreamPro IPTV Smarters Pro",
     fr: "Politique de Confidentialité | StreamPro IPTV Smarters Pro",
   };
@@ -84,6 +87,7 @@ export default async function PrivacyPolicyLayout({
   const descriptionMap: Record<Locale, string> = {
     en: "Learn how StreamPro IPTV Smarters Pro collects, uses, and protects your personal data when you use our IPTV service and website.",
     ca: "Learn how StreamPro IPTV Canada collects, uses, and protects your personal data when you use our IPTV service and website.",
+    uk: "Learn how StreamPro IPTV UK collects, uses, and protects your personal data when you use our IPTV service and website.",
     es: "Descubre cómo StreamPro IPTV Smarters Pro recopila, utiliza y protege tus datos personales al usar nuestro servicio IPTV y el sitio web.",
     fr: "Découvrez comment StreamPro IPTV Smarters Pro collecte, utilise et protège vos données personnelles lorsque vous utilisez notre service IPTV et notre site web.",
   };

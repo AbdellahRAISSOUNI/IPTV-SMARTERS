@@ -90,7 +90,30 @@ export function isLocalePublished(blog: BlogPost, locale: BlogLocale): boolean {
 }
 
 export function emptyLocaleTextMap(): Record<BlogLocale, string> {
-  return { en: "", ca: "", es: "", fr: "" };
+  return { en: "", ca: "", uk: "", es: "", fr: "" };
+}
+
+export function emptyLocaleListMap(): Record<BlogLocale, string[]> {
+  return { en: [], ca: [], uk: [], es: [], fr: [] };
+}
+
+/** Normalize slug payload from legacy string or partial record before save. */
+export function normalizeBlogSlugRecord(
+  slug: BlogPost["slug"]
+): Record<BlogLocale, string> {
+  const base = emptyLocaleTextMap();
+  if (typeof slug === "string") {
+    const trimmed = slug.trim();
+    return { ...base, en: trimmed, ca: trimmed, uk: trimmed, es: trimmed, fr: trimmed };
+  }
+  const record = (slug || {}) as Record<string, string>;
+  return {
+    en: String(record.en || "").trim(),
+    ca: String(record.ca || "").trim(),
+    uk: String(record.uk || "").trim(),
+    es: String(record.es || "").trim(),
+    fr: String(record.fr || "").trim(),
+  };
 }
 
 function copyBlockContentToLocale(block: BlogBlock, from: BlogLocale, to: BlogLocale): BlogBlock {
@@ -100,6 +123,7 @@ function copyBlockContentToLocale(block: BlogBlock, from: BlogLocale, to: BlogLo
     next.content = {
       en: block.content,
       ca: block.content,
+      uk: block.content,
       es: block.content,
       fr: block.content,
       [to]: block.content,
@@ -114,6 +138,7 @@ function copyBlockContentToLocale(block: BlogBlock, from: BlogLocale, to: BlogLo
       next.listItems = {
         en: [...block.listItems],
         ca: [...block.listItems],
+        uk: [...block.listItems],
         es: [...block.listItems],
         fr: [...block.listItems],
       };
@@ -125,7 +150,13 @@ function copyBlockContentToLocale(block: BlogBlock, from: BlogLocale, to: BlogLo
 
   if (block.imageAlt) {
     if (typeof block.imageAlt === "string") {
-      next.imageAlt = { en: block.imageAlt, ca: block.imageAlt, es: block.imageAlt, fr: block.imageAlt };
+      next.imageAlt = {
+        en: block.imageAlt,
+        ca: block.imageAlt,
+        uk: block.imageAlt,
+        es: block.imageAlt,
+        fr: block.imageAlt,
+      };
     } else {
       const source = String(block.imageAlt[from] || "").trim();
       next.imageAlt = { ...block.imageAlt, [to]: source };
@@ -179,9 +210,9 @@ export function copyBlogLocaleContent(
   if (options.includeSlug) {
     const sourceSlug = getSlugForLocale(blog, from);
     if (typeof slug === "string") {
-      slug = { en: sourceSlug, ca: sourceSlug, es: sourceSlug, fr: sourceSlug };
+      slug = { en: sourceSlug, ca: sourceSlug, uk: sourceSlug, es: sourceSlug, fr: sourceSlug };
     } else {
-      slug = { en: "", ca: "", es: "", fr: "", ...slug };
+      slug = { en: "", ca: "", uk: "", es: "", fr: "", ...slug };
       for (const to of targets) {
         (slug as Record<string, string>)[to] = sourceSlug;
       }
@@ -224,7 +255,7 @@ export function validateBlogForPublish(
 
   const primary = blog.locale;
   if (!isBlogLocale(primary)) {
-    return { ok: false, error: "Primary language must be one of: en, ca, es, fr." };
+    return { ok: false, error: "Primary language must be one of: en, ca, uk, es, fr." };
   }
 
   if (!publishedLocales.includes(primary)) {
@@ -251,6 +282,7 @@ export function validateBlogForPublish(
   const normalizedSlugs: Record<BlogLocale, string> = {
     en: getSlugForLocale(blog, "en"),
     ca: getSlugForLocale(blog, "ca"),
+    uk: getSlugForLocale(blog, "uk"),
     es: getSlugForLocale(blog, "es"),
     fr: getSlugForLocale(blog, "fr"),
   };

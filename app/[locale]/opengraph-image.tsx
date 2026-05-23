@@ -27,6 +27,6 @@ export default async function Image({
     title,
     description,
     locale,
-    badge: locale === "ca" ? "Canada" : undefined,
+    badge: locale === "ca" ? "Canada" : locale === "uk" ? "United Kingdom" : undefined,
   });
 }

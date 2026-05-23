@@ -19,6 +19,11 @@ const itemListMeta: Record<Locale, { name: string; description: string }> = {
     description:
       "Latest IPTV Canada articles: Smarters Pro setup, Firestick guides, M3U playlists, and CAD subscription tips for Canadian viewers.",
   },
+  uk: {
+    name: "IPTV UK Blog - Guides & Setup Articles",
+    description:
+      "Latest IPTV UK articles: Smarters Pro setup, Firestick guides, M3U playlists, and GBP subscription tips for British viewers.",
+  },
   es: {
     name: "Blog IPTV - Artículos y Guías",
     description: "Últimos artículos, guías y novedades sobre IPTV y streaming.",

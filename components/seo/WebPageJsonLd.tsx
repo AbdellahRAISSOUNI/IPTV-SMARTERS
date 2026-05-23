@@ -16,7 +16,7 @@ type WebPageJsonLdProps = {
  */
 export function WebPageJsonLd({ url, name, description, locale, keywords, siteUrl }: WebPageJsonLdProps) {
   const inLanguage =
-    locale === "en" || locale === "ca" || locale === "es" || locale === "fr"
+    locale === "en" || locale === "ca" || locale === "uk" || locale === "es" || locale === "fr"
       ? hreflangByLocale[locale]
       : locale === "en-US" || locale === "en-CA"
         ? locale

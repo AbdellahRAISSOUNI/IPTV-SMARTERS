@@ -92,9 +92,9 @@ function PlanPreviewGrid({
 }
 
 export function AdminHeroPreview({ locale, getValue }: PreviewProps) {
-  const isCa = locale === "ca";
+  const isRegional = locale === "ca" || locale === "uk";
 
-  if (isCa) {
+  if (isRegional) {
     return (
       <div className="rounded-xl border border-gray-200 bg-white p-6 sm:p-8">
         <p className="text-xs text-gray-500 mb-4 uppercase tracking-wide">
@@ -123,7 +123,7 @@ export function AdminHeroPreview({ locale, getValue }: PreviewProps) {
           <span className="text-xs text-neutral-500">{getValue("hero.ctaNote")}</span>
         </div>
         <p className="text-xs text-neutral-500 border-t border-neutral-100 pt-3 max-w-lg">
-          Keyword row (iptv canada, iptv quebec, …) appears below the CTA on the live site.
+          Keyword row (regional SEO topics) appears below the CTA on the live site.
         </p>
       </div>
     );
