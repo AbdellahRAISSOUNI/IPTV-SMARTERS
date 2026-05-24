@@ -10,6 +10,11 @@ import {
   hasGithubAdminContext,
   updateFileOnGitHub,
 } from "./github";
+import {
+  isReadOnlyAdminFilesystem,
+  READONLY_DEPLOY_GITHUB_MESSAGE,
+  writeLocalAdminJsonFile,
+} from "./local-filesystem";
 
 export interface PageMetadata {
   title: string;
@@ -79,10 +84,11 @@ async function readLocalMetadataFile(locale: string): Promise<MetadataContent | 
   }
 }
 
-async function writeLocalMetadataFile(locale: string, jsonContent: string): Promise<void> {
-  const absolute = path.join(process.cwd(), metadataFilePath(locale));
-  await fs.mkdir(path.dirname(absolute), { recursive: true });
-  await fs.writeFile(absolute, `${jsonContent}\n`, "utf8");
+async function writeLocalMetadataFile(
+  locale: string,
+  jsonContent: string
+): Promise<boolean> {
+  return writeLocalAdminJsonFile(metadataFilePath(locale), jsonContent);
 }
 
 async function fetchMetadataGithubSha(filePath: string): Promise<string> {
@@ -154,9 +160,12 @@ export async function updateMetadataFile(
   );
   const jsonContent = JSON.stringify(normalized, null, 2);
 
-  await writeLocalMetadataFile(locale, jsonContent);
+  const wroteLocal = await writeLocalMetadataFile(locale, jsonContent);
 
   if (!hasGithubAdminContext()) {
+    if (!wroteLocal && isReadOnlyAdminFilesystem()) {
+      throw new Error(READONLY_DEPLOY_GITHUB_MESSAGE);
+    }
     return;
   }
 

@@ -5,6 +5,11 @@
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import {
+  isReadOnlyAdminFilesystem,
+  READONLY_DEPLOY_GITHUB_MESSAGE,
+  writeLocalAdminJsonFile,
+} from "./local-filesystem";
 
 interface GitHubFileContent {
   name: string;
@@ -138,10 +143,11 @@ async function readLocalTranslationFile(locale: string): Promise<Record<string, 
   }
 }
 
-async function writeLocalTranslationFile(locale: string, jsonContent: string): Promise<void> {
-  const absolute = path.join(process.cwd(), translationFilePath(locale));
-  await fs.mkdir(path.dirname(absolute), { recursive: true });
-  await fs.writeFile(absolute, `${jsonContent}\n`, "utf8");
+async function writeLocalTranslationFile(
+  locale: string,
+  jsonContent: string
+): Promise<boolean> {
+  return writeLocalAdminJsonFile(translationFilePath(locale), jsonContent);
 }
 
 async function fetchGithubSha(filePath: string): Promise<string> {
@@ -196,7 +202,7 @@ export async function getTranslationFile(locale: string): Promise<{
 }
 
 /**
- * Update translation file — writes local JSON first, then GitHub when configured.
+ * Update translation file — writes local JSON when writable, then GitHub when configured.
  */
 export async function updateTranslationFile(
   locale: string,
@@ -206,9 +212,12 @@ export async function updateTranslationFile(
   const filePath = translationFilePath(locale);
   const jsonContent = JSON.stringify(content, null, 2);
 
-  await writeLocalTranslationFile(locale, jsonContent);
+  const wroteLocal = await writeLocalTranslationFile(locale, jsonContent);
 
   if (!hasGithubAdminContext()) {
+    if (!wroteLocal && isReadOnlyAdminFilesystem()) {
+      throw new Error(READONLY_DEPLOY_GITHUB_MESSAGE);
+    }
     return;
   }
 

@@ -17,8 +17,14 @@ export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const url = request.nextUrl.clone();
 
-  // Protect admin routes (except login page)
-  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
+  const isAdminIndex = pathname === "/admin" || pathname === "/admin/";
+
+  // Protect admin routes (except login and index redirect page)
+  if (
+    pathname.startsWith("/admin") &&
+    !pathname.startsWith("/admin/login") &&
+    !isAdminIndex
+  ) {
     const sessionCookie = request.cookies.get('admin_session');
 
     if (!sessionCookie) {
