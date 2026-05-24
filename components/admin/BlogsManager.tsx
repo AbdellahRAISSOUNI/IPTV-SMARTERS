@@ -49,7 +49,7 @@ export default function BlogsManager() {
 
   const loadBlogs = async () => {
     try {
-      const response = await fetch("/api/admin/blogs/");
+      const response = await fetch("/api/admin/blogs/", { cache: "no-store" });
       if (response.ok) {
         const data = await response.json();
         setBlogs(data);
@@ -84,12 +84,31 @@ export default function BlogsManager() {
         body: JSON.stringify(blog),
       });
 
+      const payload = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        blog?: BlogPost;
+      };
+
       if (!response.ok) {
-        const payload = await response.json().catch(() => ({}));
         throw new Error(payload?.error || "Failed to save blog");
       }
 
-      await loadBlogs();
+      if (payload.blog) {
+        setBlogs((prev) => {
+          const next = [...prev];
+          const index = next.findIndex((item) => item.id === payload.blog!.id);
+          if (index >= 0) {
+            next[index] = payload.blog!;
+          } else {
+            next.push(payload.blog!);
+          }
+          return next.sort(
+            (a, b) =>
+              new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+          );
+        });
+      }
+
       setSelectedBlog(null);
       setSaveStatus("success");
       setShowDeploymentNotification(true);

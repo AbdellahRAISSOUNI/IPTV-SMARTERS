@@ -185,7 +185,7 @@ export default function AdminDashboard() {
   // Load translations
   const loadTranslations = async () => {
     try {
-      const response = await fetch("/api/admin/translations/");
+      const response = await fetch("/api/admin/translations/", { cache: "no-store" });
       const data = (await response.json()) as Translations;
       setTranslations(normalizeAllTranslationsHero(data));
     } catch (error) {
@@ -207,7 +207,7 @@ export default function AdminDashboard() {
   // Load metadata
   const loadMetadata = async () => {
     try {
-      const response = await fetch("/api/admin/metadata/");
+      const response = await fetch("/api/admin/metadata/", { cache: "no-store" });
       const data = await response.json();
       setMetadata(data);
     } catch (error) {
@@ -256,14 +256,31 @@ export default function AdminDashboard() {
         }),
       });
 
+      const body = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        content?: Record<string, unknown>;
+        sha?: string;
+      };
+
       if (!response.ok) {
-        const body = (await response.json().catch(() => ({}))) as { error?: string };
         throw new Error(body.error || "Failed to save translations");
       }
 
+      const savedContent = normalizeAdminTranslationContent(
+        (body.content ?? entry.content) as Record<string, unknown>
+      );
+
+      setTranslations((prev) => ({
+        ...prev,
+        [activeLocale]: {
+          ...(prev[activeLocale] ?? { path: `lib/i18n/translations/${activeLocale}.json` }),
+          content: savedContent,
+          sha: body.sha ?? prev[activeLocale]?.sha ?? "",
+        },
+      }));
+
       setSaveStatus("success");
       setShowDeploymentNotification(true);
-      await loadTranslations();
 
       setTimeout(() => setSaveStatus("idle"), 3000);
     } catch (error) {
@@ -307,14 +324,27 @@ export default function AdminDashboard() {
         }),
       });
 
+      const body = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        content?: Record<string, unknown>;
+        sha?: string;
+      };
+
       if (!response.ok) {
-        const body = (await response.json().catch(() => ({}))) as { error?: string };
         throw new Error(body.error || "Failed to save metadata");
       }
 
+      setMetadata((prev) => ({
+        ...prev,
+        [activeLocale]: {
+          ...(prev[activeLocale] ?? { path: `data/metadata/${activeLocale}.json` }),
+          content: body.content ?? entry.content,
+          sha: body.sha ?? prev[activeLocale]?.sha ?? "",
+        },
+      }));
+
       setSaveStatus("success");
       setShowDeploymentNotification(true);
-      await loadMetadata();
 
       setTimeout(() => setSaveStatus("idle"), 3000);
     } catch (error) {

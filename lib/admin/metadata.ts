@@ -11,6 +11,7 @@ import {
   updateFileOnGitHub,
 } from "./github";
 import {
+  adminReadsPreferGithub,
   isReadOnlyAdminFilesystem,
   READONLY_DEPLOY_GITHUB_MESSAGE,
   writeLocalAdminJsonFile,
@@ -106,6 +107,11 @@ async function fetchMetadataGithubSha(filePath: string): Promise<string> {
 /**
  * Get metadata file for a locale (local repo JSON first — matches what the site reads)
  */
+function isGithubNotFoundError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  return message.includes("404") || message.includes("Not Found");
+}
+
 export async function getMetadataFile(locale: string): Promise<{
   content: MetadataContent;
   sha: string;
@@ -113,6 +119,23 @@ export async function getMetadataFile(locale: string): Promise<{
 }> {
   const filePath = metadataFilePath(locale);
   const defaults = getDefaultMetadata(locale);
+
+  if (adminReadsPreferGithub(hasGithubAdminContext())) {
+    try {
+      const file = await getFileFromGitHub(filePath);
+      const parsed = JSON.parse(file.content);
+      return {
+        content: mergePageMetadataDefaults<MetadataContent>(defaults, parsed),
+        sha: file.sha,
+        path: file.path,
+      };
+    } catch (error: unknown) {
+      if (!isGithubNotFoundError(error)) {
+        throw error;
+      }
+    }
+  }
+
   const sha = await fetchMetadataGithubSha(filePath);
   const local = await readLocalMetadataFile(locale);
 
@@ -133,8 +156,7 @@ export async function getMetadataFile(locale: string): Promise<{
       path: file.path,
     };
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
-    if (message.includes("404") || message.includes("Not Found")) {
+    if (isGithubNotFoundError(error)) {
       return {
         content: defaults,
         sha: "",
@@ -152,7 +174,7 @@ export async function updateMetadataFile(
   locale: string,
   content: MetadataContent,
   sha: string
-): Promise<void> {
+): Promise<{ sha: string; content: MetadataContent }> {
   const filePath = metadataFilePath(locale);
   const normalized = mergePageMetadataDefaults<MetadataContent>(
     getDefaultMetadata(locale),
@@ -166,7 +188,7 @@ export async function updateMetadataFile(
     if (!wroteLocal && isReadOnlyAdminFilesystem()) {
       throw new Error(READONLY_DEPLOY_GITHUB_MESSAGE);
     }
-    return;
+    return { sha: "", content: normalized };
   }
 
   let remoteSha = sha;
@@ -174,13 +196,17 @@ export async function updateMetadataFile(
     remoteSha = await fetchMetadataGithubSha(filePath);
   }
 
-  try {
-    await updateFileOnGitHub({
+  const commit = async (fileSha: string | undefined) =>
+    updateFileOnGitHub({
       path: filePath,
       content: jsonContent,
       message: `Update ${locale} page metadata via admin dashboard`,
-      sha: remoteSha || undefined,
+      sha: fileSha,
     });
+
+  try {
+    const newSha = await commit(remoteSha || undefined);
+    return { sha: newSha || remoteSha, content: normalized };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     const isStaleSha =
@@ -189,12 +215,8 @@ export async function updateMetadataFile(
       throw error;
     }
     const freshSha = await fetchMetadataGithubSha(filePath);
-    await updateFileOnGitHub({
-      path: filePath,
-      content: jsonContent,
-      message: `Update ${locale} page metadata via admin dashboard (retry)`,
-      sha: freshSha || undefined,
-    });
+    const newSha = await commit(freshSha || undefined);
+    return { sha: newSha || freshSha, content: normalized };
   }
 }
 

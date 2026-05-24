@@ -6,6 +6,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import {
+  adminReadsPreferGithub,
   isReadOnlyAdminFilesystem,
   READONLY_DEPLOY_GITHUB_MESSAGE,
   writeLocalAdminJsonFile,
@@ -78,7 +79,12 @@ export async function getFileFromGitHub(filePath: string): Promise<GitHubFileCon
 /**
  * Update file on GitHub
  */
-export async function updateFileOnGitHub(params: CommitFileParams): Promise<void> {
+function isGithubNotFoundError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  return message.includes("404") || message.includes("Not Found");
+}
+
+export async function updateFileOnGitHub(params: CommitFileParams): Promise<string> {
   const { token, repo, branch, email, name } = getGitHubConfig();
   
   const url = `${GITHUB_API_BASE}/repos/${repo}/contents/${params.path}`;
@@ -127,6 +133,9 @@ export async function updateFileOnGitHub(params: CommitFileParams): Promise<void
     const error = await response.json();
     throw new Error(`Failed to update file: ${error.message || response.statusText}`);
   }
+
+  const data = (await response.json()) as { content?: { sha?: string } };
+  return data.content?.sha ?? "";
 }
 
 function translationFilePath(locale: string): string {
@@ -182,6 +191,22 @@ export async function getTranslationFile(locale: string): Promise<{
   path: string;
 }> {
   const filePath = translationFilePath(locale);
+
+  if (adminReadsPreferGithub(hasGithubAdminContext())) {
+    try {
+      const file = await getFileFromGitHub(filePath);
+      return {
+        content: JSON.parse(file.content) as Record<string, unknown>,
+        sha: file.sha,
+        path: file.path,
+      };
+    } catch (error) {
+      if (!isGithubNotFoundError(error)) {
+        throw error;
+      }
+    }
+  }
+
   const localContent = await readLocalTranslationFile(locale);
   const sha = await fetchGithubSha(filePath);
 
@@ -208,7 +233,7 @@ export async function updateTranslationFile(
   locale: string,
   content: Record<string, unknown>,
   sha: string
-): Promise<void> {
+): Promise<{ sha: string }> {
   const filePath = translationFilePath(locale);
   const jsonContent = JSON.stringify(content, null, 2);
 
@@ -218,7 +243,7 @@ export async function updateTranslationFile(
     if (!wroteLocal && isReadOnlyAdminFilesystem()) {
       throw new Error(READONLY_DEPLOY_GITHUB_MESSAGE);
     }
-    return;
+    return { sha: "" };
   }
 
   let remoteSha = sha;
@@ -226,13 +251,17 @@ export async function updateTranslationFile(
     remoteSha = await fetchGithubSha(filePath);
   }
 
-  try {
-    await updateFileOnGitHub({
+  const commit = async (fileSha: string | undefined) =>
+    updateFileOnGitHub({
       path: filePath,
       content: jsonContent,
       message: `Update ${locale} translations via admin dashboard`,
-      sha: remoteSha || undefined,
+      sha: fileSha,
     });
+
+  try {
+    const newSha = await commit(remoteSha || undefined);
+    return { sha: newSha || remoteSha };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     const isStaleSha =
@@ -241,12 +270,8 @@ export async function updateTranslationFile(
       throw error;
     }
     const freshSha = await fetchGithubSha(filePath);
-    await updateFileOnGitHub({
-      path: filePath,
-      content: jsonContent,
-      message: `Update ${locale} translations via admin dashboard (retry)`,
-      sha: freshSha || undefined,
-    });
+    const newSha = await commit(freshSha || undefined);
+    return { sha: newSha || freshSha };
   }
 }
 

@@ -53,9 +53,18 @@ export async function POST(request: NextRequest) {
     );
 
     // Local save works without GitHub sha; remote sync fetches sha when missing.
-    await updateTranslationFile(locale, normalizedContent, typeof sha === 'string' ? sha : '');
+    const result = await updateTranslationFile(
+      locale,
+      normalizedContent,
+      typeof sha === 'string' ? sha : ''
+    );
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      locale,
+      content: normalizedContent,
+      sha: result.sha,
+    });
   } catch (error: any) {
     console.error('Update translations error:', error);
     return NextResponse.json(

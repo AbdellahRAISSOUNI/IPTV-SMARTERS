@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach, afterEach } from "vitest";
 import {
+  adminReadsPreferGithub,
   isReadOnlyAdminFilesystem,
   isReadOnlyFilesystemError,
 } from "./local-filesystem";
@@ -47,5 +48,11 @@ describe("local-filesystem", () => {
   it("recognizes EROFS errors", () => {
     expect(isReadOnlyFilesystemError({ code: "EROFS" })).toBe(true);
     expect(isReadOnlyFilesystemError({ code: "ENOENT" })).toBe(false);
+  });
+
+  it("prefers GitHub reads on Vercel when GitHub is configured", () => {
+    process.env.VERCEL = "1";
+    expect(adminReadsPreferGithub(true)).toBe(true);
+    expect(adminReadsPreferGithub(false)).toBe(false);
   });
 });

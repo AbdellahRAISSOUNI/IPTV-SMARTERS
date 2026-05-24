@@ -69,7 +69,7 @@ export default function DeploymentNotification({
   }, [show, onClose]);
 
   const defaultMessage = type === "success"
-    ? "Changes saved successfully! Your updates are being pushed to GitHub and will be automatically redeployed on Vercel. This process typically takes 1-3 minutes. Please wait a few moments before checking the live website."
+    ? "Your changes are saved. This dashboard keeps showing what you just saved. The public website updates after Vercel redeploys from GitHub (usually 1–3 minutes)."
     : type === "error"
     ? "An error occurred while saving. Please try again."
     : "Changes are being processed...";
@@ -134,7 +134,7 @@ export default function DeploymentNotification({
                   <div className="mt-3 pt-3 border-t border-green-200">
                     <div className="flex items-center gap-2 text-xs text-green-700">
                       <Clock className="w-4 h-4" />
-                      <span>Deployment in progress: GitHub → Vercel (1-3 minutes)</span>
+                      <span>Live site: GitHub → Vercel redeploy (1–3 min). Dashboard already shows your saved edits.</span>
                     </div>
                   </div>
                 )}

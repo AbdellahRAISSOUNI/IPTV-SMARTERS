@@ -47,15 +47,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update metadata file on GitHub
-    await updateMetadataFile(locale, content, sha || '');
+    const result = await updateMetadataFile(locale, content, sha || '');
 
     // Best-effort IndexNow notification (do not block admin UX on failure)
     submitToIndexNow(buildIndexNowUrlListForMetadata(locale)).catch((err) => {
       console.error('IndexNow metadata notify failed:', err);
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      locale,
+      content: result.content,
+      sha: result.sha,
+    });
   } catch (error: any) {
     console.error('Update metadata error:', error);
     return NextResponse.json(

@@ -1,6 +1,7 @@
 import { Octokit } from "@octokit/rest";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { adminReadsPreferGithub } from "@/lib/admin/local-filesystem";
 import {
   type BlogPost,
 } from "@/lib/admin/blog-shared";
@@ -202,6 +203,15 @@ export async function getAllBlogs(): Promise<BlogPost[]> {
   // Public read-path must keep working even when GitHub env vars are missing.
   if (!hasGithubBlogContext()) {
     return local;
+  }
+
+  if (adminReadsPreferGithub(true)) {
+    try {
+      return sortBlogsNewestFirst(await getGithubBlogs());
+    } catch (error) {
+      console.error("Error fetching blogs from GitHub:", error);
+      return local;
+    }
   }
 
   try {

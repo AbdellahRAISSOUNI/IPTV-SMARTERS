@@ -23,6 +23,11 @@ export function isReadOnlyFilesystemError(error: unknown): boolean {
   return err?.code === "EROFS" || err?.code === "EPERM" || err?.code === "EACCES";
 }
 
+/** On serverless, bundled JSON is stale until redeploy — admin reads should use GitHub. */
+export function adminReadsPreferGithub(hasGithub: boolean): boolean {
+  return isReadOnlyAdminFilesystem() && hasGithub;
+}
+
 /** Returns true when the file was written locally, false when skipped or read-only. */
 export async function writeLocalAdminJsonFile(
   relativePath: string,
