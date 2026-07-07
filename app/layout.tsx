@@ -151,7 +151,7 @@ export default function RootLayout({
             `,
           }}
         />
-        <link rel="preload" as="image" href="/images/hero.png" fetchPriority="high" media="(min-width: 768px)" />
+        <link rel="preload" as="image" href="/images/hero.webp" type="image/webp" fetchPriority="high" media="(min-width: 768px)" />
       </head>
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased`}

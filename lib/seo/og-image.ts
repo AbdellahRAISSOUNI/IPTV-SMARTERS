@@ -15,7 +15,7 @@ export function resolveAbsoluteImageUrl(
   baseUrl: string = getSiteBaseUrl()
 ): string {
   if (!value || value.startsWith("blob:")) {
-    return `${baseUrl}/images/hero.png`;
+    return `${baseUrl}/images/hero.webp`;
   }
   if (value.startsWith("//")) {
     return `https:${value}`;
@@ -31,7 +31,7 @@ export function resolveAbsoluteImageUrl(
   } catch {
     // fall through
   }
-  return `${baseUrl}/images/hero.png`;
+  return `${baseUrl}/images/hero.webp`;
 }
 
 /** Infer MIME type from URL path (social crawlers validate this). */
@@ -59,7 +59,7 @@ export function optimizeImageForSocialShare(url: string): string {
 }
 
 export function getDefaultOgImageUrl(_locale?: Locale): string {
-  return `${getSiteBaseUrl()}/images/hero.png`;
+  return `${getSiteBaseUrl()}/images/hero.webp`;
 }
 
 /** Hero asset dimensions (metadata must match real file to avoid crop issues). */
@@ -72,7 +72,7 @@ export function getOgImageDimensions(url: string): { width: number; height: numb
   if (url.includes("res.cloudinary.com") && url.includes("w_1200")) {
     return { width: OG_IMAGE_WIDTH, height: OG_IMAGE_HEIGHT };
   }
-  if (url.includes("/images/hero.png")) {
+  if (url.includes("/images/hero.webp")) {
     return { ...DEFAULT_HERO_OG_DIMENSIONS };
   }
   return { width: OG_IMAGE_WIDTH, height: OG_IMAGE_HEIGHT };

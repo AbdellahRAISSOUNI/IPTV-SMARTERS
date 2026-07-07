@@ -25,7 +25,7 @@ function HeroImage({
   return (
     <div className={`relative w-full ${variantClass} ${className}`}>
       <Image
-        src="/images/hero.png"
+        src="/images/hero.webp"
         alt="IPTV on TV, laptop, tablet and phone"
         fill
         className="object-contain object-top lg:object-center"

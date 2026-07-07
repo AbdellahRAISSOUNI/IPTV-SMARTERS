@@ -20,7 +20,7 @@ export default function DeviceCarousel() {
             <div className="relative w-full max-w-[90%] aspect-square md:aspect-[4/5] lg:aspect-square flex items-center justify-center mx-auto">
               <div className="absolute inset-0 bg-white/50 backdrop-blur-sm rounded-2xl"></div>
               <Image
-                src="/images/aall devices.png"
+                src="/images/aall devices.webp"
                 alt="All devices supported - Smart TV, Android, iOS, Windows, macOS and more"
                 fill
                 className="object-contain opacity-95"

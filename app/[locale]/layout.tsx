@@ -76,7 +76,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     "@type": "Product",
     name: productNameMap[locale],
     description: productDescMap[locale],
-    image: [`${baseUrl}/images/hero.png`],
+    image: [`${baseUrl}/images/hero.webp`],
     brand: {
       "@type": "Brand",
       name: "StreamPro",
