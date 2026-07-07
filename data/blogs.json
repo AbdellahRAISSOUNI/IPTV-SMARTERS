@@ -21519,14 +21519,10 @@
       "fr": "Découvrez tout sur IPTV Smarters Player : ses fonctionnalités, sa compatibilité, la prise en charge des playlists et pourquoi c’est le meilleur lecteur multimédia IPTV en 2026."
     },
     "publishedAt": "2026-01-05T15:56:04.204Z",
-    "updatedAt": "2026-05-23T14:00:03.075Z",
+    "updatedAt": "2026-07-07T19:35:35.379Z",
     "locale": "en",
     "translations": [
-      "en",
-      "es",
-      "fr",
-      "ca",
-      "uk"
+      "en"
     ],
     "blocks": [
       {
@@ -21712,7 +21708,7 @@
         "fr": "IPTV Smarters Player, lecteur multimédia IPTV, playlists M3U JSON, application IPTV"
       },
       "description": {
-        "en": "",
+        "en": "Discover everything about IPTV Smarters Player. Features, compatibility, playlist support, and why it’s the best IPTV media player.",
         "ca": "Discover everything about IPTV Smarters Player. Features, compatibility, playlist support, and why it’s the best IPTV media player in 2026.",
         "uk": "",
         "es": "",
