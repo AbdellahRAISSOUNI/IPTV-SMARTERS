@@ -11317,30 +11317,31 @@
     "id": "72tsgrjj5zu",
     "slug": {
       "en": "iptv-adulte-usa",
-      "ca": "",
+      "ca": "iptv-adulte-canada",
       "uk": "",
       "es": "iptv-adulte-espaa",
       "fr": "iptv-adulte-france"
     },
     "title": {
       "en": "",
-      "ca": "",
+      "ca": "IPTV Adulte canada : Meilleur Abonnement en 2026",
       "uk": "",
       "es": "",
       "fr": "IPTV Adulte : Le meilleur abonnement en 2026"
     },
     "excerpt": {
       "en": "",
-      "ca": "",
+      "ca": "Le meilleur abonnement IPTV Adulte Canada en 2026 : chaî-nes premium, VOD, sport, films, séries, qualité 4K UHD, installation rapide et support technique 7j/7.",
       "uk": "",
       "es": "",
       "fr": "IPTV Adulte :  Le meilleur abonnement IPTV premium en France 🇫🇷. Test IPTV gratuit, abonnements IPTV 4K stables, films &amp; sports. Option IPTV adulte en 4K incluse"
     },
     "publishedAt": "2026-04-10T09:05:45.968Z",
-    "updatedAt": "2026-04-10T16:08:18.062Z",
+    "updatedAt": "2026-07-07T20:17:44.475Z",
     "locale": "fr",
     "translations": [
-      "fr"
+      "fr",
+      "ca"
     ],
     "blocks": [
       {
@@ -11634,19 +11635,21 @@
     "meta": {
       "keywords": {
         "en": "",
-        "ca": "",
+        "ca": "IPTV Adulte,abonnement IPTV adulte,Avec Chaines Adultes (Plus+),iptv adulte en france ",
         "uk": "",
         "es": "",
         "fr": "IPTV Adulte,abonnement IPTV adulte,Avec Chaines Adultes (Plus+),iptv adulte en france "
       },
       "description": {
         "en": "",
-        "ca": "",
+        "ca": "Le meilleur abonnement IPTV Adulte Canada en 2026 : chaî-nes premium, VOD, sport, films, séries, qualité 4K UHD, installation rapide et support technique 7j/7.",
         "uk": "",
         "es": "",
-        "fr": ""
+        "fr": "IPTV Adulte :  Le meilleur abonnement IPTV premium en France 🇫🇷. Test IPTV gratuit, abonnements IPTV 4K stables, films &amp; sports. Option IPTV adulte en 4K incluse"
       }
-    }
+    },
+    "featuredImage": "https://res.cloudinary.com/df5we7yoo/image/upload/v1783455445/blog-images/guknucrclylkn657nzsr.jpg",
+    "author": "IPTV Smarters "
   },
   {
     "id": "rsq02eo1t1n",
