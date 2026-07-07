@@ -20440,14 +20440,10 @@
       "fr": "Découvrez ce qu’est un code IPTV , ses avantages et comment choisir un fournisseur IPTV fiable en 2026 pour une qualité HD, 4K et une diffusion stable."
     },
     "publishedAt": "2026-01-28T18:56:04.437Z",
-    "updatedAt": "2026-05-23T14:00:03.075Z",
+    "updatedAt": "2026-07-07T19:47:28.996Z",
     "locale": "fr",
     "translations": [
-      "en",
-      "es",
-      "fr",
-      "ca",
-      "uk"
+      "fr"
     ],
     "blocks": [
       {
@@ -20756,9 +20752,11 @@
         "ca": "Discover what an IPTV code is, its benefits, and how to choose a reliable IPTV provider in 2026 for HD, 4K quality and stable streaming.",
         "uk": "",
         "es": "",
-        "fr": ""
+        "fr": "Découvrez ce qu’est un code IPTV , ses avantages et comment choisir un fournisseur IPTV fiable en 2026 pour une qualité HD, 4K et une diffusion stable."
       }
-    }
+    },
+    "featuredImage": "https://res.cloudinary.com/df5we7yoo/image/upload/v1783453580/blog-images/gkvmb9wzvppsqdtjwp2v.jpg",
+    "author": "IPTV Smarters"
   },
   {
     "id": "hugnizhqnoj",
