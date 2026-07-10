@@ -1,5 +1,936 @@
 [
   {
+    "id": "er88m10iqwq",
+    "slug": {
+      "en": "",
+      "ca": "iptv-on-playstation",
+      "uk": "",
+      "es": "",
+      "fr": ""
+    },
+    "title": {
+      "en": "",
+      "ca": "How to Watch IPTV on PlayStation (PS4 & PS5) | IPTV Subscription Canada ",
+      "uk": "",
+      "es": "",
+      "fr": ""
+    },
+    "excerpt": {
+      "en": "",
+      "ca": "Learn how to watch IPTV on PlayStation using Plex on PS4 and PS5. Complete Canadian setup guide with IPTV Subscription tips, troubleshooting, and streaming advice.",
+      "uk": "",
+      "es": "",
+      "fr": ""
+    },
+    "publishedAt": "2026-07-10T13:17:13.776Z",
+    "updatedAt": "2026-07-10T14:46:17.296Z",
+    "locale": "ca",
+    "translations": [
+      "ca"
+    ],
+    "blocks": [
+      {
+        "id": "1f5yzmocvf6",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "How to Watch IPTV on PlayStation (PS4 & PS5) - IPTV Subscription Canada",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 2
+      },
+      {
+        "id": "04yzpktdk7af",
+        "type": "image",
+        "content": {
+          "en": "",
+          "ca": "",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1783689756/blog-images/nj5wf64yiznqnki8agmz.png",
+        "imageAlign": "center",
+        "imageAlt": {
+          "en": "",
+          "ca": "IPTV on PlayStation,IPTV Subscription,IPTV Subscription canada",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "t0hnitwnoi",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Many PlayStation owners wonder whether they can enjoy [IPTV on PlayStation](https://www.pro-iptvsmarters.com/ca/) without purchasing another streaming device. Although Sony doesn't provide a dedicated IPTV application for PS4 or PS5, it is still possible to enjoy live television by using Plex as a media bridge.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "9s79hwcf5oj",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Instead of installing an IPTV player directly on the console, Plex streams your [IPTV Subscription ](https://www.pro-iptvsmarters.com/ca/#pricing)from your computer to your PlayStation. Once configured, you can browse live TV, entertainment, sports, movies, and international content directly from your console.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "w5yb1kyfv4",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "This guide explains every step of the installation process, along with practical tips to improve streaming quality.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "85tttagpnjd",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Why PlayStation Doesn't Support IPTV Apps",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "3nkrs9v1ni4",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Unlike Android TV or Fire TV devices, PlayStation does not include IPTV applications inside the PlayStation Store.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "hchlgy2pa0r",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Instead, Sony allows media streaming applications like Plex, making it possible to access IPTV content indirectly.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "5tz72hxjp9r",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "With this method you can enjoy:",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "8tzhih55su5",
+        "type": "list",
+        "content": {
+          "en": "",
+          "ca": "",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "ca": [
+            "Live TV",
+            "Sports events",
+            "Movies",
+            "TV series",
+            "International chan-nels",
+            "News broadcasts",
+            "Music television"
+          ],
+          "uk": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "vywvrwom4h",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Both PS4 and PS5 support Plex, making this the easiest long-term solution.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "5lelenceccd",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "What You'll Need Before Starting",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "i6k1vuoowid",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Before configuring [IPTV on PlayStation](https://www.pro-iptvsmarters.com/ca/#pricing), prepare the following:",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "bk15kp8kz65",
+        "type": "list",
+        "content": {
+          "en": "",
+          "ca": "",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "ca": [
+            "A PlayStation 4 or PlayStation 5",
+            "Stable broadband internet",
+            "An active IPTV Subscription",
+            "M3U Playlist URL",
+            "XMLTV EPG link (recommended)",
+            "Windows or Mac computer",
+            "Free Plex account"
+          ],
+          "uk": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "bey4hfufdhr",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Having everything ready will make the installation much faster.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "8p0i6f1hn0l",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Step 1 — Install Plex on Your PlayStation",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 4
+      },
+      {
+        "id": "z1dpbt9uzs",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Start by installing Plex directly from the PlayStation Store.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "jfhel5md86",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Installation",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 5
+      },
+      {
+        "id": "pwtqppdooqh",
+        "type": "list",
+        "content": {
+          "en": "",
+          "ca": "",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "ca": [
+            "Open PlayStation Store.",
+            "Search for Plex.",
+            "Download the application.",
+            "Launch Plex.",
+            "Sign in with your free Plex account."
+          ],
+          "uk": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "ybzhrc6bhws",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Leave the application open while completing the remaining setup.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "csnnzmr596i",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Step 2 — Install Plex Media Server",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 4
+      },
+      {
+        "id": "7acviypb4wx",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Next, install Plex Media Server on your computer.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "rkq5cap0iqo",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "The computer acts as the streaming hub between your [IPTV Subscription](https://www.pro-iptvsmarters.com/ca/#pricing) and your PlayStation.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "gxllumbb19q",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "**After installation :** Sign into the same Plex account.\n, Allow Plex to complete its initial setup.\n, Keep the computer powered on whenever you plan to watch[ IPTV](https://www.pro-iptvsmarters.com/ca/#pricing).",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "edx4i6lmroh",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Step 3 — Prepare Your IPTV Subscription",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 4
+      },
+      {
+        "id": "twkxyx69ba8",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Your [IPTV provider](https://www.pro-iptvsmarters.com/ca/) should supply several important details.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "6uk36gtp26c",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Typically you'll receive:",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "uw2u45jkvk",
+        "type": "list",
+        "content": {
+          "en": "",
+          "ca": "",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "ca": [
+            "M3U Playlist URL",
+            "XMLTV Guide",
+            "Username",
+            "Password (if required)"
+          ],
+          "uk": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "jy1sozfn0ql",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Verify that every link works correctly before moving forward.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "qd1f07ngaw",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Step 4 — Configure a Virtual TV Tuner",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 4
+      },
+      {
+        "id": "oeykeuzxup",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Plex cannot read M3U playlists directly.\n",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "q2t5ng46m2j",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Instead, you'll need a virtual tuner [application](https://iboplayer.com/).",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "zjonexxa34",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Popular options include : Threadfin, xTeVe.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "ei4qnc1n707",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "**After installation:** \n\nPaste your M3U playlist.\n, Import the XMLTV guide.\n, Save the configuration.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "craapxzc22s",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "The software creates a virtual television tuner that Plex recognizes.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "d1u16ibzono",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Step 5 — Connect Plex to the Virtual Tuner",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 4
+      },
+      {
+        "id": "vbfq5sbjd",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Navigate to : Settings → Live TV & DVR >>>> Select : Set Up DVR >>>> Plex automatically searches for available tuners.>>>Choose the virtual tuner created by Threadfin or xTeVe.>>>> Allow Plex to scan the IPTV source.>>>>> After several minutes, your [IPTV service ](https://www.pro-iptvsmarters.com/ca/#pricing)becomes available inside Plex.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "a2npg9asls",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Step 6 — Import the TV Guide",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 4
+      },
+      {
+        "id": "v30fz0bhze",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Adding the program guide improves navigation.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "ux80khxgy7",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Inside Plex:",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "cept85jfnr",
+        "type": "list",
+        "content": {
+          "en": "",
+          "ca": "",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "ca": [
+            "Open Live TV settings.",
+            "Add your XMLTV file.",
+            "Paste the guide URL.",
+            "Match listings when requested.",
+            "Save changes."
+          ],
+          "uk": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "nlwneivjy5e",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Once synchronization finishes, program schedules appear beside your live content.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "dvr3rooxhub",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Step 7 — Watch IPTV on Your PlayStation",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 4
+      },
+      {
+        "id": "gfm3huaodvp",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Return to the Plex application on your PS4 or PS5.>>> Choose your server.>>>>> Open: Live TV & DVR and Your IPTV library should now appear.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "wgpmogxjzge",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Browse:\n Entertainment\n, Sports\n, Movies\n, Kids\n, News\n, Documentary\n, International chan-nels.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "wuoelx5dy",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Select any stream to begin watching.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "jzuauxpdrjb",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Why Canadians Use IPTV on PlayStation",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "dy5ldai3yvq",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Many households in Canada already own a PlayStation, making it a convenient entertainment hub.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "jpk0c7359l",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Using Plex eliminates the need for purchasing another streaming device while allowing access to live television through an [IPTV Subscription](https://www.pro-iptvsmarters.com/ca/#pricing).",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "uqzxe595zyc",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Benefits include:",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "hi6nc3mf8sp",
+        "type": "list",
+        "content": {
+          "en": "",
+          "ca": "",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "listItems": {
+          "en": [
+            ""
+          ],
+          "ca": [
+            "No additional hardware",
+            "Large-screen viewing",
+            "High-definition playback",
+            "Easy navigation",
+            "One interface for movies and live TV",
+            "Supports thousands of international chan-nels"
+          ],
+          "uk": [
+            ""
+          ],
+          "es": [
+            ""
+          ],
+          "fr": [
+            ""
+          ]
+        }
+      },
+      {
+        "id": "bhux292m5og",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Frequently Asked Questions",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 2
+      },
+      {
+        "id": "799lvwlows9",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Can I install an IPTV app directly on PS5?",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "4qr1lv7pcur",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "No. The PlayStation Store does not currently offer dedicated [IPTV player applications](https://www.iptvsmarters.com/#downloads). Plex remains the most practical solution.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "rqgsgp8j39m",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Does PS4 have another option?",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "lbz5aznithl",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Yes,PS4 includes a web browser that can access certain web-based IPTV portals. However, Plex generally offers a more stable and feature-rich experience.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "on78thlcdfm",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Do I need a computer?",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "sw38uvh6khr",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Yes,Plex Media Server must run on a Windows or Mac computer because it streams your [IPTV Subscription to the PlayStation](https://www.pro-iptvsmarters.com/ca/#pricing).",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "1fp861am3iw",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Is Ethernet better than Wi-Fi?",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "lifgwshcvb",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Yes, A wired connection usually provides lower latency, more consistent speeds, and fewer interruptions during streaming.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "iooppasjlv",
+        "type": "heading",
+        "content": {
+          "en": "",
+          "ca": "Conclusion",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "level": 3
+      },
+      {
+        "id": "gln9ebk4w5c",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "Setting up [IPTV on PlayStation](https://www.pro-iptvsmarters.com/ca/#pricing) is straightforward once Plex Media Server and a virtual tuner are configured. Although PS4 and PS5 don't support dedicated IPTV applications, Plex provides an effective bridge between your[ IPTV Subscription](https://www.pro-iptvsmarters.com/ca/#pricing) and your console.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "1h226obefkk",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "After completing the setup, you can enjoy live TV, sports, movies, news, and international chan-nels directly from your PlayStation. For the best viewing experience, use a reliable internet connection, keep Plex updated, and choose a trusted [IPTV Subscription provider](https://www.pro-iptvsmarters.com/ca/) that offers stable M3U playlists and an accurate TV guide.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "l5wt25ca4ll",
+        "type": "paragraph",
+        "content": {
+          "en": "",
+          "ca": "This approach gives Canadian users a flexible way to turn a PlayStation into a complete home entertainment system without purchasing additional streaming hardware.",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        }
+      },
+      {
+        "id": "9bz8ziytqom",
+        "type": "image",
+        "content": {
+          "en": "",
+          "ca": "",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "imageUrl": "https://res.cloudinary.com/df5we7yoo/image/upload/v1783692175/blog-images/iyhwp8tbjftrvhkredc5.jpg",
+        "imageAlt": {
+          "en": "",
+          "ca": "IPTV on PlayStation,IPTV Subscription,IPTV Subscription canada",
+          "uk": "",
+          "es": "",
+          "fr": ""
+        },
+        "imageAlign": "center"
+      }
+    ],
+    "meta": {
+      "description": {
+        "en": "",
+        "ca": "Learn how to watch IPTV on PlayStation using Plex on PS4 and PS5. Complete Canadian setup guide with IPTV Subscription tips, troubleshooting, and streaming advice.",
+        "uk": "",
+        "es": "",
+        "fr": ""
+      },
+      "keywords": {
+        "en": "",
+        "ca": "IPTV on PlayStation,IPTV Subscription,IPTV Subscription canada",
+        "uk": "",
+        "es": "",
+        "fr": ""
+      }
+    },
+    "featuredImage": "https://res.cloudinary.com/df5we7yoo/image/upload/v1783689710/blog-images/fdsblmayydks2wyjlag7.jpg",
+    "author": "IPTV Smarters"
+  },
+  {
     "id": "olr4exe2tdh",
     "slug": {
       "en": "",
