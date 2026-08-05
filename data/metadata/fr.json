@@ -1,7 +1,7 @@
 {
   "homepage": {
-    "title": "Abonnement IPTV Smarters Pro | Meilleur IPTV 2026 | M3U & Xtream Codes",
-    "description": "Abonnement IPTV premium avec IPTV Smarters Pro : 50 000+ chaînes live, VOD, 4K, serveurs stables, essai gratuit. Firestick, Smart TV, Android, iOS, Windows et Mac. Liste M3U et connexion Xtream Codes. Activation instantanée."
+    "title": "Abonnement IPTV Smarters Pro | Meilleur IPTV Abonnement 2026 | M3U & Xtream Codes",
+    "description": "Abonnement IPTV premium avec IPTV Smarters Pro : 50 000+ chaînes live, VOD, 4K, serveurs stables, essai gratuit. Firestick, Smart TV, Android, iOS, Windows et Mac. Liste M3U et connexion Xtream Codes. Activation instantanée.Meilleur IPTV Abonnement"
   },
   "blog": {
     "title": "Blog IPTV | Smarters Pro, M3U, Firestick & Smart TV",
@@ -10,6 +10,20 @@
   "blogListing": {
     "title": "Guides IPTV | Firestick, M3U, Smarters Pro",
     "description": "Tutoriels IPTV Smarters Pro, guides liste M3U, installation Firestick et Android TV, apps Smart TV, revendeur et abonnement IPTV."
+  },
+  "legal": {
+    "refundPolicy": {
+      "title": "Politique de remboursement | Abonnement IPTV | StreamPro",
+      "description": "Politique de remboursement StreamPro IPTV : conditions, garantie 5 jours, comment demander un remboursement et contact support."
+    },
+    "privacyPolicy": {
+      "title": "Politique de confidentialité | Données compte IPTV | StreamPro",
+      "description": "Comment StreamPro collecte, utilise et protège vos données lors de l’achat d’un abonnement IPTV ou de l’utilisation du site."
+    },
+    "termsOfService": {
+      "title": "Conditions d’utilisation | Site & abonnement IPTV | StreamPro",
+      "description": "Conditions générales des services StreamPro IPTV, abonnements, utilisation du site et limitations légales."
+    }
   },
   "installation": {
     "windows": {
@@ -36,19 +50,5 @@
   "reseller": {
     "title": "Programme revendeur IPTV | Panel, crédits & business white-label",
     "description": "Lancez votre activité IPTV : crédits, panels clients, tarifs compétitifs, lignes compatibles Smarters, support 24/7. Développez vos ventes en 2026."
-  },
-  "legal": {
-    "refundPolicy": {
-      "title": "Politique de remboursement | Abonnement IPTV | StreamPro",
-      "description": "Politique de remboursement StreamPro IPTV : conditions, garantie 5 jours, comment demander un remboursement et contact support."
-    },
-    "privacyPolicy": {
-      "title": "Politique de confidentialité | Données compte IPTV | StreamPro",
-      "description": "Comment StreamPro collecte, utilise et protège vos données lors de l’achat d’un abonnement IPTV ou de l’utilisation du site."
-    },
-    "termsOfService": {
-      "title": "Conditions d’utilisation | Site & abonnement IPTV | StreamPro",
-      "description": "Conditions générales des services StreamPro IPTV, abonnements, utilisation du site et limitations légales."
-    }
   }
 }
