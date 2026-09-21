@@ -110,7 +110,7 @@ export default function Header() {
     
     // If we're not on the home page, navigate to home page with hash
     if (!isHomePage) {
-      const homeUrl = `/${homeUrlSegment}${href}`;
+      const homeUrl = href === "#home" ? `/${homeUrlSegment}/` : `/${homeUrlSegment}${href}`;
       // Use window.location for static export compatibility
       window.location.href = homeUrl;
       return;
