@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { localeToUrlSegment } from "./lib/i18n/locale-url-slugs";
 
 const nextConfig: NextConfig = {
   // Admin dashboard requires server-side rendering
@@ -70,7 +71,7 @@ const nextConfig: NextConfig = {
       // This is a backup - middleware handles this first, but keeping for safety
       {
         source: '/',
-        destination: '/en/',
+        destination: `/${localeToUrlSegment('en')}/`,
         permanent: true,
       },
       // Old installation guide routes - redirect to new structure

@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 import { getBlogUrl } from "@/lib/utils/blog-slugs";
 import { getInstallationUrl, getResellerUrl, getLegalUrl } from "@/lib/utils/installation-slugs";
 import type { BlogPost } from "@/lib/admin/blog-shared";
@@ -41,7 +42,7 @@ export function buildIndexNowUrlListForMetadata(locale: Locale): string[] {
 
   const urls: string[] = [];
   // Core pages commonly updated via metadata
-  urls.push(`${baseUrl}/${locale}/`);
+  urls.push(`${baseUrl}/${localeToUrlSegment(locale)}/`);
   urls.push(`${baseUrl}/${locale}/blog/`);
 
   // Legal pages

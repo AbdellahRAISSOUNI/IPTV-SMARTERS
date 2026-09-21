@@ -15,6 +15,7 @@ import { openWhatsApp } from "@/lib/whatsapp";
 import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
 import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import { getInstallationUrl, getResellerUrl } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 import type { BlogPost } from "@/lib/admin/blog-shared";
 
 // Lazy load non-critical components - use dynamic imports with ssr: false for better performance
@@ -294,11 +295,12 @@ export default function Home() {
     const firestick = getInstallationUrl("iptv-installation-firestick", locale);
     const reseller = getResellerUrl("iptv-reseller-program", locale);
     const hub = `/${locale}/installation/`;
+    const home = localeToUrlSegment(locale);
     if (locale === "es") {
       return [
-        { href: `/${locale}/#pricing`, label: "planes de suscripcion IPTV" },
-        { href: `/${locale}/#features`, label: "funciones IPTV premium" },
-        { href: `/${locale}/#faq`, label: "FAQ listas M3U y Xtream" },
+        { href: `/${home}/#pricing`, label: "planes de suscripcion IPTV" },
+        { href: `/${home}/#features`, label: "funciones IPTV premium" },
+        { href: `/${home}/#faq`, label: "FAQ listas M3U y Xtream" },
         { href: `/${locale}/blog/`, label: "guias de configuracion IPTV" },
         { href: guide, label: "tutorial IPTV Smarters" },
         { href: hub, label: "centro de instalacion IPTV" },
@@ -308,9 +310,9 @@ export default function Home() {
     }
     if (locale === "fr") {
       return [
-        { href: `/${locale}/#pricing`, label: "forfaits abonnement IPTV" },
-        { href: `/${locale}/#features`, label: "fonctionnalites IPTV premium" },
-        { href: `/${locale}/#faq`, label: "FAQ M3U et Xtream Codes" },
+        { href: `/${home}/#pricing`, label: "forfaits abonnement IPTV" },
+        { href: `/${home}/#features`, label: "fonctionnalites IPTV premium" },
+        { href: `/${home}/#faq`, label: "FAQ M3U et Xtream Codes" },
         { href: `/${locale}/blog/`, label: "guides configuration IPTV" },
         { href: guide, label: "tutoriel IPTV Smarters" },
         { href: hub, label: "hub installation IPTV" },
@@ -319,9 +321,9 @@ export default function Home() {
       ];
     }
     return [
-      { href: `/${locale}/#pricing`, label: "IPTV subscription plans" },
-      { href: `/${locale}/#features`, label: "premium IPTV features" },
-      { href: `/${locale}/#faq`, label: "M3U playlist & Xtream Codes FAQ" },
+      { href: `/${home}/#pricing`, label: "IPTV subscription plans" },
+      { href: `/${home}/#features`, label: "premium IPTV features" },
+      { href: `/${home}/#faq`, label: "M3U playlist & Xtream Codes FAQ" },
       { href: `/${locale}/blog/`, label: "IPTV setup guides" },
       { href: guide, label: "IPTV Smarters installation tutorial" },
       { href: hub, label: "IPTV installation hub" },

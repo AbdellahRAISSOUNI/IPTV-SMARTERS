@@ -12,6 +12,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 import type { Locale } from "@/lib/i18n";
 import { getInstallationUrl, getResellerUrl } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 interface BlogListingClientProps {
   initialBlogs: BlogPost[];
@@ -21,11 +22,12 @@ interface BlogListingClientProps {
 export default function BlogListingClient({ initialBlogs, locale }: BlogListingClientProps) {
   const { t } = useLanguage();
   const blogs = initialBlogs;
+  const home = localeToUrlSegment(locale);
   const keywordTargets = [
-    { id: "pricing", href: `/${locale}/#pricing`, label: t("keywordHub.linkPricing") },
-    { id: "faq", href: `/${locale}/#faq`, label: t("keywordHub.linkFaq") },
-    { id: "features", href: `/${locale}/#features`, label: t("keywordHub.linkFeatures") },
-    { id: "channels", href: `/${locale}/#channels`, label: t("keywordHub.linkChannels") },
+    { id: "pricing", href: `/${home}/#pricing`, label: t("keywordHub.linkPricing") },
+    { id: "faq", href: `/${home}/#faq`, label: t("keywordHub.linkFaq") },
+    { id: "features", href: `/${home}/#features`, label: t("keywordHub.linkFeatures") },
+    { id: "channels", href: `/${home}/#channels`, label: t("keywordHub.linkChannels") },
     { id: "guide", href: getInstallationUrl("iptv-installation-guide", locale), label: t("keywordHub.linkInstallGuide") },
     { id: "hub", href: `/${locale}/installation/`, label: t("keywordHub.linkInstallationHub") },
     { id: "firestick", href: getInstallationUrl("iptv-installation-firestick", locale), label: t("keywordHub.linkFirestick") },

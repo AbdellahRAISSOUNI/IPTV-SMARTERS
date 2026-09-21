@@ -1,5 +1,6 @@
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 import type { Metadata } from 'next';
 import type { Locale } from '@/lib/i18n';
 import {
@@ -293,7 +294,7 @@ async function renderSlugWebPageJsonLd(
       description={description}
       locale={locale}
       keywords={keywords}
-      siteUrl={`${baseUrl}/${locale}/`}
+      siteUrl={`${baseUrl}/${localeToUrlSegment(locale)}/`}
     />
   );
 }

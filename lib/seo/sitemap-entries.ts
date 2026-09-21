@@ -9,6 +9,7 @@ import {
 import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import { getPublishedLocales } from "@/lib/admin/blog-locales";
 import { buildHreflangAlternates, buildHomepageHreflangAlternates } from "@/lib/seo/hreflang";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 const installationEnglishSlugs = [
   "iptv-installation-guide",
@@ -112,23 +113,29 @@ export function buildSitemapEntries(
           : route.path.endsWith("/")
             ? route.path
             : `${route.path}/`;
-      const url = toAbsoluteUrl(baseUrl, `/${locale}${pathWithSlash}`);
+
+      // Only the homepage ("") uses the locale->URL-slug mapping (en -> /iptv-subscription/);
+      // every other route (e.g. /blog) keeps the plain locale code prefix.
+      const isHomepage = route.path === "";
+      const urlSegment = isHomepage ? localeToUrlSegment(locale) : locale;
+      const url = toAbsoluteUrl(baseUrl, `/${urlSegment}${pathWithSlash}`);
       if (!url) return;
+
+      const languages = isHomepage
+        ? buildHreflangAlternates(
+            Object.fromEntries(
+              locales.map((loc) => [loc, `${baseUrl}/${localeToUrlSegment(loc)}/`])
+            ) as Record<Locale, string>,
+            `${baseUrl}/${localeToUrlSegment("en")}/`
+          )
+        : buildHomepageHreflangAlternates(baseUrl, pathWithSlash);
+
       sitemapEntries.push({
         url,
         lastModified: new Date(),
         changeFrequency: route.changeFrequency,
         priority: route.priority,
-        alternates: {
-          languages: buildHomepageHreflangAlternates(
-            baseUrl,
-            route.path === ""
-              ? "/"
-              : route.path.endsWith("/")
-                ? route.path
-                : `${route.path}/`
-          ),
-        },
+        alternates: { languages },
       });
     });
   });

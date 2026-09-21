@@ -8,6 +8,7 @@ import { openWhatsApp } from "@/lib/whatsapp";
 import Image from "next/image";
 import { parseUrlsToLinks } from "@/lib/utils/urlParser";
 import { getInstallationUrl } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 import {
   OFFICIAL_IBO_PLAYER_URL,
   OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
@@ -38,6 +39,7 @@ const ComponentLoader = () => (
 
 export default function InstallationPage() {
   const { t, locale } = useLanguage();
+  const home = localeToUrlSegment(locale);
 
   const currentYear = new Date().getFullYear();
 
@@ -101,8 +103,8 @@ export default function InstallationPage() {
     },
   ];
   const seoAnchorLinks = [
-    { href: `/${locale}/#pricing`, label: "IPTV subscription pricing" },
-    { href: `/${locale}/#faq`, label: "IPTV FAQ" },
+    { href: `/${home}/#pricing`, label: "IPTV subscription pricing" },
+    { href: `/${home}/#faq`, label: "IPTV FAQ" },
     { href: `/${locale}/blog/`, label: "IPTV setup blog" },
     { href: getInstallationUrl("iptv-installation-firestick", locale), label: "Firestick installation" },
   ];
@@ -262,7 +264,7 @@ export default function InstallationPage() {
           </div>
 
           <a
-            href={`/${locale}#pricing`}
+            href={`/${home}#pricing`}
             className="inline-flex items-center gap-2 text-base text-[#2563eb] hover:text-[#1d4ed8] font-semibold mb-6"
           >
             {t("installation.buySubscription")}

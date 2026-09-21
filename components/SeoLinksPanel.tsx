@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getInstallationUrl, getResellerUrl, getLegalUrl } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 import {
   OFFICIAL_IBO_PLAYER_URL,
   OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
@@ -19,16 +20,17 @@ interface SeoLinksPanelProps {
 export default function SeoLinksPanel({ variant = "default", className = "" }: SeoLinksPanelProps) {
   const { locale, t } = useLanguage();
   const guide = getInstallationUrl("iptv-installation-guide", locale);
+  const home = localeToUrlSegment(locale);
 
   const internal: { id: string; href: string; label: string }[] = [
-    { id: "pricing-1", href: `/${locale}/#pricing`, label: "IPTV subscription pricing" },
-    { id: "pricing-2", href: `/${locale}/#pricing`, label: "IPTV plans & deals" },
-    { id: "features-1", href: `/${locale}/#features`, label: "premium IPTV features" },
-    { id: "features-2", href: `/${locale}/#features`, label: "IPTV Smarters Pro subscription" },
-    { id: "faq-1", href: `/${locale}/#faq`, label: "IPTV FAQ" },
-    { id: "faq-2", href: `/${locale}/#faq`, label: "M3U playlist & Xtream Codes help" },
-    { id: "channels", href: `/${locale}/#channels`, label: "HD & 4K live TV channels" },
-    { id: "testimonials", href: `/${locale}/#testimonials`, label: "customer reviews" },
+    { id: "pricing-1", href: `/${home}/#pricing`, label: "IPTV subscription pricing" },
+    { id: "pricing-2", href: `/${home}/#pricing`, label: "IPTV plans & deals" },
+    { id: "features-1", href: `/${home}/#features`, label: "premium IPTV features" },
+    { id: "features-2", href: `/${home}/#features`, label: "IPTV Smarters Pro subscription" },
+    { id: "faq-1", href: `/${home}/#faq`, label: "IPTV FAQ" },
+    { id: "faq-2", href: `/${home}/#faq`, label: "M3U playlist & Xtream Codes help" },
+    { id: "channels", href: `/${home}/#channels`, label: "HD & 4K live TV channels" },
+    { id: "testimonials", href: `/${home}/#testimonials`, label: "customer reviews" },
     { id: "blog", href: `/${locale}/blog/`, label: "IPTV setup blog" },
     { id: "guide", href: guide, label: "IPTV Smarters installation guide" },
     { id: "install-hub", href: `/${locale}/installation/`, label: "device installation hub" },
@@ -49,13 +51,13 @@ export default function SeoLinksPanel({ variant = "default", className = "" }: S
       { id: "smarttv", href: getInstallationUrl("iptv-installation-smart-tv", locale), label: "install IPTV on Smart TV" },
       { id: "windows", href: getInstallationUrl("iptv-installation-windows", locale), label: "install IPTV on Windows PC" },
       { id: "ios", href: getInstallationUrl("iptv-installation-ios", locale), label: "install IPTV on iPhone & iPad" },
-      { id: "home-pricing", href: `/${locale}/#pricing`, label: "compare IPTV subscription prices" },
+      { id: "home-pricing", href: `/${home}/#pricing`, label: "compare IPTV subscription prices" },
     );
   }
 
   if (variant === "reseller") {
     internal.push(
-      { id: "reseller-pricing", href: `/${locale}/#pricing`, label: "IPTV plans for clients" },
+      { id: "reseller-pricing", href: `/${home}/#pricing`, label: "IPTV plans for clients" },
       { id: "reseller-blog", href: `/${locale}/blog/`, label: "IPTV business & setup articles" },
       { id: "reseller-install", href: guide, label: "Smarters install guide for clients" },
     );

@@ -7,22 +7,24 @@ import {
   getResellerUrl,
   getLegalUrl,
 } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 type HubItem = { href: string; label: string; id: string };
 
 export default function KeywordHubSection() {
   const { locale, t } = useLanguage();
   const guide = getInstallationUrl("iptv-installation-guide", locale);
+  const home = localeToUrlSegment(locale);
 
   const keywordLinks: HubItem[] = [
-    { id: "home", href: `/${locale}/`, label: t("keywordHub.linkHome") },
-    { id: "pricing", href: `/${locale}/#pricing`, label: t("keywordHub.linkPricing") },
-    { id: "features", href: `/${locale}/#features`, label: t("keywordHub.linkFeatures") },
-    { id: "faq", href: `/${locale}/#faq`, label: t("keywordHub.linkFaq") },
-    { id: "latest-blog", href: `/${locale}/#latest-blog`, label: t("keywordHub.linkLatestBlog") },
-    { id: "channels", href: `/${locale}/#channels`, label: t("keywordHub.linkChannels") },
-    { id: "testimonials", href: `/${locale}/#testimonials`, label: t("keywordHub.linkTestimonials") },
-    { id: "cta", href: `/${locale}/#cta`, label: t("keywordHub.linkContact") },
+    { id: "home", href: `/${home}/`, label: t("keywordHub.linkHome") },
+    { id: "pricing", href: `/${home}/#pricing`, label: t("keywordHub.linkPricing") },
+    { id: "features", href: `/${home}/#features`, label: t("keywordHub.linkFeatures") },
+    { id: "faq", href: `/${home}/#faq`, label: t("keywordHub.linkFaq") },
+    { id: "latest-blog", href: `/${home}/#latest-blog`, label: t("keywordHub.linkLatestBlog") },
+    { id: "channels", href: `/${home}/#channels`, label: t("keywordHub.linkChannels") },
+    { id: "testimonials", href: `/${home}/#testimonials`, label: t("keywordHub.linkTestimonials") },
+    { id: "cta", href: `/${home}/#cta`, label: t("keywordHub.linkContact") },
     { id: "install-guide", href: guide, label: t("keywordHub.linkInstallGuide") },
     {
       id: "compatible",
@@ -72,15 +74,15 @@ export default function KeywordHubSection() {
     },
     {
       id: "m3u-xtream",
-      href: `/${locale}/#faq`,
+      href: `/${home}/#faq`,
       label: t("keywordHub.linkM3uXtream"),
     },
     { id: "install-hub", href: `/${locale}/installation/`, label: t("keywordHub.linkInstallationHub") },
-    { id: "smarters-pro-price", href: `/${locale}/#pricing`, label: t("keywordHub.linkSmartersProPricing") },
-    { id: "free-trial", href: `/${locale}/#pricing`, label: t("keywordHub.linkFreeTrial") },
-    { id: "4k-sports", href: `/${locale}/#channels`, label: t("keywordHub.link4kSports") },
-    { id: "m3u-setup", href: `/${locale}/#faq`, label: t("keywordHub.linkM3uSetup") },
-    { id: "xtream-login", href: `/${locale}/#faq`, label: t("keywordHub.linkXtreamLogin") },
+    { id: "smarters-pro-price", href: `/${home}/#pricing`, label: t("keywordHub.linkSmartersProPricing") },
+    { id: "free-trial", href: `/${home}/#pricing`, label: t("keywordHub.linkFreeTrial") },
+    { id: "4k-sports", href: `/${home}/#channels`, label: t("keywordHub.link4kSports") },
+    { id: "m3u-setup", href: `/${home}/#faq`, label: t("keywordHub.linkM3uSetup") },
+    { id: "xtream-login", href: `/${home}/#faq`, label: t("keywordHub.linkXtreamLogin") },
     {
       id: "android-tv",
       href: getInstallationUrl("iptv-installation-smart-tv", locale),

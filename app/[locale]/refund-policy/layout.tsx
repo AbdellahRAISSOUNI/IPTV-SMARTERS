@@ -8,6 +8,7 @@ import { buildLegalHreflangAlternates } from "@/lib/seo/hreflang";
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
 import { getLegalUrl } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 export async function generateMetadata({
   params,
@@ -103,7 +104,7 @@ export default async function RefundPolicyLayout({
         description={descriptionMap[locale]}
         locale={locale}
         keywords={keywords}
-        siteUrl={`${baseUrl}/${locale}/`}
+        siteUrl={`${baseUrl}/${localeToUrlSegment(locale)}/`}
       />
       {children}
     </>

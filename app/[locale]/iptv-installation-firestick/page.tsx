@@ -8,6 +8,7 @@ import Image from "next/image";
 import { parseUrlsToLinks } from "@/lib/utils/urlParser";
 import InstallationExploreMoreSection from "@/components/InstallationExploreMoreSection";
 import SeoLinksPanel from "@/components/SeoLinksPanel";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -16,6 +17,7 @@ const ComponentLoader = () => <div className="w-full h-32 bg-gray-50 animate-pul
 
 export default function FirestickAndroidIosInstallation() {
   const { t, locale } = useLanguage();
+  const home = localeToUrlSegment(locale);
 
   const imageOrder = [
     "image-3.jpg.webp", // Main image
@@ -74,7 +76,7 @@ export default function FirestickAndroidIosInstallation() {
                   <>
                     {" "}
                     <a
-                      href={`/${locale}#pricing`}
+                      href={`/${home}#pricing`}
                       className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium"
                     >
                       Abonnement IPTV
@@ -85,7 +87,7 @@ export default function FirestickAndroidIosInstallation() {
                   <>
                     {" "}
                     <a
-                      href={`/${locale}#pricing`}
+                      href={`/${home}#pricing`}
                       className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium"
                     >
                       IPTV Subscription
@@ -96,7 +98,7 @@ export default function FirestickAndroidIosInstallation() {
                   <>
                     {" "}
                     <a
-                      href={`/${locale}#pricing`}
+                      href={`/${home}#pricing`}
                       className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium"
                     >
                       Suscripción IPTV

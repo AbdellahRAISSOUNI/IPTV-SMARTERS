@@ -8,6 +8,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { locales, type Locale } from "@/lib/i18n";
 import { regionDisplayNames } from "@/lib/i18n/locale-maps";
 import { getLegalUrl, getInstallationUrl } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 import {
   GOOGLE_PLAY_STORE_URL,
   OFFICIAL_IBO_PLAYER_URL,
@@ -41,7 +42,8 @@ export default function Footer() {
   const whatsappUrl = getWhatsAppUrl(t("whatsapp.contactQuestion"));
   const contactEmail = getContactEmailForLocale(locale);
 
-  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
+  const homeUrlSegment = localeToUrlSegment(locale);
+  const isHomePage = pathname === `/${homeUrlSegment}` || pathname === `/${homeUrlSegment}/`;
 
   const languageNames = regionDisplayNames;
 
@@ -54,11 +56,11 @@ export default function Footer() {
         { href: "#contact", label: t("common.contact"), isExternal: false },
       ]
     : [
-        { href: `/${locale}/`, label: t("common.home"), isExternal: true },
-        { href: `/${locale}/#pricing`, label: t("common.pricing"), isExternal: true },
-        { href: `/${locale}/#features`, label: t("common.features"), isExternal: true },
-        { href: `/${locale}/#faq`, label: t("common.faq"), isExternal: true },
-        { href: `/${locale}/#cta`, label: t("common.contact"), isExternal: true },
+        { href: `/${homeUrlSegment}/`, label: t("common.home"), isExternal: true },
+        { href: `/${homeUrlSegment}/#pricing`, label: t("common.pricing"), isExternal: true },
+        { href: `/${homeUrlSegment}/#features`, label: t("common.features"), isExternal: true },
+        { href: `/${homeUrlSegment}/#faq`, label: t("common.faq"), isExternal: true },
+        { href: `/${homeUrlSegment}/#cta`, label: t("common.contact"), isExternal: true },
         { href: `/${locale}/blog/`, label: t("common.blog"), isExternal: true },
         { href: getInstallationUrl("iptv-installation-guide", locale), label: t("common.installation"), isExternal: true },
       ];
@@ -114,7 +116,7 @@ export default function Footer() {
               {t("footer.description")}
             </p>
             <p className="text-white/60 text-xs sm:text-sm max-w-xl mb-3 leading-relaxed">
-              <a href={`/${locale}/#pricing`} className="text-white hover:text-[#93c5fd] underline underline-offset-2">
+              <a href={`/${homeUrlSegment}/#pricing`} className="text-white hover:text-[#93c5fd] underline underline-offset-2">
                 IPTV subscription pricing
               </a>
               {" • "}

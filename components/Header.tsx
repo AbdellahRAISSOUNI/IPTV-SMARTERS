@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getInstallationUrl } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 export default function Header() {
   const { t, locale } = useLanguage();
@@ -22,7 +23,8 @@ export default function Header() {
   const lastScrollY = useRef(0);
 
   // Check if we're on the home page
-  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
+  const homeUrlSegment = localeToUrlSegment(locale);
+  const isHomePage = pathname === `/${homeUrlSegment}` || pathname === `/${homeUrlSegment}/`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -108,7 +110,7 @@ export default function Header() {
     
     // If we're not on the home page, navigate to home page with hash
     if (!isHomePage) {
-      const homeUrl = `/${locale}${href}`;
+      const homeUrl = `/${homeUrlSegment}${href}`;
       // Use window.location for static export compatibility
       window.location.href = homeUrl;
       return;
@@ -146,10 +148,10 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <motion.a
-            href={`/${locale}`}
+            href={`/${homeUrlSegment}`}
             onClick={(e) => {
               e.preventDefault();
-              window.location.href = `/${locale}`;
+              window.location.href = `/${homeUrlSegment}`;
             }}
             className="flex items-center"
             whileHover={{ scale: 1.05 }}
@@ -282,11 +284,11 @@ export default function Header() {
             <motion.button
               onClick={() => {
                 if (!isHomePage) {
-                  const homeUrl = `/${locale}#pricing`;
+                  const homeUrl = `/${homeUrlSegment}#pricing`;
                   window.location.href = homeUrl;
                   return;
                 }
-                
+
                 const element = document.querySelector("#pricing");
                 if (element) {
                   const headerHeight = 80;
@@ -508,7 +510,7 @@ export default function Header() {
                     setIsMobileMenuOpen(false);
                     
                     if (!isHomePage) {
-                      const homeUrl = `/${locale}#pricing`;
+                      const homeUrl = `/${homeUrlSegment}#pricing`;
                       window.location.href = homeUrl;
                       return;
                     }

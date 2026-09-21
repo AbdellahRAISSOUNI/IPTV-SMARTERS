@@ -7,6 +7,7 @@ import {
   getResellerUrl,
   getLegalUrl,
 } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 const cardBase =
   "group border-2 rounded-xl p-5 transition-all duration-200 text-center hover:border-[#2563eb] hover:bg-[#2563eb]/5 hover:shadow-sm";
@@ -14,21 +15,22 @@ const cardBase =
 export default function InstallationExploreMoreSection() {
   const { t, locale } = useLanguage();
   const guide = getInstallationUrl("iptv-installation-guide", locale);
+  const home = localeToUrlSegment(locale);
 
   const items: { href: string; title: string; subtitle: string; highlight?: boolean }[] = [
     {
-      href: `/${locale}/#pricing`,
+      href: `/${home}/#pricing`,
       title: t("installation.buySubscription"),
       subtitle: t("keywordHub.linkPricing"),
       highlight: true,
     },
     {
-      href: `/${locale}/#features`,
+      href: `/${home}/#features`,
       title: t("common.features"),
       subtitle: t("keywordHub.linkFeatures"),
     },
     {
-      href: `/${locale}/#faq`,
+      href: `/${home}/#faq`,
       title: t("common.faq"),
       subtitle: t("keywordHub.linkFaq"),
     },

@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Link from "next/link";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 import SeoLinksPanel from "@/components/SeoLinksPanel";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -15,6 +16,7 @@ const ComponentLoader = () => <div className="w-full h-32 bg-gray-50 animate-pul
 
 export default function RefundPolicyPage() {
   const { t, locale } = useLanguage();
+  const home = localeToUrlSegment(locale);
 
   return (
     <div className="min-h-screen bg-white">
@@ -79,7 +81,7 @@ export default function RefundPolicyPage() {
               {t("legal.refundPolicy.conclusion")}
             </p>
             <p className="text-base sm:text-lg text-[#2563eb] font-medium mt-4">
-              <Link href={`/${locale}#contact`} className="hover:underline">
+              <Link href={`/${home}#contact`} className="hover:underline">
                 {t("common.contactUs")}
               </Link>
             </p>

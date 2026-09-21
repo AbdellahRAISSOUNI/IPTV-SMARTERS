@@ -7,6 +7,7 @@ import {
   getResellerUrl,
   getLegalUrl,
 } from "@/lib/utils/installation-slugs";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 type RelatedPagesStripProps = {
   className?: string;
@@ -23,14 +24,15 @@ export default function RelatedPagesStrip({
 }: RelatedPagesStripProps) {
   const { locale, t } = useLanguage();
   const guide = getInstallationUrl("iptv-installation-guide", locale);
+  const home = localeToUrlSegment(locale);
 
   const links: { id: string; href: string; label: string }[] = [
-    { id: "home", href: `/${locale}/`, label: t("common.home") },
-    { id: "pricing", href: `/${locale}/#pricing`, label: t("common.pricing") },
-    { id: "trial", href: `/${locale}/#pricing`, label: t("relatedPages.linkFreeTrialPricing") },
-    { id: "m3u-faq", href: `/${locale}/#faq`, label: t("relatedPages.linkM3uXtream") },
-    { id: "features-core", href: `/${locale}/#features`, label: t("common.features") },
-    { id: "faq", href: `/${locale}/#faq`, label: t("common.faq") },
+    { id: "home", href: `/${home}/`, label: t("common.home") },
+    { id: "pricing", href: `/${home}/#pricing`, label: t("common.pricing") },
+    { id: "trial", href: `/${home}/#pricing`, label: t("relatedPages.linkFreeTrialPricing") },
+    { id: "m3u-faq", href: `/${home}/#faq`, label: t("relatedPages.linkM3uXtream") },
+    { id: "features-core", href: `/${home}/#features`, label: t("common.features") },
+    { id: "faq", href: `/${home}/#faq`, label: t("common.faq") },
     { id: "hub", href: `/${locale}/installation/`, label: t("relatedPages.linkInstallationHub") },
     { id: "guide", href: guide, label: t("installation.howToInstall") },
     { id: "firestick", href: getInstallationUrl("iptv-installation-firestick", locale), label: t("relatedPages.linkFirestickPage") },

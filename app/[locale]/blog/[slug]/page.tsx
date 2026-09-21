@@ -11,6 +11,7 @@ import {
 } from "@/lib/seo/og-image";
 import { hreflangByLocale } from "@/lib/seo/hreflang";
 import { siteNameMap } from "@/lib/i18n/locale-maps";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -60,11 +61,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     dateModified: blog.updatedAt,
     author: blog.author
       ? { "@type": "Person", name: blog.author }
-      : { "@type": "Organization", name: siteNameMap[locale], url: `${baseUrl}/${locale}/` },
+      : { "@type": "Organization", name: siteNameMap[locale], url: `${baseUrl}/${localeToUrlSegment(locale)}/` },
     publisher: {
       "@type": "Organization",
       name: siteNameMap[locale],
-      url: `${baseUrl}/${locale}/`,
+      url: `${baseUrl}/${localeToUrlSegment(locale)}/`,
       logo: {
         "@type": "ImageObject",
         url: `${baseUrl}/logo/IPTVSMARTERSNL-LOGO.png`,

@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { fixDuplicateLocalePath } from '@/lib/i18n/locale-path';
+import { localeToUrlSegment } from '@/lib/i18n/locale-url-slugs';
 
 const locales = ['en', 'es', 'fr', 'ca', 'uk'];
 const defaultLocale = 'en';
+
+// The `en` homepage's public URL slug (only the homepage - every other /en/*
+// page keeps its plain /en/ prefix unchanged).
+const enHomepageSlug = localeToUrlSegment('en'); // 'iptv-subscription'
 
 function detectCountry(request: NextRequest): string | undefined {
   const raw =
@@ -33,16 +38,41 @@ export function middleware(request: NextRequest) {
   }
 
   // CRITICAL: Root domain redirect - must be 301 permanent redirect for SEO
-  // Redirect root domain to /en/ to prevent duplicate content
+  // Redirect root domain to the default locale's homepage URL to prevent duplicate content
   // Add noindex header so Google doesn't try to index the root domain
   if (pathname === '/') {
     const country = detectCountry(request);
     const targetLocale =
       country === 'CA' ? 'ca' : country === 'GB' || country === 'UK' ? 'uk' : defaultLocale;
-    url.pathname = `/${targetLocale}/`;
+    url.pathname = `/${localeToUrlSegment(targetLocale)}/`;
     const response = NextResponse.redirect(url, 301);
     response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     return response;
+  }
+
+  const pathSegments = pathname.split('/').filter(Boolean);
+  const hasTrailingSlash = pathname.endsWith('/');
+
+  // Legacy /en homepage URL -> new /iptv-subscription homepage URL (301 permanent redirect for SEO)
+  // Only the bare homepage moves; /en/blog/, /en/iptv-installation-guide/, etc. are untouched.
+  if (pathSegments.length === 1 && pathSegments[0] === 'en') {
+    url.pathname = `/${enHomepageSlug}/`;
+    url.search = search;
+    const response = NextResponse.redirect(url, 301);
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    return response;
+  }
+
+  // New homepage URL without trailing slash -> with trailing slash
+  if (pathSegments.length === 1 && pathSegments[0] === enHomepageSlug && !hasTrailingSlash) {
+    url.pathname = `${pathname}/`;
+    return NextResponse.redirect(url, 301);
+  }
+
+  // Rewrite the new homepage URL to the internal /en route so app/[locale] resolves it
+  if (pathSegments.length === 1 && pathSegments[0] === enHomepageSlug && hasTrailingSlash) {
+    url.pathname = '/en/';
+    return NextResponse.rewrite(url);
   }
 
   // Redirect root language pages without trailing slash to with trailing slash
@@ -59,10 +89,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
-  // Parse path segments for locale and slug detection
-  const pathSegments = pathname.split('/').filter(Boolean);
-  const hasTrailingSlash = pathname.endsWith('/');
-  
   // Redirect English slugs to localized slugs for non-English locales
   // AND handle trailing slash in one redirect to avoid double redirects
   // This ensures canonical URLs are used (localized slugs are canonical)
@@ -155,5 +181,3 @@ export const config = {
     '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*|sitemap.xml|robots.txt).*)',
   ],
 };
-
-

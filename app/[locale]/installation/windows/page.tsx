@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
 import { parseUrlsToLinks } from "@/lib/utils/urlParser";
 import InstallationExploreMoreSection from "@/components/InstallationExploreMoreSection";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -15,6 +16,7 @@ const ComponentLoader = () => <div className="w-full h-32 bg-gray-50 animate-pul
 
 export default function WindowsInstallation() {
   const { t, locale } = useLanguage();
+  const home = localeToUrlSegment(locale);
 
   return (
     <div className="min-h-screen bg-white">
@@ -287,7 +289,7 @@ export default function WindowsInstallation() {
                       <>
                         Une fois l'installation terminée, démarrez le programme IPTV Smarters. Cliquez sur « Ajouter un nouvel utilisateur » et sélectionnez « Connexion avec l'API Xtream Codes ». Saisissez vos identifiants (nom d'utilisateur, mot de passe et URL du portail) pour votre{" "}
                         <a
-                          href={`/${locale}#pricing`}
+                          href={`/${home}#pricing`}
                           className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium"
                         >
                           service IPTV
@@ -299,7 +301,7 @@ export default function WindowsInstallation() {
                       <>
                         Once the installation is complete, start the IPTV Smarters program. Click on « Add a new user » and select « Connection with Xtream Codes API ». Enter your credentials (username, password and portal URL) for your{" "}
                         <a
-                          href={`/${locale}#pricing`}
+                          href={`/${home}#pricing`}
                           className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium"
                         >
                           IPTV service
@@ -311,7 +313,7 @@ export default function WindowsInstallation() {
                       <>
                         Una vez completada la instalación, inicia el programa IPTV Smarters. Haz clic en « Agregar un nuevo usuario » y selecciona « Conexión con API Xtream Codes ». Ingresa tus credenciales (nombre de usuario, contraseña y URL del portal) para tu{" "}
                         <a
-                          href={`/${locale}#pricing`}
+                          href={`/${home}#pricing`}
                           className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-medium"
                         >
                           servicio IPTV

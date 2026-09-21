@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { getTranslations } from "@/lib/i18n";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 import {
   DEFAULT_PRICE_CURRENCY,
   getLocaleCurrencyCode,
@@ -104,7 +105,7 @@ export function getStandardProductOffers(locale: Locale, baseUrl: string) {
       price: parsePriceAmount(priceDisplay),
       priceCurrency: currency,
       availability: "https://schema.org/InStock",
-      url: `${baseUrl}/${locale}/#pricing`,
+      url: `${baseUrl}/${localeToUrlSegment(locale)}/#pricing`,
       priceValidUntil: "2026-12-31",
       shippingDetails: buildShippingDetails(locale, pricing),
       hasMerchantReturnPolicy: buildReturnPolicy(locale),

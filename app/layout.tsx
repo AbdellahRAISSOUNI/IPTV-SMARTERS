@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       locale: "en",
-      canonicalUrl: `${baseUrl}/en/`,
+      canonicalUrl: `${baseUrl}/${localeToUrlSegment("en")}/`,
       type: "website",
       useGeneratedOgImage: true,
     }),

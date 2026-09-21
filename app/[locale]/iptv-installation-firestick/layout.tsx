@@ -9,6 +9,7 @@ import { getInstallationUrl } from "@/lib/utils/installation-slugs";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { firestickInstallationSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 export async function generateMetadata({
   params,
@@ -58,7 +59,7 @@ export default async function FirestickInstallationLayout({
   const pageMetadata = await getInstallationMetadata(locale, "firestick");
   const currentUrl = getInstallationUrl("iptv-installation-firestick", locale);
   const canonicalUrl = `${baseUrl}${currentUrl}`;
-  const siteUrl = `${baseUrl}/${locale}/`;
+  const siteUrl = `${baseUrl}/${localeToUrlSegment(locale)}/`;
   const keywords = getRouteMetaKeywords(locale, "firestick", firestickInstallationSeeds[locale]);
 
   return (

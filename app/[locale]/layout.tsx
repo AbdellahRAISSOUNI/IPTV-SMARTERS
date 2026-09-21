@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import { locales, type Locale, getTranslations } from "@/lib/i18n";
+import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 import { buildLocaleHomepageMetadata } from "@/lib/utils/homepage-route-metadata";
 import {
@@ -51,7 +52,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     "@type": "Organization",
     name: organizationNameMap[locale],
     description: organizationDescMap[locale],
-    url: `${baseUrl}/${locale}/`, // Include trailing slash for consistency
+    url: `${baseUrl}/${localeToUrlSegment(locale)}/`, // Include trailing slash for consistency
     logo: `${baseUrl}/logo/Logo3-removebg-preview.png`,
     contactPoint: {
       "@type": "ContactPoint",
@@ -293,7 +294,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             : locale === "es"
               ? "Inicio"
               : "Accueil",
-        item: `${baseUrl}/${locale}`,
+        item: `${baseUrl}/${localeToUrlSegment(locale)}`,
       },
     ],
   };
@@ -302,7 +303,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: organizationNameMap[locale],
-    url: `${baseUrl}/${locale}/`,
+    url: `${baseUrl}/${localeToUrlSegment(locale)}/`,
     inLanguage:
       locale === "en"
         ? "en-US"
@@ -316,7 +317,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     publisher: {
       "@type": "Organization",
       name: organizationNameMap[locale],
-      url: `${baseUrl}/${locale}/`,
+      url: `${baseUrl}/${localeToUrlSegment(locale)}/`,
     },
   };
 

@@ -8,6 +8,7 @@ import {
   getLocaleFromPathname,
   stripLocalePrefix,
 } from '@/lib/i18n/locale-path';
+import { localeToUrlSegment } from '@/lib/i18n/locale-url-slugs';
 import { getEnglishSlugFromLocalized, getInstallationSlug, isInstallationSlug, isResellerSlug, getResellerSlug, isLegalSlug, getLegalSlug } from '@/lib/utils/installation-slugs';
 import { getBlogUrl, findBlogByAnySlug, isBlogAvailableInLocale } from '@/lib/utils/blog-slugs';
 import { getPublishedLocales } from '@/lib/admin/blog-locales';
@@ -192,10 +193,12 @@ export function LocaleDetector() {
   useEffect(() => {
     if (detected) return;
 
-    // Check if we're already on a locale route
+    // Check if we're already on a locale route (or the homepage's URL-slug alias)
     const currentPath = window.location.pathname;
-    const isLocaleRoute = locales.some(locale => currentPath.startsWith(`/${locale}`));
-    
+    const isLocaleRoute =
+      getLocaleFromPathname(currentPath) !== null ||
+      locales.some(locale => currentPath.startsWith(`/${locale}`));
+
     if (isLocaleRoute) {
       setDetected(true);
       return;
@@ -204,7 +207,8 @@ export function LocaleDetector() {
     // Check for stored preference first (instant)
     const storedLocale = localStorage.getItem('preferred-locale') as Locale | null;
     if (storedLocale && locales.includes(storedLocale)) {
-      router.replace(`/${storedLocale}${currentPath === '/' ? '' : currentPath}`);
+      const segment = currentPath === '/' ? localeToUrlSegment(storedLocale) : storedLocale;
+      router.replace(`/${segment}${currentPath === '/' ? '' : currentPath}`);
       setDetected(true);
       return;
     }
@@ -220,7 +224,8 @@ export function LocaleDetector() {
     }
 
     // Redirect immediately based on browser language, then enhance with IP detection in background
-    router.replace(`/${detectedLocale}${currentPath === '/' ? '' : currentPath}`);
+    const detectedSegment = currentPath === '/' ? localeToUrlSegment(detectedLocale) : detectedLocale;
+    router.replace(`/${detectedSegment}${currentPath === '/' ? '' : currentPath}`);
     setDetected(true);
 
     // Optionally enhance with IP detection in background (non-blocking)
@@ -252,7 +257,8 @@ export function LocaleDetector() {
             const countryLocale = detectLocaleFromCountry(data.country_code);
             // Only redirect if different from browser language
             if (countryLocale !== detectedLocale) {
-              router.replace(`/${countryLocale}${currentPath === '/' ? '' : currentPath}`);
+              const countrySegment = currentPath === '/' ? localeToUrlSegment(countryLocale) : countryLocale;
+              router.replace(`/${countrySegment}${currentPath === '/' ? '' : currentPath}`);
             }
           }
         } catch (error) {
