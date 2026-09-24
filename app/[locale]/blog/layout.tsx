@@ -8,7 +8,6 @@ import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 import { buildHomepageHreflangAlternates } from "@/lib/seo/hreflang";
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
-import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 export async function generateMetadata({
   params,
@@ -60,7 +59,7 @@ export default async function BlogLayout({
         description={pageMetadata.description}
         locale={locale}
         keywords={keywords}
-        siteUrl={`${baseUrl}/${localeToUrlSegment(locale)}/`}
+        siteUrl={`${baseUrl}/${locale}/`}
       />
       {children}
     </>

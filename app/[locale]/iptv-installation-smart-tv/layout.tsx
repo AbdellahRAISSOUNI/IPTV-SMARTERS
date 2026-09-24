@@ -9,7 +9,6 @@ import { getInstallationUrl } from "@/lib/utils/installation-slugs";
 import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { smartTvInstallationSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
-import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 export async function generateMetadata({
   params,
@@ -76,7 +75,7 @@ export default async function SmartTvInstallationLayout({
         description={pageMetadata.description}
         locale={locale}
         keywords={keywords}
-        siteUrl={`${base}/${localeToUrlSegment(locale)}/`}
+        siteUrl={`${base}/${locale}/`}
       />
       {children}
     </>
