@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import { isMobile, getImageQuality } from "@/lib/utils/performance";
+import { isMobile } from "@/lib/utils/performance";
+import { useDeviceFlags } from "@/lib/utils/use-device-flags";
 
 // Image list - will be replaced with Sanity CMS data later
 const carouselImages = [
@@ -66,12 +67,13 @@ export default function ContentCarousel() {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [isInView, setIsInView] = useState(false);
-  const imageQuality = getImageQuality();
-  
-  // Optimize scroll speed based on device
-  const scrollSpeed = useRef(
-    isMobile() ? 0.3 : 0.6 // Even slower on mobile for better performance
-  );
+  const { mobile: isMobileDevice, imageQuality } = useDeviceFlags();
+
+  // Optimize scroll speed based on device (slower on mobile for better performance)
+  const scrollSpeed = useRef(0.6);
+  useEffect(() => {
+    scrollSpeed.current = isMobileDevice ? 0.3 : 0.6;
+  }, [isMobileDevice]);
 
   // Optimize: Use all images but limit initial render
   // Duplicate images for seamless infinite scroll

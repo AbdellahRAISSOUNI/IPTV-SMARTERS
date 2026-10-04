@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import { isMobile, getImageQuality } from "@/lib/utils/performance";
+import { useDeviceFlags } from "@/lib/utils/use-device-flags";
 
 interface LogoCarouselProps {
   images: string[];
@@ -19,9 +19,11 @@ export default function LogoCarousel({ images, size = "default", direction = "le
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [isInView, setIsInView] = useState(false);
-  const imageQuality = getImageQuality();
-  const mobile = isMobile();
-  const scrollSpeed = useRef(mobile ? speed * 0.5 : speed); // Slower on mobile
+  const { mobile, imageQuality } = useDeviceFlags();
+  const scrollSpeed = useRef(speed);
+  useEffect(() => {
+    scrollSpeed.current = mobile ? speed * 0.5 : speed; // Slower on mobile
+  }, [mobile, speed]);
   const scrollDirection = direction === "right" ? -1 : 1;
 
   // Duplicate images for seamless infinite scroll

@@ -11,8 +11,8 @@ import {
   Headphones,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { shouldReduceAnimations, isMobile, getImageQuality } from "@/lib/utils/performance";
 import { getLocaleSurface } from "@/lib/i18n/locale-surface";
+import { useDeviceFlags } from "@/lib/utils/use-device-flags";
 
 interface Feature {
   id: string;
@@ -24,9 +24,7 @@ interface Feature {
 export default function FeaturesSection() {
   const { t, locale } = useLanguage();
   const surface = getLocaleSurface(locale);
-  const reduceAnimations = shouldReduceAnimations();
-  const mobile = isMobile();
-  const imageQuality = getImageQuality();
+  const { mobile, reduceAnimations, imageQuality } = useDeviceFlags();
   
   const features: Feature[] = [
     {

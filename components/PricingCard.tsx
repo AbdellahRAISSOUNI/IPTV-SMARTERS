@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import { Monitor } from "lucide-react";
 import { openWhatsApp } from "@/lib/whatsapp";
-import { shouldReduceAnimations, isMobile } from "@/lib/utils/performance";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getLocaleSurface } from "@/lib/i18n/locale-surface";
+import { useDeviceFlags } from "@/lib/utils/use-device-flags";
 
 interface PricingCardProps {
   name: string;
@@ -30,8 +30,7 @@ export default function PricingCard({
 }: PricingCardProps) {
   const { t, locale } = useLanguage();
   const surface = getLocaleSurface(locale);
-  const reduceAnimations = shouldReduceAnimations();
-  const mobile = isMobile();
+  const { mobile, reduceAnimations } = useDeviceFlags();
   const isCa = locale === "ca";
   const isUk = locale === "uk";
   const isRegional = isCa || isUk;

@@ -3,7 +3,6 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { isMobile } from "@/lib/utils/performance";
 import {
   OFFICIAL_IBO_PLAYER_URL,
   OFFICIAL_IPTV_SMARTERS_DOWNLOADS_URL,
@@ -11,6 +10,7 @@ import {
 import { isRegionalEnglishLocale } from "@/lib/i18n/regional-locales";
 import { DefaultHeroDescription } from "@/components/hero/DefaultHeroDescription";
 import { normalizeInlineHeroText } from "@/lib/i18n/normalize-hero-text";
+import { useDeviceFlags } from "@/lib/utils/use-device-flags";
 
 function HeroImage({
   mobile,
@@ -108,7 +108,7 @@ function RegionalHeroContent({
 
 export default function HeroSection() {
   const { t, locale } = useLanguage();
-  const mobile = typeof window !== "undefined" ? isMobile() : false;
+  const { mobile } = useDeviceFlags();
   const isRegional = isRegionalEnglishLocale(locale);
 
   const scrollToPricing = (e: { preventDefault: () => void }) => {

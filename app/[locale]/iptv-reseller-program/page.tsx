@@ -8,9 +8,9 @@ import Image from "next/image";
 import { Monitor, Check } from "lucide-react";
 import PricingCard from "@/components/PricingCard";
 import { openWhatsApp } from "@/lib/whatsapp";
-import { shouldReduceAnimations, isMobile, getImageQuality } from "@/lib/utils/performance";
 import RelatedPagesStrip from "@/components/RelatedPagesStrip";
 import SeoLinksPanel from "@/components/SeoLinksPanel";
+import { useDeviceFlags } from "@/lib/utils/use-device-flags";
 
 const Footer = lazy(() => import("@/components/Footer"));
 const FloatingWhatsAppButton = lazy(() => import("@/components/FloatingWhatsAppButton"));
@@ -19,9 +19,7 @@ const ComponentLoader = () => <div className="w-full h-32 bg-gray-50 animate-pul
 
 export default function ResellerPage() {
   const { t, locale } = useLanguage();
-  const reduceAnimations = shouldReduceAnimations();
-  const mobile = isMobile();
-  const imageQuality = getImageQuality();
+  const { mobile, reduceAnimations, imageQuality } = useDeviceFlags();
 
   const handleScrollToPricing = () => {
     const element = document.querySelector("#pricing");

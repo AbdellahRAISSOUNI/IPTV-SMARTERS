@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   // Static export is disabled
   trailingSlash: true,
   images: {
+    // Every quality used by <Image quality={...}> must be listed or Next falls back to 75.
+    qualities: [20, 24, 40, 50, 75, 80],
     remotePatterns: [
       {
         protocol: "https",
