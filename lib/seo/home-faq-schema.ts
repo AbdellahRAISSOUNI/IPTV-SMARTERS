@@ -35,7 +35,7 @@ export function getHomeFaqMainEntity(locale: Locale) {
       faqEntry(
         whatIs?.question ?? "What is IPTV and how does IPTV Canada work?",
         whatIs?.answer ??
-          "IPTV delivers TV over the internet. Our best iptv canada service includes credentials for premium servers, IPTV Smarters Pro, and 25,000+ channels plus VOD in Canada."
+          "IPTV delivers TV over the internet. Our best iptv canada service includes credentials for premium servers, IPTV Smarters Pro, and thousands of channels plus VOD in Canada."
       ),
       faqEntry(
         "How much does an IPTV subscription cost in Canada?",
@@ -78,7 +78,7 @@ export function getHomeFaqMainEntity(locale: Locale) {
     return [
       faqEntry(
         "What is IPTV Smarters Pro?",
-        "IPTV Smarters Pro is a premium IPTV streaming service that provides access to over 20,000 live TV channels, movies, and series in 4K quality. It works on all devices including Windows, Android, iOS, Mac, and Smart TVs."
+        "IPTV Smarters Pro is a premium IPTV streaming service that provides access to thousands of live TV channels, movies, and series in 4K quality. It works on all devices including Windows, Android, iOS, Mac, and Smart TVs."
       ),
       faqEntry("How much does IPTV subscription cost?", getFaqPricingAnswerText("en")),
       faqEntry(

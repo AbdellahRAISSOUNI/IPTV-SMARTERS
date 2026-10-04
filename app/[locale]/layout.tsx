@@ -39,11 +39,11 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
   };
 
   const productDescMap: Record<Locale, string> = {
-    en: "Premium IPTV streaming service with over 20,000 live TV channels, 4K quality, and support for all devices. Free test available.",
-    ca: "Premium IPTV for Canada with 20,000+ live channels, 4K quality, CAD plans, and support for all devices. Free trial available.",
-    uk: "Premium IPTV for the UK with 20,000+ live channels, 4K quality, GBP plans, and support for all devices. Free trial available.",
-    es: "Servicio de streaming IPTV premium con más de 20,000 canales de TV en vivo, calidad 4K y soporte para todos los dispositivos. Prueba gratuita disponible.",
-    fr: "Service de streaming IPTV premium avec plus de 20,000 chaînes TV en direct, qualité 4K et support pour tous les appareils. Essai gratuit disponible.",
+    en: "Premium IPTV streaming service with thousands of live TV channels, 4K quality, and support for all devices. Free test available.",
+    ca: "Premium IPTV for Canada with thousands of live channels, 4K quality, CAD plans, and support for all devices. Free trial available.",
+    uk: "Premium IPTV for the UK with thousands of live channels, 4K quality, GBP plans, and support for all devices. Free trial available.",
+    es: "Servicio de streaming IPTV premium con miles de canales de TV en vivo, calidad 4K y soporte para todos los dispositivos. Prueba gratuita disponible.",
+    fr: "Service de streaming IPTV premium avec des milliers de chaînes TV en direct, qualité 4K et support pour tous les appareils. Essai gratuit disponible.",
   };
 
   const organizationSchema = {
@@ -90,7 +90,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
     offers: getStandardProductOffers(locale, baseUrl),
     featureList: locale === "en" || locale === "ca" || locale === "uk"
       ? [
-          "20,000+ Live TV Channels",
+          "Thousands of Live TV Channels",
           "4K & HD Quality Streaming",
           "99.9% Uptime Guarantee",
           "All Devices Supported",
@@ -101,7 +101,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
         ]
       : locale === "es"
       ? [
-          "Más de 20,000 Canales de TV en Vivo",
+          "Miles de Canales de TV en Vivo",
           "Streaming en Calidad 4K y HD",
           "Garantía de 99.9% de Tiempo de Actividad",
           "Todos los Dispositivos Compatibles",
@@ -111,7 +111,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
           "Acceso a Biblioteca VOD",
         ]
       : [
-          "Plus de 20,000 Chaînes TV en Direct",
+          "Des milliers de Chaînes TV en Direct",
           "Streaming en Qualité 4K et HD",
           "Garantie de Disponibilité 99.9%",
           "Tous les Appareils Compatibles",
@@ -135,7 +135,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             name: "¿Qué es IPTV Smarters Pro?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "IPTV Smarters Pro es un servicio de streaming IPTV premium que proporciona acceso a más de 20,000 canales de TV en vivo, películas y series en calidad 4K. Funciona en todos los dispositivos incluyendo Windows, Android, iOS, Mac y Smart TVs.",
+              text: "IPTV Smarters Pro es un servicio de streaming IPTV premium que proporciona acceso a miles de canales de TV en vivo, películas y series en calidad 4K. Funciona en todos los dispositivos incluyendo Windows, Android, iOS, Mac y Smart TVs.",
             },
           },
           {
@@ -209,7 +209,7 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
             name: "Qu'est-ce que IPTV Smarters Pro?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "IPTV Smarters Pro est un service de streaming IPTV premium qui fournit l'accès à plus de 20,000 chaînes TV en direct, films et séries en qualité 4K. Il fonctionne sur tous les appareils incluant Windows, Android, iOS, Mac et Smart TVs.",
+              text: "IPTV Smarters Pro est un service de streaming IPTV premium qui fournit l'accès à des milliers de chaînes TV en direct, films et séries en qualité 4K. Il fonctionne sur tous les appareils incluant Windows, Android, iOS, Mac et Smart TVs.",
             },
           },
           {

@@ -28,9 +28,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getSiteBaseUrl();
 
   const title =
-    "Best IPTV Subscription Service | IPTV Smarters Pro | 20,000+ Channels | Free Test";
+    "Best IPTV Subscription Service | IPTV Smarters Pro | Thousands of Channels | Free Test";
   const description =
-    "Get the #1 IPTV subscription service with IPTV Smarters Pro. Access 20,000+ live TV channels, movies, and series in 4K quality. 99.9% uptime guarantee. Free test available. Works on Windows, Android, iOS, Mac, Smart TV, Firestick. Instant activation.";
+    "Get the #1 IPTV subscription service with IPTV Smarters Pro. Access thousands of live TV channels, movies, and series in 4K quality. 99.9% uptime guarantee. Free test available. Works on Windows, Android, iOS, Mac, Smart TV, Firestick. Instant activation.";
 
   return {
     ...buildSocialMetadata({
