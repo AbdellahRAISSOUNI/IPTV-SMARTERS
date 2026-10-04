@@ -56,7 +56,7 @@ export default async function ResellerLayout({
   }
   const locale = localeParam as Locale;
   const pageMetadata = await getResellerMetadata(locale);
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://pro-iptvsmarter.com";
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarter.com";
   const canonicalUrl = `${base}${getResellerUrl("iptv-reseller-program", locale)}`;
   const keywords = getRouteMetaKeywords(locale, "reseller", resellerSeeds[locale]);
 

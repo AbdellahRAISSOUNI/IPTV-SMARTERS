@@ -6,7 +6,7 @@ export const OG_IMAGE_HEIGHT = 630;
 const CLOUDINARY_OG_TRANSFORM = "w_1200,h_630,c_fill,g_auto,q_auto:good,f_jpg";
 
 export function getSiteBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_BASE_URL || "https://pro-iptvsmarter.com";
+  return process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarter.com";
 }
 
 /** Absolute HTTPS URL for Open Graph / Twitter / WhatsApp crawlers. */

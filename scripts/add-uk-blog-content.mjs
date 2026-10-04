@@ -10,8 +10,8 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BLOGS_PATH = join(__dirname, "../data/blogs.json");
-const UK = "https://pro-iptvsmarter.com/uk/";
-const EN = "https://pro-iptvsmarter.com/en/";
+const UK = "https://www.pro-iptvsmarter.com/uk/";
+const EN = "https://www.pro-iptvsmarter.com/en/";
 
 function localizeForUk(text) {
   if (!text || typeof text !== "string") return text;

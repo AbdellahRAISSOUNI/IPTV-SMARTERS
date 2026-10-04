@@ -9,7 +9,7 @@ import { getPublishedLocales } from "@/lib/admin/blog-locales";
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/IndexNow";
 
 function getBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_BASE_URL || "https://pro-iptvsmarter.com";
+  return process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarter.com";
 }
 
 function getIndexNowKey(): string {

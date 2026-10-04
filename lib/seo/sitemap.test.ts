@@ -4,7 +4,7 @@ import { join } from "node:path";
 import type { BlogPost } from "@/lib/admin/blog-shared";
 import { blogUrlsInSitemap, buildSitemapEntries } from "@/lib/seo/sitemap-entries";
 
-const baseUrl = "https://pro-iptvsmarter.com";
+const baseUrl = "https://www.pro-iptvsmarter.com";
 
 describe("buildSitemapEntries", () => {
   it("includes Canada blog posts that are live on the site", () => {
@@ -16,7 +16,7 @@ describe("buildSitemapEntries", () => {
     const matches = blogUrlsInSitemap(entries, "best-iptv-subscription-canada");
 
     expect(matches).toContain(
-      "https://pro-iptvsmarter.com/ca/blog/best-iptv-subscription-canada/"
+      "https://www.pro-iptvsmarter.com/ca/blog/best-iptv-subscription-canada/"
     );
   });
 

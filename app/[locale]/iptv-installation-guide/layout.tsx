@@ -56,7 +56,7 @@ export default async function InstallationGuideLayout({
   }
   const locale = localeParam as Locale;
   const pageMetadata = await getInstallationMetadata(locale, "guide");
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://pro-iptvsmarter.com";
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarter.com";
   const canonicalUrl = `${base}${getInstallationUrl("iptv-installation-guide", locale)}`;
   const keywords = getRouteMetaKeywords(locale, "guide", installationGuideSeeds[locale]);
 

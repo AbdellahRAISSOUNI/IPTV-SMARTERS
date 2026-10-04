@@ -56,7 +56,7 @@ export default async function WindowsInstallationLayout({
   }
   const locale = localeParam as Locale;
   const pageMetadata = await getInstallationMetadata(locale, "windows");
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://pro-iptvsmarter.com";
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarter.com";
   const canonicalUrl = `${base}${getInstallationUrl("iptv-installation-windows", locale)}`;
   const keywords = getRouteMetaKeywords(locale, "windows", windowsInstallationSeeds[locale]);
 

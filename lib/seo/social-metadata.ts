@@ -36,7 +36,7 @@ function getSafeMetadataBase(): URL {
   try {
     return new URL(getSiteBaseUrl());
   } catch {
-    return new URL("https://pro-iptvsmarter.com");
+    return new URL("https://www.pro-iptvsmarter.com");
   }
 }
 

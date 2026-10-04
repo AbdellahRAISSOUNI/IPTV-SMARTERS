@@ -5,7 +5,7 @@ import {
   resolveAbsoluteImageUrl,
 } from "./og-image";
 
-const BASE = "https://pro-iptvsmarter.com";
+const BASE = "https://www.pro-iptvsmarter.com";
 
 describe("resolveAbsoluteImageUrl", () => {
   it("resolves relative paths", () => {

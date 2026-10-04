@@ -63,7 +63,7 @@ export default async function SmartTvInstallationLayout({
   }
   const locale = localeParam as Locale;
   const pageMetadata = await getInstallationMetadata(locale, "smartTv");
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://pro-iptvsmarter.com";
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarter.com";
   const canonicalUrl = `${base}${getInstallationUrl("iptv-installation-smart-tv", locale)}`;
   const keywords = getRouteMetaKeywords(locale, "smartTv", smartTvInstallationSeeds[locale]);
 
