@@ -21,7 +21,7 @@ describe("resolveAbsoluteImageUrl", () => {
 
   it("falls back for blob URLs", () => {
     expect(resolveAbsoluteImageUrl("blob:http://localhost/x", BASE)).toBe(
-      `${BASE}/images/hero.png`
+      `${BASE}/images/hero.webp`
     );
   });
 });

@@ -30,7 +30,7 @@ function applyTranslationEdit(
 describe("Canada vs other locales — translation files", () => {
   it("homepage pricing in ca.json is independent from en.json", () => {
     expect(ca.pricing.plan12MonthsPrice).toMatch(/\$CA/i);
-    expect(ca.pricing.plan12MonthsPrice).toBe("79 $CA");
+    expect(ca.pricing.plan12MonthsPrice).toBe("69 $CA");
     expect(en.pricing.plan12MonthsPrice).not.toMatch(/\$CA/i);
     expect(ca.pricing.plan12MonthsPrice).not.toBe(en.pricing.plan12MonthsPrice);
   });
