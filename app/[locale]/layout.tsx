@@ -360,7 +360,7 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.pro-iptvsmarters.com";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://pro-iptvsmarter.com";
   const { organizationSchema, productSchema, faqSchema, breadcrumbSchema, websiteSchema } =
     generateStructuredData(locale as Locale, baseUrl);
 

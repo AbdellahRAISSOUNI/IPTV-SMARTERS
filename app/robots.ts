@@ -4,7 +4,7 @@ export const dynamic = 'force-static';
 export const revalidate = 86400; // Revalidate once per day
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.pro-iptvsmarters.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://pro-iptvsmarter.com';
 
   // English slugs that should be disallowed in non-English locales
   // These will redirect, but we don't want Google to crawl/index them

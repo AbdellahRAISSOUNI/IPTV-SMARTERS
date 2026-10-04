@@ -38,8 +38,8 @@ function localizeForCanada(text) {
   if (!text || typeof text !== "string") return text;
   return (
     text
-      .replace(/https:\/\/www\.pro-iptvsmarters\.com\/en\//gi, "https://www.pro-iptvsmarters.com/ca/")
-      .replace(/www\.pro-iptvsmarters\.com\/en\//gi, "www.pro-iptvsmarters.com/ca/")
+      .replace(/https:\/\/www\.pro-iptvsmarters\.com\/en\//gi, "https://pro-iptvsmarter.com/ca/")
+      .replace(/www\.pro-iptvsmarters\.com\/en\//gi, "pro-iptvsmarter.com/ca/")
       .replace(/\/en\/#/g, "/ca/#")
       .replace(/\bIPTV subscription\b/gi, "IPTV subscription in Canada")
       .replace(/\bBest IPTV\b/g, "Best IPTV Canada")

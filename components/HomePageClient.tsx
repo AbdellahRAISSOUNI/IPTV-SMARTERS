@@ -184,29 +184,28 @@ export default function Home() {
 
   // Channel logos
   const channelLogos = [
-    "/carouselle-channels/abc-tv-logo-Copy.webp",
-    "/carouselle-channels/ae-tv-logo-1.png",
-    "/carouselle-channels/AMC-tv-logo.webp",
-    "/carouselle-channels/cbs-tv-logo.png",
-    "/carouselle-channels/discovery-channel-tv-logo.png",
-    "/carouselle-channels/fox-tv-logo.png",
-    "/carouselle-channels/hbo-tv-logo.webp",
-    "/carouselle-channels/history-tv-logo.png",
-    "/carouselle-channels/national-geographic-tv-logo.png",
-    "/carouselle-channels/nbc-tv-logo.png",
-    "/carouselle-channels/tnt-tv-logo.png",
-    "/carouselle-channels/usa-network-logo.webp",
+    "/carousel-categories/01-sports.webp",
+    "/carousel-categories/02-news.webp",
+    "/carousel-categories/03-movies.webp",
+    "/carousel-categories/04-series.webp",
+    "/carousel-categories/05-kids.webp",
+    "/carousel-categories/06-documentary.webp",
+    "/carousel-categories/07-music.webp",
+    "/carousel-categories/08-lifestyle.webp",
+    "/carousel-categories/09-comedy.webp",
+    "/carousel-categories/10-drama.webp",
+    "/carousel-categories/11-cooking.webp",
+    "/carousel-categories/12-travel.webp",
   ];
 
-  // Streaming service logos
+  // Generic feature badges (original artwork, no third-party marks)
   const streamingLogos = [
-    "/carouselle-streaming/580b57fcd9996e24bc43c529-300x169-min-1.png",
-    "/carouselle-streaming/Bein_sport_logo-1024x595-1-min-300x174-2.png",
-    "/carouselle-streaming/canal-logo-png-transparent-385x385-1-e1677705689705-min-300x149-2.webp",
-    "/carouselle-streaming/FOX_Sports_logo.svg-1024x606-min-300x178-2.png",
-    "/carouselle-streaming/HBO-Max-Logo-768x432-2-min-300x169-2.png",
-    "/carouselle-streaming/pngegg-2-e1677705730772-min-300x155-2.png",
-    "/carouselle-streaming/sky-sports-logo-png-8-768x432-1-min-300x169-2.png",
+    "/carousel-features/01-live-events.webp",
+    "/carousel-features/02-catch-up-tv.webp",
+    "/carousel-features/03-hd-and-4k.webp",
+    "/carousel-features/04-replay.webp",
+    "/carousel-features/05-multi-screen.webp",
+    "/carousel-features/06-on-demand.webp",
   ];
 
   // Premium plans
@@ -522,30 +521,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Payment Methods Section */}
-      <section className="pt-2 pb-0 bg-white">
-        <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.3 }}
-            className="flex justify-center"
-          >
-            <div className="relative w-full max-w-[304px] h-auto">
-              <Image
-                src="/images/Methode-de-paiment.webp"
-                alt="Payment methods accepted"
-                width={1536}
-                height={61}
-                className="w-full h-auto object-contain"
-                quality={75}
-                loading="lazy"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Testimonials Section */}
       <section id="testimonials">

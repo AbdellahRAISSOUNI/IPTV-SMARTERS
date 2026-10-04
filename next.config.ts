@@ -39,7 +39,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "www.pro-iptvsmarters.com",
+        hostname: "pro-iptvsmarter.com",
         pathname: "/**",
       },
     ],

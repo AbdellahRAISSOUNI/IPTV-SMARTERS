@@ -10,7 +10,6 @@ export const PRIORITY_UK_KEYWORDS = [
   "iptv providers",
   "iptv fire stick uk",
   "iptv free trial uk",
-  "premier league iptv",
   "iptv smarters player",
   "united kingdom iptv",
 ] as const;

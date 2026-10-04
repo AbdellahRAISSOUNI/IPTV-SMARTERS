@@ -121,26 +121,6 @@ export default function FeaturesSection() {
           ))}
         </div>
 
-        {/* Trust Image */}
-        <motion.div
-          initial={reduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          whileInView={reduceAnimations ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: mobile ? "-50px" : "-100px" }}
-          transition={reduceAnimations ? {} : { duration: 0.3, delay: 0.2 }}
-          className="mt-8 lg:mt-10 flex justify-center"
-        >
-          <div className="relative w-full max-w-3xl xl:max-w-4xl 2xl:max-w-5xl h-auto">
-            <Image
-              src="/images/trust.png-1536x61.webp"
-              alt="Trust badges and certifications"
-              width={1536}
-              height={61}
-              className="w-full h-auto object-contain"
-              quality={imageQuality}
-              loading="lazy"
-            />
-          </div>
-        </motion.div>
       </div>
     </section>
   );

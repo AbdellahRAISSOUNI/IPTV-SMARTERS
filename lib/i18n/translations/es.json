@@ -14,7 +14,7 @@
     "whatsapp": "WhatsApp",
     "email": "Correo electrónico",
     "channelsWorldwide": "Canales de todo el mundo.",
-    "joinCustomers": "Únete a más de 5,000 clientes satisfechos.",
+    "joinCustomers": "Únete a nuestra comunidad de clientes satisfechos.",
     "privacyPolicy": "Política de Privacidad",
     "termsOfService": "Términos de Servicio",
     "refundPolicy": "Política de Reembolso",
@@ -97,14 +97,14 @@
     "titlePart1": "Lo Que Dicen",
     "titleHighlight": "Nuestros Clientes",
     "titlePart2": "",
-    "description": "Desde una calidad de imagen nítida hasta una increíble selección de canales, descubre cómo nuestro servicio IPTV ha transformado la experiencia de visualización de clientes en todo el mundo."
+    "description": "Desde una calidad de imagen nítida hasta una experiencia de visualización fluida, descubre lo que opinan nuestros clientes sobre nuestro servicio IPTV."
   },
   "hero": {
     "title": "Mejor IPTV Smarters Pro",
     "subtitlePart1": "IPTV Suscripción",
     "subtitlePart2": "en España",
     "description": "Compra tu suscripción IPTV Smarters Pro en España y accede a más de 50.000 canales y VOD. Transmisión fluida, calidad HD y soporte en todos tus dispositivos.",
-    "channelsLink": "10,000 canales de TV",
+    "channelsLink": "miles de canales de TV",
     "description2": ", películas, series y eventos deportivos en HD y 4K. Compatible con",
     "compatibleDevices": "IPTV Smarters Pro, ibo players",
     "officialSmartersLinkText": "IPTV Smarters Pro",
@@ -169,8 +169,8 @@
     "plan24MonthsPremiumPrice": "€89.99",
     "instantActivation": "¡Activación instantánea!",
     "freeUpdates": "Actualizaciones gratuitas (TV y VOD)",
-    "liveChannels": "+50,000 canales en vivo y deportes",
-    "moviesSeries": "+70,000 películas y series de todo el mundo",
+    "liveChannels": "Amplia selección de canales de TV en vivo",
+    "moviesSeries": "Gran biblioteca de películas y series bajo demanda",
     "antiFreezing": "Sistema anti-congelación",
     "quality": "Canales en 4K, FHD, HD y Premium",
     "fastStable": "Rápido y estable",
@@ -242,7 +242,7 @@
     },
     "freeTrial": {
       "question": "¿Ofrecen una prueba gratuita?",
-      "answer": "Sí, ofrecemos una prueba gratuita de 24 horas que te da acceso completo a todos los canales, películas y series disponibles en tu suscripción IPTV."
+      "answer": "Sí, ofrecemos una prueba gratuita de 24 horas para que compruebes la calidad de la transmisión y la compatibilidad de tu dispositivo antes de suscribirte."
     }
   },
   "cta": {
@@ -282,7 +282,8 @@
     "trustedSmarters": "IPTV Smarters Pro (descargas oficiales)",
     "trustedIbo": "IBO Player (sitio oficial)",
     "trustedVlc": "Reproductor VLC",
-    "trustedPlayApps": "Google Play"
+    "trustedPlayApps": "Google Play",
+    "disclaimer": "Mejor Suscripción IPTV es un proveedor de servicios independiente. No alojamos, publicamos ni poseemos ningún contenido multimedia, y no estamos afiliados a ninguna cadena, estudio, liga ni plataforma de streaming. Las marcas, logotipos y nombres mencionados pertenecen a sus respectivos propietarios y se usan solo con fines de identificación. Los titulares de derechos pueden contactarnos a través de los datos de este sitio y revisaremos cualquier solicitud con prontitud."
   },
   "installation": {
     "title": "Guía de Instalación de la Aplicación IPTV Smarters Pro APK / Smarters Player Lite",
@@ -350,7 +351,7 @@
     "contactTitle": "📩 Por favor contáctanos",
     "contactDescription": "¿Te gustaría usar la aplicación Smarters Player Lite o IPTV Smarters pro para tu Suscripción IPTV en España?",
     "contactAction": "Contáctanos ahora y te enviaremos el enlace de descarga junto con instrucciones de instalación personalizadas. Puedes encontrar el contacto de WhatsApp en la página principal abajo:",
-    "contactLink": "https://www.pro-iptvsmarters.com/es/#pricing",
+    "contactLink": "https://pro-iptvsmarter.com/es/#pricing",
     "howToInstall": "¿Cómo instalar?",
     "appleIos": "Apple/iOS",
     "smartTv": "Smart TV (Samsung/LG)",
@@ -442,7 +443,7 @@
     "firestickStep16Content": "haz clic en eliminar nuevamente ¡Excelente! Ahora tienes la aplicación IPTV Smarters en Firestick.",
     "firestickHowToUseTitle": "¿Cómo usar IPTV Smarters en Firestick?",
     "firestickHowToUseContent": "Como mencioné anteriormente, IPTV Smarters no tiene sus propios canales. Es solo un facilitador que te permite transmitir los canales a los que tienes acceso a través del proveedor de servicios IPTV en Francia. Por lo tanto, para usar iptv smarters, debes estar suscrito a nuestro servicio:",
-    "officielIptvPricingLink": "https://www.pro-iptvsmarters.com/es/#pricing",
+    "officielIptvPricingLink": "https://pro-iptvsmarter.com/es/#pricing",
     "firestickTermsTitle": "Cuando ejecutas la aplicación iptv smarters por primera vez, los términos de uso serán la primera ventana. Desplázate hacia abajo y haz clic en Aceptar",
     "firestickAddUserTitle": "Esta es la ventana en la que aterrizas a continuación. Debes comenzar haciendo clic en Agregar usuario en la esquina superior derecha, o en Agregar nuevo usuario en el medio de la pantalla",
     "firestickTwoWaysTitle": "hay dos formas de conectarte a tu servicio IPTV en IPTV Smarters carga tu lista de reproducción o archivo/url conéctate con la API de códigos xtream Esto es lo que te enviaremos después de que te registres con nosotros",
@@ -477,7 +478,7 @@
     "credit10Price": "160 €",
     "credit10Feature1": "10 créditos te permiten crear 10 cuentas de un año.",
     "credit10Feature2": "Creas cualquier oferta que desees para tus clientes con todas las funciones premium.",
-    "credit10Feature3": "+50,000 canales de TV, películas y series",
+    "credit10Feature3": "Amplio catálogo de canales de TV, películas y series",
     "credit10Feature4": "4K / Ultra HD / HD En Calidad de Imagen",
     "credit10Feature5": "Todos los dispositivos son compatibles",
     "credit10Feature6": "Soporte disponible 7/7 días",
@@ -485,7 +486,7 @@
     "credit20Price": "290 €",
     "credit20Feature1": "20 créditos te permiten crear 20 cuentas de un año.",
     "credit20Feature2": "Creas cualquier oferta que desees para tus clientes con todas las funciones premium.",
-    "credit20Feature3": "+50,000 canales de TV, películas y series",
+    "credit20Feature3": "Amplio catálogo de canales de TV, películas y series",
     "credit20Feature4": "4K / Ultra HD / HD En Calidad de Imagen",
     "credit20Feature5": "Todos los dispositivos son compatibles",
     "credit20Feature6": "Soporte disponible 7/7 días",
@@ -493,7 +494,7 @@
     "credit30Price": "420 €",
     "credit30Feature1": "30 créditos te permiten crear 30 cuentas de un año.",
     "credit30Feature2": "Creas cualquier oferta que desees para tus clientes con todas las funciones premium.",
-    "credit30Feature3": "+50,000 canales de TV, películas y series",
+    "credit30Feature3": "Amplio catálogo de canales de TV, películas y series",
     "credit30Feature4": "4K / Ultra HD / HD En Calidad de Imagen",
     "credit30Feature5": "Todos los dispositivos son compatibles",
     "credit30Feature6": "Soporte disponible 7/7 días",

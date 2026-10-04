@@ -56,19 +56,19 @@ export function getHomeFaqMainEntity(locale: Locale) {
         `We provide step-by-step guides for Firestick, Smart TV, Windows, iOS, and iptv box setup at ${getInstallationUrl("iptv-installation-guide", "ca")}.`
       ),
       faqEntry(
-        "Can I watch the 2026 FIFA World Cup with IPTV in Canada?",
+        "Can I watch major live sports events with IPTV in Canada?",
         "You can stream compatible football channels with our iptv subscription. Lineup varies by broadcaster rights — request a free trial on WhatsApp to confirm channels for your province."
       ),
       faqEntry(
-        "Do you offer a free IPTV trial before the World Cup?",
+        "Do you offer a free IPTV trial before major live sports events?",
         "Yes. Start a free IPTV Canada trial on WhatsApp to test quality, devices, and the sports channels you need before the tournament."
       ),
       faqEntry(
-        "Which devices are best for World Cup streaming in Canada?",
+        "Which devices are best for live sports streaming in Canada?",
         "Firestick, Android TV, Smart TV, and iptv box devices work well. Use a stable 30+ Mbps connection for HD/4K match streaming."
       ),
       faqEntry(
-        "Will World Cup streams be in HD or 4K?",
+        "Will live sports streams be in HD or 4K?",
         "Our service supports HD and 4K where available. For match days, use wired Ethernet when possible and the device recommended for your plan."
       ),
     ];
@@ -94,19 +94,19 @@ export function getHomeFaqMainEntity(locale: Locale) {
         "We provide detailed installation guides for all devices. Visit our installation guide page for step-by-step instructions for Windows, Android, iOS, Smart TV, and Firestick."
       ),
       faqEntry(
-        "Can I watch the 2026 FIFA World Cup with IPTV Smarters Pro?",
+        "Can I watch major live sports events with IPTV Smarters Pro?",
         "You can use IPTV Smarters Pro with our IPTV subscription to enjoy compatible football channels and match viewing. Channel availability depends on regional broadcasters and rights—request a free test first to confirm the lineup for your area."
       ),
       faqEntry(
-        "Do you offer a free IPTV test before the World Cup starts?",
-        "Yes. We offer a free IPTV test so you can check streaming quality, device compatibility, and the channels you care about before the 2026 FIFA World Cup."
+        "Do you offer a free IPTV test before major live sports events?",
+        "Yes. We offer a free IPTV test so you can check streaming quality, device compatibility, and the channels you care about before major live sports events."
       ),
       faqEntry(
-        "Which devices are best for World Cup streaming?",
-        "Our service works across Windows PC, Android phones and tablets, iOS devices, Mac computers, Smart TVs, Firestick, Roku, and Apple TV—so you can watch the 2026 World Cup on your preferred screen."
+        "Which devices are best for live sports streaming?",
+        "Our service works across Windows PC, Android phones and tablets, iOS devices, Mac computers, Smart TVs, Firestick, Roku, and Apple TV—so you can watch major live sports events on your preferred screen."
       ),
       faqEntry(
-        "Will the World Cup stream in HD or 4K?",
+        "Will live sports streams be in HD or 4K?",
         "We are built for stable HD/4K streaming. For best results during match days, use a stable internet connection and the device recommended for your plan."
       ),
     ];

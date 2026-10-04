@@ -226,23 +226,6 @@ export default function Footer() {
               ))}
             </nav>
             
-            {/* Payment Methods - Under Legal */}
-            <div>
-              <h2 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
-                {t("footer.paymentMethods")}
-              </h2>
-              <div className="relative w-full max-w-[160px] h-auto opacity-80 hover:opacity-100 transition-opacity duration-200 bg-white/5 p-1.5 rounded-lg backdrop-blur-sm border border-white/10">
-                <Image
-                  src="/images/Methode-de-paiment.webp"
-                  alt="Payment methods accepted"
-                  width={400}
-                  height={60}
-                  className="w-full h-auto object-contain"
-                  quality={40}
-                  loading="lazy"
-                />
-              </div>
-            </div>
             <div className="mt-4">
               <h2 className="text-sm font-semibold text-white mb-1.5 tracking-wide">
                 {t("footer.trustedResourcesTitle")}
@@ -267,6 +250,9 @@ export default function Footer() {
 
         {/* Bottom Section - Copyright and Language Picker */}
         <div className="border-t border-white/10 pt-1.5 mt-2">
+          <p className="text-xs text-white/40 text-center max-w-4xl mx-auto mb-2 leading-relaxed">
+            {t("footer.disclaimer")}
+          </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <p className="text-sm text-white/50">
               {t("footer.copyright").replace("{year}", currentYear.toString())}

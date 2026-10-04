@@ -8,7 +8,7 @@ import { getLocaleSurface } from '@/lib/i18n/locale-surface';
  
  const ukTestimonials = [
   {
-    text: "Brilliant quality and Premier League streams are spot on. Best iptv uk service I've used — no buffering on match days.",
+    text: "Brilliant quality and football streams are spot on. Best iptv uk service I've used — no buffering on match days.",
     name: "James H.",
     username: "@jameslondon",
     location: "London, UK",

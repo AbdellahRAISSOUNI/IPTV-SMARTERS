@@ -28,13 +28,15 @@ export interface SocialMetadataInput {
   author?: string;
   /** When true, omit openGraph.images so a sibling opengraph-image.tsx file is used. */
   useGeneratedOgImage?: boolean;
+  /** When true, emit robots noindex (page stays crawlable and followable). */
+  noindex?: boolean;
 }
 
 function getSafeMetadataBase(): URL {
   try {
     return new URL(getSiteBaseUrl());
   } catch {
-    return new URL("https://www.pro-iptvsmarters.com");
+    return new URL("https://pro-iptvsmarter.com");
   }
 }
 
@@ -137,10 +139,10 @@ export function buildSocialMetadata(input: SocialMetadataInput): Metadata {
       site: "@streampro",
     },
     robots: {
-      index: true,
+      index: !input.noindex,
       follow: true,
       googleBot: {
-        index: true,
+        index: !input.noindex,
         follow: true,
         "max-video-preview": -1,
         "max-image-preview": "large",

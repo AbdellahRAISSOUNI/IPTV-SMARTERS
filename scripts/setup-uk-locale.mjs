@@ -24,10 +24,10 @@ function localizeForUk(text) {
   if (!text || typeof text !== "string") return text;
   return (
     text
-      .replace(/https:\/\/www\.pro-iptvsmarters\.com\/ca\//gi, "https://www.pro-iptvsmarters.com/uk/")
-      .replace(/https:\/\/www\.pro-iptvsmarters\.com\/en\//gi, "https://www.pro-iptvsmarters.com/uk/")
-      .replace(/www\.pro-iptvsmarters\.com\/ca\//gi, "www.pro-iptvsmarters.com/uk/")
-      .replace(/www\.pro-iptvsmarters\.com\/en\//gi, "www.pro-iptvsmarters.com/uk/")
+      .replace(/https:\/\/www\.pro-iptvsmarters\.com\/ca\//gi, "https://pro-iptvsmarter.com/uk/")
+      .replace(/https:\/\/www\.pro-iptvsmarters\.com\/en\//gi, "https://pro-iptvsmarter.com/uk/")
+      .replace(/www\.pro-iptvsmarters\.com\/ca\//gi, "pro-iptvsmarter.com/uk/")
+      .replace(/www\.pro-iptvsmarters\.com\/en\//gi, "pro-iptvsmarter.com/uk/")
       .replace(/\/ca\/#/g, "/uk/#")
       .replace(/\/en\/#/g, "/uk/#")
       .replace(/\bIPTV Canada\b/gi, "IPTV UK")

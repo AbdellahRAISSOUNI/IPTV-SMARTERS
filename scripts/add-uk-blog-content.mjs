@@ -10,16 +10,16 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BLOGS_PATH = join(__dirname, "../data/blogs.json");
-const UK = "https://www.pro-iptvsmarters.com/uk/";
-const EN = "https://www.pro-iptvsmarters.com/en/";
+const UK = "https://pro-iptvsmarter.com/uk/";
+const EN = "https://pro-iptvsmarter.com/en/";
 
 function localizeForUk(text) {
   if (!text || typeof text !== "string") return text;
   return text
     .replace(/https:\/\/www\.pro-iptvsmarters\.com\/ca\//gi, UK)
     .replace(/https:\/\/www\.pro-iptvsmarters\.com\/en\//gi, UK)
-    .replace(/www\.pro-iptvsmarters\.com\/ca\//gi, "www.pro-iptvsmarters.com/uk/")
-    .replace(/www\.pro-iptvsmarters\.com\/en\//gi, "www.pro-iptvsmarters.com/uk/")
+    .replace(/www\.pro-iptvsmarters\.com\/ca\//gi, "pro-iptvsmarter.com/uk/")
+    .replace(/www\.pro-iptvsmarters\.com\/en\//gi, "pro-iptvsmarter.com/uk/")
     .replace(/\/ca\/#/g, "/uk/#")
     .replace(/\/en\/#/g, "/uk/#")
     .replace(/\bUnited States\b/gi, "United Kingdom")

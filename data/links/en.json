@@ -2,7 +2,7 @@
   "links": [
     {
       "id": "fifa-world-cup",
-      "label": "FIFA World Cup 2026",
+      "label": "live sports",
       "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026",
       "targetBlank": true,
       "nofollow": false
