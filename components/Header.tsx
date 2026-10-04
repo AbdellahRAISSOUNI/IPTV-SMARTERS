@@ -200,9 +200,7 @@ export default function Header() {
               onMouseLeave={() => setIsDesktopInstallationOpen(false)}
             >
               <motion.button
-                onClick={() =>
-                  setIsDesktopInstallationOpen((prev) => !prev)
-                }
+                onClick={() => setIsDesktopInstallationOpen(true)}
                 className="relative font-medium text-[#1a1a1a]/80 hover:text-[#2563eb] transition-colors duration-200 group flex items-center gap-1 cursor-pointer"
                 whileHover={{ scale: 1.02 }}
               >
@@ -223,18 +221,21 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.18 }}
-                    className="absolute top-full left-0 mt-3 w-60 rounded-xl bg-black text-white shadow-2xl border border-white/10 py-3 z-50"
+                    className="absolute top-full left-0 pt-3 w-60 z-50"
                   >
-                    {installationLinks.map((link) => (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setIsDesktopInstallationOpen(false)}
-                        className="block px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition-colors duration-150 cursor-pointer"
-                      >
-                        {link.label}
-                      </a>
-                    ))}
+                    {/* pt-3 on the wrapper (not mt-3) keeps the hover area continuous with the button */}
+                    <div className="rounded-xl bg-black text-white shadow-2xl border border-white/10 py-3">
+                      {installationLinks.map((link) => (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setIsDesktopInstallationOpen(false)}
+                          className="block px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition-colors duration-150 cursor-pointer"
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
