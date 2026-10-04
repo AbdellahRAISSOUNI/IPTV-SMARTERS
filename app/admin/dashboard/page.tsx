@@ -392,9 +392,9 @@ export default function AdminDashboard() {
   const addCarouselImage = async (file: File) => {
     try {
       const folderMap = {
-        channels: "carousel-categories",
-        streaming: "carousel-features",
-        content: "carousel-content",
+        channels: "carouselle-channels",
+        streaming: "carouselle-streaming",
+        content: "carouselle-shows",
       };
       
       const url = await handleImageUpload(file, folderMap[activeCarouselTab]);

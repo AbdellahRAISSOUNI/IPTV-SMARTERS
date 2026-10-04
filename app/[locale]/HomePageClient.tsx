@@ -170,28 +170,28 @@ export default function Home({ latestBlogs = [] }: HomePageClientProps) {
 
   // Channel logos
   const channelLogos = [
-    "/carousel-categories/01-sports.webp",
-    "/carousel-categories/02-news.webp",
-    "/carousel-categories/03-movies.webp",
-    "/carousel-categories/04-series.webp",
-    "/carousel-categories/05-kids.webp",
-    "/carousel-categories/06-documentary.webp",
-    "/carousel-categories/07-music.webp",
-    "/carousel-categories/08-lifestyle.webp",
-    "/carousel-categories/09-comedy.webp",
-    "/carousel-categories/10-drama.webp",
-    "/carousel-categories/11-cooking.webp",
-    "/carousel-categories/12-travel.webp",
+    "/carouselle-channels/abc-tv-logo-Copy.webp",
+    "/carouselle-channels/ae-tv-logo-1.png",
+    "/carouselle-channels/AMC-tv-logo.webp",
+    "/carouselle-channels/cbs-tv-logo.png",
+    "/carouselle-channels/discovery-channel-tv-logo.png",
+    "/carouselle-channels/fox-tv-logo.png",
+    "/carouselle-channels/hbo-tv-logo.webp",
+    "/carouselle-channels/history-tv-logo.png",
+    "/carouselle-channels/national-geographic-tv-logo.png",
+    "/carouselle-channels/nbc-tv-logo.png",
+    "/carouselle-channels/tnt-tv-logo.png",
+    "/carouselle-channels/usa-network-logo.webp",
   ];
 
-  // Generic feature badges (original artwork, no third-party marks)
+  // Streaming service logos
   const streamingLogos = [
-    "/carousel-features/01-live-events.webp",
-    "/carousel-features/02-catch-up-tv.webp",
-    "/carousel-features/03-hd-and-4k.webp",
-    "/carousel-features/04-replay.webp",
-    "/carousel-features/05-multi-screen.webp",
-    "/carousel-features/06-on-demand.webp",
+    "/carouselle-streaming/580b57fcd9996e24bc43c529-300x169-min-1.png",
+    "/carouselle-streaming/canal-logo-png-transparent-385x385-1-e1677705689705-min-300x149-2.webp",
+    "/carouselle-streaming/FOX_Sports_logo.svg-1024x606-min-300x178-2.png",
+    "/carouselle-streaming/HBO-Max-Logo-768x432-2-min-300x169-2.png",
+    "/carouselle-streaming/pngegg-2-e1677705730772-min-300x155-2.png",
+    "/carouselle-streaming/sky-sports-logo-png-8-768x432-1-min-300x169-2.png",
   ];
 
   // Premium plans
