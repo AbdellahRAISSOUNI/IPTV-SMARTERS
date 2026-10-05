@@ -23,7 +23,6 @@ export async function generateMetadata({
   const keywords = getRouteMetaKeywords(locale, "blog", blogListingSeeds[locale]);
 
   return buildSocialMetadata({
-    noindex: true, // TEMP: blogs stay out of the index until re-enabled
     title,
     description,
     locale,

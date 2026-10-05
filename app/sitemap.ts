@@ -6,9 +6,9 @@ import { buildSitemapEntries } from "@/lib/seo/sitemap-entries";
 export const dynamic = "force-static";
 export const revalidate = 3600;
 
-// TEMP: blog listing and posts are noindex, so keep them out of the sitemap.
-// Flip to true (and remove noindex in the blog layouts) when blogs should be indexed again.
-const INCLUDE_BLOGS_IN_SITEMAP = false;
+// Blog listing and posts are indexable and included in the sitemap.
+// To pause blog indexing again: set to false and pass noindex: true to buildSocialMetadata in the blog layouts.
+const INCLUDE_BLOGS_IN_SITEMAP = true;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getSiteBaseUrl();

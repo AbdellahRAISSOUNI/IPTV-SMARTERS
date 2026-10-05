@@ -73,7 +73,6 @@ export async function generateMetadata({
     const canonicalUrl = `${baseUrl}${canonicalPath}`;
 
     return buildSocialMetadata({
-    noindex: true, // TEMP: blogs stay out of the index until re-enabled
       title: `${title} | StreamPro`,
       description,
       locale,
@@ -96,7 +95,6 @@ export async function generateMetadata({
 function getDefaultMetadata(locale: Locale, slug: string): Metadata {
   const baseUrl = getSiteBaseUrl();
   return buildSocialMetadata({
-    noindex: true, // TEMP: blogs stay out of the index until re-enabled
     title: "Blog Post | StreamPro",
     description: "Read our latest blog post about IPTV services.",
     locale,
