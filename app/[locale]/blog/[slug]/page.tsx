@@ -11,6 +11,7 @@ import {
 } from "@/lib/seo/og-image";
 import { hreflangByLocale } from "@/lib/seo/hreflang";
 import { siteNameMap } from "@/lib/i18n/locale-maps";
+import { isRegionalBlogDuplicate } from "@/lib/seo/regional-duplicates";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -42,7 +43,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const imageUrl = optimizeImageForSocialShare(
     resolveAbsoluteImageUrl(blog.featuredImage, baseUrl)
   );
-  const localizedPath = getBlogUrl(blog, locale);
+  // ca/uk posts that repeat the English text use the English URL as their canonical.
+  const localizedPath = getBlogUrl(blog, isRegionalBlogDuplicate(blog, locale) ? "en" : locale);
   const articleUrl =
     localizedPath && !localizedPath.includes("/blog//")
       ? `${baseUrl}${localizedPath}`

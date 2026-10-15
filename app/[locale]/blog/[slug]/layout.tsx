@@ -6,6 +6,7 @@ import { getPublishedLocales } from "@/lib/admin/blog-locales";
 import { buildHreflangAlternates } from "@/lib/seo/hreflang";
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
+import { isRegionalBlogDuplicate } from "@/lib/seo/regional-duplicates";
 
 function toKeywordArray(value: unknown): string[] {
   if (Array.isArray(value)) {
@@ -54,6 +55,7 @@ export async function generateMetadata({
     const publishedLocales = getPublishedLocales(blog);
     const urlsByLocale: Partial<Record<Locale, string>> = {};
     publishedLocales.forEach((loc) => {
+      if (isRegionalBlogDuplicate(blog, loc)) return;
       const localizedUrl = getBlogUrl(blog, loc);
       if (localizedUrl !== `/${loc}/blog//`) {
         urlsByLocale[loc] = `${baseUrl}${localizedUrl}`;
@@ -69,7 +71,9 @@ export async function generateMetadata({
         : `${baseUrl}${getBlogUrl(blog, locale)}`;
     const languageAlternates = buildHreflangAlternates(urlsByLocale, xDefaultAbsolute);
 
-    const canonicalPath = getBlogUrl(blog, locale);
+    // ca/uk posts that repeat the English text defer to the English URL.
+    const isDuplicate = isRegionalBlogDuplicate(blog, locale);
+    const canonicalPath = getBlogUrl(blog, isDuplicate ? "en" : locale);
     const canonicalUrl = `${baseUrl}${canonicalPath}`;
 
     return buildSocialMetadata({
@@ -81,7 +85,7 @@ export async function generateMetadata({
       imageAlt: title,
       keywords: keywordList,
       type: "article",
-      languageAlternates,
+      languageAlternates: isDuplicate ? undefined : languageAlternates,
       publishedTime,
       modifiedTime,
       tags: keywordList,

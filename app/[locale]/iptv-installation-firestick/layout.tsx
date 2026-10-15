@@ -1,4 +1,5 @@
 import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
+import { consolidateRegionalUrl, withoutRegionalAlternates } from "@/lib/seo/regional-duplicates";
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
 import type { Metadata } from "next";
@@ -34,10 +35,10 @@ export async function generateMetadata({
     title,
     description,
     locale,
-    canonicalUrl,
+    canonicalUrl: consolidateRegionalUrl(locale, canonicalUrl),
     keywords,
     type: "article",
-    languageAlternates,
+    languageAlternates: locale === "ca" || locale === "uk" ? undefined : withoutRegionalAlternates(languageAlternates),
     useGeneratedOgImage: true,
   });
 }
@@ -64,7 +65,7 @@ export default async function FirestickInstallationLayout({
   return (
     <>
       <WebPageJsonLd
-        url={canonicalUrl}
+        url={consolidateRegionalUrl(locale, canonicalUrl)}
         name={pageMetadata.title}
         description={pageMetadata.description}
         locale={locale}

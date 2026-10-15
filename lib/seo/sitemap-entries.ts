@@ -9,6 +9,7 @@ import {
 import { getBlogUrl, isBlogAvailableInLocale } from "@/lib/utils/blog-slugs";
 import { getPublishedLocales } from "@/lib/admin/blog-locales";
 import { buildHreflangAlternates, buildHomepageHreflangAlternates } from "@/lib/seo/hreflang";
+import { isRegionalDuplicateLocale, isRegionalBlogDuplicate } from "@/lib/seo/regional-duplicates";
 import { localeToUrlSegment } from "@/lib/i18n/locale-url-slugs";
 
 const installationEnglishSlugs = [
@@ -64,12 +65,14 @@ export function buildSitemapEntries(
   }) => {
     opts.englishSlugs.forEach((englishSlug) => {
       locales.forEach((locale) => {
+        if (isRegionalDuplicateLocale(locale)) return;
         const localizedPath = opts.pathForLocale(englishSlug, locale);
         const url = toAbsoluteUrl(baseUrl, localizedPath);
         if (!url) return;
 
         const urlsByLocale: Partial<Record<Locale, string>> = {};
         locales.forEach((loc) => {
+          if (isRegionalDuplicateLocale(loc)) return;
           const alt = toAbsoluteUrl(baseUrl, opts.pathForLocale(englishSlug, loc));
           if (alt) urlsByLocale[loc] = alt;
         });
@@ -141,8 +144,8 @@ export function buildSitemapEntries(
   });
 
   blogs.forEach((blog) => {
-    const publishedLocales = getPublishedLocales(blog).filter((loc) =>
-      isBlogAvailableInLocale(blog, loc)
+    const publishedLocales = getPublishedLocales(blog).filter(
+      (loc) => isBlogAvailableInLocale(blog, loc) && !isRegionalBlogDuplicate(blog, loc)
     );
     if (publishedLocales.length === 0) return;
 

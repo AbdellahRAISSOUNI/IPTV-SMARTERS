@@ -7,6 +7,7 @@ import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { installationGuideSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 import { buildHreflangAlternatesForPaths } from "@/lib/seo/hreflang";
+import { consolidateRegionalUrl, withoutRegionalAlternates } from "@/lib/seo/regional-duplicates";
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
 
@@ -35,10 +36,10 @@ export async function generateMetadata({
     title,
     description,
     locale,
-    canonicalUrl,
+    canonicalUrl: consolidateRegionalUrl(locale, canonicalUrl),
     keywords,
     type: "article",
-    languageAlternates,
+    languageAlternates: locale === "ca" || locale === "uk" ? undefined : withoutRegionalAlternates(languageAlternates),
     useGeneratedOgImage: true,
   });
 }
@@ -63,7 +64,7 @@ export default async function InstallationGuideLayout({
   return (
     <>
       <WebPageJsonLd
-        url={canonicalUrl}
+        url={consolidateRegionalUrl(locale, canonicalUrl)}
         name={pageMetadata.title}
         description={pageMetadata.description}
         locale={locale}

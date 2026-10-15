@@ -6,6 +6,7 @@ import { getRouteMetaKeywords } from "@/lib/seo/corpus-route-keywords";
 import { legalTermsSeeds } from "@/lib/seo/route-seed-keywords";
 import { WebPageJsonLd } from "@/components/seo/WebPageJsonLd";
 import { buildLegalHreflangAlternates } from "@/lib/seo/hreflang";
+import { consolidateRegionalUrl, withoutRegionalAlternates } from "@/lib/seo/regional-duplicates";
 import { buildSocialMetadata } from "@/lib/seo/social-metadata";
 import { getSiteBaseUrl } from "@/lib/seo/og-image";
 import { getLegalUrl } from "@/lib/utils/installation-slugs";
@@ -39,10 +40,10 @@ export async function generateMetadata({
     title: pageMetadata.title,
     description: pageMetadata.description,
     locale,
-    canonicalUrl,
+    canonicalUrl: consolidateRegionalUrl(locale, canonicalUrl),
     keywords,
     type: "website",
-    languageAlternates,
+    languageAlternates: locale === "ca" || locale === "uk" ? undefined : withoutRegionalAlternates(languageAlternates),
     useGeneratedOgImage: true,
   });
 }
@@ -67,7 +68,7 @@ export default async function TermsOfServiceLayout({
   return (
     <>
       <WebPageJsonLd
-        url={canonicalUrl}
+        url={consolidateRegionalUrl(locale, canonicalUrl)}
         name={pageMetadata.title}
         description={pageMetadata.description}
         locale={locale}
