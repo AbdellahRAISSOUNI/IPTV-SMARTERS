@@ -323,6 +323,14 @@ function generateStructuredData(locale: Locale, baseUrl: string) {
   return { organizationSchema, productSchema, faqSchema, breadcrumbSchema, websiteSchema };
 }
 
+const HTML_LANG: Record<Locale, string> = {
+  en: "en-US",
+  ca: "en-CA",
+  uk: "en-GB",
+  es: "es-ES",
+  fr: "fr-FR",
+};
+
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
@@ -366,7 +374,7 @@ export default async function LocaleLayout({
 
   return (
     <LanguageProvider initialLocale={locale as Locale}>
-      <div data-locale={locale} className="w-full overflow-x-clip">
+      <div data-locale={locale} lang={HTML_LANG[locale as Locale]} className="w-full overflow-x-clip">
       <ScrollToTop />
       <script
         type="application/ld+json"

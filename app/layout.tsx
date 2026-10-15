@@ -84,7 +84,7 @@ export default function RootLayout({
                   var path = window.location.pathname;
                   var localeMatch = path.match(/^\\/(en|es|fr|ca|uk)/);
                   if (localeMatch) {
-                    document.documentElement.lang = localeMatch[1];
+                    document.documentElement.lang = {en:'en-US',ca:'en-CA',uk:'en-GB',es:'es-ES',fr:'fr-FR'}[localeMatch[1]];
                   }
                 } catch (e) {
                   // Suppress errors
